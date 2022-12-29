@@ -368,13 +368,9 @@ var dom = {
    * @return {void}
    */
   include: function (element) {
-    var id = 'i' + (performance.now() + Math.random()).toString().replace('.', '')
-    element.id = id
-    var test = dom.get('#' + id)
-
+    element.id = 'i' + (performance.now() + Math.random()).toString().replace('.', '')
     app.xhr({
       element: element,
-      test: test,
       url: element.attributes.include.value,
       onload: { func: 'runAttributes', arg: element.id },
     })
