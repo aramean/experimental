@@ -6,8 +6,15 @@ window.addEventListener('load', function () {
   app.load()
 })
 
-document.onclick = function (event) {
-  var link = dom.getTagLink(event.target)
+
+//document.onclick = function (event) {
+document.addEventListener('click', function(event) {
+
+  if (app.library.navigate) {
+    app.library.navigate(event)
+  }
+
+  return false
   if (link && app.hasOwnProperty('navigate')) {
     if (link.hash) {
       app.navigate().changeHash(link.hash)
@@ -18,7 +25,7 @@ document.onclick = function (event) {
       return false
     }
   }
-}
+})
 
 var app = {
   debug: true,
