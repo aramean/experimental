@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+  <title>Front</title>
+  <link type="text/css" href="http://cdn.front.nu/dist/front.css" rel="stylesheet">
+  <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
+  <script src="front.js" lib="file2;json"></script>
+</head>
+
+<body>
+  <header class="h5 bcblue white white- p1">
+    <a href="page1.html">Page 1</a> | <a href="page2.html">Page 2 <span uppercase>menu</span>
+
+      <div id="jsonDiv" jsonsource="json.json" target="#newheader" timeout="10000"
+        progresscontent="<br><h1>Loading ...</h1>"></div>
+      <div id="newheader"></div>
+
+    </a>
+  </header>
+  <aside class="w15r bcyellow p2">. 1 .</aside>
+  <main class="pauto">
+    Rendering...
+    <hr>
+    <span test lowercase uppercase></span>
+
+    <span lowercase>LOWERCASE</span>
+
+    <div>
+      <span uppercase>uppercase</span>
+    </div>
+
+    <div id="jsonDiv" jsonsource="json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
+    </div>
+
+    <div id="jsonDiv2" jsonsource="json2.json" target="#test2" timeout="2000" progresscontent="Loading 2 ...">
+    </div>
+
+    <div id="jsonDiv3" run="false" jsonsource="json3.json" target="#test3" timeout="3000"
+      progresscontent="Loading 3 ..." errorcontent="<span class='red'>Error. Try again</span>">
+    </div>
+
+    <div id="test1" run="false"></div>
+    <div id="test2" run="false"></div>
+    <div id="test3" run="false"></div>
+
+    <div include="test.html" timeout="100000"></div>
+
+  </main>
+  <aside class="w15r bcyellow p2">. 2 .</aside>
+
+  <footer style="height: 2rem; background: gray">
+    footer
+  </footer>
+</body>
+
+</html>
