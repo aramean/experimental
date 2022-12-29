@@ -217,6 +217,7 @@ var app = {
 var dom = {
   /**
    * Parse a string of HTML and return a DOM node.
+   * 
    * @function
    * @param {string} string - The HTML string to parse.
    * @return {Node} - A DOM node representing the parsed HTML.
@@ -227,6 +228,7 @@ var dom = {
 
   /**
    * Retrieve elements from the document by selector.
+   * 
    * @function
    * @param {string} selector - The CSS selector used to select the elements.
    * @param {boolean} [list=undefined] - If true, always return a list of elements, even if only one element matches the selector.
@@ -239,6 +241,7 @@ var dom = {
 
   /**
    * Retrieve elements from a given node by selector.
+   * 
    * @function
    * @param {Node} node - The node to search within.
    * @param {string} selector - The CSS selector used to select the elements.
@@ -251,6 +254,7 @@ var dom = {
 
   /**
    * Set the display property of the root element.
+   * 
    * @function
    * @param {string} action - The value to set for the display property. Valid values include 'none', 'block', 'inline', and others.
    * @return {void}
@@ -261,6 +265,7 @@ var dom = {
 
   /**
    * Set the content of an element.
+   * 
    * @function
    * @param {Object} object - The element object to modify.
    * @param {string} value - The value to set as the content of the element.
@@ -295,6 +300,7 @@ var dom = {
 
   /**
    * Convert the contents of an element to uppercase letters.
+   * 
    * @function
    * @param {Object} object - The element object to modify.
    * @param {boolean} [first=false] - If true, only convert the first character to uppercase. Otherwise, convert the entire contents to uppercase.
@@ -306,6 +312,7 @@ var dom = {
 
   /**
    * Convert the contents of an element to lowercase letters.
+   * 
    * @function
    * @param {Object} object - The element object to modify.
    * @return {void}
@@ -316,6 +323,7 @@ var dom = {
 
   /**
    * Finds the first ancestor of the given element that is an anchor element (`<a>`).
+   * 
    * @param {Element} element - The element to start the search from.
    * @return {Element|null} The found anchor element, or `null` if none was found.
    */
