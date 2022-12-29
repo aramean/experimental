@@ -22,6 +22,7 @@ document.onclick = function (event) {
 
 var app = {
   debug: true,
+  fileExtension: '.html',
   isFrontpage: document.doctype,
   library: {},
 
@@ -116,13 +117,17 @@ var app = {
       target = options.target ? dom.get(options.target) : options.element,
       load = options.onload,
       timeout = load ? options.timeout || 0 : 0,
+      progress = options.onprogress,
       error = options.onerror,
-      onsuccess = options.onsuccess
+      success = options.onsuccess
 
     for (var i = 0; i < total; i++) {
       (function (i) {
+        var url = options.urls[i],
+        urlExtension = (url.indexOf('.') !== -1) ? '' : app.fileExtension
+
         var xhr = new XMLHttpRequest()
-        xhr.open('GET', options.urls[i] + '.html')
+        xhr.open('GET', url + urlExtension)
         xhr.send()
 
         xhr.onload = function () {
@@ -130,7 +135,9 @@ var app = {
             responses[i] = xhr.responseText
             loaded++
             if (loaded === total) {
-              window[onsuccess.function][onsuccess.method](responses)
+              if (success) {
+                window[success.function][success.method](responses)
+              }
             }
           } else {
             // Handle any errors here
@@ -144,6 +151,14 @@ var app = {
         xhr.onloadend = function () {
           //dom.setDisplay('')
         }
+
+        xhr.onprogress = function () {
+          if (progress) dom.setContent(target, progress.content)
+        }
+
+        xhr.onerror = function () {
+          if (error) dom.setContent(target, error)
+        }
       })(i)
     }
   },
@@ -154,10 +169,12 @@ var app = {
       error = request.onerror,
       load = request.onload,
       timeout = load ? load.timeout || 0 : 0,
-      onloaded = request.onloadend
+      onloaded = request.onloadend,
+      url = request.url,
+      urlExtension = (url.indexOf('.') !== -1) ? '' : app.fileExtension
 
     var xhr = new XMLHttpRequest()
-    xhr.open(request.method || 'GET', request.url)
+    xhr.open(request.method || 'GET', url + urlExtension)
     xhr.send()
 
     xhr.onprogress = function () {
