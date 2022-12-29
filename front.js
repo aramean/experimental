@@ -224,10 +224,24 @@ var dom = {
     return element.length == 1 ? element[0] : element
   },
 
+  /**
+   * setDisplay - Set the display property of the root element.
+   * @function
+   * @param {string} action - The value to set for the display property. Valid values include 'none', 'block', 'inline', and others.
+   * @return {void}
+   */
   setDisplay: function (action) {
     document.documentElement.style.display = action
   },
 
+  /**
+   * setContent - Set the content of an element.
+   * @function
+   * @param {Object} object - The element object to modify.
+   * @param {string} value - The value to set as the content of the element.
+   * @param {boolean} [replace=false] - If true, remove all HTML tags from the value before setting it as the content.
+   * @return {void}
+  */
   setContent: function (object, value, replace) {
     var tag = object.localName,
       type = object.type,
@@ -275,6 +289,12 @@ var dom = {
     object.innerHTML = object.innerHTML.toLowerCase()
   },
 
+  /**
+   * include - Load the content of an external file and insert it into the DOM.
+   * @function
+   * @param {Object} element - The element to which the external content will be added.
+   * @return {void}
+   */
   include: function (element) {
     var id = 'i' + (performance.now() + Math.random()).toString().replace('.', '')
     element.id = id
