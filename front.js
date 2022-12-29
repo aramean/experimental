@@ -90,43 +90,18 @@ var app = {
   },
 
   renderTemplates: function (responses) {
-    var body = document.body
-
-    /*for (var i = 0; i < responses.length; i++) {
-      var pageContent = dom.parse(responses[i])
-      pageHtml = dom.find(pageContent, 'html')
-
-      if (pageHtml.parentNode.doctype) {
-        dom.setContent(document.documentElement, pageContent.documentElement.innerHTML)
-        dom.setContent(document.getElementsByTagName("main")[0], body.innerHTML)
-        app.loadLibraries(true)
-      } else {
-        var template = dom.parse(pageHtml.getElementsByTagName("template")[0].innerHTML)
-
-        var templateHeader = template.getElementsByTagName("header")[0].innerHTML
-        var templateAside0 = template.getElementsByTagName("aside")[0].innerHTML
-        var templateAside1 = template.getElementsByTagName("aside")[1].innerHTML
-        var templateFooter = template.getElementsByTagName("footer")[0].innerHTML
-
-        if (templateHeader) dom.setContent(document.getElementsByTagName("header")[0], templateHeader)
-        if (templateAside0) dom.setContent(document.getElementsByTagName("aside")[0], templateAside0)
-        if (templateAside1) dom.setContent(document.getElementsByTagName("aside")[1], templateAside1)
-        if (templateFooter) dom.setContent(document.getElementsByTagName("footer")[0], templateFooter)
-      }
-
-    }*/
+    var currentPageBody = document.body.innerHTML
 
     for (var i = 0; i < responses.length; i++) {
-      var pageContent = dom.parse(responses[i])
-      pageHtml = dom.find(pageContent, 'html')
+      var responsePageContent = dom.parse(responses[i])
+      responsePageHtml = dom.find(responsePageContent, 'html')
     
-      if (pageHtml.parentNode.doctype) {
-        dom.setContent(document.documentElement, pageContent.documentElement.innerHTML)
-        console.dir(body.innerHTML)
-        dom.setContent(document.querySelector("body main"), body.innerHTML)
+      if (responsePageContent.doctype) {
+        dom.setContent(document.documentElement, responsePageContent.documentElement.innerHTML)
+        dom.setContent(document.querySelector("main"), currentPageBody)
         app.loadLibraries(true)
       } else {
-        var template = dom.parse(pageHtml.querySelector("template").innerHTML)
+        var template = dom.parse(responsePageHtml.querySelector("template").innerHTML)
     
         var templateHeader = template.querySelector("header").innerHTML
         var templateAside0 = template.querySelector("aside:nth-of-type(1)").innerHTML
