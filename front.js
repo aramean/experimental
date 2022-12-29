@@ -38,7 +38,7 @@ var app = {
     for (var i = 0; i < value.length; i++) {
       var script = document.createElement('script')
       script.name = value[i]
-      script.src = '/lib/' + script.name + '.js'
+      script.src = 'lib/' + script.name + '.js'
       script.async = false
       script.onload = function () {
         console.log("› " + this.name)
