@@ -6,6 +6,20 @@ window.addEventListener('load', function () {
   app.load()
 })
 
+document.onclick = function (event) {
+  var link = dom.getTagLink(event.target)
+  if (link && app.hasOwnProperty('navigate')) {
+    if (link.hash) {
+      app.navigate().changeHash(link.hash)
+    } else if (link.target !== "_blank") {
+      var mainContent = dom.get("body main")
+      app.navigate().changePage(link, mainContent)
+      dom.scrollTo(mainContent, "top")
+      return false
+    }
+  }
+}
+
 var app = {
   debug: true,
   isFrontpage: document.doctype,
@@ -57,10 +71,13 @@ var app = {
     var element = dom.get('template')
     if (element) {
       var attr = element.getAttribute('src'),
-        src = attr.split(';'),
-        numTemplates = src.length
+        src = attr.split(';')
 
-      app.xhr2(src, numTemplates)
+      app.xhr2({
+        urls: src,
+        onsuccess: { function: 'app', method: 'renderTemplates' }
+      })
+
     }
   },
 
@@ -92,21 +109,28 @@ var app = {
     }
   },
 
-  xhr2: function (src, numTemplates) {
-    var responses = [], templatesLoaded = 0
+  xhr2: function (options) {
+    var responses = [],
+      loaded = 0,
+      total = options.urls.length,
+      target = options.target ? dom.get(options.target) : options.element,
+      load = options.onload,
+      timeout = load ? options.timeout || 0 : 0,
+      error = options.onerror,
+      onsuccess = options.onsuccess
 
-    for (var i = 0; i < numTemplates; i++) {
+    for (var i = 0; i < total; i++) {
       (function (i) {
         var xhr = new XMLHttpRequest()
-        xhr.open('GET', src[i] + '.html')
+        xhr.open('GET', options.urls[i] + '.html')
         xhr.send()
 
         xhr.onload = function () {
           if (xhr.status === 200) {
             responses[i] = xhr.responseText
-            templatesLoaded++
-            if (templatesLoaded === numTemplates) {
-              app.renderTemplates(responses)
+            loaded++
+            if (loaded === total) {
+              window[onsuccess.function][onsuccess.method](responses)
             }
           } else {
             // Handle any errors here
@@ -123,6 +147,7 @@ var app = {
       })(i)
     }
   },
+
   xhr: function (request) {
     var target = request.target ? dom.get(request.target) : request.element,
       progress = request.onprogress,
@@ -163,7 +188,7 @@ var app = {
   },
 
   runAttributes: function (selector) {
-    console.log('Running attributes '+ selector +' ...')
+    console.log('Running attributes ' + selector + ' ...')
 
     var node = dom.get(selector || 'html *', true)
 
