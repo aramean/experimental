@@ -92,7 +92,7 @@ var app = {
   renderTemplates: function (responses) {
     var body = document.body
 
-    for (var i = 0; i < responses.length; i++) {
+    /*for (var i = 0; i < responses.length; i++) {
       var pageContent = dom.parse(responses[i])
       pageHtml = dom.find(pageContent, 'html')
 
@@ -114,8 +114,32 @@ var app = {
         if (templateFooter) dom.setContent(document.getElementsByTagName("footer")[0], templateFooter)
       }
 
+    }*/
+
+    for (var i = 0; i < responses.length; i++) {
+      var pageContent = dom.parse(responses[i])
+      pageHtml = dom.find(pageContent, 'html')
+    
+      if (pageHtml.parentNode.doctype) {
+        dom.setContent(document.documentElement, pageContent.documentElement.innerHTML)
+        dom.setContent(document.querySelector("main"), body.innerHTML)
+        app.loadLibraries(true)
+      } else {
+        var template = dom.parse(pageHtml.querySelector("template").innerHTML)
+    
+        var templateHeader = template.querySelector("header").innerHTML
+        var templateAside0 = template.querySelector("aside:nth-of-type(1)").innerHTML
+        var templateAside1 = template.querySelector("aside:nth-of-type(2)").innerHTML
+        var templateFooter = template.querySelector("footer").innerHTML
+    
+        if (templateHeader) dom.setContent(document.querySelector("header"), templateHeader)
+        if (templateAside0) dom.setContent(document.querySelector("aside:nth-of-type(1)"), templateAside0)
+        if (templateAside1) dom.setContent(document.querySelector("aside:nth-of-type(2)"), templateAside1)
+        if (templateFooter) dom.setContent(document.querySelector("footer"), templateFooter)
+      }
     }
   },
+  
 
   xhr2: function (options) {
     var responses = [],
