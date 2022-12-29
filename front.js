@@ -122,7 +122,8 @@ var app = {
     
       if (pageHtml.parentNode.doctype) {
         dom.setContent(document.documentElement, pageContent.documentElement.innerHTML)
-        dom.setContent(document.querySelector("main"), body.innerHTML)
+        console.dir(body.innerHTML)
+        dom.setContent(document.querySelector("body main"), body.innerHTML)
         app.loadLibraries(true)
       } else {
         var template = dom.parse(pageHtml.querySelector("template").innerHTML)
