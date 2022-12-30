@@ -101,12 +101,12 @@ var app = {
         dom.set('main', currentPageBody)
         app.loadLibraries(true)
       } else {
-        var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML)
 
-        var templateHeader = dom.find(template, 'header').innerHTML
-        var templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML
-        var templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML
-        var templateFooter = dom.find(template, 'footer').innerHTML
+        var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML),
+          templateHeader = dom.find(template, 'header').innerHTML,
+          templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
+          templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
+          templateFooter = dom.find(template, 'footer').innerHTML
 
         if (templateHeader) dom.set('header', templateHeader)
         if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
