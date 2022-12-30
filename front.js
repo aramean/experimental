@@ -98,7 +98,7 @@ var app = {
     
       if (responsePageContent.doctype) {
         dom.setContent(document.documentElement, responsePageContent.documentElement.innerHTML)
-        dom.setContent(document.querySelector("main"), currentPageBody)
+        dom.setContent('main', currentPageBody)
         app.loadLibraries(true)
       } else {
         var template = dom.parse(responsePageHtml.querySelector("template").innerHTML)
@@ -108,10 +108,10 @@ var app = {
         var templateAside1 = template.querySelector("aside:nth-of-type(2)").innerHTML
         var templateFooter = template.querySelector("footer").innerHTML
     
-        if (templateHeader) dom.setContent(document.querySelector("header"), templateHeader)
-        if (templateAside0) dom.setContent(document.querySelector("aside:nth-of-type(1)"), templateAside0)
-        if (templateAside1) dom.setContent(document.querySelector("aside:nth-of-type(2)"), templateAside1)
-        if (templateFooter) dom.setContent(document.querySelector("footer"), templateFooter)
+        if (templateHeader) dom.setContent('header', templateHeader)
+        if (templateAside0) dom.setContent('aside:nth-of-type(1)', templateAside0)
+        if (templateAside1) dom.setContent('aside:nth-of-type(2)', templateAside1)
+        if (templateFooter) dom.setContent('footer', templateFooter)
       }
     }
   },
@@ -297,28 +297,29 @@ var dom = {
    * @return {void}
   */
   setContent: function (object, value, replace) {
-    var tag = object.localName,
+    var target = (object instanceof Object) ? object : dom.get(object)
+      tag = object.localName,
       type = object.type,
       value = (replace) ? value.replace(/<[^>]+>/g, '') : value
 
     switch (tag) {
       case 'input':
         if (type == 'checkbox')
-          object.checked = value
+          target.checked = value
         else
-          object.value = value
+          target.value = value
         break
       case 'img':
-        object.src = value
+        target.src = value
         break
       case 'a':
-        object.href = value
+        target.href = value
         break
       case 'select':
-        object.setAttribute('select', value)
+        target.setAttribute('select', value)
         break
       default:
-        object.innerHTML = value
+        target.innerHTML = value
     }
   },
 
