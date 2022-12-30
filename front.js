@@ -8,7 +8,7 @@ window.addEventListener('load', function () {
 
 
 //document.onclick = function (event) {
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
 
   if (app.library.navigate) {
     app.library.navigate(event)
@@ -93,21 +93,21 @@ var app = {
     var currentPageBody = document.body.innerHTML
 
     for (var i = 0; i < responses.length; i++) {
-      var responsePageContent = dom.parse(responses[i])
-      responsePageHtml = dom.find(responsePageContent, 'html')
-    
+      var responsePageContent = dom.parse(responses[i]),
+        responsePageHtml = dom.find(responsePageContent, 'html')
+
       if (responsePageContent.doctype) {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
         app.loadLibraries(true)
       } else {
         var template = dom.parse(responsePageHtml.querySelector('template').innerHTML)
-    
+
         var templateHeader = template.querySelector('header').innerHTML
         var templateAside0 = template.querySelector('aside:nth-of-type(1)').innerHTML
         var templateAside1 = template.querySelector('aside:nth-of-type(2)').innerHTML
         var templateFooter = template.querySelector('footer').innerHTML
-    
+
         if (templateHeader) dom.set('header', templateHeader)
         if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
         if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
@@ -115,7 +115,7 @@ var app = {
       }
     }
   },
-  
+
 
   xhr2: function (options) {
     var responses = [],
@@ -131,7 +131,7 @@ var app = {
     for (var i = 0; i < total; i++) {
       (function (i) {
         var url = options.urls[i],
-        urlExtension = (url.indexOf('.') !== -1) ? '' : app.fileExtension
+          urlExtension = (url.indexOf('.') !== -1) ? '' : app.fileExtension
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
@@ -172,11 +172,11 @@ var app = {
 
   xhr: function (request) {
     var target = request.target ? dom.get(request.target) : request.element,
-      progress = request.onprogress,
-      error = request.onerror,
-      load = request.onload,
-      timeout = load ? load.timeout || 0 : 0,
+      onprogress = request.onprogress,
+      onerror = request.onerror,
+      onload = request.onload,
       onloaded = request.onloadend,
+      timeout = onload ? onload.timeout || 0 : 0,
       url = request.url,
       urlExtension = (url.indexOf('.') !== -1) ? '' : app.fileExtension
 
@@ -185,23 +185,21 @@ var app = {
     xhr.send()
 
     xhr.onprogress = function () {
-      if (progress) dom.set(target, progress.content)
+      if (onprogress) dom.set(target, onprogress.content)
     }
 
     xhr.onerror = function () {
-      if (error) dom.set(target, error)
+      if (onerror) dom.set(target, onerror)
     }
 
     xhr.onload = function () {
       if (xhr.status === 200 || xhr.status === 204) {
         setTimeout(function () {
           dom.set(target, xhr.response)
-          if (request.onload.func) {
-            app.runAttributes('#' + request.element.id + ' *')
-          }
+          if (onload.func) window[onload.module][onload.func](onload.arg)
         }, timeout)
       } else {
-        dom.set(target, (error.content) ? error.content : xhr.statusText)
+        dom.set(target, (onerror.content) ? onerror.content : xhr.statusText)
       }
     }
 
@@ -217,7 +215,6 @@ var app = {
     var node = dom.get(selector || 'html *', true)
 
     for (var i = 0; i < node.length; i++) {
-
       var element = node[i],
         run = (element.attributes.run) ? element.attributes.run.value : ''
       if (run !== 'false') {
@@ -298,7 +295,7 @@ var dom = {
   */
   set: function (object, value, replace) {
     var target = (object instanceof Object) ? object : dom.get(object)
-      tag = object.localName,
+    tag = object.localName,
       type = object.type,
       value = (replace) ? value.replace(/<[^>]+>/g, '') : value
 
@@ -373,7 +370,7 @@ var dom = {
     app.xhr({
       element: element,
       url: element.attributes.include.value,
-      onload: { func: 'runAttributes', arg: element.id },
+      onload: { module: 'app', func: 'runAttributes', arg: '#' + element.id + ' *' },
     })
   }
 }
