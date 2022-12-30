@@ -97,8 +97,8 @@ var app = {
       responsePageHtml = dom.find(responsePageContent, 'html')
     
       if (responsePageContent.doctype) {
-        dom.setContent(document.documentElement, responsePageContent.documentElement.innerHTML)
-        dom.setContent('main', currentPageBody)
+        dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
+        dom.set('main', currentPageBody)
         app.loadLibraries(true)
       } else {
         var template = dom.parse(responsePageHtml.querySelector('template').innerHTML)
@@ -108,10 +108,10 @@ var app = {
         var templateAside1 = template.querySelector('aside:nth-of-type(2)').innerHTML
         var templateFooter = template.querySelector('footer').innerHTML
     
-        if (templateHeader) dom.setContent('header', templateHeader)
-        if (templateAside0) dom.setContent('aside:nth-of-type(1)', templateAside0)
-        if (templateAside1) dom.setContent('aside:nth-of-type(2)', templateAside1)
-        if (templateFooter) dom.setContent('footer', templateFooter)
+        if (templateHeader) dom.set('header', templateHeader)
+        if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
+        if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
+        if (templateFooter) dom.set('footer', templateFooter)
       }
     }
   },
@@ -160,11 +160,11 @@ var app = {
         }
 
         xhr.onprogress = function () {
-          if (progress) dom.setContent(target, progress.content)
+          if (progress) dom.set(target, progress.content)
         }
 
         xhr.onerror = function () {
-          if (error) dom.setContent(target, error)
+          if (error) dom.set(target, error)
         }
       })(i)
     }
@@ -185,23 +185,23 @@ var app = {
     xhr.send()
 
     xhr.onprogress = function () {
-      if (progress) dom.setContent(target, progress.content)
+      if (progress) dom.set(target, progress.content)
     }
 
     xhr.onerror = function () {
-      if (error) dom.setContent(target, error)
+      if (error) dom.set(target, error)
     }
 
     xhr.onload = function () {
       if (xhr.status === 200 || xhr.status === 204) {
         setTimeout(function () {
-          dom.setContent(target, xhr.response)
+          dom.set(target, xhr.response)
           if (request.onload.func) {
             app.runAttributes('#' + request.element.id + ' *')
           }
         }, timeout)
       } else {
-        dom.setContent(target, (error.content) ? error.content : xhr.statusText)
+        dom.set(target, (error.content) ? error.content : xhr.statusText)
       }
     }
 
@@ -296,7 +296,7 @@ var dom = {
    * @param {boolean} [replace=false] - If true, remove all HTML tags from the value before setting it as the content.
    * @return {void}
   */
-  setContent: function (object, value, replace) {
+  set: function (object, value, replace) {
     var target = (object instanceof Object) ? object : dom.get(object)
       tag = object.localName,
       type = object.type,
