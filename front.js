@@ -103,10 +103,10 @@ var app = {
       } else {
         var template = dom.parse(responsePageHtml.querySelector('template').innerHTML)
 
-        var templateHeader = template.querySelector('header').innerHTML
-        var templateAside0 = template.querySelector('aside:nth-of-type(1)').innerHTML
-        var templateAside1 = template.querySelector('aside:nth-of-type(2)').innerHTML
-        var templateFooter = template.querySelector('footer').innerHTML
+        var templateHeader = dom.find(template, 'header').innerHTML
+        var templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML
+        var templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML
+        var templateFooter = dom.find(template, 'footer').innerHTML
 
         if (templateHeader) dom.set('header', templateHeader)
         if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
