@@ -54,8 +54,8 @@ var app = {
     var script = dom.get('script[src*=front]'),
       values = script.getAttribute('lib'),
       value = (values) ? values.split(';') : 0,
-      numScripts = value.length,
-      scriptsLoaded = 0
+      total = value.length,
+      loaded = 0
 
     for (var i = 0; i < value.length; i++) {
       var script = document.createElement('script')
@@ -64,8 +64,8 @@ var app = {
       script.async = false
       script.onload = function () {
         console.log("› " + this.name)
-        scriptsLoaded++
-        if (!app.isFrontpage && scriptsLoaded == numScripts) {
+        loaded++
+        if (!app.isFrontpage && loaded == total) {
           app.runAttributes()
         }
       }
