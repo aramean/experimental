@@ -6,8 +6,6 @@ window.addEventListener('load', function () {
   app.load()
 })
 
-
-//document.onclick = function (event) {
 document.addEventListener('click', function (event) {
 
   if (app.library.navigate) {
@@ -142,9 +140,7 @@ var app = {
             responses[i] = xhr.responseText
             loaded++
             if (loaded === total) {
-              if (success) {
-                window[success.function][success.method](responses)
-              }
+              if (success) window[success.function][success.method](responses)
             }
           } else {
             // Handle any errors here
@@ -195,8 +191,8 @@ var app = {
     xhr.onload = function () {
       if (xhr.status === 200 || xhr.status === 204) {
         setTimeout(function () {
-          dom.set(target, xhr.response)
-          if (onload.func) window[onload.module][onload.func](onload.arg)
+          if (target) dom.set(target, xhr.response)
+          if (onload) window[onload.module][onload.func](onload.arg)
         }, timeout)
       } else {
         dom.set(target, (onerror.content) ? onerror.content : xhr.statusText)
