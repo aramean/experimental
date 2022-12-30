@@ -192,10 +192,10 @@ var app = {
       if (xhr.status === 200 || xhr.status === 204) {
         setTimeout(function () {
           if (target) dom.set(target, xhr.response)
-          if (onload.func) window[onload.module][onload.func](onload.arg)
+          if (onload && onload.func) window[onload.module][onload.func](onload.arg)
         }, timeout)
       } else {
-        dom.set(target, (onerror.content) ? onerror.content : xhr.statusText)
+        dom.set(target, (onerror && onerror.content) ? onerror.content : xhr.statusText)
       }
     }
 
