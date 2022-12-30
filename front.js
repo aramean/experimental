@@ -49,7 +49,7 @@ var app = {
     }
   },
 
-  loadLibraries: function () {
+  loadLibraries: function (execute) {
     console.log('Loading libraries...')
     var script = dom.get('script[src*=front]'),
       values = script.getAttribute('lib'),
@@ -65,7 +65,7 @@ var app = {
       script.onload = function () {
         console.log("› " + this.name)
         loaded++
-        if (!app.isFrontpage && loaded == total) {
+        if (execute && loaded == total) {
           app.runAttributes()
         }
       }
