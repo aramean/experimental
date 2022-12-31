@@ -163,8 +163,8 @@ var app = {
       onloaded = request.onloadend,
       timeout = onload ? onload.timeout || 0 : 0,
       url = request.url,
-      urlExtension = (url.indexOf('.') !== -1) ? '' : app.fileExtension
-console.log(url)
+      urlExtension = (url.indexOf('.') !== -1 || request.urlExtension === false) ? '' : app.fileExtension
+
     var xhr = new XMLHttpRequest()
     xhr.open(request.method || 'GET', url + urlExtension)
     xhr.send()
