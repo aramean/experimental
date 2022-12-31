@@ -6,23 +6,12 @@ window.addEventListener('load', function () {
   app.load()
 })
 
+window.addEventListener('popstate', function (event) {
+  if (app.library.navigate) app.library.navigate.pop(event)
+})
+
 document.addEventListener('click', function (event) {
-
-  if (app.library.navigate) {
-    app.library.navigate(event)
-  }
-
-  return false
-  if (link && app.hasOwnProperty('navigate')) {
-    if (link.hash) {
-      app.navigate().changeHash(link.hash)
-    } else if (link.target !== "_blank") {
-      var mainContent = dom.get("body main")
-      app.navigate().changePage(link, mainContent)
-      dom.scrollTo(mainContent, "top")
-      return false
-    }
-  }
+  if (app.library.navigate) app.library.navigate.open(event)
 })
 
 var app = {
@@ -175,7 +164,7 @@ var app = {
       timeout = onload ? onload.timeout || 0 : 0,
       url = request.url,
       urlExtension = (url.indexOf('.') !== -1) ? '' : app.fileExtension
-
+console.log(url)
     var xhr = new XMLHttpRequest()
     xhr.open(request.method || 'GET', url + urlExtension)
     xhr.send()
