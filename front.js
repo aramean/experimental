@@ -204,11 +204,12 @@ var app = {
         run = (element.attributes.run) ? element.attributes.run.value : ''
       if (run !== 'false') {
         for (var j = 0; j < element.attributes.length; j++) {
-          var name = element.attributes[j].name,
+          var name = element.attributes[j].name.split('-'),
             value = element.attributes[j].value
-          if (app.library[name]) {
+
+          if (app.library[name[0]] && name[1]) {
             console.log('› library.' + name)
-            app.library[name](element)
+            app.library[name[0]][name[1]](element)
           } else if (dom[name]) {
             console.log('› dom.' + name)
             dom[name](element, value)
