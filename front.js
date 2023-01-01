@@ -67,7 +67,6 @@ var app = {
         srcdoc = element.getAttribute('srcdoc'),
         src = element.getAttribute('src')
         console.log('› ' + srcdoc, src)
-        //console.warn(srcdoc)
     if (element && (srcdoc || src)) {
       var srcdoc = element.getAttribute('srcdoc'),
         srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
@@ -171,7 +170,6 @@ var app = {
           if (target) dom.set(target, xhr.response)
           if (onload) {
             for (var i = 0; i < onload.length; i++) {
-              console.log(onload[i].arg)
               window[onload[i].module][onload[i].func](onload[i].arg)
             }
           }
