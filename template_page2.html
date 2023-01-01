@@ -2,23 +2,24 @@
 
 <template>
 
-  <header class="inherit">PAGE 2 FROM TEMPLATE</header>
+  <header class="inherit">PAGE 2</header>
   
   <aside>
-    <div>
+    <nav class="sidebar">
       <a href="page1.html">Page 1</a>
       <a href="page2.html">Page 2</a>
       <a href="page3.html">Page 3</a>
-
-      <span lowercase>LOWERCASE</span><br>
-      <span uppercase>uppercase</span><br>
-      <div id="jsonDiv" json-source="json.json" target="#test1" timeout="5000"
-        progresscontent="<br><br><h2>Loading Json through Template ... wait...<h2>" run="true"></div>
-      <div id="test1"></div>
-    </div>
+    </nav>
   </aside>
 
-  <aside>Include <div include="test" run="true"></div></aside>
+  <aside>
+    Include <div include="test" run="true"></div>
+  <hr>
+  <div id="jsonDiv" json-source="json.json" target="#test1" timeout="5000"
+    progresscontent="<br><br><h2>Loading Json through Template ... wait...<h2>" run="true"></div>
+  <div id="test1"></div>
+</div>
+  </aside>
 
   <body>
     <div id="jsonDiv" json-source="json.json" target="#test1" timeout="000" progresscontent="Loading 1 ..."></div>

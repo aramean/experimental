@@ -61,18 +61,22 @@ var app = {
     }
   },
 
-  loadTemplates: function () {
+  loadTemplates: function (disableSrcdoc) {
     console.log('Loading templates...')
-    var element = dom.get('template')
-    if (element) {
-      var attr = element.getAttribute('src'),
-        src = attr.split(';')
+    var element = dom.get('template'),
+        srcdoc = element.getAttribute('srcdoc'),
+        src = element.getAttribute('src')
+        console.log('› ' + srcdoc, src)
+        //console.warn(srcdoc)
+    if (element && (srcdoc || src)) {
+      var srcdoc = element.getAttribute('srcdoc'),
+        srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
+        srcValue = (src) ? src.split(';') : []
 
       app.xhr2({
-        urls: src,
-        onsuccess: { function: 'app', method: 'renderTemplates' }
+        urls: (srcdocValue && !disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
+        onload: { module: 'app', func: 'renderTemplates', },
       })
-
     }
   },
 
@@ -113,7 +117,7 @@ var app = {
       timeout = load ? options.timeout || 0 : 0,
       progress = options.onprogress,
       error = options.onerror,
-      success = options.onsuccess
+      onload = options.onload
 
     for (var i = 0; i < total; i++) {
       (function (i) {
@@ -128,28 +132,12 @@ var app = {
           if (xhr.status === 200 || xhr.status === 204) {
             responses[i] = xhr.responseText
             loaded++
-            if (loaded === total) {
-              if (success) window[success.function][success.method](responses)
+            if (onload && loaded === total) {
+              window[onload.module][onload.func](responses)
             }
           } else {
             // Handle any errors here
           }
-        }
-
-        xhr.onloadstart = function () {
-          //dom.setDisplay('none')
-        }
-
-        xhr.onloadend = function () {
-          //dom.setDisplay('')
-        }
-
-        xhr.onprogress = function () {
-          if (progress) dom.set(target, progress.content)
-        }
-
-        xhr.onerror = function () {
-          if (error) dom.set(target, error)
         }
       })(i)
     }
@@ -183,6 +171,7 @@ var app = {
           if (target) dom.set(target, xhr.response)
           if (onload) {
             for (var i = 0; i < onload.length; i++) {
+              console.log(onload[i].arg)
               window[onload[i].module][onload[i].func](onload[i].arg)
             }
           }
