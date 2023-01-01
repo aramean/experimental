@@ -181,7 +181,11 @@ var app = {
       if (xhr.status === 200 || xhr.status === 204) {
         setTimeout(function () {
           if (target) dom.set(target, xhr.response)
-          if (onload && onload.module) window[onload.module][onload.func](onload.arg)
+          if (onload) {
+            for (var i = 0; i < onload.length; i++) {
+              window[onload[i].module][onload[i].func](onload[i].arg)
+            }
+          }
         }, timeout)
       } else {
         dom.set(target, (onerror && onerror.content) ? onerror.content : xhr.statusText)
@@ -355,7 +359,7 @@ var dom = {
     app.xhr({
       element: element,
       url: element.attributes.include.value,
-      onload: { module: 'app', func: 'runAttributes', arg: '#' + element.id + ' *' },
+      onload: [{ module: 'app', func: 'runAttributes', arg: '#' + element.id + ' *' }],
     })
   }
 }
