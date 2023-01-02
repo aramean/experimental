@@ -61,9 +61,10 @@ var app = {
     }
   },
 
-  loadTemplates: function (disableSrcdoc) {
+  loadTemplates: function (options) {
     console.log('Loading templates...')
-    var element = dom.get('template'),
+    var options =  (options) ? options : {},
+        element = dom.get('template'),
         srcdoc = element.getAttribute('srcdoc'),
         src = element.getAttribute('src')
         console.log('› ' + srcdoc, src)
@@ -73,8 +74,8 @@ var app = {
         srcValue = (src) ? src.split(';') : []
 
       app.xhr2({
-        urls: (srcdocValue && !disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-        onload: { module: 'app', func: 'renderTemplates', },
+        urls: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
+        onload: { module: 'app', func: 'renderTemplates' },
       })
     }
   },
@@ -112,11 +113,10 @@ var app = {
       loaded = 0,
       total = options.urls.length,
       target = options.target ? dom.get(options.target) : options.element,
-      load = options.onload,
-      timeout = load ? options.timeout || 0 : 0,
+      onload = options.onload,
+      timeout = onload ? options.timeout || 0 : 0,
       progress = options.onprogress,
-      error = options.onerror,
-      onload = options.onload
+      error = options.onerror
 
     for (var i = 0; i < total; i++) {
       (function (i) {
