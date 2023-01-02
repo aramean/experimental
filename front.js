@@ -73,8 +73,6 @@ var app = {
       var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
         srcValue = (src) ? src.split(';') : []
 
-        console.dir(options)
-
       app.xhr({
         url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
         onload: { module: 'app', func: 'renderTemplates', arg: options },
@@ -118,9 +116,9 @@ var app = {
       total = url.length,
       target = options.target ? dom.get(options.target) : options.element,
       onload = options.onload,
-      timeout = onload ? options.timeout || 0 : 0,
-      progress = options.onprogress,
-      error = options.onerror
+      timeout = onload ? options.onload.timeout || 0 : 0,
+      onprogress = options.onprogress,
+      onerror = options.onerror
 
     for (var i = 0; i < total; i++) {
       (function (i, url) {
@@ -130,6 +128,14 @@ var app = {
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
         xhr.send()
+
+        xhr.onprogress = function () {
+          if (onprogress) dom.set(target, onprogress.content)
+        }
+    
+        xhr.onerror = function () {
+          if (onerror) dom.set(target, onerror)
+        }
 
         xhr.onload = function () {
           if (xhr.status === 200 || xhr.status === 204) {
