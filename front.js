@@ -73,18 +73,20 @@ var app = {
       var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
         srcValue = (src) ? src.split(';') : []
 
+        console.dir(options)
+
       app.xhr({
         url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-        onload: { module: 'app', func: 'renderTemplates' },
+        onload: { module: 'app', func: 'renderTemplates', arg: options },
       })
     }
   },
 
-  renderTemplates: function (responses) {
+  renderTemplates: function (options) {
     var currentPageBody = document.body.innerHTML
 
-    for (var i = 0; i < responses.length; i++) {
-      var responsePageContent = dom.parse(responses[i]),
+    for (var i = 0; i < options.data.length; i++) {
+      var responsePageContent = dom.parse(options.data[i]),
         responsePageHtml = dom.find(responsePageContent, 'html')
 
       if (responsePageContent.doctype) {
@@ -105,6 +107,8 @@ var app = {
         if (templateFooter) dom.set('footer', templateFooter)
       }
     }
+
+    if (options.onload.arg.runAttributes) app.runAttributes()
   },
 
   xhr: function (options) {
@@ -135,7 +139,7 @@ var app = {
 
               if (onload && loaded === total) {
                 if (onload.func === 'renderTemplates') {
-                  window[onload.module][onload.func](responses)
+                  window[onload.module][onload.func]({ data: responses, onload })
                 } else {
                   if (target) dom.set(target, xhr.response)
                   for (var j = 0; j < onload.length; j++) {
