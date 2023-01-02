@@ -107,7 +107,6 @@ var app = {
     }
   },
 
-
   xhr: function (options) {
     var responses = [],
       loaded = 0,
