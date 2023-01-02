@@ -63,18 +63,18 @@ var app = {
 
   loadTemplates: function (options) {
     console.log('Loading templates...')
-    var options =  (options) ? options : {},
-        element = dom.get('template'),
-        srcdoc = element.getAttribute('srcdoc'),
-        src = element.getAttribute('src')
-        console.log('› ' + srcdoc, src)
+    var options = (options) ? options : {},
+      element = dom.get('template'),
+      srcdoc = element.getAttribute('srcdoc'),
+      src = element.getAttribute('src')
+    console.log('› ' + srcdoc, src)
+
     if (element && (srcdoc || src)) {
-      var srcdoc = element.getAttribute('srcdoc'),
-        srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
+      var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
         srcValue = (src) ? src.split(';') : []
 
-      app.xhr2({
-        urls: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
+      app.xhr({
+        url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
         onload: { module: 'app', func: 'renderTemplates' },
       })
     }
@@ -108,10 +108,11 @@ var app = {
   },
 
 
-  xhr2: function (options) {
+  xhr: function (options) {
     var responses = [],
       loaded = 0,
-      total = options.urls.length,
+      url = (options.url instanceof Array) ? options.url : [options.url],
+      total = url.length,
       target = options.target ? dom.get(options.target) : options.element,
       onload = options.onload,
       timeout = onload ? options.timeout || 0 : 0,
@@ -119,9 +120,9 @@ var app = {
       error = options.onerror
 
     for (var i = 0; i < total; i++) {
-      (function (i) {
-        var url = options.urls[i],
-          urlExtension = (url.indexOf('.') !== -1) ? '' : app.fileExtension
+      (function (i, url) {
+        var url = url[i],
+          urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? '' : app.fileExtension
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
@@ -129,59 +130,26 @@ var app = {
 
         xhr.onload = function () {
           if (xhr.status === 200 || xhr.status === 204) {
-            responses[i] = xhr.responseText
-            loaded++
-            if (onload && loaded === total) {
-              window[onload.module][onload.func](responses)
-            }
+            setTimeout(function () {
+              responses[i] = xhr.responseText
+              loaded++
+
+              if (onload && loaded === total) {
+                if (onload.func === 'renderTemplates') {
+                  window[onload.module][onload.func](responses)
+                } else {
+                  if (target) dom.set(target, xhr.response)
+                  for (var j = 0; j < onload.length; j++) {
+                    window[onload[j].module][onload[j].func](onload[j].arg)
+                  }
+                }
+              }
+            }, timeout)
           } else {
             // Handle any errors here
           }
         }
-      })(i)
-    }
-  },
-
-  xhr: function (request) {
-    var target = request.target ? dom.get(request.target) : request.element,
-      onprogress = request.onprogress,
-      onerror = request.onerror,
-      onload = request.onload,
-      onloaded = request.onloadend,
-      timeout = onload ? onload.timeout || 0 : 0,
-      url = request.url,
-      urlExtension = (url.indexOf('.') !== -1 || request.urlExtension === false) ? '' : app.fileExtension
-
-    var xhr = new XMLHttpRequest()
-    xhr.open(request.method || 'GET', url + urlExtension)
-    xhr.send()
-
-    xhr.onprogress = function () {
-      if (onprogress) dom.set(target, onprogress.content)
-    }
-
-    xhr.onerror = function () {
-      if (onerror) dom.set(target, onerror)
-    }
-
-    xhr.onload = function () {
-      if (xhr.status === 200 || xhr.status === 204) {
-        setTimeout(function () {
-          if (target) dom.set(target, xhr.response)
-          if (onload) {
-            for (var i = 0; i < onload.length; i++) {
-              window[onload[i].module][onload[i].func](onload[i].arg)
-            }
-          }
-        }, timeout)
-      } else {
-        dom.set(target, (onerror && onerror.content) ? onerror.content : xhr.statusText)
-      }
-    }
-
-    xhr.onloadend = function () {
-      if (onloaded) {
-      }
+      })(i, url)
     }
   },
 
