@@ -1,9 +1,23 @@
+/**
+ * @license
+ * Copyright (c) Aleptra
+ * All Rights Reserved.
+ *
+ * This source code is licensed under the MIT-style license found in the 
+ * LICENSE file in the root directory of this source tree.
+ */
+
 var app = {
   debug: true,
   fileExtension: '.html',
   isFrontpage: document.doctype,
   library: {},
 
+  /**
+   * Initialize the application.
+   * @function
+   * @return {void}
+   */
   init: function () {
     console.log('Initializing application...')
     if (app.isFrontpage) {
@@ -13,6 +27,11 @@ var app = {
     }
   },
 
+  /**
+   * Start the application.
+   * @function
+   * @return {void}
+   */
   load: function () {
     console.log('Starting application...')
     if (app.isFrontpage) {
@@ -27,7 +46,7 @@ var app = {
       value = (values) ? values.split(';') : 0,
       total = value.length,
       loaded = 0
-  
+
     for (var i = 0; i < value.length; i++) {
       var script = document.createElement('script')
       script.name = value[i]
@@ -40,10 +59,10 @@ var app = {
           callback()
         }
       }
-  
+
       document.head.appendChild(script)
     }
-  },  
+  },
 
   loadTemplates: function (options) {
     console.log('Loading templates...')
@@ -116,7 +135,7 @@ var app = {
         xhr.onprogress = function () {
           if (onprogress) dom.set(target, onprogress.content)
         }
-    
+
         xhr.onerror = function () {
           if (onerror) dom.set(target, onerror)
         }
