@@ -1,19 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-  app.init()
-})
-
-window.addEventListener('load', function () {
-  app.load()
-})
-
-window.addEventListener('popstate', function (event) {
-  if (app.library.navigate) app.library.navigate.pop(event)
-})
-
-document.addEventListener('click', function (event) {
-  if (app.library.navigate) app.library.navigate.open(event)
-})
-
 var app = {
   debug: true,
   fileExtension: '.html',
@@ -32,18 +16,18 @@ var app = {
   load: function () {
     console.log('Starting application...')
     if (app.isFrontpage) {
-      app.runAttributes()
+      app.loadLibraries(app.runAttributes)
     }
   },
 
-  loadLibraries: function (execute) {
+  loadLibraries: function (callback) {
     console.log('Loading libraries...')
     var script = dom.get('script[src*=front]'),
       values = script.getAttribute('lib'),
       value = (values) ? values.split(';') : 0,
       total = value.length,
       loaded = 0
-
+  
     for (var i = 0; i < value.length; i++) {
       var script = document.createElement('script')
       script.name = value[i]
@@ -52,14 +36,14 @@ var app = {
       script.onload = function () {
         console.log("› " + this.name)
         loaded++
-        if (execute && loaded == total) {
-          app.runAttributes()
+        if (callback && loaded == total) {
+          callback()
         }
       }
-
+  
       document.head.appendChild(script)
     }
-  },
+  },  
 
   loadTemplates: function (options) {
     console.log('Loading templates...')
@@ -90,7 +74,7 @@ var app = {
       if (responsePageContent.doctype) {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
-        app.loadLibraries(true)
+        app.loadLibraries(app.runAttributes)
       } else {
 
         var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML),
@@ -327,3 +311,19 @@ var dom = {
     })
   }
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  app.init()
+})
+
+window.addEventListener('load', function () {
+  app.load()
+})
+
+window.addEventListener('popstate', function (event) {
+  if (app.library.navigate) app.library.navigate.pop(event)
+})
+
+document.addEventListener('click', function (event) {
+  if (app.library.navigate) app.library.navigate.open(event)
+})
