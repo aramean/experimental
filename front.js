@@ -20,9 +20,7 @@ var app = {
    */
   init: function () {
     console.log('Initializing application...')
-    if (app.isFrontpage) {
-      app.loadLibraries()
-    } else {
+    if (!app.isFrontpage) {
       app.loadTemplates()
     }
   },
