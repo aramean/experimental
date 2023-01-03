@@ -145,7 +145,6 @@ var app = {
 
               if (onload && loaded === total) {
                 if (onload.func === 'renderTemplates') {
-                  console.dir(onload)
                   window[onload.module][onload.func]({ data: responses, arg: onload.arg })
                 } else {
                   if (target) dom.set(target, xhr.response)
