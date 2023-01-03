@@ -106,7 +106,7 @@ var app = {
       }
     }
 
-    if (options.onload.arg.runAttributes) app.runAttributes()
+    if (options.arg.runAttributes) app.runAttributes()
   },
 
   xhr: function (options) {
@@ -145,8 +145,8 @@ var app = {
 
               if (onload && loaded === total) {
                 if (onload.func === 'renderTemplates') {
-                  var arg = { data: responses, onload }
-                  window[onload.module][onload.func](arg)
+                  console.dir(onload)
+                  window[onload.module][onload.func]({ data: responses, arg: onload.arg })
                 } else {
                   if (target) dom.set(target, xhr.response)
                   for (var j = 0; j < onload.length; j++) {
