@@ -124,7 +124,7 @@ var app = {
     for (var i = 0; i < total; i++) {
       (function (i, url) {
         var url = url[i],
-          urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? app.fileExtension : ''
+          urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? '' : app.fileExtension
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
