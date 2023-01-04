@@ -309,7 +309,7 @@ var dom = {
   getTagLink: function (element) {
     for (var current = element; current; current = current.parentNode) {
       if (current.localName === 'a') {
-        return current;
+        return current
       }
     }
     return null
