@@ -124,7 +124,7 @@ var app = {
     for (var i = 0; i < total; i++) {
       (function (i, url) {
         var url = url[i],
-          urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? '' : app.fileExtension
+          urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? app.fileExtension : ''
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
@@ -304,11 +304,10 @@ var dom = {
    * @return {Element|null} The found anchor element, or `null` if none was found.
    */
   getTagLink: function (element) {
-    while (element) {
-      if (element.localName === "a") {
-        return element
+    for (var current = element; current; current = current.parentNode) {
+      if (current.localName === "a") {
+        return current;
       }
-      element = element.parentNode
     }
     return null
   },
