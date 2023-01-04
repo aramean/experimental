@@ -45,7 +45,7 @@ var app = {
       total = value.length,
       loaded = 0
 
-    for (var i = 0; i < value.length; i++) {
+    for (var i = 0; i < total; i++) {
       var script = document.createElement('script')
       script.name = value[i]
       script.src = 'lib/' + script.name + '.js'
