@@ -33,9 +33,6 @@ var app = {
    */
   load: function () {
     console.log('Starting application...')
-    if (app.isFrontpage) {
-      
-    }
   },
 
   loadDependencies: function (callback) {
