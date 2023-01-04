@@ -14,12 +14,12 @@ var app = {
   library: {},
 
   /**
-   * Initialize the application.
+   * Starting the application.
    * @function
    * @return {void}
    */
-  init: function () {
-    console.log('Initializing application...')
+  start: function () {
+    console.log('Start application...')
     if (app.isFrontpage)
       app.loadDependencies(app.runAttributes)
     else
@@ -323,7 +323,7 @@ var dom = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  app.init()
+  app.start()
 })
 
 window.addEventListener('popstate', function (event) {
