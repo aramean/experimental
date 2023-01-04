@@ -51,7 +51,7 @@ var app = {
       script.src = 'lib/' + script.name + '.js'
       script.async = false
       script.onload = function () {
-        console.log("› " + this.name)
+        console.log('› ' + this.name)
         loaded++
         if (callback && loaded == total) {
           callback()
@@ -60,6 +60,8 @@ var app = {
 
       document.head.appendChild(script)
     }
+
+    if (!total) callback()
   },
 
   loadTemplates: function (options) {
@@ -306,7 +308,7 @@ var dom = {
    */
   getTagLink: function (element) {
     for (var current = element; current; current = current.parentNode) {
-      if (current.localName === "a") {
+      if (current.localName === 'a') {
         return current;
       }
     }
