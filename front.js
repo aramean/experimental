@@ -43,7 +43,7 @@ var app = {
       script.onload = function () {
         console.log('› ' + this.name)
         loaded++
-        if (callback && loaded == total) {
+        if (loaded == total && callback) {
           callback()
         }
       }
@@ -51,7 +51,7 @@ var app = {
       document.head.appendChild(script)
     }
 
-    if (!total) callback()
+    if (!total && callback) callback()
   },
 
   loadTemplates: function (options) {
