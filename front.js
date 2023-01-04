@@ -20,19 +20,11 @@ var app = {
    */
   init: function () {
     console.log('Initializing application...')
+    dom.setDisplay('none')
     if (app.isFrontpage)
       app.loadDependencies(app.runAttributes)
     else
       app.loadTemplates()
-  },
-
-  /**
-   * Start the application.
-   * @function
-   * @return {void}
-   */
-  load: function () {
-    console.log('Starting application...')
   },
 
   loadDependencies: function (callback) {
@@ -47,7 +39,7 @@ var app = {
       var script = document.createElement('script')
       script.name = value[i]
       script.src = 'lib/' + script.name + '.js'
-      script.async = false
+      script.async = true
       script.onload = function () {
         console.log('› ' + this.name)
         loaded++
@@ -82,6 +74,7 @@ var app = {
   },
 
   renderTemplates: function (options) {
+    console.log('Rendering templates...')
     var currentPageBody = document.body.innerHTML
 
     for (var i = 0; i < options.data.length; i++) {
@@ -92,6 +85,7 @@ var app = {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
         app.loadDependencies(app.runAttributes)
+        
       } else {
 
         var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML),
@@ -107,7 +101,7 @@ var app = {
       }
     }
 
-    
+    dom.setDisplay('')
     if (options.arg.runAttributes) app.runAttributes()
   },
 
@@ -332,10 +326,6 @@ var dom = {
 
 document.addEventListener('DOMContentLoaded', function () {
   app.init()
-})
-
-window.addEventListener('load', function () {
-  app.load()
 })
 
 window.addEventListener('popstate', function (event) {
