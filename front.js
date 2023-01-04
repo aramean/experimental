@@ -19,7 +19,7 @@ var app = {
    * @return {void}
    */
   start: function () {
-    console.log('Start application...')
+    console.log('Starting application...')
     if (app.isFrontpage)
       app.loadDependencies(app.runAttributes)
     else
