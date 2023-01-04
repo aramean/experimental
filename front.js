@@ -69,7 +69,7 @@ var app = {
 
       app.xhr({
         url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-        onload: { module: 'app', func: 'renderTemplates', arg: options },
+        onload: { module: 'app', func: 'renderTemplates', arg: options }
       })
     }
   },
@@ -320,7 +320,7 @@ var dom = {
     app.xhr({
       element: element,
       url: element.attributes.include.value,
-      onload: [{ module: 'app', func: 'runAttributes', arg: '#' + element.id + ' *' }],
+      onload: [{ module: 'app', func: 'runAttributes', arg: '#i' + app.uniqueId + ' *' }],
     })
   }
 }
