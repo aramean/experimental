@@ -20,7 +20,6 @@ var app = {
    */
   init: function () {
     console.log('Initializing application...')
-    dom.setDisplay('none')
     if (app.isFrontpage)
       app.loadDependencies(app.runAttributes)
     else
@@ -39,7 +38,7 @@ var app = {
       var script = document.createElement('script')
       script.name = value[i]
       script.src = 'lib/' + script.name + '.js'
-      script.async = true
+      script.async = false
       script.onload = function () {
         console.log('› ' + this.name)
         loaded++
@@ -101,7 +100,6 @@ var app = {
       }
     }
 
-    dom.setDisplay('')
     if (options.arg.runAttributes) app.runAttributes()
   },
 
