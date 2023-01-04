@@ -20,10 +20,11 @@ var app = {
    */
   start: function () {
     console.log('Starting application...')
-    if (app.isFrontpage)
+    if (app.isFrontpage) {
       app.loadDependencies(app.runAttributes)
-    else
+    } else {
       app.loadTemplates()
+    }
   },
 
   loadDependencies: function (callback) {
@@ -119,6 +120,7 @@ var app = {
           urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? '' : app.fileExtension
 
         var xhr = new XMLHttpRequest()
+        xhr.responseType = 'text'
         xhr.open('GET', url + urlExtension)
         xhr.send()
 
