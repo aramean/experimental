@@ -121,7 +121,6 @@ var app = {
           urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? '' : app.fileExtension
 
         var xhr = new XMLHttpRequest()
-        xhr.responseType = 'text'
         xhr.open('GET', url + urlExtension)
         xhr.send()
 
