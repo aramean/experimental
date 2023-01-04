@@ -158,9 +158,9 @@ var app = {
   },
 
   runAttributes: function (selector) {
+    var selector = selector || 'html *',
+      node = dom.get(selector, true)
     console.log('Running attributes ' + selector + ' ...')
-
-    var node = dom.get(selector || 'html *', true)
 
     for (var i = 0; i < node.length; i++) {
       var element = node[i],
