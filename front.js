@@ -22,6 +22,8 @@ var app = {
     console.log('Initializing application...')
     if (!app.isFrontpage) {
       app.loadTemplates()
+    }else{
+      app.loadDependencies(app.runAttributes)
     }
   },
 
@@ -33,7 +35,7 @@ var app = {
   load: function () {
     console.log('Starting application...')
     if (app.isFrontpage) {
-      app.loadDependencies(app.runAttributes)
+      
     }
   },
 
@@ -45,13 +47,13 @@ var app = {
       total = value.length,
       loaded = 0
 
-    for (var i = 0; i < value.length; i++) {
+    for (var i = 0; i < total; i++) {
       var script = document.createElement('script')
       script.name = value[i]
       script.src = 'lib/' + script.name + '.js'
       script.async = false
       script.onload = function () {
-        console.log("› " + this.name)
+        console.log('› ' + this.name)
         loaded++
         if (callback && loaded == total) {
           callback()
@@ -60,6 +62,8 @@ var app = {
 
       document.head.appendChild(script)
     }
+
+    if (!total) callback()
   },
 
   loadTemplates: function (options) {
@@ -107,6 +111,7 @@ var app = {
       }
     }
 
+    
     if (options.arg.runAttributes) app.runAttributes()
   },
 
@@ -306,8 +311,8 @@ var dom = {
    */
   getTagLink: function (element) {
     for (var current = element; current; current = current.parentNode) {
-      if (current.localName === "a") {
-        return current;
+      if (current.localName === 'a') {
+        return current
       }
     }
     return null
