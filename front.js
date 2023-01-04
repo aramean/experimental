@@ -20,11 +20,10 @@ var app = {
    */
   init: function () {
     console.log('Initializing application...')
-    if (!app.isFrontpage) {
-      app.loadTemplates()
-    }else{
+    if (app.isFrontpage)
       app.loadDependencies(app.runAttributes)
-    }
+    else
+      app.loadTemplates()
   },
 
   /**
