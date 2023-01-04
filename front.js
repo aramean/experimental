@@ -33,12 +33,12 @@ var app = {
   load: function () {
     console.log('Starting application...')
     if (app.isFrontpage) {
-      app.loadLibraries(app.runAttributes)
+      app.loadDependencies(app.runAttributes)
     }
   },
 
-  loadLibraries: function (callback) {
-    console.log('Loading libraries...')
+  loadDependencies: function (callback) {
+    console.log('Loading dependencies...')
     var script = dom.get('script[src*=front]'),
       values = script.getAttribute('lib'),
       value = (values) ? values.split(';') : 0,
@@ -91,7 +91,7 @@ var app = {
       if (responsePageContent.doctype) {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
-        app.loadLibraries(app.runAttributes)
+        app.loadDependencies(app.runAttributes)
       } else {
 
         var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML),
