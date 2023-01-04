@@ -83,8 +83,7 @@ var app = {
       if (responsePageContent.doctype) {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
-        app.loadDependencies(app.runAttributes)
-        
+        app.loadDependencies()
       } else {
 
         var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML),
@@ -100,7 +99,7 @@ var app = {
       }
     }
 
-    if (options.arg.runAttributes) app.runAttributes()
+    app.runAttributes()
   },
 
   xhr: function (options) {
