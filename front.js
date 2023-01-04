@@ -190,6 +190,7 @@ var app = {
 }
 
 var dom = {
+
   /**
    * Parse a string of HTML and return a DOM node.
    * 
