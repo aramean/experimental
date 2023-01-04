@@ -12,6 +12,7 @@ var app = {
   fileExtension: '.html',
   isFrontpage: document.doctype,
   library: {},
+  uniqueId: 0,
 
   /**
    * Starting the application.
@@ -314,7 +315,8 @@ var dom = {
    * @return {void}
    */
   include: function (element) {
-    element.id = 'i' + (performance.now() + Math.random()).toString().replace('.', '')
+    app.uniqueId++
+    element.id = 'i' + app.uniqueId
     app.xhr({
       element: element,
       url: element.attributes.include.value,
