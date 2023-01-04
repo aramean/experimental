@@ -30,8 +30,8 @@ var app = {
 
   loadDependencies: function (callback) {
     console.log('Loading dependencies...')
-    var script = dom.get('script[src*=front]'),
-      values = script.getAttribute('lib'),
+    var scriptElement = dom.get('script[src*=front]'),
+      values = scriptElement.getAttribute('lib'),
       value = (values) ? values.split(';') : 0,
       total = value.length,
       loaded = 0
