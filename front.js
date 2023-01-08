@@ -59,8 +59,8 @@ var app = {
     console.log('Loading templates...')
     var options = (options) ? options : {},
       element = dom.get('template'),
-      srcdoc = element.attributes.srcdoc ? element.attributes.srcdoc.value : false
-      src = element.attributes.src ? element.attributes.src.value : false
+      srcdoc = element.getAttribute('srcdoc'),
+      src = element.getAttribute('src')
 
     if (element && (srcdoc || src)) {
       console.log('› ' + srcdoc + ';' + src)
