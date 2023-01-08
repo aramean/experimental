@@ -59,11 +59,12 @@ var app = {
     console.log('Loading templates...')
     var options = (options) ? options : {},
       element = dom.get('template'),
-      srcdoc = element.getAttribute('srcdoc'),
-      src = element.getAttribute('src')
-    console.log('› ' + srcdoc, src)
+      srcdoc = element.attributes.srcdoc ? element.attributes.srcdoc.value : false
+      src = element.attributes.src ? element.attributes.src.value : false
 
     if (element && (srcdoc || src)) {
+      console.log('› ' + srcdoc + ';' + src)
+
       var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
         srcValue = (src) ? src.split(';') : []
 
