@@ -164,7 +164,14 @@ var app = {
 
     for (var i = 0; i < node.length; i++) {
       var element = node[i],
-        run = (element.attributes.run) ? element.attributes.run.value : ''
+        run = (element.attributes.run) ? element.attributes.run.value : '',
+        include = (element.attributes.include) ? element.attributes.include.value : ''
+
+      if (include) {
+        app.uniqueId++
+        element.id = 'i' + app.uniqueId
+      }
+
       if (run !== 'false') {
         for (var j = 0; j < element.attributes.length; j++) {
           var name = element.attributes[j].name.split('-'),
@@ -314,12 +321,10 @@ var dom = {
    * @return {void}
    */
   include: function (element) {
-    app.uniqueId++
-    element.id = 'i' + app.uniqueId
     app.xhr({
       element: element,
       url: element.attributes.include.value,
-      onload: [{ module: 'app', func: 'runAttributes', arg: '#i' + app.uniqueId + ' *' }],
+      onload: [{ module: 'app', func: 'runAttributes', arg: '#' + element.id + ' *' }],
     })
   }
 }
