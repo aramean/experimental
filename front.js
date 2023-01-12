@@ -57,21 +57,26 @@ var app = {
 
   loadTemplates: function (options) {
     console.log('Loading templates...')
-    var options = (options) ? options : {},
-      element = dom.get('template'),
-      srcdoc = element.getAttribute('srcdoc'),
-      src = element.getAttribute('src')
+    var options = (options) ? options : {}
+    var element = dom.get('template')
+    if (element) {
+      var srcdoc = element.getAttribute('srcdoc'),
+        src = element.getAttribute('src')
 
-    if (element && (srcdoc || src)) {
-      console.log('› ' + srcdoc + ';' + src)
+      if (srcdoc || src) {
+        console.log('› ' + srcdoc + ';' + src)
 
-      var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
-        srcValue = (src) ? src.split(';') : []
+        var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
+          srcValue = (src) ? src.split(';') : []
 
-      app.xhr({
-        url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-        onload: { module: 'app', func: 'renderTemplates', arg: options }
-      })
+        app.xhr({
+          url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
+          onload: { module: 'app', func: 'renderTemplates', arg: options }
+        });
+      }
+    } else {
+      console.warn("Template element not found on the page.")
+      app.runAttributes()
     }
   },
 
@@ -214,7 +219,7 @@ var dom = {
    */
   get: function (selector, list) {
     var element = document.querySelectorAll(selector)
-    return element.length == 1 && !list ? element[0] : element
+    return element.length == 0 ? null : (element.length == 1 && !list ? element[0] : element)
   },
 
   /**
