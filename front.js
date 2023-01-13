@@ -13,7 +13,7 @@ var config = {
 }
 
 var app = {
-  log: config.debug ? (typeof console.log.bind === 'undefined') ? Function.prototype.bind.call(console.log, console, '') : console.log.bind(console, '') : function () { },
+  log: config.debug ? (console.log.bind) ? console.log.bind('', '%c※', 'color:#377') : Function.prototype.bind.call(console.log, console, '') : function () { },
   isFrontpage: document.doctype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   library: {},
@@ -25,7 +25,7 @@ var app = {
    * @return {void}
    */
   start: function () {
-    app.log('Starting ' + this.isLocalNetwork + ' application...')
+    app.log('Starting application...')
     if (app.isFrontpage) {
       app.loadDependencies(app.runAttributes)
     } else {
@@ -61,7 +61,7 @@ var app = {
   },
 
   loadTemplates: function (options) {
-    console.log('Loading templates...')
+    app.log('Loading templates...')
     var options = (options) ? options : {}
     var element = dom.get('template')
     if (element) {
@@ -69,7 +69,7 @@ var app = {
         src = element.getAttribute('src')
 
       if (srcdoc || src) {
-        console.log('› ' + srcdoc + ';' + src)
+        app.log('› ' + srcdoc + ';' + src)
 
         var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
           srcValue = (src) ? src.split(';') : []
@@ -80,13 +80,13 @@ var app = {
         })
       }
     } else {
-      console.warn("Template element not found on the page.")
+      app.log('Template element not found on the page.')
       app.runAttributes()
     }
   },
 
   renderTemplates: function (options) {
-    console.log('Rendering templates...')
+    app.log('Rendering templates...')
     var currentPageBody = document.body.innerHTML
 
     for (var i = 0; i < options.data.length; i++) {
@@ -171,7 +171,7 @@ var app = {
   runAttributes: function (selector) {
     var selector = selector || 'html *',
       node = dom.get(selector, true)
-    console.log('Running attributes ' + selector + ' ...')
+    app.log('Running attributes ' + selector + ' ...')
 
     for (var i = 0; i < node.length; i++) {
       var element = node[i],
@@ -189,10 +189,10 @@ var app = {
             value = element.attributes[j].value
 
           if (app.library[name[0]] && name[1]) {
-            console.log('› library.' + name)
+            app.log('› library.' + name)
             app.library[name[0]][name[1]](element)
           } else if (dom[name]) {
-            console.log('› dom.' + name)
+            app.log('› dom.' + name)
             dom[name](element, value)
           }
         }
