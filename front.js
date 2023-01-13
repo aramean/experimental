@@ -17,7 +17,7 @@ var app = {
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   library: {},
   uniqueId: 0,
-  log: (config.debug) ? console.debug : Function.prototype,
+  log: (config.debug) ? console.log : Function.prototype,
 
   /**
    * Starting the application.
