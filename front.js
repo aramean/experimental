@@ -13,7 +13,9 @@ var config = {
 }
 
 var app = {
-  log: config.debug ? console.log : function () {},
+  log: function(a,b){ if ( config.debug == 1 ) console.log(a, b || "");},
+
+  
   isFrontpage: document.doctype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   library: {},
@@ -25,11 +27,11 @@ var app = {
    * @return {void}
    */
   start: function () {
-    this.log('Starting application...')
-    if (this.isFrontpage) {
-      this.loadDependencies(this.runAttributes)
+    app.log('Starting application...')
+    if (app.isFrontpage) {
+      app.loadDependencies(app.runAttributes)
     } else {
-      this.loadTemplates()
+      app.loadTemplates()
     }
   },
 
