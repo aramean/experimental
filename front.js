@@ -25,7 +25,7 @@ var app = {
    * @return {void}
    */
   start: function () {
-    app.log('Starting application...')
+    this.log('Starting application...')
     if (app.isFrontpage) {
       app.loadDependencies(app.runAttributes)
     } else {
