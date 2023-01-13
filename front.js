@@ -7,10 +7,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-var app = {
+var config = {
   debug: true,
   fileExtension: '.html',
+}
+
+var app = {
+  log: config.debug ? (typeof console.log.bind === 'undefined') ? Function.prototype.bind.call(console.log, console, '') : console.log.bind(console, '') : function () { },
   isFrontpage: document.doctype,
+  isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi)[0],
   library: {},
   uniqueId: 0,
 
@@ -20,7 +25,7 @@ var app = {
    * @return {void}
    */
   start: function () {
-    console.log('Starting application...')
+    app.log('Starting ' + this.isLocalNetwork + ' application...')
     if (app.isFrontpage) {
       app.loadDependencies(app.runAttributes)
     } else {
@@ -29,7 +34,7 @@ var app = {
   },
 
   loadDependencies: function (callback) {
-    console.log('Loading dependencies...')
+    app.log('Loading dependencies...')
     var scriptElement = dom.get('script[src*=front]'),
       values = scriptElement.getAttribute('lib'),
       value = (values) ? values.split(';') : 0,
@@ -42,7 +47,7 @@ var app = {
       script.src = 'lib/' + script.name + '.js'
       script.async = false
       script.onload = function () {
-        console.log('› ' + this.name)
+        app.log('› ' + this.name)
         loaded++
         if (loaded == total && callback) {
           callback()
@@ -72,7 +77,7 @@ var app = {
         app.xhr({
           url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
           onload: { module: 'app', func: 'renderTemplates', arg: options }
-        });
+        })
       }
     } else {
       console.warn("Template element not found on the page.")
@@ -124,7 +129,7 @@ var app = {
     for (var i = 0; i < total; i++) {
       (function (i, url) {
         var url = url[i],
-          urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? '' : app.fileExtension
+          urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? '' : config.fileExtension
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
