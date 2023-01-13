@@ -13,7 +13,7 @@ var config = {
 }
 
 var app = {
-  log: config.debug ? (console.log.bind) ? console.log.bind('', '%c※', 'color:#377') : Function.prototype.bind.call(console.log, console, '') : function () { },
+  log: config.debug ? console.log : function () {},
   isFrontpage: document.doctype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   library: {},
@@ -26,10 +26,10 @@ var app = {
    */
   start: function () {
     this.log('Starting application...')
-    if (app.isFrontpage) {
-      app.loadDependencies(app.runAttributes)
+    if (this.isFrontpage) {
+      this.loadDependencies(this.runAttributes)
     } else {
-      app.loadTemplates()
+      this.loadTemplates()
     }
   },
 
