@@ -7,17 +7,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+window.app = window.app || {}
+
 var config = {
   debug: true,
   fileExtension: '.html',
 }
 
-var app = {  
-  isFrontpage: document.doctype,
+var app = {
+  log: window.console && window.console.log ? window.console.log : function() {},
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
+  isFrontpage: document.doctype,
   library: {},
   uniqueId: 0,
-  log: (config.debug) ? console.log : Function.prototype,
 
   /**
    * Starting the application.
