@@ -311,7 +311,7 @@ var dom = {
   },
 
   /**
-   * Finds the first ancestor of the given element that is an anchor element (`<a>`).
+   * Find the first ancestor of the given element that is an anchor element (`<a>`).
    * 
    * @param {Element} element - The element to start the search from.
    * @return {Element|null} The found anchor element, or `null` if none was found.
