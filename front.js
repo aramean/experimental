@@ -8,17 +8,16 @@
  */
 
 var config = {
-  debug: false,
+  debug: true,
   fileExtension: '.html',
 }
-
-console.log = config.debug ? console.log : function() {}
 
 var app = {  
   isFrontpage: document.doctype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   library: {},
   uniqueId: 0,
+  log: (config.debug) ? console.debug : Function.prototype,
 
   /**
    * Starting the application.
@@ -26,7 +25,7 @@ var app = {
    * @return {void}
    */
   start: function () {
-    console.log('Starting application...')
+    app.log('Starting application...')
     if (app.isFrontpage) {
       app.loadDependencies(app.runAttributes)
     } else {
@@ -35,7 +34,7 @@ var app = {
   },
 
   loadDependencies: function (callback) {
-    console.log('Loading dependencies...')
+    app.log('Loading dependencies...')
     var scriptElement = dom.get('script[src*=front]'),
       values = scriptElement.getAttribute('lib'),
       value = (values) ? values.split(';') : 0,
@@ -48,7 +47,7 @@ var app = {
       script.src = 'lib/' + script.name + '.js'
       script.async = false
       script.onload = function () {
-        console.log('› ' + this.name)
+        app.log('› ' + this.name)
         loaded++
         if (loaded == total && callback) {
           callback()
@@ -62,7 +61,7 @@ var app = {
   },
 
   loadTemplates: function (options) {
-    console.log('Loading templates...')
+    app.log('Loading templates...')
     var options = (options) ? options : {}
     var element = dom.get('template')
     if (element) {
@@ -70,7 +69,7 @@ var app = {
         src = element.getAttribute('src')
 
       if (srcdoc || src) {
-        console.log('› ' + srcdoc + ';' + src)
+        app.log('› ' + srcdoc + ';' + src)
 
         var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
           srcValue = (src) ? src.split(';') : []
@@ -81,13 +80,13 @@ var app = {
         })
       }
     } else {
-      console.log('Template element not found on the page.')
+      app.log('Template element not found on the page.')
       app.runAttributes()
     }
   },
 
   renderTemplates: function (options) {
-    console.log('Rendering templates...')
+    app.log('Rendering templates...')
     var currentPageBody = document.body.innerHTML
 
     for (var i = 0; i < options.data.length; i++) {
@@ -172,7 +171,7 @@ var app = {
   runAttributes: function (selector) {
     var selector = selector || 'html *',
       node = dom.get(selector, true)
-    console.log('Running attributes ' + selector + ' ...')
+    app.log('Running attributes ' + selector + ' ...')
 
     for (var i = 0; i < node.length; i++) {
       var element = node[i],
@@ -190,10 +189,10 @@ var app = {
             value = element.attributes[j].value
 
           if (app.library[name[0]] && name[1]) {
-            console.log('› library.' + name)
+            app.log('› library.' + name)
             app.library[name[0]][name[1]](element)
           } else if (dom[name]) {
-            console.log('› dom.' + name)
+            app.log('› dom.' + name)
             dom[name](element, value)
           }
         }
