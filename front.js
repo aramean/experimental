@@ -8,11 +8,11 @@
  */
 
 var config = {
-  debug: true,
+  debug: false,
   fileExtension: '.html',
 }
 
-console.log = config.debug ? console.log : {}
+console.log = config.debug ? console.log : function() {}
 
 var app = {  
   isFrontpage: document.doctype,
@@ -26,7 +26,7 @@ var app = {
    * @return {void}
    */
   start: function () {
-    console.info('Starting application...')
+    console.log('Starting application...')
     if (app.isFrontpage) {
       app.loadDependencies(app.runAttributes)
     } else {
