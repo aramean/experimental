@@ -15,7 +15,7 @@ var config = {
 var app = {
   log: config.debug ? (typeof console.log.bind === 'undefined') ? Function.prototype.bind.call(console.log, console, '') : console.log.bind(console, '') : function () { },
   isFrontpage: document.doctype,
-  isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi)[0],
+  isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   library: {},
   uniqueId: 0,
 
