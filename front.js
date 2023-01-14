@@ -244,7 +244,7 @@ var dom = {
 
   setUniqueId: function (element) {
     dom.uniqueId++
-    element.id = 'uid' + dom.uniqueId
+    element.id = 'id' + dom.uniqueId
   },
 
   /**
