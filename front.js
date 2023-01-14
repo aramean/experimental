@@ -57,20 +57,25 @@ var app = {
   loadTemplates: function (options) {
     app.log('Loading templates...')
     var options = (options) ? options : {}
-    var element = dom.get('template'),
-      srcdoc = element.getAttribute('srcdoc'),
-      src = element.getAttribute('src')
+    var element = dom.get('template')
+    if (element) {
+      var srcdoc = element.getAttribute('srcdoc'),
+        src = element.getAttribute('src')
 
-    if (element && (srcdoc || src)) {
-      app.log('› ' + srcdoc + ';' + src)
+      if (srcdoc || src) {
+        app.log('› ' + srcdoc + ';' + src)
 
-      var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
-        srcValue = (src) ? src.split(';') : []
+        var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
+          srcValue = (src) ? src.split(';') : []
 
-      app.xhr({
-        url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-        onload: { module: 'app', func: 'renderTemplates', arg: options }
-      })
+        app.xhr({
+          url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
+          onload: { module: 'app', func: 'renderTemplates', arg: options }
+        })
+      }
+    } else {
+      app.log('Template element not found on the page.')
+      app.runAttributes()
     }
   },
 
