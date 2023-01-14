@@ -231,7 +231,7 @@ var dom = {
    */
   get: function (selector, list) {
     var element = document.querySelectorAll(selector)
-    return element.length == 0 ? null : (element.length == 1 && !list ? element[0] : element)
+    return element.length == 0 ? '' : (element.length == 1 && !list ? element[0] : element)
   },
 
   /**
