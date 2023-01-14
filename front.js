@@ -171,10 +171,7 @@ var app = {
         run = (element.attributes.run) ? element.attributes.run.value : '',
         include = (element.attributes.include) ? element.attributes.include.value : ''
 
-      if (include) {
-        dom.uniqueId++
-        element.id = 'i' + dom.uniqueId
-      }
+      if (include) dom.setUniqueId(element)
 
       if (run !== 'false') {
         for (var j = 0; j < element.attributes.length; j++) {
@@ -243,6 +240,11 @@ var dom = {
    */
   setDisplay: function (action) {
     document.documentElement.style.display = action
+  },
+
+  setUniqueId: function (element) {
+    dom.uniqueId++
+    element.id = 'uid' + dom.uniqueId
   },
 
   /**
