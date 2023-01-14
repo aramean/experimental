@@ -13,10 +13,10 @@ var config = {
 }
 
 var app = {
+  library: {},
   log: (config.debug) ? Function.prototype.bind.call(console.log, console, '❚') : Function.prototype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   isFrontpage: document.doctype,
-  library: {},
 
   /**
    * Start the application.
@@ -120,7 +120,7 @@ var app = {
   },
 
   /**
-   * Create a XHR request.
+   * Create XHR requests and update the DOM based on the responses.
    * @function
    */
   xhr: function (options) {
