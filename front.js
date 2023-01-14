@@ -17,7 +17,6 @@ var app = {
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   isFrontpage: document.doctype,
   library: {},
-  uniqueId: 0,
 
   /**
    * Starting the application.
@@ -173,8 +172,8 @@ var app = {
         include = (element.attributes.include) ? element.attributes.include.value : ''
 
       if (include) {
-        app.uniqueId++
-        element.id = 'i' + app.uniqueId
+        dom.uniqueId++
+        element.id = 'i' + dom.uniqueId
       }
 
       if (run !== 'false') {
@@ -196,6 +195,7 @@ var app = {
 }
 
 var dom = {
+  uniqueId: 0,
 
   /**
    * Parse a string of HTML and return a DOM node.
