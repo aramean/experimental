@@ -19,7 +19,7 @@ var app = {
   library: {},
 
   /**
-   * Starting the application.
+   * Start the application.
    * @function
    * @return {void}
    */
