@@ -21,13 +21,16 @@ var app = {
   /**
    * Start the application.
    * @function
-   * @return {void}
    */
   start: function () {
     app.log('Starting application...')
     app.isFrontpage ? app.loadDependencies(app.runAttributes) : app.loadTemplates()
   },
 
+  /**
+   * Load dependencies.
+   * @function
+   */
   loadDependencies: function (callback) {
     app.log('Loading dependencies...')
     var scriptElement = dom.get('script[src*=front]'),
@@ -53,6 +56,10 @@ var app = {
     if (!total && callback) callback()
   },
 
+  /**
+   * Load templates.
+   * @function
+   */
   loadTemplates: function (options) {
     app.log('Loading templates...')
     var options = (options) ? options : {}
@@ -78,6 +85,10 @@ var app = {
     }
   },
 
+  /**
+   * Render templates.
+   * @function
+   */
   renderTemplates: function (options) {
     app.log('Rendering templates...')
     var currentPageBody = document.body.innerHTML
@@ -108,6 +119,10 @@ var app = {
     if (options.arg.runAttributes) app.runAttributes()
   },
 
+  /**
+   * Create a XHR request.
+   * @function
+   */
   xhr: function (options) {
     var responses = [],
       loaded = 0,
@@ -161,6 +176,10 @@ var app = {
     }
   },
 
+  /**
+   * Run Front Text Markup Language.
+   * @function
+   */
   runAttributes: function (selector) {
     var selector = selector || 'html *',
       node = dom.get(selector, true)
@@ -236,12 +255,16 @@ var dom = {
    * 
    * @function
    * @param {string} action - The value to set for the display property. Valid values include 'none', 'block', 'inline', and others.
-   * @return {void}
    */
   setDisplay: function (action) {
     document.documentElement.style.display = action
   },
 
+  /**
+   * Set a unique id for the given element.
+   * @function
+   * @param {HTMLElement} element - The element to set the unique id on.
+   */
   setUniqueId: function (element) {
     dom.uniqueId++
     element.id = 'id' + dom.uniqueId
@@ -254,7 +277,6 @@ var dom = {
    * @param {Object} object - The element object to modify.
    * @param {string} value - The value to set as the content of the element.
    * @param {boolean} [replace=false] - If true, remove all HTML tags from the value before setting it as the content.
-   * @return {void}
   */
   set: function (object, value, replace) {
     var target = (object instanceof Object) ? object : dom.get(object)
@@ -289,7 +311,6 @@ var dom = {
    * @function
    * @param {Object} object - The element object to modify.
    * @param {boolean} [first=false] - If true, only convert the first character to uppercase. Otherwise, convert the entire contents to uppercase.
-   * @return {void} 
    */
   uppercase: function (object, first) {
     object.innerHTML = (!first || first === 'true') ? object.innerHTML.toUpperCase() : object.innerHTML.charAt(0).toUpperCase() + object.innerHTML.slice(1)
@@ -300,7 +321,6 @@ var dom = {
    * 
    * @function
    * @param {Object} object - The element object to modify.
-   * @return {void}
    */
   lowercase: function (object) {
     object.innerHTML = object.innerHTML.toLowerCase()
@@ -325,7 +345,6 @@ var dom = {
    * Load the content of an external file and insert it into the DOM.
    * @function
    * @param {Object} element - The element to which the external content will be added.
-   * @return {void}
    */
   include: function (element) {
     app.xhr({
