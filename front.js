@@ -26,11 +26,7 @@ var app = {
    */
   start: function () {
     app.log('Starting application...')
-    if (app.isFrontpage) {
-      app.loadDependencies(app.runAttributes)
-    } else {
-      app.loadTemplates()
-    }
+    app.isFrontpage ? app.loadDependencies(app.runAttributes) : app.loadTemplates()
   },
 
   loadDependencies: function (callback) {
@@ -49,9 +45,7 @@ var app = {
       script.onload = function () {
         app.log('› ' + this.name)
         loaded++
-        if (loaded == total && callback) {
-          callback()
-        }
+        if (total == loaded && callback) callback()
       }
 
       document.head.appendChild(script)
@@ -63,25 +57,20 @@ var app = {
   loadTemplates: function (options) {
     app.log('Loading templates...')
     var options = (options) ? options : {}
-    var element = dom.get('template')
-    if (element) {
-      var srcdoc = element.getAttribute('srcdoc'),
-        src = element.getAttribute('src')
+    var element = dom.get('template'),
+      srcdoc = element.getAttribute('srcdoc'),
+      src = element.getAttribute('src')
 
-      if (srcdoc || src) {
-        app.log('› ' + srcdoc + ';' + src)
+    if (element && (srcdoc || src)) {
+      app.log('› ' + srcdoc + ';' + src)
 
-        var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
-          srcValue = (src) ? src.split(';') : []
+      var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
+        srcValue = (src) ? src.split(';') : []
 
-        app.xhr({
-          url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-          onload: { module: 'app', func: 'renderTemplates', arg: options }
-        })
-      }
-    } else {
-      app.log('Template element not found on the page.')
-      app.runAttributes()
+      app.xhr({
+        url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
+        onload: { module: 'app', func: 'renderTemplates', arg: options }
+      })
     }
   },
 
