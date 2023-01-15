@@ -158,9 +158,7 @@ var app = {
                 if (onload.func === 'renderTemplates') {
                   window[onload.module][onload.func]({ data: responses, arg: onload.arg })
                 } else {
-                  if (target) {
-                    dom.set(target, xhr.response)
-                  }
+                  if (target) dom.set(target, xhr.response)
                   for (var j = 0; j < onload.length; j++) {
                     window[onload[j].module][onload[j].func](onload[j].arg)
                   }
