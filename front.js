@@ -14,7 +14,7 @@ var config = {
 
 var app = {
   library: {},
-  log: (config.debug) ? Function.prototype.bind.call(console.log, console, '❚') : Function.prototype,
+  log: config.debug ? Function.prototype.bind.call(console.log, console, '❚') : Function.prototype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   isFrontpage: document.doctype,
 
@@ -35,7 +35,7 @@ var app = {
     app.log('Loading dependencies...')
     var scriptElement = dom.get('script[src*=front]'),
       values = scriptElement.getAttribute('lib'),
-      value = (values) ? values.split(';') : 0,
+      value = values ? values.split(';') : 0,
       total = value.length,
       loaded = 0
 
@@ -64,14 +64,14 @@ var app = {
     app.log('Loading templates...')
     var options = (options) ? options : {},
       element = dom.get('template'),
-      srcdoc = element && element.getAttribute('srcdoc'),
-      src = element && element.getAttribute('src')
+      srcdoc = !element.length ? element.getAttribute('srcdoc') : '',
+      src = !element.length ? element.getAttribute('src') : ''
 
     if (srcdoc || src) {
       app.log('› ' + srcdoc + ';' + src)
 
-      var srcdocValue = (srcdoc) ? srcdoc.split(';') : [],
-        srcValue = (src) ? src.split(';') : []
+      var srcdocValue = srcdoc ? srcdoc.split(';') : [],
+        srcValue = src ? src.split(';') : []
 
       app.xhr({
         url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
@@ -123,7 +123,7 @@ var app = {
   xhr: function (options) {
     var responses = [],
       loaded = 0,
-      url = (options.url instanceof Array) ? options.url : [options.url],
+      url = options.url instanceof Array ? options.url : [options.url],
       total = url.length,
       target = options.target ? dom.get(options.target) : options.element,
       onload = options.onload,
@@ -134,7 +134,7 @@ var app = {
     for (var i = 0; i < total; i++) {
       (function (i, url) {
         var url = url[i],
-          urlExtension = (url.indexOf('.') !== -1 || options.urlExtension === false) ? '' : config.fileExtension
+          urlExtension = url.indexOf('.') !== -1 || options.urlExtension === false ? '' : config.fileExtension
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
@@ -158,7 +158,9 @@ var app = {
                 if (onload.func === 'renderTemplates') {
                   window[onload.module][onload.func]({ data: responses, arg: onload.arg })
                 } else {
-                  if (target) dom.set(target, xhr.response)
+                  if (target) {
+                    dom.set(target, xhr.response)
+                  }
                   for (var j = 0; j < onload.length; j++) {
                     window[onload[j].module][onload[j].func](onload[j].arg)
                   }
@@ -166,7 +168,7 @@ var app = {
               }
             }, timeout)
           } else {
-            // Handle any errors here
+            if (target) dom.set(target, xhr.statusText)
           }
         }
       })(i, url)
@@ -174,8 +176,9 @@ var app = {
   },
 
   /**
-   * Run Front Text Markup Language.
+   * Run Front Text Markup Language in all elements matching a given selector.
    * @function
+   * @param {string} [selector='html *'] - A CSS selector for the elements to be processed.
    */
   runAttributes: function (selector) {
     var selector = selector || 'html *',
@@ -184,8 +187,8 @@ var app = {
 
     for (var i = 0; i < node.length; i++) {
       var element = node[i],
-        run = (element.attributes.run) ? element.attributes.run.value : '',
-        include = (element.attributes.include) ? element.attributes.include.value : ''
+        run = element.attributes.run ? element.attributes.run.value : '',
+        include = element.attributes.include ? element.attributes.include.value : ''
 
       if (include) dom.setUniqueId(element)
 
@@ -231,7 +234,7 @@ var dom = {
    */
   get: function (selector, list) {
     var element = document.querySelectorAll(selector)
-    return element.length == 0 ? '' : (element.length == 1 && !list ? element[0] : element)
+    return element.length == 0 ? '' : element.length == 1 && !list ? element[0] : element
   },
 
   /**
@@ -276,10 +279,10 @@ var dom = {
    * @param {boolean} [replace=false] - If true, remove all HTML tags from the value before setting it as the content.
   */
   set: function (object, value, replace) {
-    var target = (object instanceof Object) ? object : dom.get(object)
+    var target = object instanceof Object ? object : dom.get(object)
     tag = object.localName,
       type = object.type,
-      value = (replace) ? value.replace(/<[^>]+>/g, '') : value
+      value = replace ? value.replace(/<[^>]+>/g, '') : value
 
     switch (tag) {
       case 'input':
@@ -310,7 +313,7 @@ var dom = {
    * @param {boolean} [first=false] - If true, only convert the first character to uppercase. Otherwise, convert the entire contents to uppercase.
    */
   uppercase: function (object, first) {
-    object.innerHTML = (!first || first === 'true') ? object.innerHTML.toUpperCase() : object.innerHTML.charAt(0).toUpperCase() + object.innerHTML.slice(1)
+    object.innerHTML = !first || first === 'true' ? object.innerHTML.toUpperCase() : object.innerHTML.charAt(0).toUpperCase() + object.innerHTML.slice(1)
   },
 
   /**
@@ -331,9 +334,8 @@ var dom = {
    */
   getTagLink: function (element) {
     for (var current = element; current; current = current.parentNode) {
-      if (current.localName === 'a') {
+      if (current.localName === 'a')
         return current
-      }
     }
     return null
   },
