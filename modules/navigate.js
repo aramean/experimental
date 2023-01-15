@@ -1,6 +1,6 @@
 'use strict'
 
-app.library.navigate = {
+app.module.navigate = {
   open: function (event) {
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
@@ -20,7 +20,8 @@ app.library.navigate = {
     var state = (event.state) ? event.state : {
       'href': window.location.href,
       'target': 'html',
-      'extension': false
+      'extension': false,
+      'arg': { disableSrcdoc: true, runAttributes: true }
     }
     this.load(state)
   },

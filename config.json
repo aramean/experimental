@@ -1,4 +1,9 @@
 {
   "debug": true,
-  "fileExtension": ".html"
+  "fileExtension": ".html",
+  "library": {
+    "navigate": {
+      "defaultTarget": "main"
+    }
+  }
 }

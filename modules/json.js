@@ -1,6 +1,6 @@
 'use strict'
 
-app.library.json = {
+app.module.json = {
   source: function (element) {
     var attr = element.attributes
     app.xhr({

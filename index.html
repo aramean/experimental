@@ -5,12 +5,13 @@
   <title>Front</title>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
-  <script src="front.js" lib="file2;json;navigate"></script>
+  <script src="front.js" module="file2;json;navigate" conf-globalize="folder:assets/json/globalize" conf-navigate="" conf-json="" conf="debug:true"></script>
 </head>
 
 <body>
   <header class="h5 bcblue white white- p1 tac">
     <a href="page1.html">Page 1</a> <a href="page2.html">Page 2 <a href="page3.html">Page 3</a>
+    <a href="pagejson.html">Page Json</a>
       <div id="jsonDiv" json-source="json.json" target="#newheader" timeout="10000"
         progresscontent="<h1>Loading ...</h1>"></div>
       <div class="fr w100" id="newheader"></div>

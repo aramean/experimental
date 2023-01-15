@@ -13,7 +13,8 @@ var config = {
 }
 
 var app = {
-  library: {},
+  module: {},
+  plugin: {},
   log: config.debug ? Function.prototype.bind.call(console.log, console, '❚') : Function.prototype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   isFrontpage: document.doctype,
@@ -24,17 +25,24 @@ var app = {
    */
   start: function () {
     app.log('Starting application...')
-    app.isFrontpage ? app.loadDependencies(app.runAttributes) : app.loadTemplates()
+    app.loadConfiguration()
+    app.isFrontpage ? app.loadModules(app.runAttributes) : app.loadTemplates()
+  },
+
+  loadConfiguration: function () {
+    app.xhr({
+      url: ['assets/json/globalize/en.json', 'assets/json/globalize/sv.json']
+    })
   },
 
   /**
-   * Load dependencies.
+   * Load modules.
    * @function
    */
-  loadDependencies: function (callback) {
-    app.log('Loading dependencies...')
+  loadModules: function (callback) {
+    app.log('Loading modules...')
     var scriptElement = dom.get('script[src*=front]'),
-      values = scriptElement.getAttribute('lib'),
+      values = scriptElement.getAttribute('module'),
       value = values ? values.split(';') : 0,
       total = value.length,
       loaded = 0
@@ -42,7 +50,7 @@ var app = {
     for (var i = 0; i < total; i++) {
       var script = document.createElement('script')
       script.name = value[i]
-      script.src = 'lib/' + script.name + '.js'
+      script.src = 'modules/' + script.name + '.js'
       script.async = false
       script.onload = function () {
         app.log('› ' + this.name)
@@ -97,7 +105,7 @@ var app = {
       if (responsePageContent.doctype) {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
-        app.loadDependencies(app.runAttributes)
+        app.loadModules(app.runAttributes)
       } else {
 
         var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML),
@@ -134,7 +142,7 @@ var app = {
     for (var i = 0; i < total; i++) {
       (function (i, url) {
         var url = url[i],
-          urlExtension = url.indexOf('.') !== -1 || options.urlExtension === false ? '' : config.fileExtension
+          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : config.fileExtension
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
@@ -195,9 +203,9 @@ var app = {
           var name = element.attributes[j].name.split('-'),
             value = element.attributes[j].value
 
-          if (app.library[name[0]] && name[1]) {
-            app.log('› library.' + name)
-            app.library[name[0]][name[1]](element)
+          if (app.module[name[0]] && name[1]) {
+            app.log('› module.' + name)
+            app.module[name[0]][name[1]](element)
           } else if (dom[name]) {
             app.log('› dom.' + name)
             dom[name](element, value)
@@ -357,9 +365,9 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 window.addEventListener('popstate', function (event) {
-  if (app.library.navigate) app.library.navigate.pop(event)
+  if (app.module.navigate) app.module.navigate.pop(event)
 })
 
 document.addEventListener('click', function (event) {
-  if (app.library.navigate) app.library.navigate.open(event)
+  if (app.module.navigate) app.module.navigate.open(event)
 })
