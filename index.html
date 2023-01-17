@@ -5,14 +5,14 @@
   <title>Front</title>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
-  <script src="front.js" module="file2;json;navigate" conf-globalize="folder:assets/json/globalize" conf-navigate="" conf-json="" conf="debug:true"></script>
+  <script src="front.js" module="globalize;file2;json;navigate" globalize-conf="folder:assets/json/globalize;language:en" conf="debug:true"></script>
 </head>
 
 <body>
   <header class="h5 bcblue white white- p1 tac">
     <a href="page1.html">Page 1</a> <a href="page2.html">Page 2 <a href="page3.html">Page 3</a>
     <a href="pagejson.html">Page Json</a>
-      <div id="jsonDiv" json-source="json.json" target="#newheader" timeout="10000"
+      <div id="jsonDiv" test="hej" json-src="json.json" target="#newheader" timeout="10000"
         progresscontent="<h1>Loading ...</h1>"></div>
       <div class="fr w100" id="newheader"></div>
   </header>
@@ -28,13 +28,13 @@
       <span uppercase>uppercase</span>
     </div>
 
-    <div id="jsonDiv" json-source="json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
+    <div id="jsonDiv" json-src="json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
     </div>
 
-    <div id="jsonDiv2" json-source="json2.json" target="#test2" timeout="2000" progresscontent="Loading 2 ...">
+    <div id="jsonDiv2" json-src="json2.json" target="#test2" timeout="2000" progresscontent="Loading 2 ...">
     </div>
 
-    <div id="jsonDiv3" run="false" json-source="json3.json" target="#test3" timeout="3000"
+    <div id="jsonDiv3" run="false" json-src="json3.json" target="#test3" timeout="3000"
       progresscontent="Loading 3 ..." errorcontent="<span class='red'>Error. Try again</span>">
     </div>
 

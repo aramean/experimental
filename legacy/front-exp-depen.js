@@ -7,15 +7,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+var config = {
+  debug: true,
+  fileExtension: '.html',
+}
+
 var app = {
   module: {},
   plugin: {},
-  log: function () {
-    if (app.debug) Function.prototype.bind.call(console.log, console, '❚').apply(console, arguments)
-  },
-  error: Function.prototype.bind.call(console.error, '', 'Syntax not found:'),
-  language: document.documentElement.lang,
-  title: document.title,
+  dependency: {},
+  log: config.debug ? Function.prototype.bind.call(console.log, console, '❚') : Function.prototype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   isFrontpage: document.doctype,
 
@@ -24,46 +25,34 @@ var app = {
    * @function
    */
   start: function () {
-    app.currentScript = dom.get('script[src*=front]')
-    app.debug = true
-    app.language = 'sv'
-    app.fileExtension = '.html'
-
     app.log('Starting application...')
-    app.isFrontpage ? app.loadExtensions(app.runAttributes) : app.loadTemplates()
-  },
-
-  getConfig: function () {
-    var attr = app.currentScript ? app.currentScript.getAttribute('conf') : ''
-    return dom.parseAttribute(attr)
-  },
-
-  parseConfig: function (module, standard, element) {
-    var value = element ? element.getAttribute(module + '-conf') : '',
-      override = value ? dom.parseAttribute(value) : {},
-      final = {}
-
-    for (var prop in standard) {
-      final[prop] = override.hasOwnProperty(prop) ? override[prop] : standard[prop]
-    }
-    return final
+    app.isFrontpage ? app.loadModules(app.runAttributes) : app.loadTemplates()
   },
 
   /**
-   * Load extensions.
+   * Load dependencies.
    * @function
    */
-  loadExtensions: function (callback) {
+  loadDependencies: function () {
+    console.log('wee')
+    app.xhr({
+      url: ['assets/json/globalize/en.json', 'assets/json/globalize/sv.json'],
+      onload: [{ module: 'app', func: 'start' }]
+    })
+  },
+
+  /**
+   * Load modules.
+   * @function
+   */
+  loadModules: function (callback) {
     app.log('Loading modules...')
     var scriptElement = dom.get('script[src*=front]'),
       values = scriptElement.getAttribute('module'),
       value = values ? values.split(';') : 0,
-      conf = scriptElement.getAttribute('conf'),
-      confParse = conf ? dom.parseAttribute(conf) : '',
       total = value.length,
       loaded = 0
 
-    console.dir(confParse)
     for (var i = 0; i < total; i++) {
       var script = document.createElement('script')
       script.name = value[i]
@@ -72,10 +61,12 @@ var app = {
       script.onload = function () {
         app.log('› ' + this.name)
         loaded++
-        if (app.module[this.name]._autoload) app.module[this.name]._autoload(scriptElement)
         if (total == loaded && callback) callback()
       }
 
+
+    console.dir(app.dependency)
+    
       document.head.appendChild(script)
     }
 
@@ -123,8 +114,7 @@ var app = {
       if (responsePageContent.doctype) {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
-        //app.language = responsePageContent.documentElement.lang
-        app.loadExtensions(app.runAttributes)
+        app.loadModules(app.runAttributes)
       } else {
 
         var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML),
@@ -161,7 +151,7 @@ var app = {
     for (var i = 0; i < total; i++) {
       (function (i, url) {
         var url = url[i],
-          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension
+          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : config.fileExtension
 
         var xhr = new XMLHttpRequest()
         xhr.open('GET', url + urlExtension)
@@ -224,7 +214,7 @@ var app = {
 
           if (app.module[name[0]] && name[1]) {
             app.log('› module.' + name)
-            app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.error(name[0] + '-' + name[1])
+            app.module[name[0]][name[1]](element)
           } else if (dom[name]) {
             app.log('› dom.' + name)
             dom[name](element, value)
@@ -247,20 +237,6 @@ var dom = {
    */
   parse: function (string) {
     return new DOMParser().parseFromString(string, 'text/html')
-  },
-
-  parseAttribute: function (string) {
-    var pairs = string ? string.split(';') : '',
-      object = {}
-
-    for (var i = 0; i < pairs.length; i++) {
-      var keyValue = pairs[i].split(':'),
-        key = keyValue[0],
-        value = keyValue[1]
-
-      object[key] = value
-    }
-    return object
   },
 
   /**
@@ -394,7 +370,7 @@ var dom = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  app.start()
+  app.loadDependencies()
 })
 
 window.addEventListener('popstate', function (event) {
