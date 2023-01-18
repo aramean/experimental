@@ -1,6 +1,6 @@
 <script src="front.js"></script>
 <template srcdoc="index" src="template_page1"></template>
-<title>Page 1</title>
+<title globalize-get="update">Page 1</title>
 
 <body>
   <h1>Page 1</h1>
@@ -11,4 +11,8 @@
   <div id="jsonDiv" json-src="json.json" target="#newdata"></div>
 
   <div id="newdata"></div>
+
+  <span globalize-get="test"></span>
+  <span globalize-get="page"></span>
+  
 </body>

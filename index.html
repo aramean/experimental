@@ -5,7 +5,7 @@
   <title>Front</title>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
-  <script src="front.js" module="globalize;file2;json;navigate" globalize-conf="folder:assets/json/globalize;language:en" conf="debug:true"></script>
+  <script src="front.js" module="globalize;file2;json;navigate" globalize-conf="folder:assets/json/globalize;language:sv" navigate-conf="target:main" conf="debug:true"></script>
 </head>
 
 <body>
@@ -27,6 +27,8 @@
     <div>
       <span uppercase>uppercase</span>
     </div>
+
+    <span globalize-get="page"></span>
 
     <div id="jsonDiv" json-src="json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
     </div>

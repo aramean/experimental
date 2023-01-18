@@ -1,42 +1,51 @@
 'use strict'
 
 app.module.navigate = {
-  conf: {
-    target: 'main',
-    currentHref: window.location.href
+
+  _conf: { currentHref: window.location.href },
+
+  _autoload: function (scriptElement, options) {
+    this._conf = this.conf(scriptElement)
   },
 
-  open: function (event) {
+  _open: function (event) {
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
       event.preventDefault()
-      if (link.href !== this.conf.currentHref) {
+      if (link.href !== this._conf.currentHref) {
         history.pushState({
           'href': link.pathname,
           'target': link.target,
           'arg': { disableSrcdoc: true, runAttributes: true }
         }, 'Titel', link.href)
       }
-      this.load(history.state)
+      this._load(history.state)
     }
   },
 
-  pop: function (event) {
+  _pop: function (event) {
     var state = (event.state) ? event.state : {
-      'href': this.config.currentHref,
+      'href': this._conf.currentHref,
       'target': 'html',
       'extension': false,
       'arg': { disableSrcdoc: true, runAttributes: true }
     }
-    this.load(state)
+    this._load(state)
   },
 
-  load: function (state) {
+  _load: function (state) {
     app.xhr({
-      target: (state.target && state.target[0] !== '_') ? state.target : this.conf.target,
+      target: (state.target && state.target[0] !== '_') ? state.target : this._conf.target,
       url: state.href,
       urlExtension: state.extension,
       onload: [{ module: 'app', func: 'loadTemplates', arg: state.arg }]
     })
-  }
+  },
+
+  conf: function (element) {
+    var standard = {
+      target: 'main'
+    }
+    return app.parseConfig('navigate', standard, element)
+  },
 }

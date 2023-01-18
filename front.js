@@ -8,6 +8,7 @@
  */
 
 var app = {
+  test: null,
   module: {},
   plugin: {},
   log: function () {
@@ -16,30 +17,37 @@ var app = {
   error: Function.prototype.bind.call(console.error, '', 'Syntax not found:'),
   language: document.documentElement.lang,
   title: document.title,
-  isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   isFrontpage: document.doctype,
+  isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
 
   /**
    * Start the application.
    * @function
    */
   start: function () {
-    app.currentScript = dom.get('script[src*=front]')
     app.debug = true
-    app.language = 'sv'
     app.fileExtension = '.html'
+
+    /*var confs = {}
+    for (var i = 0; i < attributes.length; i++) {
+      var name = attributes[i].name;
+      if(name.endsWith("-conf")){
+        confs[name] = attributes[i].value;
+      }*/
 
     app.log('Starting application...')
     app.isFrontpage ? app.loadExtensions(app.runAttributes) : app.loadTemplates()
   },
 
   getConfig: function () {
-    var attr = app.currentScript ? app.currentScript.getAttribute('conf') : ''
+    var currentScript = dom.get('script[src*=front]')
+    var attr = currentScript ? currentScript.getAttribute('conf') : ''
     return dom.parseAttribute(attr)
   },
 
   parseConfig: function (module, standard, element) {
-    var value = element ? element.getAttribute(module + '-conf') : '',
+    var attributeName = module ? module + '-' : ''
+    value = element ? element.getAttribute(attributeName + 'conf') : '',
       override = value ? dom.parseAttribute(value) : {},
       final = {}
 
@@ -58,12 +66,20 @@ var app = {
     var scriptElement = dom.get('script[src*=front]'),
       values = scriptElement.getAttribute('module'),
       value = values ? values.split(';') : 0,
-      conf = scriptElement.getAttribute('conf'),
-      confParse = conf ? dom.parseAttribute(conf) : '',
       total = value.length,
       loaded = 0
 
-    console.dir(confParse)
+    /*var attributes = scriptElement.attributes;
+    var confs = {}
+    for (var i = 0; i < attributes.length; i++) {
+      var name = attributes[i].name;
+      if (name.match(/conf$/)) {
+        confs[name] = attributes[i].value;
+      }
+    }
+
+    console.error(confs)*/
+
     for (var i = 0; i < total; i++) {
       var script = document.createElement('script')
       script.name = value[i]
@@ -72,8 +88,13 @@ var app = {
       script.onload = function () {
         app.log('› ' + this.name)
         loaded++
-        if (app.module[this.name]._autoload) app.module[this.name]._autoload(scriptElement)
-        if (total == loaded && callback) callback()
+        if (app.module[this.name]._autoload) {
+          app.module[this.name]._autoload(scriptElement,
+            {
+              element: scriptElement,
+              onload: this.total == this.loaded ? [{ module: 'app', func: 'runAttributes' }] : ''
+            })
+        }
       }
 
       document.head.appendChild(script)
@@ -123,7 +144,7 @@ var app = {
       if (responsePageContent.doctype) {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
-        //app.language = responsePageContent.documentElement.lang
+        app.language = responsePageContent.documentElement.lang
         app.loadExtensions(app.runAttributes)
       } else {
 
@@ -156,7 +177,8 @@ var app = {
       onload = options.onload,
       timeout = onload ? options.onload.timeout || 0 : 0,
       onprogress = options.onprogress,
-      onerror = options.onerror
+      onerror = options.onerror,
+      response = options.response
 
     for (var i = 0; i < total; i++) {
       (function (i, url) {
@@ -181,11 +203,13 @@ var app = {
               responses[i] = xhr.responseText
               loaded++
 
+              if (target) dom.set(target, xhr.response)
+              if (response) app.module[response].test = xhr.responseText
+
               if (onload && loaded === total) {
                 if (onload.func === 'renderTemplates') {
                   window[onload.module][onload.func]({ data: responses, arg: onload.arg })
                 } else {
-                  if (target) dom.set(target, xhr.response)
                   for (var j = 0; j < onload.length; j++) {
                     window[onload[j].module][onload[j].func](onload[j].arg)
                   }
@@ -398,9 +422,9 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 window.addEventListener('popstate', function (event) {
-  if (app.module.navigate) app.module.navigate.pop(event)
+  if (app.module.navigate) app.module.navigate._pop(event)
 })
 
 document.addEventListener('click', function (event) {
-  if (app.module.navigate) app.module.navigate.open(event)
+  if (app.module.navigate) app.module.navigate._open(event)
 })
