@@ -204,7 +204,7 @@ var app = {
               loaded++
 
               if (target) dom.set(target, xhr.response)
-              if (response) app.module[response].test = xhr.responseText
+              if (response) app.module[response].test = JSON.parse(xhr.responseText)
 
               if (onload && loaded === total) {
                 if (onload.func === 'renderTemplates') {
@@ -345,7 +345,7 @@ var dom = {
     var target = object instanceof Object ? object : dom.get(object)
     tag = object.localName,
       type = object.type,
-      value = replace ? value.replace(/<[^>]+>/g, '') : value
+      value = replace ? value.replace(/<[^>]+>/g, '') : value || '?'
 
     switch (tag) {
       case 'input':

@@ -18,8 +18,9 @@ app.module.globalize = {
     //console.dir(response)
   },
 
-  get: function () {
-    console.warn(this.test)
+  get: function (element) {
+    var value = element.getAttribute('globalize-get')
+    dom.set(element, this.test.translations[value])
   },
 
   conf: function (element) {
