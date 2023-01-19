@@ -13,15 +13,13 @@
 var app = {
   module: {},
   plugin: {},
-
-  getConsoleMethod: function (property) {
-    return this.debug ? console[property].bind(console, '❚') : function () { }
-  },
   log: {
-    info: function () { return app.getConsoleMethod('info') },
-    error: function () { return app.getConsoleMethod('error') }
+    info: function () { return app.getConsoleMethod('info', '❚') },
+    error: function () { return app.getConsoleMethod('error', '') }
   },
-  error: Function.prototype.bind.call(console.error, '', 'Syntax not found:'),
+  getConsoleMethod: function (property, sign) {
+    return this.debug ? console[property].bind(console, sign) : function () { }
+  },
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
@@ -34,8 +32,6 @@ var app = {
   start: function () {
     app.debug = true
     app.fileExtension = '.html'
-
-
 
     /*var confs = {}
     for (var i = 0; i < attributes.length; i++) {
@@ -257,7 +253,7 @@ var app = {
 
           if (app.module[name[0]] && name[1]) {
             app.log.info()('› module.' + name)
-            app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(name[0] + '-' + name[1])
+            app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error()(name[0] + '-' + name[1])
           } else if (dom[name]) {
             app.log.info()('› dom.' + name)
             dom[name](element, value)
