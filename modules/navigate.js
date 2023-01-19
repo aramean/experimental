@@ -2,8 +2,6 @@
 
 app.module.navigate = {
 
-  _conf: { currentHref: window.location.href },
-
   _autoload: function (scriptElement, options) {
     this._conf = this.conf(scriptElement)
   },
@@ -12,7 +10,7 @@ app.module.navigate = {
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
       event.preventDefault()
-      if (link.href !== this._conf.currentHref) {
+      if (link.href !== window.location.href) {
         history.pushState({
           'href': link.pathname,
           'target': link.target,
@@ -25,7 +23,7 @@ app.module.navigate = {
 
   _pop: function (event) {
     var state = (event.state) ? event.state : {
-      'href': this._conf.currentHref,
+      'href': window.location.href,
       'target': 'html',
       'extension': false,
       'arg': { disableSrcdoc: true, runAttributes: true }
