@@ -7,11 +7,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+
+
+
 var app = {
   module: {},
   plugin: {},
-  log: function () {
-    if (app.debug) Function.prototype.bind.call(console.log, console, '❚').apply(console, arguments)
+  log: {
+    get info() { return app.getConsoleMethod('info') },
+    get error() { return app.getConsoleMethod('error') }
+  },
+  getConsoleMethod: function (property) {
+    return this.debug ? console[property].bind(console, '❚') : function () { }
   },
   error: Function.prototype.bind.call(console.error, '', 'Syntax not found:'),
   language: document.documentElement.lang,
@@ -27,6 +34,8 @@ var app = {
     app.debug = true
     app.fileExtension = '.html'
 
+
+
     /*var confs = {}
     for (var i = 0; i < attributes.length; i++) {
       var name = attributes[i].name;
@@ -34,7 +43,7 @@ var app = {
         confs[name] = attributes[i].value;
       }*/
 
-    app.log('Starting application...')
+    app.log.info('Starting application...')
     app.isFrontpage ? app.loadExtensions(app.runAttributes) : app.loadTemplates()
   },
 
@@ -61,7 +70,7 @@ var app = {
    * @function
    */
   loadExtensions: function (callback) {
-    app.log('Loading modules...')
+    app.log.info('Loading modules...')
     var scriptElement = dom.get('script[src*=front]'),
       values = scriptElement.getAttribute('module'),
       value = values ? values.split(';') : 0,
@@ -85,7 +94,7 @@ var app = {
       script.src = 'modules/' + script.name + '.js'
       script.async = false
       script.onload = function () {
-        app.log('› ' + this.name)
+        app.log.info('› ' + this.name)
         loaded++
         if (app.module[this.name]._autoload) {
           app.module[this.name]._autoload(scriptElement,
@@ -107,14 +116,14 @@ var app = {
    * @function
    */
   loadTemplates: function (options) {
-    app.log('Loading templates...')
+    app.log.info('Loading templates...')
     var options = (options) ? options : {},
       element = dom.get('template'),
       srcdoc = !element.length ? element.getAttribute('srcdoc') : '',
       src = !element.length ? element.getAttribute('src') : ''
 
     if (srcdoc || src) {
-      app.log('› ' + srcdoc + ';' + src)
+      app.log.info('› ' + srcdoc + ';' + src)
 
       var srcdocValue = srcdoc ? srcdoc.split(';') : [],
         srcValue = src ? src.split(';') : []
@@ -133,7 +142,7 @@ var app = {
    * @function
    */
   renderTemplates: function (options) {
-    app.log('Rendering templates...')
+    app.log.info('Rendering templates...')
     var currentPageBody = document.body.innerHTML
 
     for (var i = 0; i < options.data.length; i++) {
@@ -231,7 +240,7 @@ var app = {
   runAttributes: function (selector) {
     var selector = selector || 'html *',
       node = dom.get(selector, true)
-    app.log('Running attributes ' + selector + ' ...')
+    app.log.info('Running attributes ' + selector + ' ...')
 
     for (var i = 0; i < node.length; i++) {
       var element = node[i],
@@ -246,10 +255,10 @@ var app = {
             value = element.attributes[j].value
 
           if (app.module[name[0]] && name[1]) {
-            app.log('› module.' + name)
-            app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.error(name[0] + '-' + name[1])
+            app.log.info('› module.' + name)
+            app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(name[0] + '-' + name[1])
           } else if (dom[name]) {
-            app.log('› dom.' + name)
+            app.log.info('› dom.' + name)
             dom[name](element, value)
           }
         }

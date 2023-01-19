@@ -2,8 +2,16 @@
 
 app.module.globalize = {
 
-  _autoload: function (scriptElement, options) {
-    var config = this.conf(scriptElement)
+/**
+ * Autoloads the globalize configuration for a specified script element.
+ * @function _autoload
+ * @memberof app.module.globalize
+ * @param {HTMLElement} scriptElement - The script element to load the configuration for.
+ * @param {Object} options - The options object with the onload callback.
+ * @private
+ */
+  _autoload: function (test, options) {
+    var config = this.conf(options.element)
     app.xhr({
       url: [config.folder + '/' + config.language + '.json'],
       response: 'globalize',
