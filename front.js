@@ -8,7 +8,6 @@
  */
 
 var app = {
-  test: null,
   module: {},
   plugin: {},
   log: function () {
@@ -349,10 +348,7 @@ var dom = {
 
     switch (tag) {
       case 'input':
-        if (type == 'checkbox')
-          target.checked = value
-        else
-          target.value = value
+        type == 'checkbox' ? target.checked = value : target.value = value;
         break
       case 'img':
         target.src = value
@@ -397,8 +393,7 @@ var dom = {
    */
   getTagLink: function (element) {
     for (var current = element; current; current = current.parentNode) {
-      if (current.localName === 'a')
-        return current
+      if (current.localName === 'a') return current
     }
     return null
   },
@@ -417,14 +412,14 @@ var dom = {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  app.start()
-})
-
 window.addEventListener('popstate', function (event) {
   if (app.module.navigate) app.module.navigate._pop(event)
 })
 
 document.addEventListener('click', function (event) {
   if (app.module.navigate) app.module.navigate._open(event)
+})
+
+document.addEventListener('DOMContentLoaded', function () {
+  app.start()
 })
