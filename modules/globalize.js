@@ -12,8 +12,11 @@ app.module.globalize = {
   },
 
   get: function (element) {
-    var value = element.getAttribute('globalize-get')
-    dom.set(element, this.test.translations[value])
+    var $response = this.$response,
+      value = element.getAttribute('globalize-get'),
+      isRoot = value[0] == '/' ? true : false,
+      setValue = isRoot ? $response[value.substring(1)] : $response.translations[value]
+    dom.set(element, setValue)
   },
 
   conf: function (element) {

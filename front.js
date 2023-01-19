@@ -203,7 +203,7 @@ var app = {
               loaded++
 
               if (target) dom.set(target, xhr.response)
-              if (response) app.module[response].test = JSON.parse(xhr.responseText)
+              if (response) app.module[response].$response = JSON.parse(xhr.responseText)
 
               if (onload && loaded === total) {
                 if (onload.func === 'renderTemplates') {
