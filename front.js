@@ -7,31 +7,55 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-
-
-
 var app = {
   module: {},
   plugin: {},
   log: {
-    info: function () { return app.getConsoleMethod('info', '❚') },
-    error: function () { return app.getConsoleMethod('error', '') }
+    info: function () { return app.console('info', '❚') },
+    error: function () { return app.console('error', '') }
   },
-  getConsoleMethod: function (property, sign) {
+  console: function (property, sign) {
     return this.debug ? console[property].bind(console, sign) : function () { }
   },
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
+  scriptSelector: 'script[src*=front]',
+  josef: '',
+
+  config: {
+    get: function (module, standard, element) {
+      var value = element ? element.getAttribute(module + '-conf') : dom.get(app.scriptSelector).getAttribute('conf'),
+        override = value ? dom.parse.attribute(value) : {},
+        final = {}
+
+      for (var prop in standard) {
+        final[prop] = override.hasOwnProperty(prop) ? override[prop] : standard[prop]
+      }
+
+      return final
+    },
+
+    set: function (element) {
+      //console.dir(element.getAttribute('conf'))
+
+      app.debug = true
+      app.fileExtension = '.html'
+    }
+  },
 
   /**
    * Start the application.
    * @function
    */
   start: function () {
-    app.debug = true
-    app.fileExtension = '.html'
+    //app.debug = true
+    
+    app.config.set(dom.get(app.scriptSelector))
+    var test1 = app.config.get()
+
+    //app.debug = test.debug
 
     /*var confs = {}
     for (var i = 0; i < attributes.length; i++) {
@@ -44,31 +68,17 @@ var app = {
     app.isFrontpage ? app.loadExtensions(app.runAttributes) : app.loadTemplates()
   },
 
-  getConfig: function () {
-    var currentScript = dom.get('script[src*=front]')
-    var attr = currentScript ? currentScript.getAttribute('conf') : ''
-    return dom.parseAttribute(attr)
-  },
-
-  parseConfig: function (module, standard, element) {
-    var attributeName = module ? module + '-' : ''
-    value = element ? element.getAttribute(attributeName + 'conf') : '',
-      override = value ? dom.parseAttribute(value) : {},
-      final = {}
-
-    for (var prop in standard) {
-      final[prop] = override.hasOwnProperty(prop) ? override[prop] : standard[prop]
-    }
-    return final
-  },
-
   /**
    * Load extensions.
    * @function
    */
   loadExtensions: function (callback) {
     app.log.info()('Loading modules...')
-    var scriptElement = dom.get('script[src*=front]'),
+
+    //var currentScript = dom.get('script[src*=front]')
+    //app.config.parse('', '', currentScript)
+
+    var scriptElement = dom.get(app.scriptSelector),
       values = scriptElement.getAttribute('module'),
       value = values ? values.split(';') : 0,
       total = value.length,
@@ -94,11 +104,10 @@ var app = {
         app.log.info()('› ' + this.name)
         loaded++
         if (app.module[this.name]._autoload) {
-          app.module[this.name]._autoload(scriptElement,
-            {
-              element: scriptElement,
-              onload: this.total == this.loaded ? [{ module: 'app', func: 'runAttributes' }] : ''
-            })
+          app.module[this.name]._autoload({
+            element: scriptElement,
+            onload: this.total == this.loaded ? [{ module: 'app', func: 'runAttributes' }] : ''
+          })
         }
       }
 
@@ -143,17 +152,19 @@ var app = {
     var currentPageBody = document.body.innerHTML
 
     for (var i = 0; i < options.data.length; i++) {
-      var responsePageContent = dom.parse(options.data[i]),
-        responsePageHtml = dom.find(responsePageContent, 'html')
+      var responsePageContent = dom.parse.text(options.data[i]),
+        responsePageHtml = dom.find(responsePageContent, 'html'),
+        responsePageScript = dom.find(responsePageContent, app.scriptSelector)
 
       if (responsePageContent.doctype) {
+        app.config.set(responsePageScript)
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
         app.language = responsePageContent.documentElement.lang
         app.loadExtensions(app.runAttributes)
       } else {
 
-        var template = dom.parse(dom.find(responsePageHtml, 'template').innerHTML),
+        var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
           templateHeader = dom.find(template, 'header').innerHTML,
           templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
           templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
@@ -268,28 +279,41 @@ var dom = {
   uniqueId: 0,
 
   /**
-   * Parse a string of HTML and return a DOM node.
-   * 
-   * @function
-   * @param {string} string - The HTML string to parse.
-   * @return {Node} - A DOM node representing the parsed HTML.
+   * @namespace parse
    */
-  parse: function (string) {
-    return new DOMParser().parseFromString(string, 'text/html')
-  },
+  parse: {
 
-  parseAttribute: function (string) {
-    var pairs = string ? string.split(';') : '',
-      object = {}
+    /**
+     * Parse a string into an object by splitting the string by ';' and then by ':'.
+     *
+     * @function
+     * @param {string} string - The string to parse.
+     * @return {object} - An object containing key-value pairs parsed from the string.
+     */
+    attribute: function (string) {
+      var pairs = string ? string.split(';') : '',
+        object = {}
 
-    for (var i = 0; i < pairs.length; i++) {
-      var keyValue = pairs[i].split(':'),
-        key = keyValue[0],
-        value = keyValue[1]
+      for (var i = 0; i < pairs.length; i++) {
+        var keyValue = pairs[i].split(':'),
+          key = keyValue[0],
+          value = keyValue[1]
 
-      object[key] = value
+        object[key] = value
+      }
+      return object
+    },
+
+    /**
+     * Parse a string of HTML and return a DOM node.
+     * 
+     * @function
+     * @param {string} string - The HTML string to parse.
+     * @return {Node} - A DOM node representing the parsed HTML.
+    */
+    text: function (string) {
+      return new DOMParser().parseFromString(string, 'text/html')
     }
-    return object
   },
 
   /**

@@ -2,8 +2,10 @@
 
 app.module.navigate = {
 
-  _autoload: function (scriptElement, options) {
-    this._conf = this.conf(scriptElement)
+  _autoload: function (options) {
+    this.config = app.config.get('navigate', {
+      target: 'main'
+    }, options.element)
   },
 
   _open: function (event) {
@@ -33,17 +35,10 @@ app.module.navigate = {
 
   _load: function (state) {
     app.xhr({
-      target: (state.target && state.target[0] !== '_') ? state.target : this._conf.target,
+      target: (state.target && state.target[0] !== '_') ? state.target : this.config.target,
       url: state.href,
       urlExtension: state.extension,
       onload: [{ module: 'app', func: 'loadTemplates', arg: state.arg }]
     })
-  },
-
-  conf: function (element) {
-    var standard = {
-      target: 'main'
-    }
-    return app.parseConfig('navigate', standard, element)
   },
 }
