@@ -140,8 +140,8 @@ var app = {
     app.log.info()('Loading templates...')
     var options = (options) ? options : {},
       element = dom.get('template'),
-      srcdoc = !element.length ? element.getAttribute('srcdoc') : '',
-      src = !element.length ? element.getAttribute('src') : ''
+      srcdoc = element && element.getAttribute('srcdoc'),
+      src = element && element.getAttribute('src')
 
     if (srcdoc || src) {
       app.log.info(1)(srcdoc + ';' + src)

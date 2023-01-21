@@ -2,12 +2,23 @@
 
 app.module.navigate = {
 
+  /**
+   * @function _autoload
+   * @memberof app.module.navigate
+   * @param {HTMLElement} scriptElement - The script element to load the configuration for.
+   * @private
+   */
   _autoload: function (options) {
     this.config = app.config.get('navigate', {
       target: 'main'
     }, options.element)
   },
 
+  /**
+   * @function _open
+   * @memberof app.module.navigate
+   * @private
+   */
   _open: function (event) {
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
@@ -23,6 +34,11 @@ app.module.navigate = {
     }
   },
 
+  /**
+   * @function _pop
+   * @memberof app.module.navigate
+   * @private
+   */
   _pop: function (event) {
     var state = (event.state) ? event.state : {
       'href': window.location.href,
@@ -33,18 +49,21 @@ app.module.navigate = {
     this._load(state)
   },
 
+  /**
+   * @function _load
+   * @memberof app.module.navigate
+   * @private
+   */
   _load: function (state) {
-
-    if (!state.target || state.target[0] === '_') {
-      state.target = this.config.target;
-    }
-
-    console.dir(state)
+    if (state.href === '/')
+      state.target = 'html'
+    else if (!state.target || state.target[0] === '_')
+      state.target = this.config.target
 
     app.xhr({
-      target: state.target,
       url: state.href,
       urlExtension: state.extension,
+      target: state.target,
       onload: [{ module: 'app', func: 'loadTemplates', arg: state.arg }]
     })
   },
