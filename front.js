@@ -18,13 +18,14 @@ var app = {
 
   /**
    @namespace log
+   @memberof app
    @desc Object that contains functions for logging information and errors to the console.
    */
   log: {
     
     /*
      * @function info
-     * @memberof log
+     * @memberof app.log
      * @returns {function} - The console.info() function or a no-op function if app.debug is not set to 'true'.
      * @desc Logs information to the console with a prefix '❚' if app.debug is set to 'true'.
      */
@@ -34,7 +35,7 @@ var app = {
 
     /*
      * @function error
-     * @memberof log
+     * @memberof app.log
      * @returns {function} - The console.error() function or a no-op function if app.debug is not set to 'true'.
      * @desc Logs errors to the console if app.debug is set to 'true'.
      */
@@ -45,13 +46,14 @@ var app = {
 
   /**
    * @namespace config
+   * @memberof app
    * @desc Object that contains functions to get and set configurations.
    */
   config: {
 
     /**
      * @function get
-     * @memberof config
+     * @memberof app.config
      * @param {string} module - The name of the module.
      * @param {object} standard - The standard configuration object.
      * @param {object} element - The DOM element.
@@ -71,7 +73,7 @@ var app = {
 
     /**
      * @function set
-     * @memberof config
+     * @memberof app.config
      * @param {object} [scriptElement=null] - The script DOM element.
      * @desc Sets the configuration to the app object.
      */
@@ -197,8 +199,9 @@ var app = {
   },
 
   /**
-   * Create XHR requests and update the DOM based on the responses.
-   * @function
+   * @function xhr
+   * @memberof app
+   * @desc Creates XHR requests and updates the DOM based on the response.
    */
   xhr: function (options) {
     var responses = [],
@@ -296,6 +299,7 @@ var dom = {
 
   /**
    * @namespace parse
+   * @memberof dom
    */
   parse: {
 
