@@ -23,7 +23,7 @@ var app = {
    */
   log: {
 
-    /*
+    /**
      * @function info
      * @memberof app.log
      * @returns {function} - The console.info() function or a no-op function if app.debug is not set to 'true'.
@@ -33,7 +33,7 @@ var app = {
       return (app.debug === 'true') ? console.info.bind(console, '❚') : function () { }
     },
 
-    /*
+    /**
      * @function error
      * @memberof app.log
      * @returns {function} - The console.error() function or a no-op function if app.debug is not set to 'true'.
@@ -301,6 +301,7 @@ var dom = {
   /**
    * @namespace parse
    * @memberof dom
+   * @desc Object that contains functions for parsing strings and creating DOM nodes.
    */
   parse: {
 
