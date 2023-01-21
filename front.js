@@ -10,13 +10,6 @@
 var app = {
   module: {},
   plugin: {},
-  log: {
-    info: function () { return app.console('info', '❚') },
-    error: function () { return app.console('error', '') }
-  },
-  console: function (property, sign) {
-    return this.debug === 'true' ? console[property].bind(console, sign) : function () { }
-  },
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
@@ -24,20 +17,33 @@ var app = {
   scriptSelector: 'script[src*=front]',
 
   /**
-  * @namespace config
-  * @desc Object that contains functions to get and set configurations.
-  */
+   @namespace log
+   @desc Object that contains functions for logging information and errors to the console
+   */
+  log: {
+    info: function () {
+      return (app.debug === 'true') ? console.info.bind(console, '❚') : function () { }
+    },
+    error: function () {
+      return (app.debug === 'true') ? console.error.bind(console) : function () { }
+    }
+  },
+
+  /**
+   * @namespace config
+   * @desc Object that contains functions to get and set configurations.
+   */
   config: {
 
     /**
-    * @function get
-    * @memberof config
-    * @param {string} module - The name of the module.
-    * @param {object} standard - The standard configuration object.
-    * @param {object} element - The DOM element.
-    * @returns {object} final - The final configuration object.
-    * @desc Gets the configuration from the DOM element and overrides the standard configuration.
-    */
+     * @function get
+     * @memberof config
+     * @param {string} module - The name of the module.
+     * @param {object} standard - The standard configuration object.
+     * @param {object} element - The DOM element.
+     * @returns {object} final - The final configuration object.
+     * @desc Gets the configuration from the DOM element and overrides the standard configuration.
+     */
     get: function (module, standard, element) {
       var value = module ? element.getAttribute(module + '-conf') : element.getAttribute('conf'),
         override = value ? dom.parse.attribute(value) : {},
@@ -50,11 +56,11 @@ var app = {
     },
 
     /**
-    * @function set
-    * @memberof config
-    * @param {object} [scriptElement=null] - The script DOM element.
-    * @desc Sets the configuration to the app object.
-    */
+     * @function set
+     * @memberof config
+     * @param {object} [scriptElement=null] - The script DOM element.
+     * @desc Sets the configuration to the app object.
+     */
     set: function (scriptElement) {
       var element = scriptElement ? scriptElement : dom.get(app.scriptSelector),
         config = this.get(false, {
