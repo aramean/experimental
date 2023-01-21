@@ -22,7 +22,7 @@ var app = {
    @desc Object that contains functions for logging information and errors to the console.
    */
   log: {
-    
+
     /*
      * @function info
      * @memberof app.log
