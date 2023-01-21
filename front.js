@@ -115,6 +115,7 @@ var app = {
       script.onload = function () {
         app.log.info()('› ' + this.name)
         loaded++
+        app.module[this.name].conf = function () { }
         if (app.module[this.name]._autoload) {
           app.module[this.name]._autoload({
             element: scriptElement,

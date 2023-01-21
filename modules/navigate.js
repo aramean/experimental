@@ -34,8 +34,15 @@ app.module.navigate = {
   },
 
   _load: function (state) {
+
+    if (!state.target || state.target[0] === '_') {
+      state.target = this.config.target;
+    }
+
+    console.dir(state)
+
     app.xhr({
-      target: (state.target && state.target[0] !== '_') ? state.target : this.config.target,
+      target: state.target,
       url: state.href,
       urlExtension: state.extension,
       onload: [{ module: 'app', func: 'loadTemplates', arg: state.arg }]
