@@ -27,10 +27,10 @@ var app = {
      * @function info
      * @memberof app.log
      * @returns {function} - The console.info() function or a no-op function if app.debug is not set to 'true'.
-     * @desc Logs information to the console with a prefix '❚' if app.debug is set to 'true'.
+     * @desc Logs information to the console if app.debug is set to 'true'.
      */
-    info: function () {
-      return (app.debug === 'true') ? console.info.bind(console, '❚') : function () { }
+    info: function (prefix) {
+      return app.debug === 'true' ? console.info.bind(console, prefix ? ' ❱' : '❚') : function () { }
     },
 
     /**
@@ -40,7 +40,7 @@ var app = {
      * @desc Logs errors to the console if app.debug is set to 'true'.
      */
     error: function () {
-      return (app.debug === 'true') ? console.error.bind(console) : function () { }
+      return app.debug === 'true' ? console.error.bind(console, '') : function () { }
     }
   },
 
@@ -113,7 +113,7 @@ var app = {
       script.src = 'modules/' + script.name + '.js'
       script.async = false
       script.onload = function () {
-        app.log.info()('› ' + this.name)
+        app.log.info(1)(this.name)
         loaded++
         app.module[this.name].conf = function () { }
         if (app.module[this.name]._autoload) {
@@ -144,7 +144,7 @@ var app = {
       src = !element.length ? element.getAttribute('src') : ''
 
     if (srcdoc || src) {
-      app.log.info()('› ' + srcdoc + ';' + src)
+      app.log.info(1)(srcdoc + ';' + src)
 
       var srcdocValue = srcdoc ? srcdoc.split(';') : [],
         srcValue = src ? src.split(';') : []
@@ -284,10 +284,10 @@ var app = {
             value = element.attributes[j].value
 
           if (app.module[name[0]] && name[1]) {
-            app.log.info()('› module.' + name)
+            app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
             app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error()(name[0] + '-' + name[1])
           } else if (dom[name]) {
-            app.log.info()('› dom.' + name)
+            app.log.info(1)('dom.' + name)
             dom[name](element, value)
           }
         }
