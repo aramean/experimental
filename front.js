@@ -18,12 +18,26 @@ var app = {
 
   /**
    @namespace log
-   @desc Object that contains functions for logging information and errors to the console
+   @desc Object that contains functions for logging information and errors to the console.
    */
   log: {
+    
+    /*
+     * @function info
+     * @memberof log
+     * @returns {function} - The console.info() function or a no-op function if app.debug is not set to 'true'.
+     * @desc Logs information to the console with a prefix '❚' if app.debug is set to 'true'.
+     */
     info: function () {
       return (app.debug === 'true') ? console.info.bind(console, '❚') : function () { }
     },
+
+    /*
+     * @function error
+     * @memberof log
+     * @returns {function} - The console.error() function or a no-op function if app.debug is not set to 'true'.
+     * @desc Logs errors to the console if app.debug is set to 'true'.
+     */
     error: function () {
       return (app.debug === 'true') ? console.error.bind(console) : function () { }
     }
