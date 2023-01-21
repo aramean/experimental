@@ -394,8 +394,8 @@ var dom = {
    * @desc Sets the content of an element.
   */
   set: function (object, value, replace) {
-    var target = object instanceof Object ? object : dom.get(object)
-    tag = object.localName,
+    var target = object instanceof Object ? object : dom.get(object),
+      tag = object.localName,
       type = object.type,
       value = replace ? value.replace(/<[^>]+>/g, '') : value || '?'
 
