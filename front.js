@@ -260,9 +260,10 @@ var app = {
   },
 
   /**
-   * Run Front Text Markup Language in all elements matching a given selector.
-   * @function
+   * @function runAttributes
+   * @memberof app
    * @param {string} [selector='html *'] - A CSS selector for the elements to be processed.
+   * @desc Runs Front Text Markup Language in all elements matching a given selector.
    */
   runAttributes: function (selector) {
     var selector = selector || 'html *',
