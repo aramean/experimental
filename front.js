@@ -305,11 +305,11 @@ var dom = {
   parse: {
 
     /**
-     * Parse a string into an object by splitting the string by ';' and then by ':'.
-     *
-     * @function
+     * @function attribute
+     * @memberof dom.parse
      * @param {string} string - The string to parse.
      * @return {object} - An object containing key-value pairs parsed from the string.
+     * @desc Parses a string into an object by splitting the string by ';' and then by ':'.
      */
     attribute: function (string) {
       var pairs = string ? string.split(';') : '',
@@ -326,11 +326,11 @@ var dom = {
     },
 
     /**
-     * Parse a string of HTML and return a DOM node.
-     * 
-     * @function
+     * @function text
+     * @memberof dom.parse
      * @param {string} string - The HTML string to parse.
      * @return {Node} - A DOM node representing the parsed HTML.
+     * @desc Parses a string of HTML and return a DOM node.
     */
     text: function (string) {
       return new DOMParser().parseFromString(string, 'text/html')
@@ -338,12 +338,12 @@ var dom = {
   },
 
   /**
-   * Retrieve elements from the document by selector.
-   * 
-   * @function
+   * @function get
+   * @memberof dom
    * @param {string} selector - The CSS selector used to select the elements.
    * @param {boolean} [list=undefined] - If true, always return a list of elements, even if only one element matches the selector.
    * @return {Element|Element[]} - Returns a single element if there is only one match and "list" is not set to true, or a list of elements if "list" is set to true or if there are multiple elements that match the selector.
+   * @desc Retrieves elements from the document by selector.
    */
   get: function (selector, list) {
     var element = document.querySelectorAll(selector)
@@ -351,12 +351,12 @@ var dom = {
   },
 
   /**
-   * Retrieve elements from a given node by selector.
-   * 
-   * @function
+   * @function find
+   * @memberof dom
    * @param {Node} node - The node to search within.
    * @param {string} selector - The CSS selector used to select the elements.
    * @return {Element|Element[]} - Returns a single element if there is only one match, or a list of elements if there are multiple elements that match the selector.
+   * @desc Retrieves elements from a given node by selector.
    */
   find: function (node, selector) {
     var element = node.querySelectorAll(selector)
@@ -364,19 +364,20 @@ var dom = {
   },
 
   /**
-   * Set the display property of the root element.
-   * 
-   * @function
+   * @function setDisplay
+   * @memberof dom
    * @param {string} action - The value to set for the display property. Valid values include 'none', 'block', 'inline', and others.
+   * @desc Sets the display property of the root element.
    */
   setDisplay: function (action) {
     document.documentElement.style.display = action
   },
 
   /**
-   * Set a unique id for the given element.
-   * @function
+   * @function setUniqueId
+   * @memberof dom
    * @param {HTMLElement} element - The element to set the unique id on.
+   * @desc Sets a unique id for the given element.
    */
   setUniqueId: function (element) {
     dom.uniqueId++
@@ -384,12 +385,12 @@ var dom = {
   },
 
   /**
-   * Set the content of an element.
-   * 
-   * @function
+   * @function set
+   * @memberof dom
    * @param {Object} object - The element object to modify.
    * @param {string} value - The value to set as the content of the element.
    * @param {boolean} [replace=false] - If true, remove all HTML tags from the value before setting it as the content.
+   * @desc Sets the content of an element.
   */
   set: function (object, value, replace) {
     var target = object instanceof Object ? object : dom.get(object)
@@ -416,31 +417,32 @@ var dom = {
   },
 
   /**
-   * Convert the contents of an element to uppercase letters.
-   * 
-   * @function
+   * @function uppercase
+   * @memberof dom
    * @param {Object} object - The element object to modify.
    * @param {boolean} [first=false] - If true, only convert the first character to uppercase. Otherwise, convert the entire contents to uppercase.
+   * @desc Converts the contents of an element to uppercase letters.
    */
   uppercase: function (object, first) {
     object.innerHTML = !first || first === 'true' ? object.innerHTML.toUpperCase() : object.innerHTML.charAt(0).toUpperCase() + object.innerHTML.slice(1)
   },
 
   /**
-   * Convert the contents of an element to lowercase letters.
-   * 
-   * @function
+   * @function lowercase
+   * @memberof dom
    * @param {Object} object - The element object to modify.
+   * @desc Converts the contents of an element to lowercase letters.
    */
   lowercase: function (object) {
     object.innerHTML = object.innerHTML.toLowerCase()
   },
 
   /**
-   * Find the first ancestor of the given element that is an anchor element (`<a>`).
-   * 
+   * @function getTagLink
+   * @memberof dom
    * @param {Element} element - The element to start the search from.
    * @return {Element|null} The found anchor element, or `null` if none was found.
+   * @desc Finds the first ancestor of the given element that is an anchor element (`<a>`).
    */
   getTagLink: function (element) {
     for (var current = element; current; current = current.parentNode) {
@@ -450,9 +452,10 @@ var dom = {
   },
 
   /**
-   * Load the content of an external file and insert it into the DOM.
    * @function include
+   * @memberof dom
    * @param {Object} element - The element to which the external content will be added.
+   * @desc * Loads the content of an external file and insert it into the DOM.
    */
   include: function (element) {
     app.xhr({
