@@ -15,21 +15,33 @@ var app = {
     error: function () { return app.console('error', '') }
   },
   console: function (property, sign) {
-    return this.debug ? console[property].bind(console, sign) : function () { }
+    return this.debug === 'true' ? console[property].bind(console, sign) : function () { }
   },
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
   isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
   scriptSelector: 'script[src*=front]',
-  josef: '',
 
+  /**
+  * @namespace config
+  * @desc Object that contains functions to get and set configurations.
+  */
   config: {
+
+    /**
+    * @function get
+    * @memberof config
+    * @param {string} module - The name of the module.
+    * @param {object} standard - The standard configuration object.
+    * @param {object} element - The DOM element.
+    * @returns {object} final - The final configuration object.
+    * @desc Gets the configuration from the DOM element and overrides the standard configuration.
+    */
     get: function (module, standard, element) {
-      var value = element ? element.getAttribute(module + '-conf') : dom.get(app.scriptSelector).getAttribute('conf'),
+      var value = module ? element.getAttribute(module + '-conf') : element.getAttribute('conf'),
         override = value ? dom.parse.attribute(value) : {},
         final = {}
-
       for (var prop in standard) {
         final[prop] = override.hasOwnProperty(prop) ? override[prop] : standard[prop]
       }
@@ -37,63 +49,41 @@ var app = {
       return final
     },
 
-    set: function (element) {
-      //console.dir(element.getAttribute('conf'))
+    /**
+    * @function set
+    * @memberof config
+    * @param {object} [scriptElement=null] - The script DOM element.
+    * @desc Sets the configuration to the app object.
+    */
+    set: function (scriptElement) {
+      var element = scriptElement ? scriptElement : dom.get(app.scriptSelector),
+        config = this.get(false, {
+          debug: false,
+          fileExtension: '.html'
+        }, element)
 
-      app.debug = true
-      app.fileExtension = '.html'
+      for (var prop in config) {
+        if (config.hasOwnProperty(prop)) {
+          app[prop] = config[prop]
+        }
+      }
     }
   },
 
   /**
-   * Start the application.
-   * @function
-   */
-  start: function () {
-    //app.debug = true
-    
-    app.config.set(dom.get(app.scriptSelector))
-    var test1 = app.config.get()
-
-    //app.debug = test.debug
-
-    /*var confs = {}
-    for (var i = 0; i < attributes.length; i++) {
-      var name = attributes[i].name;
-      if(name.endsWith("-conf")){
-        confs[name] = attributes[i].value;
-      }*/
-
-    app.log.info()('Starting application ...')
-    app.isFrontpage ? app.loadExtensions(app.runAttributes) : app.loadTemplates()
-  },
-
-  /**
-   * Load extensions.
-   * @function
+   * @function loadExtensions
+   * @memberof app
+   * @param {function} [callback=null] - A callback function to be called when all modules are loaded.
+   * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
    */
   loadExtensions: function (callback) {
     app.log.info()('Loading modules...')
-
-    //var currentScript = dom.get('script[src*=front]')
-    //app.config.parse('', '', currentScript)
 
     var scriptElement = dom.get(app.scriptSelector),
       values = scriptElement.getAttribute('module'),
       value = values ? values.split(';') : 0,
       total = value.length,
       loaded = 0
-
-    /*var attributes = scriptElement.attributes;
-    var confs = {}
-    for (var i = 0; i < attributes.length; i++) {
-      var name = attributes[i].name;
-      if (name.match(/conf$/)) {
-        confs[name] = attributes[i].value;
-      }
-    }
-
-    console.error(confs)*/
 
     for (var i = 0; i < total; i++) {
       var script = document.createElement('script')
@@ -118,8 +108,10 @@ var app = {
   },
 
   /**
-   * Load templates.
-   * @function
+   * @function loadTemplates
+   * @memberof app
+   * @param {object} [options={}] - Object that contains options for the loadTemplates function.
+   * @desc Loads templates from the `template` elements with `srcdoc` or `src` attributes and call renderTemplates function if available.
    */
   loadTemplates: function (options) {
     app.log.info()('Loading templates...')
@@ -144,8 +136,12 @@ var app = {
   },
 
   /**
-   * Render templates.
-   * @function
+   * @function renderTemplates
+   * @memberof app
+   * @param {object} options - An object that contains data needed for the renderTemplates function.
+   * @param {object} options.data - The data that contains the templates to be rendered.
+   * @param {boolean} [options.arg.runAttributes=false] - A flag that indicates whether to call the runAttributes function or not.
+   * @desc Renders the templates by setting the innerHTML of the corresponding DOM elements and calls the loadExtensions function if available.
    */
   renderTemplates: function (options) {
     app.log.info()('Rendering templates...')
@@ -430,7 +426,7 @@ var dom = {
 
   /**
    * Load the content of an external file and insert it into the DOM.
-   * @function
+   * @function include
    * @param {Object} element - The element to which the external content will be added.
    */
   include: function (element) {
@@ -451,5 +447,6 @@ document.addEventListener('click', function (event) {
 })
 
 document.addEventListener('DOMContentLoaded', function () {
-  app.start()
+  app.config.set(dom.get(app.scriptSelector))
+  app.isFrontpage ? app.loadExtensions(app.runAttributes) : app.loadTemplates()
 })
