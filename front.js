@@ -95,10 +95,10 @@ var app = {
   /**
    * @function loadExtensions
    * @memberof app
-   * @param {function} [callback=null] - A callback function to be called when all modules are loaded.
+   * @param {function} [runAttributes] - A flag to indicate if the runAttributes function should be called after all modules are loaded.
    * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
    */
-  loadExtensions: function (callback) {
+  loadExtensions: function (runAttributes) {
     app.log.info()('Loading modules...')
 
     var scriptElement = dom.get(app.scriptSelector),
@@ -119,7 +119,7 @@ var app = {
         if (app.module[this.name]._autoload) {
           app.module[this.name]._autoload({
             element: scriptElement,
-            onload: this.total == this.loaded ? [{ module: 'app', func: 'runAttributes' }] : ''
+            onload: this.total == this.loaded ? { run: { func: 'app.runAttributes'} } : ''
           })
         }
       }
@@ -127,7 +127,7 @@ var app = {
       document.head.appendChild(script)
     }
 
-    if (!total && callback) callback()
+    if (!total && runAttributes) app.runAttributes()
   },
 
   /**
@@ -151,7 +151,7 @@ var app = {
 
       app.xhr({
         url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-        onload: { module: 'app', func: 'renderTemplates', arg: options }
+        onload: { run: { func: 'app.renderTemplates', arg: options } }
       })
     }
 
@@ -180,7 +180,7 @@ var app = {
         dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
         dom.set('main', currentPageBody)
         app.language = responsePageContent.documentElement.lang
-        app.loadExtensions(app.runAttributes)
+        app.loadExtensions(true)
       } else {
 
         var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
@@ -214,7 +214,10 @@ var app = {
       timeout = onload ? options.onload.timeout || 0 : 0,
       onprogress = options.onprogress,
       onerror = options.onerror,
-      response = options.response
+      response = options.response,
+      run = onload.run && onload.run.func ? onload.run.func.split('.') : false
+      runarg = onload.run && onload.run.arg
+console.dir(url)
 
     for (var i = 0; i < total; i++) {
       (function (i, url) {
@@ -226,11 +229,11 @@ var app = {
         xhr.send()
 
         xhr.onprogress = function () {
-          if (onprogress) dom.set(target, onprogress.content)
+          if (onprogress && target) dom.set(target, onprogress.content)
         }
 
         xhr.onerror = function () {
-          if (onerror) dom.set(target, onerror)
+          if (onerror && target) dom.set(target, onerror)
         }
 
         xhr.onload = function () {
@@ -243,10 +246,27 @@ var app = {
               if (response) app.module[response].$response = JSON.parse(xhr.responseText)
 
               if (onload && loaded === total) {
+
+                if (run) {
+                  app.log.info()('Calling: ' + run)
+                  
+                  if (run[1] === 'renderTemplates') runarg = { data: responses, arg: runarg }
+
+                  console.dir(runarg)
+
+                  if (run.length === 4)
+                    window[run[0]][run[1]][run[2]][run[3]](runarg)
+                  else if (run.length === 3)
+                    window[run[0]][run[1]][run[2]](runarg)
+                  else if (run.length === 2)
+                    window[run[0]][run[1]](runarg)
+                }
+
                 if (onload.func === 'renderTemplates') {
-                  window[onload.module][onload.func]({ data: responses, arg: onload.arg })
+                  //window[onload.module][onload.func]({ data: responses, arg: onload.arg })
                 } else {
                   for (var j = 0; j < onload.length; j++) {
+                    console.log('what')
                     window[onload[j].module][onload[j].func](onload[j].arg)
                   }
                 }
@@ -478,5 +498,5 @@ document.addEventListener('click', function (event) {
 
 document.addEventListener('DOMContentLoaded', function () {
   app.config.set(dom.get(app.scriptSelector))
-  app.isFrontpage ? app.loadExtensions(app.runAttributes) : app.loadTemplates()
+  app.isFrontpage ? app.loadExtensions(true) : app.loadTemplates()
 })
