@@ -20,7 +20,9 @@ app.module.json = {
 
   },
 
-  get: function () {},
+  get: function (element) {
+    dom.set(element, '...')
+  },
 
   _run: function (arg) {
     console.log(arg)

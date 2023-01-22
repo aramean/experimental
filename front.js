@@ -119,7 +119,7 @@ var app = {
         if (app.module[this.name]._autoload) {
           app.module[this.name]._autoload({
             element: scriptElement,
-            onload: this.total == this.loaded ? { run: { func: 'app.runAttributes'} } : ''
+            onload: this.total == this.loaded ? { run: { func: 'app.runAttributes' } } : ''
           })
         }
       }
@@ -215,9 +215,8 @@ var app = {
       onprogress = options.onprogress,
       onerror = options.onerror,
       response = options.response,
-      run = onload.run && onload.run.func ? onload.run.func.split('.') : false
+      run = onload.run && onload.run.func ? onload.run.func.split('.') : false,
       runarg = onload.run && onload.run.arg
-console.dir(url)
 
     for (var i = 0; i < total; i++) {
       (function (i, url) {
@@ -249,10 +248,8 @@ console.dir(url)
 
                 if (run) {
                   app.log.info()('Calling: ' + run)
-                  
-                  if (run[1] === 'renderTemplates') runarg = { data: responses, arg: runarg }
 
-                  console.dir(runarg)
+                  if (run[1] === 'renderTemplates') runarg = { data: responses, arg: runarg }
 
                   if (run.length === 4)
                     window[run[0]][run[1]][run[2]][run[3]](runarg)
@@ -260,13 +257,8 @@ console.dir(url)
                     window[run[0]][run[1]][run[2]](runarg)
                   else if (run.length === 2)
                     window[run[0]][run[1]](runarg)
-                }
-
-                if (onload.func === 'renderTemplates') {
-                  //window[onload.module][onload.func]({ data: responses, arg: onload.arg })
                 } else {
                   for (var j = 0; j < onload.length; j++) {
-                    console.log('what')
                     window[onload[j].module][onload[j].func](onload[j].arg)
                   }
                 }
