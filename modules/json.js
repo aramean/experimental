@@ -9,8 +9,7 @@ app.module.json = {
       target: (attr.target) ? attr.target.value : false,
       onload: {
         run: {
-          func: 'app.module.json._run',
-          arg: 'ss'
+          func: 'app.module.json._run', arg: 'ss'
         },
         timeout: (attr.timeout) ? attr.timeout.value : 0
       },

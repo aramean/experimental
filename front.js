@@ -39,8 +39,8 @@ var app = {
      * @returns {function} - The console.error() function or a no-op function if app.debug is not set to 'true'.
      * @desc Logs errors to the console if app.debug is set to 'true'.
      */
-    error: function () {
-      return app.debug === 'true' ? console.error.bind(console, '') : function () { }
+    error: function (code) {
+      return app.debug === 'true' ? console.error.bind(console, code === 0 ? ' Syntax not found:' : '') : function () { }
     }
   },
 
@@ -248,6 +248,10 @@ var app = {
 
                 if (run) {
                   app.log.info()('Calling: ' + run)
+console.log(runarg)
+                  if (runarg === true) {
+                    console.log('hej')
+                  }
 
                   if (run[1] === 'renderTemplates') runarg = { data: responses, arg: runarg }
 
@@ -297,7 +301,7 @@ var app = {
 
           if (app.module[name[0]] && name[1]) {
             app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
-            app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error()(name[0] + '-' + name[1])
+            app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
           } else if (dom[name]) {
             app.log.info(1)('dom.' + name)
             dom[name](element, value)
