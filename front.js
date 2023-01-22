@@ -248,10 +248,6 @@ var app = {
 
                 if (run) {
                   app.log.info()('Calling: ' + run)
-console.log(runarg)
-                  if (runarg === true) {
-                    console.log('hej')
-                  }
 
                   if (run[1] === 'renderTemplates') runarg = { data: responses, arg: runarg }
 
