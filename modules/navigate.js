@@ -64,7 +64,7 @@ app.module.navigate = {
       url: state.href,
       urlExtension: state.extension,
       target: state.target,
-      onload: { run: { func: 'app.loadTemplates', arg: state.arg } }
+      onload: { run: { func: 'app.templates.load', arg: state.arg } }
     })
   },
 }

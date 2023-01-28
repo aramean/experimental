@@ -26,10 +26,10 @@ app.module.json = {
     dom.set(element, '...')
   },
 
-  _run: function (arg) {
+  _run: function (options) {
     var $response = this.$response,
-      element = arg.element,
-      iterate = arg.iterate,
+      element = options.element,
+      iterate = options.iterate,
       total = iterate && $response[iterate].length - 1
 
     var originalNode = element.cloneNode(true),
@@ -43,17 +43,18 @@ app.module.json = {
 
     element.innerHTML = content
 
-    var element = element.getElementsByTagName("*")
+    var elements = element.getElementsByTagName("*")
 
-    for (var i = 0; i < element.length; i++) {
+    for (var i = 0; i < elements.length; i++) {
 
       if (i % orginalNodeCountAll == 0) {
         j++
       }
 
-      var jsonget = element[i].getAttribute('json-get')
+      var jsonget = elements[i].getAttribute('json-get')
       if (jsonget) {
-        dom.set(element[i], $response[iterate][j][jsonget])
+        dom.set(elements[i], $response[iterate][j][jsonget])
+        //app.runAttributes(element)
       }
     }
   }

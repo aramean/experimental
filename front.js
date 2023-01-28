@@ -93,110 +93,126 @@ var app = {
   },
 
   /**
-   * @function loadExtensions
+   * @namespace extensions
    * @memberof app
-   * @param {function} [runAttributes] - A flag to indicate if the runAttributes function should be called after all modules are loaded.
-   * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
+   * @desc
    */
-  loadExtensions: function (runAttributes) {
-    app.log.info()('Loading modules...')
+  extensions: {
 
-    var scriptElement = dom.get(app.scriptSelector),
-      values = scriptElement.getAttribute('module'),
-      value = values ? values.split(';') : 0,
-      total = value.length,
-      loaded = 0
+    /**
+     * @function load
+     * @memberof app
+     * @param {function} [runAttributes] - A flag to indicate if the runAttributes function should be called after all modules are loaded.
+     * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
+     */
+    load: function (runAttributes) {
+      app.log.info()('Loading modules...')
 
-    for (var i = 0; i < total; i++) {
-      var script = document.createElement('script')
-      script.name = value[i]
-      script.src = 'modules/' + script.name + '.js'
-      script.async = false
-      script.onload = function () {
-        app.log.info(1)(this.name)
-        loaded++
-        app.module[this.name].conf = function () { }
-        if (app.module[this.name]._autoload) {
-          app.module[this.name]._autoload({
-            element: scriptElement,
-            onload: this.total == this.loaded ? { run: { func: 'app.runAttributes' } } : ''
-          })
+      var scriptElement = dom.get(app.scriptSelector),
+        values = scriptElement.getAttribute('module'),
+        value = values ? values.split(';') : 0,
+        total = value.length,
+        loaded = 0
+
+      for (var i = 0; i < total; i++) {
+        var script = document.createElement('script')
+        script.name = value[i]
+        script.src = 'modules/' + script.name + '.js'
+        script.async = false
+        script.onload = function () {
+          app.log.info(1)(this.name)
+          loaded++
+          app.module[this.name].conf = function () { }
+          if (app.module[this.name]._autoload) {
+            app.module[this.name]._autoload({
+              element: scriptElement,
+              onload: this.total == this.loaded ? { run: { func: 'app.runAttributes' } } : ''
+            })
+          }
+        }
+
+        document.head.appendChild(script)
+      }
+
+      if (!total && runAttributes) app.runAttributes()
+    }
+  },
+
+  /**
+   * @namespace templates
+   * @memberof app
+   * @desc
+   */
+  templates: {
+
+    /**
+     * @function load
+     * @memberof app
+     * @param {object} [options={}] - Object that contains options for the loadTemplates function.
+     * @desc Loads templates from the `template` elements with `srcdoc` or `src` attributes and call renderTemplates function if available.
+     */
+    load: function (options) {
+      app.log.info()('Loading templates...')
+      var options = (options) ? options : {},
+        element = dom.get('template'),
+        srcdoc = element && element.getAttribute('srcdoc'),
+        src = element && element.getAttribute('src')
+
+      if (srcdoc || src) {
+        app.log.info(1)(srcdoc + ';' + src)
+
+        var srcdocValue = srcdoc ? srcdoc.split(';') : [],
+          srcValue = src ? src.split(';') : []
+
+        app.xhr({
+          url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
+          onload: { run: { func: 'app.templates.render', arg: options } }
+        })
+      }
+
+      if (!element || element && !src) app.runAttributes()
+    },
+
+    /**
+     * @function render
+     * @memberof app
+     * @param {object} options - An object that contains data needed for the renderTemplates function.
+     * @param {object} options.data - The data that contains the templates to be rendered.
+     * @param {boolean} [options.arg.runAttributes=false] - A flag that indicates whether to call the runAttributes function or not.
+     * @desc Renders the templates by setting the innerHTML of the corresponding DOM elements and calls the loadExtensions function if available.
+     */
+    render: function (options) {
+      app.log.info()('Rendering templates...')
+      var currentPageBody = document.body.innerHTML
+
+      for (var i = 0; i < options.data.length; i++) {
+        var responsePageContent = dom.parse.text(options.data[i]),
+          responsePageHtml = dom.find(responsePageContent, 'html'),
+          responsePageScript = dom.find(responsePageContent, app.scriptSelector)
+
+        if (responsePageContent.doctype) {
+          app.config.set(responsePageScript)
+          dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
+          dom.set('main', currentPageBody)
+          app.language = responsePageContent.documentElement.lang
+          app.extensions.load(true)
+        } else {
+
+          var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
+            templateHeader = dom.find(template, 'header').innerHTML,
+            templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
+            templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
+            templateFooter = dom.find(template, 'footer').innerHTML
+
+          if (templateHeader) dom.set('header', templateHeader)
+          if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
+          if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
+          if (templateFooter) dom.set('footer', templateFooter)
         }
       }
 
-      document.head.appendChild(script)
-    }
-
-    if (!total && runAttributes) app.runAttributes()
-  },
-
-  /**
-   * @function loadTemplates
-   * @memberof app
-   * @param {object} [options={}] - Object that contains options for the loadTemplates function.
-   * @desc Loads templates from the `template` elements with `srcdoc` or `src` attributes and call renderTemplates function if available.
-   */
-  loadTemplates: function (options) {
-    app.log.info()('Loading templates...')
-    var options = (options) ? options : {},
-      element = dom.get('template'),
-      srcdoc = element && element.getAttribute('srcdoc'),
-      src = element && element.getAttribute('src')
-
-    if (srcdoc || src) {
-      app.log.info(1)(srcdoc + ';' + src)
-
-      var srcdocValue = srcdoc ? srcdoc.split(';') : [],
-        srcValue = src ? src.split(';') : []
-
-      app.xhr({
-        url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-        onload: { run: { func: 'app.renderTemplates', arg: options } }
-      })
-    }
-
-    if (!element || element && !src) app.runAttributes()
-  },
-
-  /**
-   * @function renderTemplates
-   * @memberof app
-   * @param {object} options - An object that contains data needed for the renderTemplates function.
-   * @param {object} options.data - The data that contains the templates to be rendered.
-   * @param {boolean} [options.arg.runAttributes=false] - A flag that indicates whether to call the runAttributes function or not.
-   * @desc Renders the templates by setting the innerHTML of the corresponding DOM elements and calls the loadExtensions function if available.
-   */
-  renderTemplates: function (options) {
-    app.log.info()('Rendering templates...')
-    var currentPageBody = document.body.innerHTML
-
-    for (var i = 0; i < options.data.length; i++) {
-      var responsePageContent = dom.parse.text(options.data[i]),
-        responsePageHtml = dom.find(responsePageContent, 'html'),
-        responsePageScript = dom.find(responsePageContent, app.scriptSelector)
-
-      if (responsePageContent.doctype) {
-        app.config.set(responsePageScript)
-        dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
-        dom.set('main', currentPageBody)
-        app.language = responsePageContent.documentElement.lang
-        app.loadExtensions(true)
-      } else {
-
-        var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
-          templateHeader = dom.find(template, 'header').innerHTML,
-          templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
-          templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
-          templateFooter = dom.find(template, 'footer').innerHTML
-
-        if (templateHeader) dom.set('header', templateHeader)
-        if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
-        if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
-        if (templateFooter) dom.set('footer', templateFooter)
-      }
-    }
-
-    if (options.arg.runAttributes) app.runAttributes()
+      if (options.arg.runAttributes) app.runAttributes()
+    },
   },
 
   /**
@@ -249,7 +265,7 @@ var app = {
                 if (run) {
                   app.log.info()('Calling: ' + run)
 
-                  if (run[1] === 'renderTemplates') runarg = { data: responses, arg: runarg }
+                  if (run[1] === 'templates' && run[2] === 'render') runarg = { data: responses, arg: runarg }
 
                   if (run.length === 4)
                     window[run[0]][run[1]][run[2]][run[3]](runarg)
@@ -459,7 +475,7 @@ var dom = {
   afterbegin: function (object, value) {
     object.insertAdjacentText("afterbegin", value)
   },
-  
+
   afterend: function (object, value) {
     object.insertAdjacentText("afterend", value)
   },
@@ -511,5 +527,5 @@ document.addEventListener('click', function (event) {
 
 document.addEventListener('DOMContentLoaded', function () {
   app.config.set(dom.get(app.scriptSelector))
-  app.isFrontpage ? app.loadExtensions(true) : app.loadTemplates()
+  app.isFrontpage ? app.extensions.load(true) : app.templates.load()
 })
