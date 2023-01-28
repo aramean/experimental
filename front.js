@@ -451,6 +451,27 @@ var dom = {
     object.innerHTML = object.innerHTML.toLowerCase()
   },
 
+  slice: function (object, value) {
+    var values = value.replace(/\s+/g, "").split(",")
+    object.innerHTML = object.innerHTML.slice(values[0], values[1])
+  },
+
+  afterbegin: function (object, value) {
+    object.insertAdjacentText("afterbegin", value)
+  },
+  
+  afterend: function (object, value) {
+    object.insertAdjacentText("afterend", value)
+  },
+
+  beforebegin: function (object, value) {
+    object.insertAdjacentText("beforebegin", value)
+  },
+
+  beforeend: function (object, value) {
+    object.insertAdjacentText("beforeend", value)
+  },
+
   /**
    * @function getTagLink
    * @memberof dom

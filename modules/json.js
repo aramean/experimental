@@ -3,10 +3,10 @@
 app.module.json = {
   src: function (element) {
     var attr = element.attributes,
-      options = { 
+      options = {
         iterate: attr.iterate && attr['iterate'].value,
         element: element
-     }
+      }
 
     app.xhr({
       url: attr['json-src'].value,
@@ -32,19 +32,29 @@ app.module.json = {
       iterate = arg.iterate,
       total = iterate && $response[iterate].length - 1
 
-      var originalNode = element.cloneNode(true),
-        content = ''
+    var originalNode = element.cloneNode(true),
+      orginalNodeCountAll = originalNode.getElementsByTagName("*").length,
+      content = '',
+      j = -1
 
-      for (var i = 0; i <= total; i++) {
-        content += originalNode.innerHTML
+    for (var i = 0; i <= total; i++) {
+      content += originalNode.innerHTML
+    }
+
+    element.innerHTML = content
+
+    var element = element.getElementsByTagName("*")
+
+    for (var i = 0; i < element.length; i++) {
+
+      if (i % orginalNodeCountAll == 0) {
+        j++
       }
 
-      element.innerHTML = content
-      
-      /*var originalNode = element.cloneNode(true)
-      originalNode.innerHTML*/
-    //console.log(iterate)
-    console.dir(total)
-    //console.log($response.iterate)
+      var jsonget = element[i].getAttribute('json-get')
+      if (jsonget) {
+        dom.set(element[i], $response[iterate][j][jsonget])
+      }
+    }
   }
 }
