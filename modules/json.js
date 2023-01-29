@@ -33,7 +33,7 @@ app.module.json = {
       total = iterate && $response[iterate].length - 1
 
     var originalNode = element.cloneNode(true),
-      orginalNodeCountAll = originalNode.getElementsByTagName("*").length,
+      orginalNodeCountAll = dom.find(originalNode, '*').length,
       content = '',
       j = -1
 
@@ -43,7 +43,7 @@ app.module.json = {
 
     element.innerHTML = content
 
-    var elements = element.getElementsByTagName("*")
+    var elements = dom.find(element, '*')
 
     for (var i = 0; i < elements.length; i++) {
 
@@ -54,7 +54,7 @@ app.module.json = {
       var jsonget = elements[i].getAttribute('json-get')
       if (jsonget) {
         dom.set(elements[i], $response[iterate][j][jsonget])
-        //app.runAttributes(element)
+        //app.runAttributes(elements[i])
       }
     }
   }

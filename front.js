@@ -216,78 +216,84 @@ var app = {
   },
 
   /**
-   * @function xhr
+   * @namespace xhr
    * @memberof app
-   * @desc Creates XHR requests and updates the DOM based on the response.
+   * @desc
    */
   xhr: {
+
+    /**
+     * @function xhr
+     * @memberof app
+     * @desc Creates XHR requests and updates the DOM based on the response.
+     */
     get: function (options) {
-    var responses = [],
-      loaded = 0,
-      url = options.url instanceof Array ? options.url : [options.url],
-      total = url.length,
-      target = options.target ? dom.get(options.target) : options.element,
-      onload = options.onload,
-      timeout = onload ? options.onload.timeout || 0 : 0,
-      onprogress = options.onprogress,
-      onerror = options.onerror,
-      response = options.response,
-      run = onload.run && onload.run.func ? onload.run.func.split('.') : false,
-      runarg = onload.run && onload.run.arg
+      var responses = [],
+        loaded = 0,
+        url = options.url instanceof Array ? options.url : [options.url],
+        total = url.length,
+        target = options.target ? dom.get(options.target) : options.element,
+        onload = options.onload,
+        timeout = onload ? options.onload.timeout || 0 : 0,
+        onprogress = options.onprogress,
+        onerror = options.onerror,
+        response = options.response,
+        run = onload.run && onload.run.func ? onload.run.func.split('.') : false,
+        runarg = onload.run && onload.run.arg
 
-    for (var i = 0; i < total; i++) {
-      (function (i, url) {
-        var url = url[i],
-          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension
+      for (var i = 0; i < total; i++) {
+        (function (i, url) {
+          var url = url[i],
+            urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension
 
-        var xhr = new XMLHttpRequest()
-        xhr.open('GET', url + urlExtension)
-        xhr.send()
+          var xhr = new XMLHttpRequest()
+          xhr.open('GET', url + urlExtension)
+          xhr.send()
 
-        xhr.onprogress = function () {
-          if (onprogress && target) dom.set(target, onprogress.content)
-        }
+          xhr.onprogress = function () {
+            if (onprogress && target) dom.set(target, onprogress.content)
+          }
 
-        xhr.onerror = function () {
-          if (onerror && target) dom.set(target, onerror)
-        }
+          xhr.onerror = function () {
+            if (onerror && target) dom.set(target, onerror)
+          }
 
-        xhr.onload = function () {
-          if (xhr.status === 200 || xhr.status === 204) {
-            setTimeout(function () {
-              responses[i] = xhr.responseText
-              loaded++
+          xhr.onload = function () {
+            if (xhr.status === 200 || xhr.status === 204) {
+              //setTimeout(function () {
+                responses[i] = xhr.responseText
+                loaded++
 
-              if (target) dom.set(target, xhr.response)
-              if (response) app.module[response].$response = JSON.parse(xhr.responseText)
+                if (target) dom.set(target, xhr.response)
+                if (response) app.module[response].$response = JSON.parse(xhr.responseText)
 
-              if (onload && loaded === total) {
+                if (onload && loaded === total) {
 
-                if (run) {
-                  app.log.info()('Calling: ' + run)
+                  if (run) {
+                    app.log.info()('Calling: ' + run)
 
-                  if (run[1] === 'templates' && run[2] === 'render') runarg = { data: responses, arg: runarg }
+                    if (run[1] === 'templates' && run[2] === 'render') runarg = { data: responses, arg: runarg }
 
-                  if (run.length === 4)
-                    window[run[0]][run[1]][run[2]][run[3]](runarg)
-                  else if (run.length === 3)
-                    window[run[0]][run[1]][run[2]](runarg)
-                  else if (run.length === 2)
-                    window[run[0]][run[1]](runarg)
-                } else {
-                  for (var j = 0; j < onload.length; j++) {
-                    window[onload[j].module][onload[j].func](onload[j].arg)
+                    if (run.length === 4)
+                      window[run[0]][run[1]][run[2]][run[3]](runarg)
+                    else if (run.length === 3)
+                      window[run[0]][run[1]][run[2]](runarg)
+                    else if (run.length === 2)
+                      window[run[0]][run[1]](runarg)
+                  } else {
+                    for (var j = 0; j < onload.length; j++) {
+                      window[onload[j].module][onload[j].func](onload[j].arg)
+                    }
                   }
                 }
-              }
-            }, timeout)
-          } else {
-            if (target) dom.set(target, xhr.statusText)
+              //}, timeout)
+            } else {
+              if (target) dom.set(target, xhr.statusText)
+            }
           }
-        }
-      })(i, url)
+        })(i, url)
+      }
     }
-  }
   },
 
   /**
