@@ -16,7 +16,7 @@ app.module.globalize = {
       language: app.language
     }, options.element)
 
-    app.xhr({
+    app.xhr.get({
       url: [config.folder + '/' + config.language + '.json'],
       response: 'globalize',
       onload: options.onload

@@ -60,7 +60,7 @@ app.module.navigate = {
     else if (!state.target || state.target[0] === '_')
       state.target = this.config.target
 
-    app.xhr({
+    app.xhr.get({
       url: state.href,
       urlExtension: state.extension,
       target: state.target,

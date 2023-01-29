@@ -8,7 +8,7 @@ app.module.json = {
         element: element
       }
 
-    app.xhr({
+    app.xhr.get({
       url: attr['json-src'].value,
       target: (attr.target) ? attr.target.value : false,
       response: 'json',

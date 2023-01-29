@@ -164,7 +164,7 @@ var app = {
         var srcdocValue = srcdoc ? srcdoc.split(';') : [],
           srcValue = src ? src.split(';') : []
 
-        app.xhr({
+        app.xhr.get({
           url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
           onload: { run: { func: 'app.templates.render', arg: options } }
         })
@@ -220,7 +220,8 @@ var app = {
    * @memberof app
    * @desc Creates XHR requests and updates the DOM based on the response.
    */
-  xhr: function (options) {
+  xhr: {
+    get: function (options) {
     var responses = [],
       loaded = 0,
       url = options.url instanceof Array ? options.url : [options.url],
@@ -286,6 +287,7 @@ var app = {
         }
       })(i, url)
     }
+  }
   },
 
   /**
@@ -509,7 +511,7 @@ var dom = {
    * @desc * Loads the content of an external file and insert it into the DOM.
    */
   include: function (element) {
-    app.xhr({
+    app.xhr.get({
       element: element,
       url: element.attributes.include.value,
       onload: [{ module: 'app', func: 'runAttributes', arg: '#' + element.id + ' *' }],
