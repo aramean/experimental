@@ -6,10 +6,11 @@
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
   <link type="image/x-icon" href="favicon.ico" rel="shortcut icon">
-  <script src="front.js" module="globalize;json;navigate" conf="debug:true" globalize-conf="folder:assets/json/globalize;language:arc" navigate-conf="target:main"></script>
+  <script src="front.js" module="globalize;json;navigate" conf="debug:false" globalize-conf="folder:assets/json/globalize;language:arc" navigate-conf="target:main"></script>
 </head>
 
 <body>
+  <div id="navloader" class="navloader pa t0 w100 bcwhite03 d0"><div id="navprogress" class="bcwhite08 h10"></div></div>
   <header class="h5 bcblue white white- p1 tac">
     <a href="page1.html">Page 1</a> <a href="page2.html">Page 2 <a href="page3.html">Page 3</a>
     <a href="pagejson.html">Page Json</a>
@@ -22,7 +23,7 @@
     <hr>
     <span test lowercase uppercase></span>
 
-    <span lowercase>LOWERCASE</span>
+    <span lowercase uppercase slice="0,">LOWERCASE</span>
 
     <div>
       <span uppercase>uppercase</span>
@@ -43,7 +44,7 @@
     <div id="test2" run="false"></div>
     <div id="test3" run="false"></div>
 
-    <div include="test.html" timeout="100000"></div>
+    <div include="test.html" progresscontent="Loading" timeout="100000"></div>
 
   </main>
   <aside class="w15r bcyellow p2">. 2 .</aside>

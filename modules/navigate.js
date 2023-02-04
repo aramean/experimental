@@ -10,7 +10,8 @@ app.module.navigate = {
    */
   _autoload: function (options) {
     this.config = app.config.get('navigate', {
-      target: 'main'
+      target: 'main',
+      loader: '#navloader'
     }, options.element)
   },
 
@@ -64,6 +65,7 @@ app.module.navigate = {
       url: state.href,
       urlExtension: state.extension,
       target: state.target,
+      onprogress: { loader: this.config.loader },
       onload: { run: { func: 'app.templates.load', arg: state.arg } }
     })
   },

@@ -221,7 +221,6 @@ var app = {
    * @desc
    */
   xhr: {
-
     /**
      * @function xhr
      * @memberof app
@@ -233,11 +232,14 @@ var app = {
         url = options.url instanceof Array ? options.url : [options.url],
         total = url.length,
         target = options.target ? dom.get(options.target) : options.element,
+        response = options.response,
+
         onload = options.onload,
-        timeout = onload ? options.onload.timeout || 0 : 0,
         onprogress = options.onprogress,
         onerror = options.onerror,
-        response = options.response,
+
+        timeout = onload ? options.onload.timeout || 0 : 0,
+        loader = onprogress && onprogress.loader ? dom.get(onprogress.loader) : false,
         run = onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload.run && onload.run.arg
 
@@ -248,51 +250,79 @@ var app = {
 
           var xhr = new XMLHttpRequest()
           xhr.open('GET', url + urlExtension)
-          xhr.send()
 
-          xhr.onprogress = function () {
-            if (onprogress && target) dom.set(target, onprogress.content)
+          xhr.onloadstart = function () {
+            if (loader) app.navloader.reset(loader)
           }
 
           xhr.onerror = function () {
             if (onerror && target) dom.set(target, onerror)
           }
 
+          xhr.onprogress = function (e) {
+            if (loader && e.lengthComputable) app.navloader.run(loader, e)
+            if (onprogress) target ? dom.set(target, onprogress.content) : ''
+          }
+
+          xhr.onloadend = function () {
+            if (loader) app.navloader.finish(loader)
+          }
+
           xhr.onload = function () {
             if (xhr.status === 200 || xhr.status === 204) {
               //setTimeout(function () {
-                responses[i] = xhr.responseText
-                loaded++
+              responses[i] = xhr.responseText
+              loaded++
 
-                if (target) dom.set(target, xhr.response)
-                if (response) app.module[response].$response = JSON.parse(xhr.responseText)
+              if (target) dom.set(target, xhr.response)
+              if (response) app.module[response].$response = JSON.parse(xhr.responseText)
 
-                if (onload && loaded === total) {
+              if (onload && loaded === total) {
 
-                  if (run) {
-                    app.log.info()('Calling: ' + run)
+                if (run) {
+                  app.log.info()('Calling: ' + run)
 
-                    if (run[1] === 'templates' && run[2] === 'render') runarg = { data: responses, arg: runarg }
+                  if (run[1] === 'templates' && run[2] === 'render') runarg = { data: responses, arg: runarg }
 
-                    if (run.length === 4)
-                      window[run[0]][run[1]][run[2]][run[3]](runarg)
-                    else if (run.length === 3)
-                      window[run[0]][run[1]][run[2]](runarg)
-                    else if (run.length === 2)
-                      window[run[0]][run[1]](runarg)
-                  } else {
-                    for (var j = 0; j < onload.length; j++) {
-                      window[onload[j].module][onload[j].func](onload[j].arg)
-                    }
+                  if (run.length === 4)
+                    window[run[0]][run[1]][run[2]][run[3]](runarg)
+                  else if (run.length === 3)
+                    window[run[0]][run[1]][run[2]](runarg)
+                  else if (run.length === 2)
+                    window[run[0]][run[1]](runarg)
+                } else {
+                  for (var j = 0; j < onload.length; j++) {
+                    window[onload[j].module][onload[j].func](onload[j].arg)
                   }
                 }
+              }
               //}, timeout)
             } else {
               if (target) dom.set(target, xhr.statusText)
             }
           }
+          xhr.send()
         })(i, url)
       }
+    }
+  },
+
+  navloader: {
+    run: function (loader, e) {
+      loader.firstChild.style.transition = "width .5s ease-in-out"
+      loader.firstChild.style.width = (e.loaded / e.total) * 100 + '%'
+    },
+
+    finish: function (loader) {
+      loader.addEventListener('transitionend', function () {
+        dom.hide(loader)
+      })
+    },
+
+    reset: function(loader) {
+      loader.firstChild.style.width = 0
+      loader.firstChild.style.transition = ''
+      dom.show(loader)
     }
   },
 
@@ -409,6 +439,16 @@ var dom = {
    */
   setDisplay: function (action) {
     document.documentElement.style.display = action
+  },
+
+  hide: function (object) {
+    var el = object instanceof Object ? object : dom.get(object)
+    if (el) el.setAttribute("style", "display: none !important")
+  },
+
+  show: function (object) {
+    var el = object instanceof Object ? object : dom.get(object)
+    if (el) el.setAttribute("style", "display: block !important")
   },
 
   /**

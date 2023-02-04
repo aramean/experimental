@@ -47,7 +47,7 @@ app.module.json = {
 
     for (var i = 0; i < elements.length; i++) {
 
-      if (i % orginalNodeCountAll == 0) {
+      if (i % orginalNodeCountAll === 0) {
         j++
       }
 
