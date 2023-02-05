@@ -316,14 +316,12 @@ var app = {
     },
 
     finish: function (loader) {
-      console.log('finish')
       loader.addEventListener('transitionend', function () {
         dom.hide(loader)
       })
     },
 
     reset: function (loader) {
-      console.dir(loader)
       loader.firstChild.style.width = 0
       loader.firstChild.style.transition = ''
       dom.show(loader)
