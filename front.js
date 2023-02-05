@@ -256,7 +256,10 @@ var app = {
           }
 
           xhr.onprogress = function (e) {
-            if (loader) app.navloader.run(loader, e)
+            if (loader) {
+              loader.firstChild.style.width = (e.loaded / e.total) * 100 + '%'
+              //app.navloader.run(loader, e)
+            }
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 
