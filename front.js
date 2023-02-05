@@ -265,7 +265,6 @@ var app = {
           }
 
           xhr.onloadend = function () {
-            console.log('finish')
             if (loader) app.navloader.finish(loader)
           }
 
@@ -316,6 +315,7 @@ var app = {
     },
 
     finish: function (loader) {
+      console.log('finish')
       loader.addEventListener('transitionend', function () {
         dom.hide(loader)
       })
