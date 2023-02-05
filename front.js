@@ -265,7 +265,7 @@ var app = {
           }
 
           xhr.onloadend = function () {
-            if (loader) app.navloader.finish(loader)
+            if (loader) { app.navloader.finish(loader) }
           }
 
           xhr.onload = function () {
