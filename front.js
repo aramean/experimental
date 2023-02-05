@@ -254,7 +254,7 @@ var app = {
           if (loader) app.navloader.reset(loader)
 
           xhr.onprogress = function (e) {
-            if (loader && e.lengthComputable) app.navloader.run(loader, e)
+            if (loader) app.navloader.run(loader, e)
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 
@@ -320,7 +320,7 @@ var app = {
       })
     },
 
-    reset: function(loader) {
+    reset: function (loader) {
       console.dir(loader)
       loader.firstChild.style.width = 0
       loader.firstChild.style.transition = ''
