@@ -264,10 +264,6 @@ var app = {
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 
-          xhr.onloadend = function () {
-            if (loader) app.navloader.finish(loader)
-          }
-
           xhr.onload = function () {
             if (xhr.status === 200 || xhr.status === 204) {
               //setTimeout(function () {
@@ -297,6 +293,7 @@ var app = {
                 }
               }
               //}, timeout)
+              if (loader) app.navloader.finish(loader)
             } else {
               if (target) dom.set(target, xhr.statusText)
             }
