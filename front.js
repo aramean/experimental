@@ -251,7 +251,9 @@ var app = {
           var xhr = new XMLHttpRequest()
           xhr.open('GET', url + urlExtension)
 
-          if (loader) app.navloader.reset(loader)
+          xhr.onloadstart = function () {
+            if (loader) app.navloader.reset(loader)
+          }
 
           xhr.onprogress = function (e) {
             if (loader) app.navloader.run(loader, e)
