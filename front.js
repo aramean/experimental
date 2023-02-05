@@ -310,10 +310,9 @@ var app = {
 
   navloader: {
     run: function (loader, e) {
-      console.dir(loader)
-      console.warn((e.loaded / e.total) * 100)
+      var percent = (e.lengthComputable) ? (e.loaded / e.total) * 100 : 100
       loader.firstChild.style.transition = "width .5s ease-in-out"
-      loader.firstChild.style.width = (e.loaded / e.total) * 100 + '%'
+      loader.firstChild.style.width = percent + '%'
     },
 
     finish: function (loader) {
