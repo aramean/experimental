@@ -252,6 +252,7 @@ var app = {
           xhr.open('GET', url + urlExtension)
 
           xhr.onloadstart = function () {
+            console.warn(loader)
             if (loader) app.navloader.reset(loader)
           }
 
