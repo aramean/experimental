@@ -251,23 +251,11 @@ var app = {
           var xhr = new XMLHttpRequest()
           xhr.open('GET', url + urlExtension)
 
-          xhr.onloadstart = function () {
-            console.warn(loader)
-            if (loader) app.navloader.reset(loader)
-          }
-
-          xhr.onerror = function () {
-            if (onerror && target) dom.set(target, onerror)
-          }
+          if (loader) app.navloader.reset(loader)
 
           xhr.onprogress = function (e) {
             if (loader && e.lengthComputable) app.navloader.run(loader, e)
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
-          }
-
-          xhr.onloadend = function () {
-            console.warn(loader)
-            if (loader) app.navloader.finish(loader)
           }
 
           xhr.onload = function () {
@@ -303,6 +291,15 @@ var app = {
               if (target) dom.set(target, xhr.statusText)
             }
           }
+
+          xhr.onloadend = function () {
+            if (loader) app.navloader.finish(loader)
+          }
+
+          xhr.onerror = function () {
+            if (onerror && target) dom.set(target, onerror)
+          }
+
           xhr.send()
         })(i, url)
       }
@@ -324,6 +321,7 @@ var app = {
     },
 
     reset: function(loader) {
+      console.dir(loader)
       loader.firstChild.style.width = 0
       loader.firstChild.style.transition = ''
       dom.show(loader)
