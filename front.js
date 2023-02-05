@@ -309,6 +309,7 @@ var app = {
 
   navloader: {
     run: function (loader, e) {
+      console.dir(loader)
       loader.firstChild.style.transition = "width .5s ease-in-out"
       loader.firstChild.style.width = (e.loaded / e.total) * 100 + '%'
     },
