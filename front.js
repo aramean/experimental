@@ -249,17 +249,14 @@ var app = {
             urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension
 
           var xhr = new XMLHttpRequest()
-          xhr.open('GET', url + urlExtension)
+          xhr.open('GET', url + urlExtension, true)
 
           xhr.onloadstart = function () {
             if (loader) app.navloader.reset(loader)
           }
 
           xhr.onprogress = function (e) {
-            if (loader) {
-              loader.firstChild.style.width = (e.loaded / e.total) * 100 + '%'
-              //app.navloader.run(loader, e)
-            }
+            if (loader) app.navloader.run(loader, e)
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 
