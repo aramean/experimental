@@ -265,6 +265,7 @@ var app = {
           }
 
           xhr.onloadend = function () {
+            console.warn(loader)
             if (loader) app.navloader.finish(loader)
           }
 
