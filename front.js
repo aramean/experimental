@@ -318,7 +318,7 @@ var app = {
           lastUpdate = null
         }
       if (!lastUpdate) {
-        lastUpdate = setTimeout(updateProgress, 1000)
+        lastUpdate = setTimeout(updateProgress, 100)
       }
     },
 
