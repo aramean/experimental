@@ -310,8 +310,8 @@ var app = {
 
   navloader: {
     run: function (loader, e) {
-      loader.firstChild.style.transition = 'width 1s linear'
-      var percent = (e.lengthComputable) ? (e.loaded / e.total) * 100 : 100
+      loader.firstChild.style.transition = 'width .5s linear'
+      var percent = (e.lengthComputable) ? Math.round((e.loaded / e.total) * 100) : 100
       lastUpdate = null,
         updateProgress = function () {
           loader.firstChild.style.width = percent + '%'
