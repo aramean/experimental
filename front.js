@@ -317,9 +317,7 @@ var app = {
           loader.firstChild.style.width = percent + '%'
           lastUpdate = null
         }
-      if (!lastUpdate) {
-        lastUpdate = setTimeout(updateProgress, 100)
-      }
+      if (!lastUpdate)lastUpdate = setTimeout(updateProgress, 100)
     },
 
     reset: function (loader) {
