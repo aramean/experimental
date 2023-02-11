@@ -13,6 +13,7 @@ app.module.navigate = {
       target: 'main',
       loader: '#navloader'
     }, options.element)
+    this.preloader = dom.get(this.config.loader)
   },
 
   /**
@@ -21,6 +22,7 @@ app.module.navigate = {
    * @private
    */
   _open: function (event) {
+    this._preloader.reset(this.preloader)
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
       event.preventDefault()
@@ -78,19 +80,18 @@ app.module.navigate = {
    */
   _preloader: {
     run: function (loader, e) {
-      loader.firstChild.style.transition = 'width .5s linear'
       var percent = (e.lengthComputable) ? Math.round((e.loaded / e.total) * 100) : 100,
         lastUpdate = null,
         updateProgress = function () {
           loader.firstChild.style.width = percent + '%'
           lastUpdate = null
         }
-      if (!lastUpdate) lastUpdate = setTimeout(updateProgress, 100)
+      if (!lastUpdate) lastUpdate = setTimeout(updateProgress, 10)
     },
 
     reset: function (loader) {
-      loader.firstChild.style.transition = ''
-      loader.firstChild.style.width = '1%'
+      loader.firstChild.style.transition = 'width .5s linear'
+      loader.firstChild.style.width = '0%'
       dom.show(loader)
     },
 
