@@ -70,4 +70,34 @@ app.module.navigate = {
       onload: { run: { func: 'app.templates.load', arg: state.arg } }
     })
   },
+
+  /**
+   * @function _preloader
+   * @memberof app.module.navigate
+   * @private
+   */
+  _preloader: {
+    run: function (loader, e) {
+      loader.firstChild.style.transition = 'width .5s linear'
+      var percent = (e.lengthComputable) ? Math.round((e.loaded / e.total) * 100) : 100,
+        lastUpdate = null,
+        updateProgress = function () {
+          loader.firstChild.style.width = percent + '%'
+          lastUpdate = null
+        }
+      if (!lastUpdate) lastUpdate = setTimeout(updateProgress, 100)
+    },
+
+    reset: function (loader) {
+      loader.firstChild.style.transition = ''
+      loader.firstChild.style.width = '1%'
+      dom.show(loader)
+    },
+
+    finish: function (loader) {
+      loader.addEventListener('transitionend', function () {
+        dom.hide(loader)
+      })
+    },
+  }
 }

@@ -263,11 +263,11 @@ var app = {
           if (single) app.xhr.currentRequest = xhr
 
           xhr.onloadstart = function () {
-            if (loader) app.navloader.reset(loader)
+            if (loader && app.module.navigate) app.module.navigate._preloader.reset(loader)
           }
 
           xhr.onprogress = function (e) {
-            if (loader) app.navloader.run(loader, e)
+            if (loader && app.module.navigate) app.module.navigate._preloader.run(loader, e)
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 
@@ -306,7 +306,7 @@ var app = {
           }
 
           xhr.onloadend = function () {
-            if (loader) app.navloader.finish(loader)
+            if (loader && app.module.navigate) app.module.navigate._preloader.finish(loader)
           }
 
           xhr.onerror = function () {
@@ -317,31 +317,6 @@ var app = {
         })(i, url)
       }
     }
-  },
-
-  navloader: {
-    run: function (loader, e) {
-      loader.firstChild.style.transition = 'width .5s linear'
-      var percent = (e.lengthComputable) ? Math.round((e.loaded / e.total) * 100) : 100
-      lastUpdate = null,
-        updateProgress = function () {
-          loader.firstChild.style.width = percent + '%'
-          lastUpdate = null
-        }
-      if (!lastUpdate) lastUpdate = setTimeout(updateProgress, 100)
-    },
-
-    reset: function (loader) {
-      loader.firstChild.style.transition = ''
-      loader.firstChild.style.width = '1%'
-      dom.show(loader)
-    },
-
-    finish: function (loader) {
-      loader.addEventListener('transitionend', function () {
-        dom.hide(loader)
-      })
-    },
   },
 
   /**
