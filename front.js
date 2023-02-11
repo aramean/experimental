@@ -221,6 +221,9 @@ var app = {
    * @desc
    */
   xhr: {
+
+    currentRequest: null,
+
     /**
      * @function xhr
      * @memberof app
@@ -232,6 +235,7 @@ var app = {
         url = options.url instanceof Array ? options.url : [options.url],
         total = url.length,
         target = options.target ? dom.get(options.target) : options.element,
+        single = options.single,
         response = options.response,
 
         onload = options.onload,
@@ -243,6 +247,11 @@ var app = {
         run = onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload.run && onload.run.arg
 
+      // Abort the previous request if it exists
+      if (single && this.currentRequest) {
+        this.currentRequest.abort()
+      }
+
       for (var i = 0; i < total; i++) {
         (function (i, url) {
           var url = url[i],
@@ -250,6 +259,8 @@ var app = {
 
           var xhr = new XMLHttpRequest()
           xhr.open('GET', url + urlExtension, true)
+
+          if (single) app.xhr.currentRequest = xhr
 
           xhr.onloadstart = function () {
             if (loader) app.navloader.reset(loader)
@@ -317,7 +328,7 @@ var app = {
           loader.firstChild.style.width = percent + '%'
           lastUpdate = null
         }
-      if (!lastUpdate)lastUpdate = setTimeout(updateProgress, 100)
+      if (!lastUpdate) lastUpdate = setTimeout(updateProgress, 100)
     },
 
     reset: function (loader) {

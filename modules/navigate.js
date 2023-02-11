@@ -65,6 +65,7 @@ app.module.navigate = {
       url: state.href,
       urlExtension: state.extension,
       target: state.target,
+      single: true,
       onprogress: { loader: this.config.loader },
       onload: { run: { func: 'app.templates.load', arg: state.arg } }
     })
