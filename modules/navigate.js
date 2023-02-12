@@ -30,6 +30,12 @@ app.module.navigate = {
     if (link && link.target !== '_blank') {
       event.preventDefault()
       if (link.href !== window.location.href) {
+        
+        if (link.pathname === '/') {
+          link.target = 'html'
+          link.pathname = this.startpage + link.pathname
+        }
+        
         history.pushState({
           'href': link.pathname,
           'target': link.target,
@@ -61,11 +67,7 @@ app.module.navigate = {
    * @private
    */
   _load: function (state) {
-    if (state.href === '/')
-      state.target = 'html'
-    else if (!state.target || state.target[0] === '_')
-      state.target = this.config.target
-
+    if (!state.target || state.target[0] === '_') state.target = this.config.target
     app.xhr.get({
       url: this.startpage + state.href,
       urlExtension: state.extension,
