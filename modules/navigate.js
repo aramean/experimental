@@ -93,7 +93,7 @@ app.module.navigate = {
     },
 
     reset: function (loader) {
-      loader.firstChild.style.transition = 'width .5s linear'
+      loader.firstChild.style.transition = 'width .5s ease-out'
       loader.firstChild.style.width = '0%'
       dom.show(loader)
     },
