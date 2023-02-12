@@ -61,13 +61,15 @@ app.module.navigate = {
    * @private
    */
   _load: function (state) {
-    if (state.href === '/')
+    if (state.href === '/') {
+      state.href = this.startpage + state.href
       state.target = 'html'
-    else if (!state.target || state.target[0] === '_')
+    } else if (!state.target || state.target[0] === '_') {
       state.target = this.config.target
+    }
 
     app.xhr.get({
-      url: this.startpage + state.href,
+      url: state.href,
       urlExtension: state.extension,
       target: state.target,
       single: true,
