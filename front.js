@@ -13,7 +13,7 @@ var app = {
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
-  isLocalNetwork: window.location.hostname.match(/localhost|[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}\.[0-9]{2,3}|::1|\.local|^$/gi),
+  isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
   scriptSelector: 'script[src*=front]',
 
   /**
@@ -30,7 +30,9 @@ var app = {
      * @desc Logs information to the console if app.debug is set to 'true'.
      */
     info: function (prefix) {
-      return app.debug === 'true' ? console.info.bind(console, prefix ? ' ❱' : '❚') : function () { }
+      console.log(app.isFrontpage)
+      console.log(app.isLocalNetwork)
+      return app.debug === 'true' || (app.debugLocalhost && app.isLocalNetwork) ? console.info.bind(console, prefix ? ' ❱' : '❚') : function () { }
     },
 
     /**
@@ -40,7 +42,7 @@ var app = {
      * @desc Logs errors to the console if app.debug is set to 'true'.
      */
     error: function (code) {
-      return app.debug === 'true' ? console.error.bind(console, code === 0 ? ' Syntax not found:' : '') : function () { }
+      return app.debug === 'true' || (app.debugLocalhost && app.isLocalNetwork) ? console.error.bind(console, code === 0 ? ' Syntax not found:' : '') : function () { }
     }
   },
 
@@ -81,6 +83,7 @@ var app = {
       var element = scriptElement ? scriptElement : dom.get(app.scriptSelector),
         config = this.get(false, {
           debug: false,
+          debugLocalhost: false,
           fileExtension: '.html'
         }, element)
 
