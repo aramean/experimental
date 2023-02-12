@@ -33,7 +33,6 @@ app.module.navigate = {
         
         if (link.pathname === '/') {
           link.target = 'html'
-          link.pathname = this.startpage + link.pathname
         }
         
         history.pushState({
