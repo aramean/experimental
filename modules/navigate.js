@@ -64,6 +64,7 @@ app.module.navigate = {
     if (state.href === '/') {
       state.href = this.startpage + state.href
       state.target = 'html'
+      state.extension = false
     } else if (!state.target || state.target[0] === '_') {
       state.target = this.config.target
     }
