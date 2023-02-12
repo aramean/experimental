@@ -10,10 +10,13 @@ app.module.navigate = {
    */
   _autoload: function (options) {
     this.config = app.config.get('navigate', {
+      startpage: '',
+      startpageLocalhost: '',
       target: 'main',
       loader: '#navloader'
     }, options.element)
     this.preloader = dom.get(this.config.loader)
+    this.startpage = app.isLocalNetwork ? this.config.startpageLocalhost : this.config.startpage
   },
 
   /**
@@ -64,7 +67,7 @@ app.module.navigate = {
       state.target = this.config.target
 
     app.xhr.get({
-      url: state.href,
+      url: this.startpage + state.href,
       urlExtension: state.extension,
       target: state.target,
       single: true,
