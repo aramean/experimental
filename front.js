@@ -30,8 +30,6 @@ var app = {
      * @desc Logs information to the console if app.debug is set to 'true'.
      */
     info: function (prefix) {
-      console.log(app.isFrontpage)
-      console.log(app.isLocalNetwork)
       return app.debug === 'true' || (app.debugLocalhost && app.isLocalNetwork) ? console.info.bind(console, prefix ? ' ❱' : '❚') : function () { }
     },
 
