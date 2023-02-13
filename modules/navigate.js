@@ -30,6 +30,11 @@ app.module.navigate = {
     if (link && link.target !== '_blank') {
       event.preventDefault()
       if (link.href !== window.location.href) {
+
+        if (link.pathname === '/') {
+          link.href = link.href + this.startpage
+        }
+
         history.pushState({
           'href': link.pathname,
           'target': link.target,
@@ -51,9 +56,9 @@ app.module.navigate = {
       'href': window.location.href,
       'target': 'html',
       'extension': false,
-      'startpage': '',
       'arg': { disableSrcdoc: true, runAttributes: true }
     }
+
     this._load(state)
   },
 
@@ -98,8 +103,8 @@ app.module.navigate = {
     },
 
     reset: function (loader) {
-      loader.firstChild.style.transition = 'width .5s ease-out'
       loader.firstChild.style.width = '0%'
+      loader.firstChild.style.transition = 'width .5s ease-out'
       dom.show(loader)
     },
 
