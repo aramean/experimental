@@ -30,7 +30,7 @@ var app = {
      * @desc Logs information to the console if app.debug is set to 'true'.
      */
     info: function (prefix) {
-      return app.debug === 'true' || (app.debugLocalhost && app.isLocalNetwork) ? console.info.bind(console, prefix ? ' ❱' : '❚') : function () { }
+      return app.debug === 'true' || app.debug === 'localhost' && app.isLocalNetwork ? console.info.bind(console, prefix ? ' ❱' : '❚') : function () { }
     },
 
     /**
@@ -40,7 +40,7 @@ var app = {
      * @desc Logs errors to the console if app.debug is set to 'true'.
      */
     error: function (code) {
-      return app.debug === 'true' || (app.debugLocalhost && app.isLocalNetwork) ? console.error.bind(console, code === 0 ? ' Syntax not found:' : '') : function () { }
+      return app.debug === 'true' || app.debug === 'localhost' && app.isLocalNetwork ? console.error.bind(console, code === 0 ? ' Syntax not found:' : '') : function () { }
     }
   },
 
@@ -564,7 +564,7 @@ window.addEventListener('popstate', function (event) {
 })
 
 document.addEventListener('click', function (event) {
-  if (app.module.navigate) app.module.navigate._open(event)
+  if (app.module.navigate) app.module.navigate._click(event)
 })
 
 document.addEventListener('DOMContentLoaded', function () {

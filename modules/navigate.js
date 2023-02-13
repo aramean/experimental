@@ -20,11 +20,11 @@ app.module.navigate = {
   },
 
   /**
-   * @function _open
+   * @function _click
    * @memberof app.module.navigate
    * @private
    */
-  _open: function (event) {
+  _click: function (event) {
     this._preloader.reset(this.preloader)
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
@@ -33,6 +33,7 @@ app.module.navigate = {
         history.pushState({
           'href': link.pathname,
           'target': link.target,
+          'startpage': '',
           'arg': { disableSrcdoc: true, runAttributes: true }
         }, 'Titel', link.href)
       }
@@ -50,6 +51,7 @@ app.module.navigate = {
       'href': window.location.href,
       'target': 'html',
       'extension': false,
+      'startpage': '',
       'arg': { disableSrcdoc: true, runAttributes: true }
     }
     this._load(state)
@@ -61,13 +63,16 @@ app.module.navigate = {
    * @private
    */
   _load: function (state) {
-    if (state.href === '/')
+    if (state.href === '/') {
       state.target = 'html'
-    else if (!state.target || state.target[0] === '_')
+      console.log(state.startpage)
+      state.startpage = this.startpage
+    } else if (!state.target || state.target[0] === '_') {
       state.target = this.config.target
+    }
 
     app.xhr.get({
-      url: state.href,
+      url: state.startpage + state.href,
       urlExtension: state.extension,
       target: state.target,
       single: true,
