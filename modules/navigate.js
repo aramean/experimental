@@ -65,7 +65,6 @@ app.module.navigate = {
   _load: function (state) {
     if (state.href === '/') {
       state.target = 'html'
-      console.log(state.startpage)
       state.startpage = this.startpage
     } else if (!state.target || state.target[0] === '_') {
       state.target = this.config.target
