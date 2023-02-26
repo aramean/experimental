@@ -494,7 +494,7 @@ var dom = {
       envSubdomain = (object) ? object.getAttribute('hrefprod') : false
     if (envLocalhost && app.isLocalNetwork)
       object.setAttribute('href', envLocalhost)
-    else
+    else if(envSubdomain)
       object.setAttribute('href', envSubdomain)
   },
 
