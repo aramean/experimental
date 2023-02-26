@@ -7,15 +7,13 @@
   <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
   <link type="image/x-icon" href="favicon.ico" rel="shortcut icon">
   <base href="/experimental/" hreflocal="/" />
-  <script src="/front.js" module="globalize;json;navigate" conf="debug:localhost" navigate-conf="startpage:experimental"></script>
+  <script src="/front.js" module="globalize;json;navigate" conf="debug:false" navigate-conf="startpage:experimental"></script>
 </head>
 
 <body>
   <div id="navloader" class="navloader pa t0 w100 bcblack03 d0 h2px"><div class="bcwhite08"></div></div>
   <header class="h5 bcblue white white- p1 tac">
-    <a href="page1.html">Page 1</a> <a href="page2.html">Page 2 <a href="page3.html">Page 3</a>
-    <a href="pagejson.html">Page Json</a>
-    <a href="bigpage.html">Big page</a>
+    <a href="/">Startsida</a> <a href="page1.html">Page 1 </a>
       <div id="jsonDiv" test="hej" json-src="json.json" target="#newheader" timeout="10000" progresscontent="<h1>Loading ...</h1>"></div>
       <div class="fr w100" id="newheader"></div>
   </header>

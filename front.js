@@ -78,6 +78,7 @@ var app = {
      * @desc Sets the configuration to the app object.
      */
     set: function (scriptElement) {
+      dom.hreflocal(dom.get('head base'))
       var element = scriptElement ? scriptElement : dom.get(app.scriptSelector),
         config = this.get(false, {
           debug: false,
@@ -192,10 +193,10 @@ var app = {
           responsePageScript = dom.find(responsePageContent, app.scriptSelector)
 
         if (responsePageContent.doctype) {
-          app.config.set(responsePageScript)
           dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
           dom.set('main', currentPageBody)
           app.language = responsePageContent.documentElement.lang
+          app.config.set(responsePageScript)
           app.extensions.load(true)
         } else {
 
@@ -437,12 +438,12 @@ var dom = {
 
   hide: function (object) {
     var el = object instanceof Object ? object : dom.get(object)
-    if (el) el.setAttribute("style", "display: none !important")
+    if (el) el.setAttribute('style', 'display: none !important')
   },
 
   show: function (object) {
     var el = object instanceof Object ? object : dom.get(object)
-    if (el) el.setAttribute("style", "display: block !important")
+    if (el) el.setAttribute('style', 'display: block !important')
   },
 
   /**
@@ -486,6 +487,11 @@ var dom = {
       default:
         target.innerHTML = value
     }
+  },
+
+  hreflocal: function (object) {
+    var baseLocalhost = (object) ? object.getAttribute('hreflocal') : ''
+    if (baseLocalhost && app.isLocalNetwork) object.setAttribute('href', baseLocalhost)
   },
 
   /**
