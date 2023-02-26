@@ -490,8 +490,8 @@ var dom = {
   },
 
   hreflocal: function (object) {
-    var baseLocalhost = (object) ? object.getAttribute('hreflocal') : ''
-    if (baseLocalhost && app.isLocalNetwork) object.setAttribute('href', baseLocalhost)
+    var env = (object) ? object.getAttribute('hreflocal') : object.getAttribute('hrefprod')
+    if (env && app.isLocalNetwork) object.setAttribute('href', env)
   },
 
   /**
