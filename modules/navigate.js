@@ -9,6 +9,7 @@ app.module.navigate = {
    * @private
    */
   _autoload: function (options) {
+    console.log(app.baseUrl)
     this.config = app.config.get('navigate', {
       startpage: '',
       startpageLocalhost: '',

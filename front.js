@@ -13,6 +13,7 @@ var app = {
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
+  baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
   scriptSelector: 'script[src*=front]',
 
@@ -491,11 +492,12 @@ var dom = {
 
   hreflocal: function (object) {
     var envLocalhost = (object) ? object.getAttribute('hreflocal') : false,
-      envSubdomain = (object) ? object.getAttribute('hrefprod') : false
-    if (envLocalhost && app.isLocalNetwork)
-      object.setAttribute('href', envLocalhost)
-    else if(envSubdomain)
-      object.setAttribute('href', envSubdomain)
+      envSubdomain = (object) ? object.getAttribute('hrefprod') : false,
+      val = (envLocalhost && app.isLocalNetwork) ? envLocalhost : envSubdomain
+
+    if (object)
+      object.setAttribute('href', val)
+      app.baseUrl = val
   },
 
   /**
