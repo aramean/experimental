@@ -2,19 +2,19 @@
 <html lang="arc">
 
 <head>
-  <base hreflocal="/" hrefprod="/experimental/" beta-hrefenv="localhost:/;default:/experimental/">
+  <base hreflocal="/experimental/" hrefprod="/experimental/" beta-hrefenv="localhost:/;default:/experimental/">
   <title>Front</title>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
   <link type="image/x-icon" href="favicon.ico" rel="shortcut icon">
-  <script src="front.js" module="globalize;json;navigate" conf="debug:false" navigate-conf="startpage:experimental"></script>
+  <script src="front.js" module="globalize;json;navigate" conf="debug:false" navigate-conf="startpage:experimental" globalize-conf="folder:/assets/json/globalize"></script>
 </head>
 
 <body>
   <div id="navloader" class="navloader pa t0 w100 bcblack03 d0 h2px"><div class="bcwhite08"></div></div>
   <header class="h5 bcblue white white- p1 tac">
-    <a href="/">Startsida</a> <a href="page1.html">Page 1 </a>
-      <div id="jsonDiv" test="hej" json-src="json.json" target="#newheader" timeout="10000" progresscontent="<h1>Loading ...</h1>"></div>
+    <a href="./">Startsida</a> <a href="page1.html">Page 1 </a>
+      <div id="jsonDiv" test="hej" json-src="/json.json" target="#newheader" timeout="10000" progresscontent="<h1>Loading ...</h1>"></div>
       <div class="fr w100" id="newheader"></div>
   </header>
   <aside class="w15r bcyellow p2">. 1 .</aside>
@@ -31,20 +31,18 @@
 
     <span globalize-get="page"></span>
 
-    <div id="jsonDiv" json-src="json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
+    <div id="jsonDiv" json-src="/json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
     </div>
 
-    <div id="jsonDiv2" json-src="json2.json" target="#test2" timeout="2000" progresscontent="Loading 2 ...">
+    <div id="jsonDiv2" json-src="/json2.json" target="#test2" timeout="2000" progresscontent="Loading 2 ...">
     </div>
 
-    <div id="jsonDiv3" run="false" json-src="json3.json" target="#test3" timeout="3000" progresscontent="Loading 3 ..." errorcontent="<span class='red'>Error. Try again</span>">
+    <div id="jsonDiv3" run="false" json-src="/json3.json" target="#test3" timeout="3000" progresscontent="Loading 3 ..." errorcontent="<span class='red'>Error. Try again</span>">
     </div>
 
     <div id="test1" run="false"></div>
     <div id="test2" run="false"></div>
     <div id="test3" run="false"></div>
-
-    <div include="test.html" progresscontent="Loading" timeout="100000"></div>
 
   </main>
   <aside class="w15r bcyellow p2">. 2 .</aside>
