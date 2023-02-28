@@ -65,6 +65,7 @@ app.module.navigate = {
    */
   _load: function (state) {
     if (state.href === '/' || state.href === app.baseUrl) {
+      state.href = ''
       state.target = 'html'
       state.startpage = this.startpage
       state.extension = false
