@@ -474,7 +474,7 @@ var dom = {
 
     switch (tag) {
       case 'input':
-        type == 'checkbox' ? target.checked = value : target.value = value;
+        type == 'checkbox' ? target.checked = value : target.value = value
         break
       case 'img':
         target.src = value
@@ -497,7 +497,7 @@ var dom = {
 
     if (object)
       object.setAttribute('href', val)
-      app.baseUrl = val
+    app.baseUrl = val
   },
 
   /**
@@ -522,24 +522,24 @@ var dom = {
   },
 
   slice: function (object, value) {
-    var values = value.replace(/\s+/g, "").split(",")
+    var values = value.replace(/\s+/g, '').split(',')
     object.innerHTML = object.innerHTML.slice(values[0], values[1])
   },
 
   afterbegin: function (object, value) {
-    object.insertAdjacentText("afterbegin", value)
+    object.insertAdjacentText('afterbegin', value)
   },
 
   afterend: function (object, value) {
-    object.insertAdjacentText("afterend", value)
+    object.insertAdjacentText('afterend', value)
   },
 
   beforebegin: function (object, value) {
-    object.insertAdjacentText("beforebegin", value)
+    object.insertAdjacentText('beforebegin', value)
   },
 
   beforeend: function (object, value) {
-    object.insertAdjacentText("beforeend", value)
+    object.insertAdjacentText('beforeend', value)
   },
 
   /**
