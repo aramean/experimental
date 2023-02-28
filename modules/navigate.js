@@ -11,13 +11,10 @@ app.module.navigate = {
   _autoload: function (options) {
     this.config = app.config.get('navigate', {
       baseUrl: app.baseUrl,
-      startpage: '',
-      startpageLocalhost: '',
       target: 'main',
       loader: '#navloader'
     }, options.element)
     this.preloader = dom.get(this.config.loader)
-    this.startpage = app.isLocalNetwork ? this.config.startpageLocalhost : this.config.startpage
   },
 
   /**
@@ -34,7 +31,6 @@ app.module.navigate = {
         history.pushState({
           'href': link.pathname,
           'target': link.target,
-          'startpage': '',
           'arg': { disableSrcdoc: true, runAttributes: true }
         }, 'Titel', link.href)
       }
@@ -52,7 +48,6 @@ app.module.navigate = {
       'href': window.location.href,
       'target': 'html',
       'extension': false,
-      'startpage': '',
       'arg': { disableSrcdoc: true, runAttributes: true }
     }
     this._load(state)
@@ -65,9 +60,7 @@ app.module.navigate = {
    */
   _load: function (state) {
     if (state.href === '/' || state.href === app.baseUrl) {
-      //state.href = ''
       state.target = 'html'
-      //state.startpage = this.startpage
       state.extension = false
     } else if (!state.target || state.target[0] === '_') {
       state.target = this.config.target
