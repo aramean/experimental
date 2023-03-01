@@ -129,7 +129,7 @@ var app = {
           if (app.module[this.name]._autoload) {
             app.module[this.name]._autoload({
               element: scriptElement,
-              onload: this.total == this.loaded ? { run: { func: 'app.runAttributes' } } : ''
+              onload: this.total == this.loaded ? { run: { func: 'app.attributes.run' } } : ''
             })
           }
         }
@@ -137,7 +137,7 @@ var app = {
         document.head.appendChild(script)
       }
 
-      if (!total && runAttributes) app.runAttributes()
+      if (!total && runAttributes) app.attributes.run()
     }
   },
 
@@ -173,7 +173,7 @@ var app = {
         })
       }
 
-      if (!element || element && !src) app.runAttributes()
+      if (!element || element && !src) app.attributes.run()
     },
 
     /**
@@ -214,7 +214,7 @@ var app = {
         }
       }
 
-      if (options.arg.runAttributes) app.runAttributes()
+      if (options.arg.runAttributes) app.attributes.run()
     },
   },
 
@@ -288,18 +288,14 @@ var app = {
                 if (run) {
                   app.log.info()('Calling: ' + run)
 
-                  if (run[1] === 'templates' && run[2] === 'render') runarg = { data: responses, arg: runarg }
-
+                  runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responses, arg: runarg } : runarg
+                  
                   if (run.length === 4)
                     window[run[0]][run[1]][run[2]][run[3]](runarg)
                   else if (run.length === 3)
                     window[run[0]][run[1]][run[2]](runarg)
                   else if (run.length === 2)
                     window[run[0]][run[1]](runarg)
-                } else {
-                  for (var j = 0; j < onload.length; j++) {
-                    window[onload[j].module][onload[j].func](onload[j].arg)
-                  }
                 }
               }
               //}, timeout)
@@ -323,34 +319,42 @@ var app = {
   },
 
   /**
-   * @function runAttributes
+   * @namespace attributes
    * @memberof app
-   * @param {string} [selector='html *'] - A CSS selector for the elements to be processed.
-   * @desc Runs Front Text Markup Language in all elements matching a given selector.
+   * @desc
    */
-  runAttributes: function (selector) {
-    var selector = selector || 'html *',
-      node = dom.get(selector, true)
-    app.log.info()('Running attributes ' + selector + ' ...')
+  attributes: {
 
-    for (var i = 0; i < node.length; i++) {
-      var element = node[i],
-        run = element.attributes.run ? element.attributes.run.value : '',
-        include = element.attributes.include ? element.attributes.include.value : ''
+    /**
+     * @function run
+     * @memberof app
+     * @param {string} [selector='html *'] - A CSS selector for the elements to be processed.
+     * @desc Runs Front Text Markup Language in all elements matching a given selector.
+     */
+    run: function (selector) {
+      var selector = selector || 'html *',
+        node = dom.get(selector, true)
+      app.log.info()('Running attributes ' + selector + ' ...')
 
-      if (include) dom.setUniqueId(element)
+      for (var i = 0; i < node.length; i++) {
+        var element = node[i],
+          run = element.attributes.run ? element.attributes.run.value : '',
+          include = element.attributes.include ? element.attributes.include.value : ''
 
-      if (run !== 'false') {
-        for (var j = 0; j < element.attributes.length; j++) {
-          var name = element.attributes[j].name.split('-'),
-            value = element.attributes[j].value
+        if (include) dom.setUniqueId(element)
 
-          if (app.module[name[0]] && name[1]) {
-            app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
-            app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
-          } else if (dom[name]) {
-            app.log.info(1)('dom.' + name)
-            dom[name](element, value)
+        if (run !== 'false') {
+          for (var j = 0; j < element.attributes.length; j++) {
+            var name = element.attributes[j].name.split('-'),
+              value = element.attributes[j].value
+
+            if (app.module[name[0]] && name[1]) {
+              app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
+              app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
+            } else if (dom[name]) {
+              app.log.info(1)('dom.' + name)
+              dom[name](element, value)
+            }
           }
         }
       }
@@ -566,7 +570,7 @@ var dom = {
     app.xhr.get({
       element: element,
       url: element.attributes.include.value,
-      onload: [{ module: 'app', func: 'runAttributes', arg: '#' + element.id + ' *' }],
+      onload: { run: { func: 'app.attributes.run', arg: '#' + element.id + ' *' } }
     })
   }
 }
