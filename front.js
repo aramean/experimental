@@ -265,6 +265,10 @@ var app = {
 
           if (single) app.xhr.currentRequest = xhr
 
+          xhr.onabort = function () {
+            if (loader && app.module.navigate) app.module.navigate._preloader.reset(loader)
+          }
+
           xhr.onloadstart = function () {
             if (loader && app.module.navigate) app.module.navigate._preloader.reset(loader)
           }

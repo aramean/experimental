@@ -99,7 +99,8 @@ app.module.navigate = {
     },
 
     finish: function (loader) {
-      loader.addEventListener('transitionend', function () {
+      loader.addEventListener('transitionend', function handler() {
+        loader.removeEventListener('transitionend', handler)
         dom.hide(loader)
       })
     },
