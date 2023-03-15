@@ -92,7 +92,8 @@ app.module.navigate = {
         percent = Math.round((loaded / total) * 100) || 100,
         width = 1
 
-      if (loaded !== total) {
+      app.log.info(0)('Loading bytes: ' + total)
+      if (loaded !== total && total > 0) {
         this.progress(percent)
       } else {
         this.intervalId = setInterval(function () {
