@@ -87,13 +87,12 @@ app.module.navigate = {
     load: function (loader, e) {
       this.loader = loader
       this.reset()
-console.dir(e)
       var loaded = e.loaded || 0,
         total = e.total || 0,
         percent = Math.round((loaded / total) * 100) || 100,
         width = 1
 
-      if (loaded !== total) {
+      if (loaded !== total && total > 0) {
         this.progress(percent)
       } else {
         this.intervalId = setInterval(function () {
