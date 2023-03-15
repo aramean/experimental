@@ -269,12 +269,10 @@ var app = {
             if (loader && app.module.navigate) app.module.navigate._preloader.reset(loader)
           }
 
-          xhr.onloadstart = function () {
-            if (loader && app.module.navigate) app.module.navigate._preloader.reset(loader)
-          }
+          xhr.onloadstart = function () {}
 
           xhr.onprogress = function (e) {
-            if (loader && app.module.navigate) app.module.navigate._preloader.run(loader, e)
+            if (loader && app.module.navigate) app.module.navigate._preloader.load(loader, e)
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 

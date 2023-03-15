@@ -23,7 +23,6 @@ app.module.navigate = {
    * @private
    */
   _click: function (event) {
-    this._preloader.reset(this.preloader)
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
       event.preventDefault()
@@ -82,27 +81,39 @@ app.module.navigate = {
    * @private
    */
   _preloader: {
-    run: function (loader, e) {
-      var percent = (e.lengthComputable) ? Math.round((e.loaded / e.total) * 100) : 100,
-        lastUpdate = null,
-        updateProgress = function () {
-          loader.firstChild.style.width = percent + '%'
-          lastUpdate = null
-        }
-      if (!lastUpdate) lastUpdate = setTimeout(updateProgress, 10)
+    intervalId: null,
+
+    load: function (loader, e) {
+      this.reset(loader)
+
+      var loaded = e.loaded || 0,
+        total = e.total || 0,
+        percent = (e.lengthComputable) ? Math.round((loaded / total) * 100) : 100
+
+      var width = 1
+
+      if (loaded !== total) {
+        loader.firstChild.style.width = percent + "%"
+      } else {
+        this.intervalId = setInterval(function () {
+          if (width === 100) {
+            clearInterval(this.intervalId)
+            dom.hide(loader)
+          } else {
+            loader.firstChild.style.width = width + "%"
+          }
+
+          width++
+        }.bind(this), 3)
+      }
     },
 
     reset: function (loader) {
-      loader.firstChild.style.transition = 'width .5s ease-out'
-      loader.firstChild.style.width = '0%'
+      loader.firstChild.style.width = 0
+      clearInterval(this.intervalId)
       dom.show(loader)
     },
 
-    finish: function (loader) {
-      loader.addEventListener('transitionend', function handler() {
-        loader.removeEventListener('transitionend', handler)
-        dom.hide(loader)
-      })
-    },
+    finish: function (loader) { },
   }
 }
