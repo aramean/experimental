@@ -306,10 +306,6 @@ var app = {
             }
           }
 
-          xhr.onloadend = function () {
-            if (loader && app.module.navigate) app.module.navigate._preloader.finish(loader)
-          }
-
           xhr.onerror = function () {
             if (onerror && target) dom.set(target, onerror)
           }

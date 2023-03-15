@@ -82,9 +82,11 @@ app.module.navigate = {
    */
   _preloader: {
     intervalId: null,
+    loader: null,
 
     load: function (loader, e) {
-      this.reset(loader)
+      this.loader = loader
+      this.reset()
 
       var loaded = e.loaded || 0,
         total = e.total || 0,
@@ -93,14 +95,13 @@ app.module.navigate = {
       var width = 1
 
       if (loaded !== total) {
-        loader.firstChild.style.width = percent + "%"
+        this.progress(percent)
       } else {
         this.intervalId = setInterval(function () {
           if (width === 100) {
-            clearInterval(this.intervalId)
-            dom.hide(loader)
+            this.finish()
           } else {
-            loader.firstChild.style.width = width + "%"
+            this.progress(width)
           }
 
           width++
@@ -108,12 +109,19 @@ app.module.navigate = {
       }
     },
 
-    reset: function (loader) {
-      loader.firstChild.style.width = 0
-      clearInterval(this.intervalId)
-      dom.show(loader)
+    progress: function (width) {
+      this.loader.firstChild.style.width = width + "%"
     },
 
-    finish: function (loader) { },
+    reset: function () {
+      this.loader.firstChild.style.width = 0
+      clearInterval(this.intervalId)
+      dom.show(this.loader)
+    },
+
+    finish: function () {
+      clearInterval(this.intervalId)
+      dom.hide(this.loader)
+    },
   }
 }
