@@ -269,7 +269,11 @@ var app = {
             if (loader && app.module.navigate) app.module.navigate._preloader.reset(loader)
           }
 
-          xhr.onloadstart = function () {}
+          xhr.onloadstart = function () {
+            var contentLength = xhr.getResponseHeader('Content-Length')
+            console.log(contentLength)
+            //onprogress.total = contentLength
+          }
 
           xhr.onprogress = function (e) {
             if (loader && app.module.navigate) app.module.navigate._preloader.load(loader, e)
