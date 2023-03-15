@@ -270,7 +270,7 @@ var app = {
           }
 
           xhr.onloadstart = function () {
-            var contentLength = xhr.getResponseHeader('Content-Length')
+            var contentLength = xhr.getResponseHeader('content-length')
             console.log(contentLength)
             //onprogress.total = contentLength
           }
