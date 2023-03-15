@@ -90,20 +90,14 @@ app.module.navigate = {
 
       var loaded = e.loaded || 0,
         total = e.total || 0,
-        percent = (e.lengthComputable) ? Math.round((loaded / total) * 100) : 100
-
-      var width = 1
+        percent = (e.lengthComputable) ? Math.round((loaded / total) * 100) : 100,
+        width = 1
 
       if (loaded !== total) {
         this.progress(percent)
       } else {
         this.intervalId = setInterval(function () {
-          if (width === 100) {
-            this.finish()
-          } else {
-            this.progress(width)
-          }
-
+          width === 100 ? this.finish() : this.progress(width)
           width++
         }.bind(this), 3)
       }
@@ -114,9 +108,9 @@ app.module.navigate = {
     },
 
     reset: function () {
-      this.loader.firstChild.style.width = 0
       clearInterval(this.intervalId)
       dom.show(this.loader)
+      this.progress(0)
     },
 
     finish: function () {
