@@ -47,14 +47,13 @@ app.module.json = {
 
     for (var i = 0; i < elements.length; i++) {
 
+      var jsonget = elements[i].getAttribute('json-get')
+
       if (i % orginalNodeCountAll === 0) {
         j++
       }
 
-      var jsonget = elements[i].getAttribute('json-get')
-      if (jsonget) {
-        dom.set(elements[i], $response[iterate][j][jsonget])
-      }
+      if (jsonget) dom.set(elements[i], $response[iterate][j][jsonget])
     }
 
     app.attributes.run(elements, ['json-get'])

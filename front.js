@@ -345,7 +345,7 @@ var app = {
     run: function (selector, exclude) {
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
-        defaultExclude = ['class'],
+        defaultExclude = ['id', 'name', 'class'],
         exclude = exclude ? exclude.concat(defaultExclude) : defaultExclude;
 
       app.log.info()('Running attributes ' + selector + ' ...')
@@ -359,10 +359,11 @@ var app = {
 
         if (run !== 'false') {
           for (var j = 0; j < element.attributes.length; j++) {
-            var name = element.attributes[j].name.split('-'),
+            var attributeName = element.attributes[j].name,
+              name = element.attributes[j].name.split('-'),
               value = element.attributes[j].value
 
-            if (exclude.indexOf(element.attributes[j].name) === -1) {
+            if (exclude.indexOf(attributeName) === -1) {
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
                 app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
@@ -371,7 +372,7 @@ var app = {
                 dom[name](element, value)
               }
             } else {
-              app.log.info(1)(name + " [Ignoring]")
+              app.log.warn(1)(name + " [Skipping]")
             }
           }
         }
