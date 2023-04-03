@@ -54,8 +54,9 @@ app.module.json = {
       var jsonget = elements[i].getAttribute('json-get')
       if (jsonget) {
         dom.set(elements[i], $response[iterate][j][jsonget])
-        //app.runAttributes(elements[i])
       }
     }
+
+    app.attributes.run(elements, ['json-get'])
   }
 }

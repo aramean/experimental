@@ -42,6 +42,16 @@ var app = {
      */
     error: function (code) {
       return app.debug === 'true' || app.debug === 'localhost' && app.isLocalNetwork ? console.error.bind(console, code === 0 ? ' Syntax not found:' : '') : function () { }
+    },
+
+    /**
+     * @function warn
+     * @memberof app.log
+     * @returns {function} - The console.warn() function or a no-op function if app.debug is not set to 'true'.
+     * @desc Logs warnings to the console if app.debug is set to 'true'.
+     */
+    warn: function (code) {
+      return app.debug === 'true' || app.debug === 'localhost' && app.isLocalNetwork ? console.warn.bind(console, code === 0 ? ' ?:' : '') : function () { }
     }
   },
 
@@ -294,7 +304,7 @@ var app = {
                   app.log.info()('Calling: ' + run)
 
                   runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responses, arg: runarg } : runarg
-                  
+
                   if (run.length === 4)
                     window[run[0]][run[1]][run[2]][run[3]](runarg)
                   else if (run.length === 3)
@@ -332,9 +342,12 @@ var app = {
      * @param {string} [selector='html *'] - A CSS selector for the elements to be processed.
      * @desc Runs Front Text Markup Language in all elements matching a given selector.
      */
-    run: function (selector) {
+    run: function (selector, exclude) {
       var selector = selector || 'html *',
-        node = dom.get(selector, true)
+        node = typeof selector === 'string' ? dom.get(selector, true) : selector,
+        defaultExclude = ['class'],
+        exclude = exclude ? exclude.concat(defaultExclude) : defaultExclude;
+
       app.log.info()('Running attributes ' + selector + ' ...')
 
       for (var i = 0; i < node.length; i++) {
@@ -349,12 +362,16 @@ var app = {
             var name = element.attributes[j].name.split('-'),
               value = element.attributes[j].value
 
-            if (app.module[name[0]] && name[1]) {
-              app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
-              app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
-            } else if (dom[name]) {
-              app.log.info(1)('dom.' + name)
-              dom[name](element, value)
+            if (exclude.indexOf(element.attributes[j].name) === -1) {
+              if (app.module[name[0]] && name[1]) {
+                app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
+                app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
+              } else if (dom[name]) {
+                app.log.info(1)('dom.' + name)
+                dom[name](element, value)
+              }
+            } else {
+              app.log.info(1)(name + " [Ignoring]")
             }
           }
         }
