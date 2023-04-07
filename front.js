@@ -544,9 +544,38 @@ var dom = {
     object.innerHTML = object.innerHTML.toLowerCase()
   },
 
+  /**
+   * @function slice
+   * @memberof dom
+   * @param {Object} object - The element object to modify.
+   * @param {string} value - A string representing the start and end indices of the slice.
+   * @desc Slices the content of an element and replaces it with the sliced portion.
+   */
   slice: function (object, value) {
     var values = value.replace(/\s+/g, '').split(',')
     object.innerHTML = object.innerHTML.slice(values[0], values[1])
+  },
+
+  /**
+   * @function trim
+   * @memberof dom
+   * @param {Object} object - The element object to modify.
+   * @param {string} value - A string representing the type of trim operation to perform ('left', 'right', or undefined).
+   * @desc Trims whitespace from the content of an element based on the value of the `trim` attribute.
+   */
+  trim: function (object, value) {
+    var regex
+    switch (value.toLowerCase()) {
+      case 'left':
+        regex = /^\s+/
+        break;
+      case 'right':
+        regex = /\s+$/
+        break;
+      default:
+        regex = /^\s+|\s+$/g
+    }
+    object.innerHTML = object.innerHTML.replace(regex, '')
   },
 
   afterbegin: function (object, value) {
