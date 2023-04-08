@@ -346,7 +346,7 @@ var app = {
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
         defaultExclude = ['id', 'name', 'class'],
-        exclude = exclude ? exclude.concat(defaultExclude) : defaultExclude;
+        exclude = exclude ? exclude.concat(defaultExclude) : defaultExclude
 
       app.log.info()('Running attributes ' + selector + ' ...')
 
@@ -389,7 +389,7 @@ var app = {
 
       for (var i = 0, len = vars.length; i < len; i++) {
         var pair = vars[i].split('=')
-        var key = decodeURIComponent(pair[0]);
+        var key = decodeURIComponent(pair[0])
         var value = decodeURIComponent(pair[1] || '')
         if (key === param) return value
       }
@@ -483,17 +483,18 @@ var dom = {
   },
 
   bind: function (object, value) {
+    var attributes = object.attributes,
+      innerHTML = object.innerHTML,
+      type = object.tagName.toLowerCase(),
+      binding = object.getAttribute('bind')
 
-    var attributes = object.attributes
-    var type = object.tagName.toLowerCase()
-    var binding = object.getAttribute('bind')
-
-    if (binding.includes('{') && binding.includes('}')) {
+    if (binding.indexOf('{') !== -1 && binding.indexOf('}') !== -1) {
       var bindings = binding.split(';')
       for (var i = 0; i < bindings.length; i++) {
-        var bindingParts = bindings[i].split(':')
-        var replaceVariable = bindingParts[0].replace(/[{}]/g, '')
-        var replacementValue = bindingParts[1]
+        var bindingParts = bindings[i].split(':'),
+          regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g'),
+          replaceVariable = bindingParts[0].replace(/[{}]/g, ''),
+          replacementValue = bindingParts[1]
 
         // Bind query
         if (/\{[?&]\w+\}/.test(replacementValue)) {
@@ -501,11 +502,14 @@ var dom = {
           replacementValue = app.querystrings.get(false, queryParam)
         }
 
+        var regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
+
+        // Replace variables in attributes
         for (var j = 0; j < attributes.length; j++) {
           var attr = attributes[j]
           if (attr.name === 'bind') continue
-          var newValue = attr.value.replace(new RegExp(`{${replaceVariable}}|\\b${replaceVariable}\\b`, 'g'), (match) => {
-            if (match === `{${replaceVariable}}`) {
+          var newValue = attr.value.replace(regex, function (match) {
+            if (match === '{' + replaceVariable + '}') {
               return replacementValue
             } else {
               return match
@@ -513,7 +517,19 @@ var dom = {
           })
           object.setAttribute(attr.name, newValue)
         }
+
+        // Replace variables in innerHTML
+        innerHTML = innerHTML.replace(regex, function (match) {
+          if (match === '{' + replaceVariable + '}') {
+            return replacementValue
+          } else {
+            return match
+          }
+        })
       }
+
+      // Update innerHTML of the object
+      object.innerHTML = innerHTML
     } else {
       switch (type) {
 
@@ -642,10 +658,10 @@ var dom = {
     switch (value.toLowerCase()) {
       case 'left':
         regex = /^\s+/
-        break;
+        break
       case 'right':
         regex = /\s+$/
-        break;
+        break
       default:
         regex = /^\s+|\s+$/g
     }
