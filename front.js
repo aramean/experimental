@@ -478,10 +478,6 @@ var dom = {
     document.documentElement.style.display = action
   },
 
-  alert: function (value) {
-    alert(value)
-  },
-
   bind: function (object, value) {
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
@@ -548,6 +544,10 @@ var dom = {
       }
 
     }
+  },
+
+  alert: function (value) {
+    alert(value)
   },
 
   hide: function (object) {
