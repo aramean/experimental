@@ -378,6 +378,24 @@ var app = {
         }
       }
     }
+  },
+
+  querystrings: {
+    get: function (url, param) {
+      var parser = document.createElement('a')
+      parser.href = url || window.location.href
+      var query = parser.search.substring(1)
+      var vars = query.split('&')
+    
+      for (var i = 0, len = vars.length; i < len; i++) {
+        var pair = vars[i].split('=')
+        var key = decodeURIComponent(pair[0]);
+        var value = decodeURIComponent(pair[1] || '')
+        if (key === param) return value
+      }
+    
+      return ''
+    }
   }
 }
 
@@ -458,6 +476,32 @@ var dom = {
    */
   setDisplay: function (action) {
     document.documentElement.style.display = action
+  },
+
+  alert: function (value) {
+    alert(value)
+  },
+
+  bind: function (object, value) {
+    value.split(';').forEach(function (target) {
+      dom.get(target).addEventListener('input', function () {
+        object.value = this.innerHTML
+      })
+    })
+    object.addEventListener('input', function () {
+      value.split(';').forEach(function (target) {
+        dom.get(target).innerHTML = object.value
+      })
+    })
+  },
+
+  bindquery: function (object) {
+    var querystring = app.querystrings.get(false, 'josef')
+    console.log(querystring)
+  },
+
+  bindstring: function () {
+    console.log('test')
   },
 
   hide: function (object) {
