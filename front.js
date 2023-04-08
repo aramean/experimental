@@ -489,23 +489,33 @@ var dom = {
 
     if (binding.includes('{') && binding.includes('}')) {
       var bindings = binding.split(';')
-      var regex = new RegExp('\\{([^}]+)\\}', 'g')
+      for (var i = 0; i < bindings.length; i++) {
+        var bindingParts = bindings[i].split(':')
+        var replaceVariable = bindingParts[0].replace(/[{}]/g, '')
+        var replacementValue = bindingParts[1]
 
-      for (var i = 0, len = bindings.length; i < len; i++) {
-        var [replaceVariable, replacementValue] = bindings[i].split(':')
-        replaceVariable = replaceVariable.replace(/[{}]/g, '')
+        // Bind query
+        if (/\{[?&]\w+\}/.test(replacementValue)) {
+          var queryParam = replacementValue.match(/\{[?&](\w+)\}/)[1]
+          replacementValue = app.querystrings.get(false, queryParam)
+        }
 
-        for (var j = 0, jLen = attributes.length; j < jLen; j++) {
+        for (var j = 0; j < attributes.length; j++) {
           var attr = attributes[j]
           if (attr.name === 'bind') continue
-          var newValue = attr.value.replace(regex, (match, p1) => {
-            return p1 === replaceVariable ? replacementValue : match
+          var newValue = attr.value.replace(new RegExp(`{${replaceVariable}}|\\b${replaceVariable}\\b`, 'g'), (match) => {
+            if (match === `{${replaceVariable}}`) {
+              return replacementValue
+            } else {
+              return match
+            }
           })
           object.setAttribute(attr.name, newValue)
         }
       }
     } else {
 
+      // Bind input
       value.split(';').forEach(function (target) {
         dom.get(target).addEventListener('input', function () {
           object.value = this.innerHTML
@@ -518,15 +528,6 @@ var dom = {
       })
 
     }
-  },
-
-  bindquery: function (object) {
-    var querystring = app.querystrings.get(false, 'josef')
-    //console.log(querystring)
-  },
-
-  bindstring: function () {
-    console.log('test')
   },
 
   hide: function (object) {

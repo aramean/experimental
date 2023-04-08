@@ -6,8 +6,8 @@
   <h1>Bind</h1>
 
   <hr class="black mt2">
-  <h4>Bind X</h4>
-  <div id="jsonDiv" json-src="json-{id}.json" bind="{id}:1" target="#josef" progresscontent="Loading 1 ...">Load</div>
+  <h4>Bind with querystring</h4>
+  <div id="jsonDiv" json-src="json-{id}.json" bind="{id}:{?q}" target="#josef" progresscontent="Loading 1 ...">Load</div>
   <div id="josef">Load here</div>
 
   <hr class="black mt2">
