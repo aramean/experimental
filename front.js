@@ -483,16 +483,35 @@ var dom = {
   },
 
   bind: function (object, value) {
-    value.split(';').forEach(function (target) {
-      dom.get(target).addEventListener('input', function () {
-        object.value = this.innerHTML
-      })
-    })
-    object.addEventListener('input', function () {
+
+    var attributes = object.attributes;
+    var binding = object.getAttribute('bind');
+
+    if (binding.includes('[') && binding.includes(']')) {
+      // Attribute has square brackets
+      var bindingParts = binding.split(':'),
+        idToReplace = bindingParts[0].replace(/[\[\]]/g, ''),
+        replacementValue = bindingParts[1]
+      for (var i = 0; i < attributes.length; i++) {
+        var attr = attributes[i]
+        if (attr.name === 'bind') continue
+        var newValue = attr.value.replace(new RegExp(idToReplace, 'g'), replacementValue).replace(/[\[\]]/g, '')
+        object.setAttribute(attr.name, newValue)
+      }
+    } else {
+
       value.split(';').forEach(function (target) {
-        dom.get(target).innerHTML = object.value
+        dom.get(target).addEventListener('input', function () {
+          object.value = this.innerHTML
+        })
       })
-    })
+      object.addEventListener('input', function () {
+        value.split(';').forEach(function (target) {
+          dom.get(target).innerHTML = object.value
+        })
+      })
+
+    }
   },
 
   bindquery: function (object) {
