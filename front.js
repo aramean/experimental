@@ -484,7 +484,8 @@ var dom = {
 
   bind: function (object, value) {
 
-    var attributes = object.attributes;
+    var attributes = object.attributes
+    var type = object.tagName.toLowerCase()
     var binding = object.getAttribute('bind')
 
     if (binding.includes('{') && binding.includes('}')) {
@@ -514,18 +515,21 @@ var dom = {
         }
       }
     } else {
+      switch (type) {
 
-      // Bind input
-      value.split(';').forEach(function (target) {
-        dom.get(target).addEventListener('input', function () {
-          object.value = this.innerHTML
-        })
-      })
-      object.addEventListener('input', function () {
-        value.split(';').forEach(function (target) {
-          dom.get(target).innerHTML = object.value
-        })
-      })
+        case 'input':
+          value.split(';').forEach(function (target) {
+            dom.get(target).addEventListener('input', function () {
+              object.value = this.innerHTML
+            })
+          })
+          object.addEventListener('input', function () {
+            value.split(';').forEach(function (target) {
+              dom.get(target).innerHTML = object.value
+            })
+          })
+          break
+      }
 
     }
   },
