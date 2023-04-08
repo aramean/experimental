@@ -386,14 +386,14 @@ var app = {
       parser.href = url || window.location.href
       var query = parser.search.substring(1)
       var vars = query.split('&')
-    
+
       for (var i = 0, len = vars.length; i < len; i++) {
         var pair = vars[i].split('=')
         var key = decodeURIComponent(pair[0]);
         var value = decodeURIComponent(pair[1] || '')
         if (key === param) return value
       }
-    
+
       return ''
     }
   }
@@ -485,18 +485,24 @@ var dom = {
   bind: function (object, value) {
 
     var attributes = object.attributes;
-    var binding = object.getAttribute('bind');
+    var binding = object.getAttribute('bind')
 
-    if (binding.includes('[') && binding.includes(']')) {
-      // Attribute has square brackets
-      var bindingParts = binding.split(':'),
-        idToReplace = bindingParts[0].replace(/[\[\]]/g, ''),
-        replacementValue = bindingParts[1]
-      for (var i = 0; i < attributes.length; i++) {
-        var attr = attributes[i]
-        if (attr.name === 'bind') continue
-        var newValue = attr.value.replace(new RegExp(idToReplace, 'g'), replacementValue).replace(/[\[\]]/g, '')
-        object.setAttribute(attr.name, newValue)
+    if (binding.includes('{') && binding.includes('}')) {
+      var bindings = binding.split(';')
+      var regex = new RegExp('\\{([^}]+)\\}', 'g')
+
+      for (var i = 0, len = bindings.length; i < len; i++) {
+        var [replaceVariable, replacementValue] = bindings[i].split(':')
+        replaceVariable = replaceVariable.replace(/[{}]/g, '')
+
+        for (var j = 0, jLen = attributes.length; j < jLen; j++) {
+          var attr = attributes[j]
+          if (attr.name === 'bind') continue
+          var newValue = attr.value.replace(regex, (match, p1) => {
+            return p1 === replaceVariable ? replacementValue : match
+          })
+          object.setAttribute(attr.name, newValue)
+        }
       }
     } else {
 
@@ -516,7 +522,7 @@ var dom = {
 
   bindquery: function (object) {
     var querystring = app.querystrings.get(false, 'josef')
-    console.log(querystring)
+    //console.log(querystring)
   },
 
   bindstring: function () {
