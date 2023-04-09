@@ -485,17 +485,23 @@ var dom = {
       type = object.tagName.toLowerCase(),
       binding = object.getAttribute('bind')
 
-    if (binding.indexOf('{') !== -1 && binding.indexOf('}') !== -1) {
+    if (binding.indexOf(':') !== -1) {
       var bindings = binding.split(';')
+
       for (var i = 0; i < bindings.length; i++) {
         var bindingParts = bindings[i].split(':'),
-          replaceVariable = bindingParts[0].replace(/[{}]/g, ''),
-          replacementValue = bindingParts[1]
+          replaceVariable = bindingParts[0].trim(),
+          replaceValue = bindingParts[1].trim()
+
+        // Bind global variable
+        if (replaceValue.startsWith('*')) {
+          var queryParam = replaceValue.substr(1)
+          replaceValue = (window.app[queryParam]) ? window.app[queryParam] : ''
+        }
 
         // Bind query
-        if (/\{[?&]\w+\}/.test(replacementValue)) {
-          var queryParam = replacementValue.match(/\{[?&](\w+)\}/)[1]
-          replacementValue = app.querystrings.get(false, queryParam)
+        if (replaceValue.startsWith('?')) {
+          replaceValue = app.querystrings.get(false, replaceValue.substr(1))
         }
 
         var regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
@@ -506,7 +512,7 @@ var dom = {
           if (attr.name === 'bind') continue
           var newValue = attr.value.replace(regex, function (match) {
             if (match === '{' + replaceVariable + '}')
-              return replacementValue
+              return replaceValue
           })
           object.setAttribute(attr.name, newValue)
         }
@@ -514,7 +520,7 @@ var dom = {
         // Replace variables in innerHTML
         innerHTML = innerHTML.replace(regex, function (match) {
           if (match === '{' + replaceVariable + '}') {
-            return replacementValue
+            return replaceValue
           } else {
             return match
           }
