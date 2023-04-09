@@ -58,6 +58,7 @@ app.module.navigate = {
    * @private
    */
   _load: function (state) {
+    app.log.info()('Loading page: '+state.href)
     if (state.href === '/' || state.href === app.baseUrl) {
       state.target = 'html'
       state.extension = false
@@ -92,7 +93,7 @@ app.module.navigate = {
         percent = Math.round((loaded / total) * 100) || 100,
         width = 1
 
-      app.log.info(0)('Loading bytes: ' + total)
+      app.log.info(1)('Loading bytes: ' + total)
       if (loaded !== total && total > 0) {
         this.progress(percent)
       } else {
