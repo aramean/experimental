@@ -488,7 +488,6 @@ var dom = {
       var bindings = binding.split(';')
       for (var i = 0; i < bindings.length; i++) {
         var bindingParts = bindings[i].split(':'),
-          regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g'),
           replaceVariable = bindingParts[0].replace(/[{}]/g, ''),
           replacementValue = bindingParts[1]
 
@@ -505,11 +504,8 @@ var dom = {
           var attr = attributes[j]
           if (attr.name === 'bind') continue
           var newValue = attr.value.replace(regex, function (match) {
-            if (match === '{' + replaceVariable + '}') {
+            if (match === '{' + replaceVariable + '}')
               return replacementValue
-            } else {
-              return match
-            }
           })
           object.setAttribute(attr.name, newValue)
         }
@@ -546,8 +542,24 @@ var dom = {
     }
   },
 
+  /**
+   * Displays a message in a dialog box.
+   *
+   * @param {string} value - The message to display in the dialog box.
+   */
   alert: function (value) {
     alert(value)
+  },
+
+  /**
+   * Retrieves metadata from a meta tag with the specified name and sets it as the inner HTML of the specified object.
+   *
+   * @param {HTMLElement} object - The element object to modify.
+   * @param {string} name - The name of the meta tag whose content will be retrieved.
+   */
+  metadata: function (object, name) {
+    var value = dom.get('meta[name='+ name +']')
+    object.innerHTML = value.content
   },
 
   hide: function (object) {
