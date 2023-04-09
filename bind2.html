@@ -1,0 +1,14 @@
+<script src="front.js"></script>
+<template srcdoc="index"></template>
+<title>Bind</title>
+
+<body>
+  <h1>Bind</h1>
+
+  <hr class="black mt2">
+  <h4>Bind with querystring</h4>
+  <div id="jsonDiv" json-src="json-{id}.json" bind="{id}:{?q}" target="#josef" progresscontent="Loading 1 ...">Load</div>
+  <div id="josef">Load here</div>
+
+
+</body>

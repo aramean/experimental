@@ -196,9 +196,10 @@ var app = {
      */
     render: function (options) {
       app.log.info()('Rendering templates...')
-      var currentPageBody = document.body.innerHTML
+      var currentPageBody = document.body.innerHTML,
+        data = options.data || []
 
-      for (var i = 0; i < options.data.length; i++) {
+      for (var i = 0; i < data.length; i++) {
         var responsePageContent = dom.parse.text(options.data[i]),
           responsePageHtml = dom.find(responsePageContent, 'html'),
           responsePageScript = dom.find(responsePageContent, app.scriptSelector)
@@ -558,7 +559,7 @@ var dom = {
    * @param {string} name - The name of the meta tag whose content will be retrieved.
    */
   metadata: function (object, name) {
-    var value = dom.get('meta[name='+ name +']')
+    var value = dom.get('meta[name=' + name + ']')
     object.innerHTML = value.content
   },
 
