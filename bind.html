@@ -7,19 +7,19 @@
 
   <hr class="black mt2">
   <h4>Bind with querystring</h4>
-  <div id="jsonDiv" json-src="json-{id}.json" bind="{id}:{?q}" target="#josef" progresscontent="Loading 1 ...">Load</div>
+  <div id="jsonDiv" bind="{id}:{?q1}" json-src="json-{id}.json" target="#josef" progresscontent="Loading 1 ...">Load</div>
   <div id="josef">Load here</div>
 
   <h4>Bind with environment variables</h4>
-  <div id="jsonDiv" json-src="{src}.json" bind="{src}:{*api_url}" target="#josef2" progresscontent="Loading 1 ...">Load</div>
+  <div id="jsonDiv" bind="{src}:{*api_url}" json-src="{src}.json" target="#josef2" progresscontent="Loading 1 ...">Load</div>
   <div id="josef2">Load here</div>
 
   <hr class="black mt2">
   <h4>Bind content with values</h4>
-  <div id="jsonDiv" bind="{id}:1;{id2}:2;{query}:{?q}">
+  <div id="jsonDiv" bind="{id}:1;{id2}:2;{query1}:{?q1};{query2}:{?q2}">
     <b>id:</b> {id}<br>
     <b>id2:</b> {id2}<br>
-    <b>query:</b> {query}
+    <b>query:</b> {query1} {query2}
   </div>
   
   <hr class="black mt2">
