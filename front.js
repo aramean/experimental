@@ -183,7 +183,7 @@ var app = {
         })
       }
 
-      if (!element || element && !src) app.attributes.run()
+      if (options.runAttributes && !src) app.attributes.run()
     },
 
     /**
