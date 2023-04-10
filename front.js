@@ -381,6 +381,42 @@ var app = {
     }
   },
 
+  variables: {
+    update: {
+      attributes: function (object, regex, replaceVariable, replaceValue, reset) {
+
+        var original = []
+
+        for (var i = 0; i < object.attributes.length; i++) {
+
+          var attr = object.attributes[i]
+
+          original.push({
+            name: attr.name,
+            value: attr.value
+          })
+
+          if (attr.name === 'bind') continue
+          var newValue = attr.value.replace(regex, function (match) {
+            if (match === '{' + replaceVariable + '}')
+              return replaceValue
+          })
+          object.setAttribute(attr.name, newValue)
+        }
+        
+        //console.log(object.id)
+       if (reset) {
+        app.attributes.run('#' + object.id, 'bind')
+       }
+
+        //console.log(original)
+      },
+      content: function () {
+        console.log('content')
+      }
+    }
+  },
+
   querystrings: {
     get: function (url, param) {
       var parser = document.createElement('a')
@@ -491,46 +527,55 @@ var dom = {
       for (var i = 0; i < bindings.length; i++) {
         var bindingParts = bindings[i].split(':'),
           replaceVariable = bindingParts[0].trim(),
-          replaceValue = bindingParts[1].trim()
-
-        // Bind global variable
-        if (replaceValue.startsWith('*')) {
-          var queryParam = replaceValue.substr(1)
-          replaceValue = (window.app[queryParam]) ? window.app[queryParam] : ''
-        }
+          replaceValue = bindingParts[1].trim(),
+          target = replaceValue.substr(1),
+          regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
 
         // Bind query
         if (replaceValue.startsWith('?')) {
-          replaceValue = app.querystrings.get(false, replaceValue.substr(1))
+          replaceValue = app.querystrings.get(false, target)
         }
 
-        var regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
-
-        // Replace variables in attributes
-        for (var j = 0; j < attributes.length; j++) {
-          var attr = attributes[j]
-          if (attr.name === 'bind') continue
-          var newValue = attr.value.replace(regex, function (match) {
-            if (match === '{' + replaceVariable + '}')
-              return replaceValue
-          })
-          object.setAttribute(attr.name, newValue)
+        // Bind global variable
+        if (replaceValue.startsWith('*')) {
+          replaceValue = (window.app[target]) ? window.app[target] : ''
         }
 
-        // Replace variables in innerHTML
-        innerHTML = innerHTML.replace(regex, function (match) {
-          if (match === '{' + replaceVariable + '}') {
-            return replaceValue
-          } else {
-            return match
+        // Bind element
+        if (replaceValue.startsWith('#')) {
+          //var type = replaceValue.tagName.toLowerCase()
+          var binding = dom.get(replaceValue),
+            type = binding.type
+
+          switch (type) {
+            case 'text':
+
+              binding.addEventListener('input', function () {
+                console.log('change')
+                console.log(this.value)
+                console.log(object)
+                app.variables.update.attributes(object, regex, replaceVariable, this.value, true)
+              })
+              break
           }
-        })
+        } else {
+
+          app.variables.update.attributes(object, regex, replaceVariable, replaceValue)
+
+          // Replace variables in innerHTML
+          innerHTML = innerHTML.replace(regex, function (match) {
+            if (match === '{' + replaceVariable + '}') {
+              return replaceValue
+            }
+            return match
+          })
+        }
+
+        object.innerHTML = innerHTML
       }
 
-      // Update innerHTML of the object
-      object.innerHTML = innerHTML
     } else {
-      switch (type) {
+      /*switch (type) {
 
         case 'input':
           value.split(';').forEach(function (target) {
@@ -545,7 +590,7 @@ var dom = {
           })
           break
       }
-
+*/
     }
   },
 

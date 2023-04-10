@@ -6,6 +6,10 @@
   <h1>Bind</h1>
 
   <hr class="black mt2">
+  <h4>Bind with include</h4>
+  <div id="jsonDiv" bind="file:test2" include="{file}.html" target="#include" progresscontent="Loading 1 ...">Load</div>
+  <div id="include">Load here</div>
+
   <h4>Bind with querystring</h4>
   <div id="jsonDiv" bind="id:?q1" json-src="json-{id}.json" target="#josef" progresscontent="Loading 1 ...">Load</div>
   <div id="josef">Load here</div>
@@ -25,7 +29,7 @@
   <hr class="black mt2">
   <h4>Bind input with element</h4>
   <input type="text" bind="#bind2" placeholder="Enter">
-  <div id="bind2" class="b1 bos1 h5 p2">...</div>
+  <div id="bind2" class="b1 bos1 h5 p2" bind="#bind2">...</div>
 
   <hr class="black mt2">
   <h4>Bind input with and between element</h4>

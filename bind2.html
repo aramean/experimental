@@ -2,13 +2,19 @@
 <template srcdoc="index"></template>
 <title>Bind</title>
 
-<body>
   <h1>Bind</h1>
 
   <hr class="black mt2">
   <h4>Bind with querystring</h4>
-  <div id="jsonDiv" json-src="json-{id}.json" bind="{id}:{?q}" target="#josef" progresscontent="Loading 1 ...">Load</div>
+  <div id="jsonDiv" bind="id:?q" json-src="json-{id}.json" target="#josef" progresscontent="Loading 1 ...">Load</div>
   <div id="josef">Load here</div>
+
+  <hr class="black mt2">
+  <h4>Bind chain (input with include)</h4>
+  
+  <input type="text" id="hej">
+  <div id="div" json-src="json-{id}.json" bind="id:#hej" onupdate="rerun" target="#josef2" progresscontent="Loading 1 ...">Load</div>
+  <div id="josef2">Loading...</div>
 
 
 </body>
