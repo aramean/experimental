@@ -54,7 +54,7 @@ app.module.json = {
         j++
       }
 
-      if (jsonget) dom.set(elements[i], $response[iterate][j][jsonget])
+      if (jsonget) dom.set(elements[i], iterateObject[j][jsonget])
     }
 
     app.attributes.run(elements, ['json-get'])
