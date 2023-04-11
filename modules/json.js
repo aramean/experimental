@@ -30,7 +30,8 @@ app.module.json = {
     var $response = this.$response,
       element = options.element,
       iterate = options.iterate,
-      total = iterate && $response[iterate].length - 1
+      iterateObject = iterate === 'true' ? $response : $response[iterate],
+      total = iterate && iterateObject.length - 1
 
     var originalNode = element.cloneNode(true),
       orginalNodeCountAll = dom.find(originalNode, '*').length,

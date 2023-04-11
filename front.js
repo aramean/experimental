@@ -403,16 +403,22 @@ var app = {
           })
           object.setAttribute(attr.name, newValue)
         }
-        
-        //console.log(object.id)
-       if (reset) {
-        app.attributes.run('#' + object.id, 'bind')
-       }
 
-        //console.log(original)
+        if (reset) {
+          app.attributes.run('#' + object.id, 'bind')
+          app.variables.reset.attributes(object, original)
+        }
       },
       content: function () {
         console.log('content')
+      }
+    },
+    reset: {
+      attributes: function (object, original) {
+        for (var i = 0; i < object.attributes.length; i++) {
+          var attr = object.attributes[i]
+          object.setAttribute(attr.name, original[i].value)
+        }
       }
     }
   },
@@ -551,9 +557,6 @@ var dom = {
             case 'text':
 
               binding.addEventListener('input', function () {
-                console.log('change')
-                console.log(this.value)
-                console.log(object)
                 app.variables.update.attributes(object, regex, replaceVariable, this.value, true)
               })
               break
