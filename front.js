@@ -344,13 +344,14 @@ var app = {
      * @desc Runs Front Text Markup Language in all elements matching a given selector.
      */
     run: function (selector, exclude) {
+
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
         defaultExclude = ['id', 'name', 'class'],
         exclude = exclude ? exclude.concat(defaultExclude) : defaultExclude
 
       app.log.info()('Running attributes ' + selector + ' ...')
-
+      console.dir(selector)
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
           run = element.attributes.run ? element.attributes.run.value : '',
@@ -383,20 +384,21 @@ var app = {
 
   variables: {
     update: {
-      attributes: function (object, regex, replaceVariable, replaceValue, reset) {
+      attributes: function (object, clonedObject, regex, replaceVariable, replaceValue, reset) {
 
-        var original = []
+        var originalAttributes = []
+        var originalContent = clonedObject.innerHTML
 
         for (var i = 0; i < object.attributes.length; i++) {
 
           var attr = object.attributes[i]
 
-          original.push({
+          originalAttributes.push({
             name: attr.name,
             value: attr.value
           })
 
-          if (attr.name === 'bind') continue
+          if (attr.name == 'bind') continue
           var newValue = attr.value.replace(regex, function (match) {
             if (match === '{' + replaceVariable + '}')
               return replaceValue
@@ -405,8 +407,9 @@ var app = {
         }
 
         if (reset) {
-          app.attributes.run('#' + object.id, 'bind')
-          app.variables.reset.attributes(object, original)
+          app.attributes.run([object], ['bind'])
+          app.variables.reset.attributes(object, originalAttributes)
+          app.variables.reset.content(object, originalContent)
         }
       },
       content: function () {
@@ -419,6 +422,10 @@ var app = {
           var attr = object.attributes[i]
           object.setAttribute(attr.name, original[i].value)
         }
+      },
+
+      content: function (object, original) {
+        object.innerHTML = original
       }
     }
   },
@@ -525,7 +532,8 @@ var dom = {
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
       type = object.tagName.toLowerCase(),
-      binding = object.getAttribute('bind')
+      binding = object.getAttribute('bind'),
+      clonedObject = object.cloneNode(true)
 
     if (binding.indexOf(':') !== -1) {
       var bindings = binding.split(';')
@@ -549,6 +557,7 @@ var dom = {
 
         // Bind element
         if (replaceValue.startsWith('#')) {
+          console.log(replaceValue)
           //var type = replaceValue.tagName.toLowerCase()
           var binding = dom.get(replaceValue),
             type = binding.type
@@ -557,11 +566,13 @@ var dom = {
             case 'text':
 
               binding.addEventListener('input', function () {
-                app.variables.update.attributes(object, regex, replaceVariable, this.value, true)
+                console.log(this.value)
+                app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
               })
               break
           }
         } else {
+
 
           app.variables.update.attributes(object, regex, replaceVariable, replaceValue)
 
@@ -575,25 +586,7 @@ var dom = {
         }
 
         object.innerHTML = innerHTML
-      }
-
-    } else {
-      /*switch (type) {
-
-        case 'input':
-          value.split(';').forEach(function (target) {
-            dom.get(target).addEventListener('input', function () {
-              object.value = this.innerHTML
-            })
-          })
-          object.addEventListener('input', function () {
-            value.split(';').forEach(function (target) {
-              dom.get(target).innerHTML = object.value
-            })
-          })
-          break
-      }
-*/
+      }  
     }
   },
 

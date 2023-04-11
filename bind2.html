@@ -2,24 +2,48 @@
 <template srcdoc="index"></template>
 <title>Bind</title>
 
-  <h1>Bind</h1>
+<h1>Bind</h1>
 
-  <hr class="black mt2">
-  <h4>Bind with querystring</h4>
-  <div id="jsonDiv" bind="id:?q" json-src="json-{id}.json" target="#josef" progresscontent="Loading 1 ...">Load</div>
-  <div id="josef">Load here</div>
+<hr class="black mt2">
+<h4>Bind with querystring</h4>
+<div id="jsonDiv" bind="id:?q" json-src="json-{id}.json" target="#josef" progresscontent="Loading 1 ...">Load</div>
+<div id="josef">Load here</div>
 
-  <hr class="black mt2">
-  <h4>Bind chain (input with include)</h4>
-  
-  <input type="text" id="hej">
-  <div id="div" json-src="https://api.punkapi.com/v2/beers/{id}" bind="id:#hej" target="#josef2" progresscontent="Loading 1 ..."></div>
-  <div id="josef2">Loading...</div>
-
-  <div bind="test:Sweden" json-src="http://universities.hipolabs.com/search?country={test}" loader="false" iterate="true" preloader="true" class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
+<!--<hr class="black mt2">
+  <h4>Bind with input</h4>
+  <input type="text" id="hej2">
+  <div bind="test:#hej2" json-src="http://universities.hipolabs.com/search?country={test}" loader="false" iterate="true" preloader="true" class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
     <figure class="p05">
         <figcaption class="z08 md_dn" json-get="name"></figcaption>
     </figure>
-  </div>
+  </div>-->
+
+<hr class="black mt2">
+<h4>Bind new</h4>
+<input type="text" id="hej2">
+<div bind="test:#hej2" json-src="http://universities.hipolabs.com/search?country={test}" iterate="true">
+  <figure class="p05">
+    <figcaption class="z08 md_dn" json-get="name"></figcaption>
+  </figure>
+</div>
+
+<hr class="black mt2">
+<h4>Bind with querystring</h4>
+<div bind="test:?country" json-src="http://universities.hipolabs.com/search?country={test}" loader="false"
+  iterate="true" preloader="true"
+  class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
+  <figure class="p05">
+    <figcaption class="z08 md_dn" json-get="name"></figcaption>
+  </figure>
+</div>
+
+<hr class="black mt2">
+<h4>Bind chain (input with include)</h4>
+
+<input type="text" id="hej">
+<div id="div" bind="id:#hej" json-src="https://api.punkapi.com/v2/beers/{id}" target="#josef2"
+  progresscontent="Loading 1 ..."></div>
+<div id="josef2">Loading...</div>
+
 
 </body>
