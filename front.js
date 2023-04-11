@@ -351,7 +351,6 @@ var app = {
         exclude = exclude ? exclude.concat(defaultExclude) : defaultExclude
 
       app.log.info()('Running attributes ' + selector + ' ...')
-      console.dir(selector)
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
           run = element.attributes.run ? element.attributes.run.value : '',
@@ -412,8 +411,15 @@ var app = {
           app.variables.reset.content(object, originalContent)
         }
       },
-      content: function () {
-        console.log('content')
+      content: function (object, regex, replaceVariable, replaceValue) {
+        var innerHTML = object.innerHTML.replace(regex, function (match) {
+          if (match === '{' + replaceVariable + '}') {
+            return replaceValue
+          }
+          return match
+        })
+
+        object.innerHTML = innerHTML
       }
     },
     reset: {
@@ -557,8 +563,6 @@ var dom = {
 
         // Bind element
         if (replaceValue.startsWith('#')) {
-          console.log(replaceValue)
-          //var type = replaceValue.tagName.toLowerCase()
           var binding = dom.get(replaceValue),
             type = binding.type
 
@@ -566,27 +570,23 @@ var dom = {
             case 'text':
 
               binding.addEventListener('input', function () {
-                console.log(this.value)
                 app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
+                app.variables.update.content(object, regex, replaceVariable, this.value)
               })
               break
           }
-        } else {
-
-
-          app.variables.update.attributes(object, regex, replaceVariable, replaceValue)
-
-          // Replace variables in innerHTML
-          innerHTML = innerHTML.replace(regex, function (match) {
-            if (match === '{' + replaceVariable + '}') {
-              return replaceValue
-            }
-            return match
-          })
         }
 
-        object.innerHTML = innerHTML
-      }  
+        // Replace variables in innerHTML
+        innerHTML = innerHTML.replace(regex, function (match) {
+          if (match === '{' + replaceVariable + '}') {
+            return replaceValue
+          }
+          return match
+        })
+      }
+
+      object.innerHTML = innerHTML
     }
   },
 

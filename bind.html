@@ -19,7 +19,7 @@
   <div id="josef2">Load here</div>
 
   <hr class="black mt2">
-  <h4>Bind content with values</h4>
+  <h4>Bind element content with querystrings</h4>
   <div id="jsonDiv" bind="id:1;id2:2;query1:?q1;query2:?q2">
     <b>id:</b> {id}<br>
     <b>id2:</b> {id2}<br>
@@ -27,15 +27,15 @@
   </div>
   
   <hr class="black mt2">
-  <h4>Bind input with element</h4>
-  <input type="text" bind="#bind2" placeholder="Enter">
-  <div id="bind2" class="b1 bos1 h5 p2" bind="#bind2">...</div>
+  <h4>Bind element with input</h4>
+  <input type="text" id="bindinput" placeholder="Enter">
+  <div bind="b1:#bindinput" class="b1 bos1 h5 p2">{b1}</div>
 
   <hr class="black mt2">
-  <h4>Bind input with and between element</h4>
-  <input type="text" bind="#bind3" placeholder="Enter">
+  <h4>Bind element content with input</h4>
+  <input type="text" id="bindinput2" placeholder="Enter">
   <div class="b1 bos1 h5 p2">
-    KEEP <span id="bind3"></span> KEEP...
+    KEEP <span bind="b2:#bindinput2">{b2}</span> KEEP...
   </div>
 
   <hr class="black mt2">
