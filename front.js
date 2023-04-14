@@ -105,6 +105,14 @@ var app = {
     }
   },
 
+  listeners: {
+    add: function (binding, type, value) {
+      binding.addEventListener(type, function () {
+        console.log('test')
+      })
+    }
+  },
+
   /**
    * @namespace extensions
    * @memberof app
@@ -565,17 +573,31 @@ var dom = {
         if (replaceValue.startsWith('#')) {
           var binding = dom.get(replaceValue),
             type = binding.type
-
           switch (type) {
             case 'text':
-
               binding.addEventListener('input', function () {
                 app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
                 app.variables.update.content(object, regex, replaceVariable, this.value)
               })
               break
+            case 'select-one':
+              binding.addEventListener('change', function() {
+                var value = this.options[this.selectedIndex].value
+                app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
+                app.variables.update.content(object, regex, replaceVariable, value)
+              })
+              break
           }
         }
+
+       // Replace variables in attributes
+       for (var j = 0; j < attributes.length; j++) {
+        var attr = attributes[j]
+        if (attr.value.indexOf('{' + replaceVariable + '}') !== -1) {
+          var newValue = attr.value.replace(regex, replaceValue)
+          object.setAttribute(attr.name, newValue)
+        }
+      }
 
         // Replace variables in innerHTML
         innerHTML = innerHTML.replace(regex, function (match) {
@@ -584,6 +606,7 @@ var dom = {
           }
           return match
         })
+
       }
 
       object.innerHTML = innerHTML

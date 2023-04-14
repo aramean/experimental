@@ -1,0 +1,11 @@
+
+<script src="front.js"></script>
+<template srcdoc="index"></template>
+<title>Bind</title>
+
+<input type="text" id="term">
+<div bind="t:#term" json-src="https://itunes.apple.com/search?term={t}" iterate="results">
+  <figure class="p05">
+    <figcaption class="z08 md_dn" json-get="collectionName"></figcaption>
+  </figure>
+</div>

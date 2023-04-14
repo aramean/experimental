@@ -15,7 +15,47 @@
 
 <hr class="black mt2">
 <input type="text" id="hej2">
-<div bind="test:#hej2" json-src="http://universities.hipolabs.com/search?country={test}" iterate="true">
+<div run="false" bind="test:#hej2" json-src="http://universities.hipolabs.com/search?country={test}" iterate="true">
+  <figure class="p05">
+    <figcaption class="z08 md_dn" json-get="name"></figcaption>
+  </figure>
+</div>
+
+
+<hr class="black mt2">
+<h3>Select</h3>
+<select id="hej3">
+  <option value="sweden">Sverige</option>
+  <option value="denmark">Danmark</option>
+</select>
+<div run="false" bind="test:#hej3" json-src="http://universities.hipolabs.com/search?country={test}" iterate="true">
+  <figure class="p05">
+    <figcaption class="z08 md_dn" json-get="name"></figcaption>
+  </figure>
+</div>
+
+<hr class="black mt2">
+<h3>Select</h3>
+<select id="hej4">
+  <option value="denmark">Danmark</option>
+  <option value="germany">Tyskland</option>
+  <option value="sweden">Sverige</option>
+  <option value="thailand">Thailand</option>
+  <option value="fiji">Fiji</option>
+  <option value="japan">Japan</option>
+  <option value="china">Kina</option>
+  <option value="monaco">Monaco</option>
+</select>
+<div run="bind" bind="test:#hej4" json-src="http://universities.hipolabs.com/search?country={test}" preloader="true" iterate="true">
+  <figure class="p05">
+    <figcaption class="z08 md_dn" json-get="name"></figcaption>
+  </figure>
+</div>
+
+
+<hr class="black mt2">
+<h3>Select with query</h3>
+<div run="false" bind="test:?country;test:#hej4" json-src="http://universities.hipolabs.com/search?country={test}" iterate="true">
   <figure class="p05">
     <figcaption class="z08 md_dn" json-get="name"></figcaption>
   </figure>
