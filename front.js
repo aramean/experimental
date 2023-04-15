@@ -361,8 +361,10 @@ var app = {
       app.log.info()('Running attributes ' + selector + ' ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
-          run = element.attributes.run ? element.attributes.run.value : '',
+          run = element.attributes.run ? element.attributes.run.value : false,
+          stop = element.attributes.stop ? element.attributes.stop.value.split(';') : false,
           include = element.attributes.include ? element.attributes.include.value : ''
+          exclude = stop ? exclude.concat(stop) : exclude
 
         if (include) dom.setUniqueId(element)
 
