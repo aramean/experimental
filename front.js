@@ -352,7 +352,6 @@ var app = {
      * @desc Runs Front Text Markup Language in all elements matching a given selector.
      */
     run: function (selector, exclude) {
-
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
         defaultExclude = ['id', 'name', 'class'],
@@ -363,9 +362,9 @@ var app = {
         var element = node[i],
           run = element.attributes.run ? element.attributes.run.value : false,
           stop = element.attributes.stop ? element.attributes.stop.value.split(';') : false,
-          include = element.attributes.include ? element.attributes.include.value : ''
-        exclude = stop ? exclude.concat(stop) : exclude
-        console.log(exclude)
+          include = element.attributes.include ? element.attributes.include.value : '',
+          exclude = exclude.indexOf('stop') === -1 && stop ? exclude.concat(stop) : exclude
+
         if (include) dom.setUniqueId(element)
 
         if (run !== 'false') {
