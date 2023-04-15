@@ -2,6 +2,26 @@
 <template srcdoc="index"></template>
 <title>Bind</title>
 
+<hr class="black mt2">
+<h3>Select</h3>
+<select id="hej4">
+  <option value="denmark">Danmark</option>
+  <option value="germany">Tyskland</option>
+  <option value="sweden">Sverige</option>
+  <option value="thailand">Thailand</option>
+  <option value="fiji">Fiji</option>
+  <option value="japan">Japan</option>
+  <option value="china">Kina</option>
+  <option value="monaco">Monaco</option>
+</select>
+<div bind="test:#hej4" json-src="http://universities.hipolabs.com/search?country={test}" preloader="true" iterate="true">
+  <figure class="p05">
+    <figcaption class="z08 md_dn" json-get="name"></figcaption>
+  </figure>
+</div>
+
+<hr class="black mt2">
+<h3>Input</h3>
 <input type="text" id="josefinput">
 <div bind="josef:#josefinput" json-src="assets/json/icons-material-{josef}.json" loader="false" iterate="icons" filter="true" preloader="true" class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
   <figure class="p05" onclick="copyText" filteron="{{ json-get:title }} {{ json-get:name }}">
@@ -29,24 +49,6 @@
   <option value="denmark">Danmark</option>
 </select>
 <div run="false" bind="test:#hej3" json-src="http://universities.hipolabs.com/search?country={test}" iterate="true">
-  <figure class="p05">
-    <figcaption class="z08 md_dn" json-get="name"></figcaption>
-  </figure>
-</div>
-
-<hr class="black mt2">
-<h3>Select</h3>
-<select id="hej4">
-  <option value="denmark">Danmark</option>
-  <option value="germany">Tyskland</option>
-  <option value="sweden">Sverige</option>
-  <option value="thailand">Thailand</option>
-  <option value="fiji">Fiji</option>
-  <option value="japan">Japan</option>
-  <option value="china">Kina</option>
-  <option value="monaco">Monaco</option>
-</select>
-<div stop="bind" bind="test:#hej4" json-src="http://universities.hipolabs.com/search?country={test}" preloader="true" iterate="true">
   <figure class="p05">
     <figcaption class="z08 md_dn" json-get="name"></figcaption>
   </figure>

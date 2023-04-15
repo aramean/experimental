@@ -364,8 +364,8 @@ var app = {
           run = element.attributes.run ? element.attributes.run.value : false,
           stop = element.attributes.stop ? element.attributes.stop.value.split(';') : false,
           include = element.attributes.include ? element.attributes.include.value : ''
-          exclude = stop ? exclude.concat(stop) : exclude
-
+        exclude = stop ? exclude.concat(stop) : exclude
+        console.log(exclude)
         if (include) dom.setUniqueId(element)
 
         if (run !== 'false') {
@@ -416,7 +416,9 @@ var app = {
         }
 
         if (reset) {
-          app.attributes.run([object], ['bind'])
+          console.log('mjaooo')
+          console.dir(object)
+          app.attributes.run([object], ['bind', 'stop'])
           app.variables.reset.attributes(object, originalAttributes)
           app.variables.reset.content(object, originalContent)
         }
@@ -583,23 +585,24 @@ var dom = {
               })
               break
             case 'select-one':
-              binding.addEventListener('change', function() {
+              binding.addEventListener('change', function () {
                 var value = this.options[this.selectedIndex].value
                 app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
                 app.variables.update.content(object, regex, replaceVariable, value)
               })
               break
           }
+          continue
         }
 
-       // Replace variables in attributes
-       for (var j = 0; j < attributes.length; j++) {
-        var attr = attributes[j]
-        if (attr.value.indexOf('{' + replaceVariable + '}') !== -1) {
-          var newValue = attr.value.replace(regex, replaceValue)
-          object.setAttribute(attr.name, newValue)
+        // Replace variables in attributes
+        for (var j = 0; j < attributes.length; j++) {
+          var attr = attributes[j]
+          if (attr.value.indexOf('{' + replaceVariable + '}') !== -1) {
+            var newValue = attr.value.replace(regex, replaceValue)
+            object.setAttribute(attr.name, newValue)
+          }
         }
-      }
 
         // Replace variables in innerHTML
         innerHTML = innerHTML.replace(regex, function (match) {
