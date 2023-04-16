@@ -562,17 +562,17 @@ var dom = {
           regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
 
         // Bind query
-        if (replaceValue.startsWith('?')) {
+        if (replaceValue[0] === '?') {
           replaceValue = app.querystrings.get(false, target)
         }
 
         // Bind global variable
-        if (replaceValue.startsWith('*')) {
+        if (replaceValue[0] === '*') {
           replaceValue = (window.app[target]) ? window.app[target] : ''
         }
 
         // Bind element
-        if (replaceValue.startsWith('#')) {
+        if (replaceValue[0] === '#') {
           var binding = dom.get(replaceValue),
             type = binding.type
           switch (type) {
