@@ -74,6 +74,7 @@
     "local_variables": "Local variables",
     "location_hash": "Location Hash",
     "load": "Load",
+    "loading_data": "Loading data ...",
     "load_template": "Load template",
     "manual": "Manual",
     "manual_installation": "Manual installation",

@@ -616,8 +616,9 @@ var dom = {
     }
   },
 
-  loader: function(object) {
-    object.insertAdjacentHTML('beforebegin', '<span id="test">Loading...</span>')
+  loader: function(object, value) {
+    dom.hide(object)
+    dom.show(value)
   },
 
   /**
@@ -642,12 +643,12 @@ var dom = {
 
   hide: function (object) {
     var el = object instanceof Object ? object : dom.get(object)
-    if (el) el.setAttribute('style', 'display: none !important')
+    if (el) el.setAttribute('style', 'height: 0; overflow: hidden')
   },
 
   show: function (object) {
     var el = object instanceof Object ? object : dom.get(object)
-    if (el) el.setAttribute('style', 'display: block !important')
+    if (el) el.setAttribute('style', 'height: initial; overflow: initial')
   },
 
   /**

@@ -4,13 +4,13 @@ app.module.json = {
   src: function (element) {
     var attr = element.attributes,
       options = {
-        iterate: attr.iterate && attr['iterate'].value,
+        loader: attr.loader && attr.loader.value,
+        iterate: attr.iterate && attr.iterate.value,
         element: element
       }
 
     app.xhr.get({
       url: attr['json-src'].value,
-
       target: attr.target ? attr.target.value : false,
       response: 'json',
       onload: {
@@ -55,5 +55,13 @@ app.module.json = {
     }
 
     app.attributes.run(elements, ['json-get'])
+    this._finish(options)
+  },
+
+  _finish: function (options) {
+    if (options.loader) {
+      dom.show(options.element)
+      dom.hide(options.loader)
+    }
   }
 }

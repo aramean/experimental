@@ -74,6 +74,7 @@
     "local_variables": "Lokala variabler",
     "location_hash": "Location Hash",
     "load": "Ladda",
+    "loading_data": "Laddar data ...",
     "load_template": "Ladda mall",
     "manual": "Manuell",
     "manual_installation": "Manuell Installation",

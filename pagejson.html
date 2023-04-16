@@ -7,8 +7,9 @@
 Josef Page 4
 
 <hr>
+<div id="loader" globalize-get="loading_data"></div>
 
-<div bind="test:?q" json-src="assets/json/icons-material.json?id={test}" loader="false" iterate="icons" filter="true" class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
+<div bind="test:?q" json-src="assets/json/icons-material.json?id={test}" loader="#loader" iterate="icons" filter="true" class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
   <figure class="p05" onclick="copyText" filteron="{{ json-get:title }} {{ json-get:name }}">
       <i class="icon48" json-get="html_entity"></i>
       <span lowercase>{test}</span>
@@ -18,3 +19,5 @@ Josef Page 4
       <small json-get="html_entity" bindcopy="true" escape="true"></small>
   </figure>
 </div>
+
+<div>hej</div>
