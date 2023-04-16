@@ -10,7 +10,8 @@ app.module.json = {
 
     app.xhr.get({
       url: attr['json-src'].value,
-      target: (attr.target) ? attr.target.value : false,
+
+      target: attr.target ? attr.target.value : false,
       response: 'json',
       onload: {
         run: { func: 'app.module.json._run', arg: options },
@@ -20,10 +21,6 @@ app.module.json = {
       onerror: { content: (attr.errorcontent) ? attr.errorcontent.value : false },
     })
 
-  },
-
-  get: function (element) {
-    dom.set(element, '...')
   },
 
   _run: function (options) {

@@ -345,6 +345,8 @@ var app = {
    */
   attributes: {
 
+    defaultExclude: ['id', 'name', 'class', 'title', 'alt'],
+
     /**
      * @function run
      * @memberof app
@@ -354,8 +356,7 @@ var app = {
     run: function (selector, exclude) {
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
-        defaultExclude = ['id', 'name', 'class'],
-        exclude = exclude ? exclude.concat(defaultExclude) : defaultExclude
+        excludes = exclude ? exclude.concat(this.defaultExclude) : this.defaultExclude
 
       app.log.info()('Running attributes ' + selector + ' ...')
       for (var i = 0; i < node.length; i++) {
@@ -363,7 +364,7 @@ var app = {
           run = element.attributes.run ? element.attributes.run.value : false,
           stop = element.attributes.stop ? element.attributes.stop.value.split(';') : false,
           include = element.attributes.include ? element.attributes.include.value : '',
-          exclude = exclude.indexOf('stop') === -1 && stop ? exclude.concat(stop) : exclude
+          exclude = stop && excludes.indexOf('stop') === -1 ? exclude.concat(stop) : excludes
 
         if (include) dom.setUniqueId(element)
 
@@ -415,8 +416,6 @@ var app = {
         }
 
         if (reset) {
-          console.log('mjaooo')
-          console.dir(object)
           app.attributes.run([object], ['bind', 'stop'])
           app.variables.reset.attributes(object, originalAttributes)
           app.variables.reset.content(object, originalContent)
@@ -615,6 +614,10 @@ var dom = {
 
       object.innerHTML = innerHTML
     }
+  },
+
+  loader: function(object) {
+    object.insertAdjacentHTML('beforebegin', '<span id="test">Loading...</span>')
   },
 
   /**
