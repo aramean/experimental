@@ -55,7 +55,9 @@ app.module.json = {
     }
 
     app.attributes.run(elements, ['json-get'])
+
     this._finish(options)
+    this._bind($response, options)
   },
 
   _finish: function (options) {
@@ -63,5 +65,24 @@ app.module.json = {
       dom.show(options.element)
       dom.hide(options.loader)
     }
-  }
+  },
+
+  _bind: function (response, options) {
+    var bind = options.element.getAttribute('json-bind')
+
+    if (bind) {
+      var parts = bind.split(';')
+      for (var i = 0; i < parts.length; i++) {
+        console.log(parts[0])
+
+        var parts = bind.split(':')
+        console.dir(parts)
+        console.log(parts[0])
+
+      }
+    }
+
+
+    //console.log(response[options.iterate].length)
+  },
 }

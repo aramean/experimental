@@ -265,7 +265,7 @@ var app = {
         onerror = options.onerror,
 
         timeout = onload ? options.onload.timeout || 0 : 0,
-        loader = onprogress && onprogress.loader ? dom.get(onprogress.loader) : false,
+        preloader = onprogress && onprogress.preloader ? dom.get(onprogress.preloader) : false,
         run = onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload.run && onload.run.arg
 
@@ -285,16 +285,16 @@ var app = {
           if (single) app.xhr.currentRequest = xhr
 
           xhr.onabort = function () {
-            if (loader && app.module.navigate) app.module.navigate._preloader.reset(loader)
+            if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
           }
 
           xhr.onloadstart = function () {
             var contentLength = xhr.getResponseHeader('Content-Length') || xhr.getResponseHeader('content-length')
-            loader.contentLength = contentLength
+            preloader.contentLength = contentLength
           }
 
           xhr.onprogress = function (e) {
-            if (loader && app.module.navigate) app.module.navigate._preloader.load(loader, e)
+            if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 
@@ -305,7 +305,10 @@ var app = {
               loaded++
 
               if (target) dom.set(target, xhr.response)
-              if (response) app.module[response].$response = JSON.parse(xhr.responseText)
+
+              if (response) {
+                app.module[response].$response = JSON.parse(xhr.responseText)
+              }
 
               if (onload && loaded === total) {
 
@@ -643,12 +646,12 @@ var dom = {
 
   hide: function (object) {
     var el = object instanceof Object ? object : dom.get(object)
-    if (el) el.setAttribute('style', 'height: 0; overflow: hidden')
+    if (el) el.style.cssText = 'display: none !important'
   },
 
   show: function (object) {
     var el = object instanceof Object ? object : dom.get(object)
-    if (el) el.setAttribute('style', 'height: initial; overflow: initial')
+    if (el) el.style.cssText = el.style.cssText.replace(/display\s*:\s*[^;]+;/gi, '')
   },
 
   /**

@@ -12,9 +12,9 @@ app.module.navigate = {
     this.config = app.config.get('navigate', {
       baseUrl: app.baseUrl,
       target: 'main',
-      loader: '#navloader'
+      preloader: '#navloader'
     }, options.element)
-    this.preloader = dom.get(this.config.loader)
+    this.preloader = dom.get(this.config.preloader)
   },
 
   /**
@@ -71,7 +71,7 @@ app.module.navigate = {
       urlExtension: state.extension,
       target: state.target,
       single: true,
-      onprogress: { loader: this.config.loader },
+      onprogress: { preloader: this.config.preloader },
       onload: { run: { func: 'app.templates.load', arg: state.arg } }
     })
   },
@@ -83,15 +83,15 @@ app.module.navigate = {
    */
   _preloader: {
     intervalId: null,
-    loader: null,
+    preloader: null,
 
-    load: function (loader, e) {
-      this.loader = loader
+    load: function (preloader, e) {
+      this.preloader = preloader
       this.reset()
       var loaded = e.loaded || 0,
-        total = e.total === 0 ? loader.contentLength : e.total || 0,
+        total = e.total === 0 ? preloader.contentLength : e.total || 0,
         percent = Math.round((loaded / total) * 100) || 100,
-        width = 1
+        width = 0
 
       app.log.info(1)('Loading bytes: ' + total)
       if (loaded !== total && total > 0) {
@@ -105,18 +105,19 @@ app.module.navigate = {
     },
 
     progress: function (width) {
-      this.loader.firstChild.style.width = width + "%"
+      this.preloader.firstChild.style.width = width + "%"
     },
 
     reset: function () {
-      clearInterval(this.intervalId)
-      dom.show(this.loader)
       this.progress(0)
+      dom.show(this.preloader)
+      clearInterval(this.intervalId)
     },
 
     finish: function () {
+      this.progress(100)
+      dom.hide(this.preloader)
       clearInterval(this.intervalId)
-      dom.hide(this.loader)
     },
   }
 }

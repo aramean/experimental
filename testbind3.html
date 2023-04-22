@@ -9,7 +9,9 @@
   <option value="germany">Tyskland</option>
   <option value="sweden">Sverige</option>
 </select>
-<div stop="json-src" bind="test:#hej4" json-src="http://universities.hipolabs.com/search?country={test}" loader="skeleton:100" iterate="true">
+
+<div id="loader">Loading...</div>
+<div stop="json-src" bind="test:#hej4" json-src="http://universities.hipolabs.com/search?country={test}" loader="#loader" iterate="true">
   <figure class="p05">
     <figcaption class="z08 md_dn" json-get="name"></figcaption>
   </figure>
