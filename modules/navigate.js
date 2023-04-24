@@ -91,16 +91,23 @@ app.module.navigate = {
       var loaded = e.loaded || 0,
         total = e.total === 0 ? preloader.contentLength : e.total || 0,
         percent = Math.round((loaded / total) * 100) || 100,
-        width = 0
+        width = 1
 
       app.log.info(1)('Loading bytes: ' + total)
       if (loaded !== total && total > 0) {
+        console.error("call")
+        console.log(percent)
         this.progress(percent)
       } else {
-        this.intervalId = setInterval(function () {
+        console.error("call2")
+        console.log(percent)
+        this.intervalId = requestAnimationFrame(function animate() {
           width === 100 ? this.finish() : this.progress(width)
-          width++
-        }.bind(this), 3)
+          width += 3 // increment width by 2
+          if (width <= 100) {
+            requestAnimationFrame(animate.bind(this))
+          }
+        }.bind(this))
       }
     },
 
@@ -109,15 +116,15 @@ app.module.navigate = {
     },
 
     reset: function () {
+      clearInterval(this.intervalId)
       this.progress(0)
       dom.show(this.preloader)
-      clearInterval(this.intervalId)
     },
 
     finish: function () {
+      clearInterval(this.intervalId)
       this.progress(100)
       dom.hide(this.preloader)
-      clearInterval(this.intervalId)
     },
   }
 }

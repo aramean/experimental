@@ -73,12 +73,8 @@ app.module.json = {
     if (bind) {
       var parts = bind.split(';')
       for (var i = 0; i < parts.length; i++) {
-        console.log(parts[0])
-
         var parts = bind.split(':')
-        console.dir(parts)
-        console.log(parts[0])
-
+        
       }
     }
 

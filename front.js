@@ -621,7 +621,7 @@ var dom = {
 
   loader: function(object, value) {
     dom.hide(object)
-    dom.show(value)
+    if (value) dom.show(value)
   },
 
   /**
@@ -646,12 +646,17 @@ var dom = {
 
   hide: function (object) {
     var el = object instanceof Object ? object : dom.get(object)
-    if (el) el.style.cssText = 'display: none !important'
+    if (el) {
+      el.style.cssText = 'display: none !important'
+    }
   },
 
   show: function (object) {
     var el = object instanceof Object ? object : dom.get(object)
-    if (el) el.style.cssText = el.style.cssText.replace(/display\s*:\s*[^;]+;/gi, '')
+    if (el) {
+      el.style.cssText = el.style.cssText.replace(/display\s*:\s*[^;]+;/gi, '')
+      el.removeAttribute('hide')
+    }
   },
 
   /**
