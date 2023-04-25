@@ -2,6 +2,8 @@
 
 app.module.navigate = {
 
+  finished: false,
+
   /**
    * @function _autoload
    * @memberof app.module.navigate
@@ -58,7 +60,7 @@ app.module.navigate = {
    * @private
    */
   _load: function (state) {
-    app.log.info()('Loading page: '+state.href)
+    app.log.info()('Loading page: ' + state.href)
     if (state.href === '/' || state.href === app.baseUrl) {
       state.target = 'html'
       state.extension = false
@@ -88,43 +90,54 @@ app.module.navigate = {
     load: function (preloader, e) {
       this.preloader = preloader
       this.reset()
+
       var loaded = e.loaded || 0,
         total = e.total === 0 ? preloader.contentLength : e.total || 0,
-        percent = Math.round((loaded / total) * 100) || 100,
-        width = 1
+        percent = Math.round((loaded / total) * 100) || 100
 
       app.log.info(1)('Loading bytes: ' + total)
+      console.log("loaded:" + loaded + ", total:" + total)
       if (loaded !== total && total > 0) {
-        console.error("call")
-        console.log(percent)
         this.progress(percent)
-      } else {
-        console.error("call2")
         console.log(percent)
-        this.intervalId = requestAnimationFrame(function animate() {
-          width === 100 ? this.finish() : this.progress(width)
-          width += 3 // increment width by 2
-          if (width <= 100) {
-            requestAnimationFrame(animate.bind(this))
-          }
-        }.bind(this))
+        //if (percent === 100) this.finish()
+        console.log('first')
+      } else {
+        console.log('second')
+        this.intervalId = requestAnimationFrame(this.animate.bind(this))
+      }
+    },
+
+    animate: function () {
+      var width = parseInt(this.preloader.firstChild.style.width)
+      if (width >= 100) {
+        this.finish()
+      } else {
+        width += 3
+        this.progress(width)
+        this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
 
     progress: function (width) {
-      this.preloader.firstChild.style.width = width + "%"
+      this.preloader.firstChild.style.width = width + '%'
     },
 
     reset: function () {
+      this.finished = false
+      cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
       this.progress(0)
       dom.show(this.preloader)
     },
 
     finish: function () {
+      if (this.finished) return
+      this.finished = true
+      cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
       this.progress(100)
       dom.hide(this.preloader)
     },
-  }
+  },
 }
