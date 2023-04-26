@@ -98,12 +98,12 @@ app.module.navigate = {
       app.log.info(1)('Loading bytes: ' + total)
       console.log("loaded:" + loaded + ", total:" + total)
       if (loaded !== total && total > 0) {
+        console.error("First")
         this.progress(percent)
-        console.log(percent)
-        //if (percent === 100) this.finish()
-        console.log('first')
-      } else {
-        console.log('second')
+      } else if (percent === 100) {
+        console.error("Second")
+        console.log(total)
+        console.log(loaded)
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
@@ -111,9 +111,10 @@ app.module.navigate = {
     animate: function () {
       var width = parseInt(this.preloader.firstChild.style.width)
       if (width >= 100) {
+        console.log('finish')
         this.finish()
       } else {
-        width += 3
+        width += 4
         this.progress(width)
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
@@ -124,19 +125,15 @@ app.module.navigate = {
     },
 
     reset: function () {
-      this.finished = false
+      this.progress(0)
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
-      this.progress(0)
       dom.show(this.preloader)
     },
 
     finish: function () {
-      if (this.finished) return
-      this.finished = true
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
-      this.progress(100)
       dom.hide(this.preloader)
     },
   },
