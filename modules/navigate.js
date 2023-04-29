@@ -98,12 +98,10 @@ app.module.navigate = {
       app.log.info(1)('Loading bytes: ' + total)
       console.log("loaded:" + loaded + ", total:" + total)
       if (loaded !== total && total > 0) {
-        console.error("First")
         this.progress(percent)
-      } else if (percent === 100) {
-        console.error("Second")
-        console.log(total)
-        console.log(loaded)
+        console.log(percent)
+        if (loaded === total) this.finished = true
+      } else if (loaded === total && !this.finished) {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
