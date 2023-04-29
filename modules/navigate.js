@@ -2,8 +2,6 @@
 
 app.module.navigate = {
 
-  finished: false,
-
   /**
    * @function _autoload
    * @memberof app.module.navigate
@@ -97,11 +95,9 @@ app.module.navigate = {
 
       app.log.info(1)('Loading bytes: ' + total)
       console.log("loaded:" + loaded + ", total:" + total)
-      if (loaded !== total && total > 0) {
-        this.progress(percent)
-        console.log(percent)
-        if (loaded === total) this.finished = true
-      } else if (loaded === total && !this.finished) {
+      if (loaded !== total && total > 10000) {
+        if (percent !== 100) this.progress(percent)
+      } else if (loaded === total) {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
