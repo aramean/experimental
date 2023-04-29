@@ -259,7 +259,6 @@ var app = {
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
         response = options.response,
-        eventsTotal = 0,
 
         onload = options.onload,
         onprogress = options.onprogress,
@@ -295,12 +294,7 @@ var app = {
           }
 
           xhr.onprogress = function (e) {
-            
-            if (preloader && app.module.navigate) {
-              e.eventsTotal = this.eventsTotal++
-              app.module.navigate._preloader.load(preloader, e)
-            }
-
+            if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 
