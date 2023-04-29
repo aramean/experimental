@@ -90,14 +90,14 @@ app.module.navigate = {
       this.reset()
 
       var loaded = e.loaded || 0,
-        total = e.total === 0 ? preloader.contentLength : e.total || 0,
+        total = !e.total ? preloader.contentLength : e.total || 0,
         percent = Math.round((loaded / total) * 100) || 100
 
       app.log.info(1)('Loading bytes: ' + total)
       console.log("loaded:" + loaded + ", total:" + total)
       if (loaded !== total && total > 10000) {
         if (percent !== 100) this.progress(percent)
-      } else if (loaded === total) {
+      } else if (loaded === total || total === 0) {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
