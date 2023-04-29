@@ -90,11 +90,10 @@ app.module.navigate = {
       this.reset()
 
       var loaded = e.loaded || 0,
-        total = e.total > 0 ? e.total : preloader.contentLength || 0,
+        total = e.total > 0 ? e.total : (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
         percent = Math.round((loaded / total) * 100) || 100
 
-      app.log.info(1)('Loading bytes: ' + total)
-      console.log("loaded:" + loaded + ", total:" + total)
+      app.log.info(1)('Loading bytes: '+loaded +' of ' + total)
       if (loaded !== total && total > 10000) {
         if (percent !== 100) this.progress(percent)
       } else if (loaded === total || total === 0) {
@@ -105,7 +104,6 @@ app.module.navigate = {
     animate: function () {
       var width = parseInt(this.preloader.firstChild.style.width)
       if (width >= 100) {
-        console.log('finish')
         this.finish()
       } else {
         width += 4

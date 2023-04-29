@@ -288,11 +288,6 @@ var app = {
             if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
           }
 
-          xhr.onloadstart = function () {
-            var contentLength = xhr.getResponseHeader('Content-Length') || xhr.getResponseHeader('content-length')
-            preloader.contentLength = contentLength
-          }
-
           xhr.onprogress = function (e) {
             if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
