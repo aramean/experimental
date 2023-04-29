@@ -90,7 +90,7 @@ app.module.navigate = {
       this.reset()
 
       var loaded = e.loaded || 0,
-        total = e.total === 0 ? preloader.contentLength : e.total || 0,
+        total = e.total > 0 ? e.total : preloader.contentLength || 0,
         percent = Math.round((loaded / total) * 100) || 100
 
       app.log.info(1)('Loading bytes: ' + total)
