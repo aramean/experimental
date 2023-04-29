@@ -96,7 +96,7 @@ app.module.navigate = {
       app.log.info(1)('Loading bytes: '+loaded +' of ' + total)
       if (loaded !== total && total > 10000) {
         if (percent !== 100) this.progress(percent)
-      } else if (loaded === total || total === 0) {
+      } else {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
