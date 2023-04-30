@@ -95,7 +95,7 @@ app.module.navigate = {
         percent = Math.round((loaded / total) * 100) || 100
 
       app.log.info(1)('Loading bytes: '+loaded +' of ' + total)
-      if (loaded !== total && total >= this.treshold) {
+      if (loaded !== total && total > this.treshold) {
         if (percent !== 100)
           this.progress(percent)
       } else {
