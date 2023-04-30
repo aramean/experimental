@@ -85,6 +85,7 @@ app.module.navigate = {
     intervalId: null,
     preloader: null,
     treshold: 10000,
+    increment: 4,
 
     load: function (preloader, e) {
       this.preloader = preloader
@@ -107,8 +108,7 @@ app.module.navigate = {
       if (width >= 100) {
         this.finish()
       } else {
-        width += 4
-        this.progress(width)
+        this.progress(width + this.increment)
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
