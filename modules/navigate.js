@@ -94,10 +94,9 @@ app.module.navigate = {
         total = e.total > 0 ? e.total : (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
         percent = Math.round((loaded / total) * 100) || 100
 
-      app.log.info(1)('Loading bytes: '+loaded +' of ' + total)
+      app.log.info(1)('Loading bytes: ' + loaded + ' of ' + total)
       if (loaded !== total && total > this.treshold) {
-        if (percent !== 100)
-          this.progress(percent)
+        if (percent !== 100) this.progress(percent)
       } else {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
