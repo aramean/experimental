@@ -91,7 +91,7 @@ app.module.navigate = {
       this.reset()
 
       var loaded = e.loaded || 0,
-        total = e.total > 0 ? e.total : (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
+        total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
         percent = Math.round((loaded / total) * 100) || 100
 
       app.log.info(1)('Loading bytes: ' + loaded + ' of ' + total)
@@ -103,7 +103,7 @@ app.module.navigate = {
     },
 
     animate: function () {
-      var width = parseInt(this.preloader.firstChild.style.width)
+      var width = parseInt(this.preloader.firstChild.style.width, 10)
       if (width >= 100) {
         this.finish()
       } else {
