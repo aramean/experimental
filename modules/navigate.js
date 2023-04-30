@@ -98,8 +98,6 @@ app.module.navigate = {
       if (loaded !== total && total > this.treshold) {
         if (percent !== 100) this.progress(percent)
       } else {
-        console.log(loaded)
-        console.log(total)
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
