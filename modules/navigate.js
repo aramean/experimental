@@ -84,6 +84,7 @@ app.module.navigate = {
   _preloader: {
     intervalId: null,
     preloader: null,
+    treshold: 10000,
 
     load: function (preloader, e) {
       this.preloader = preloader
@@ -94,10 +95,12 @@ app.module.navigate = {
         percent = Math.round((loaded / total) * 100) || 100
 
       app.log.info(1)('Loading bytes: '+loaded +' of ' + total)
-      if (loaded !== total && total > 10000) {
-        if (percent !== 100) this.progress(percent)
+      if (loaded !== total && total >= this.treshold) {
+        if (percent !== 100)
+          this.progress(percent)
       } else {
-        this.intervalId = requestAnimationFrame(this.animate.bind(this))
+        if (total <= this.treshold)
+          this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
 
