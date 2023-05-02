@@ -1,6 +1,9 @@
 'use strict'
 
 app.module.json = {
+  get: function () { },
+  bind: function () { },
+
   src: function (element) {
     var attr = element.attributes,
       options = {
@@ -74,7 +77,7 @@ app.module.json = {
       var parts = bind.split(';')
       for (var i = 0; i < parts.length; i++) {
         var parts = bind.split(':')
-        
+        console.dir(parts)
       }
     }
 

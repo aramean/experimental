@@ -10,6 +10,7 @@
 var app = {
   module: {},
   plugin: {},
+  var: {},
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
@@ -114,11 +115,11 @@ var app = {
   },
 
   /**
-   * @namespace extensions
+   * @namespace assets
    * @memberof app
    * @desc
    */
-  extensions: {
+  assets: {
 
     /**
      * @function load
@@ -127,27 +128,39 @@ var app = {
      * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
      */
     load: function (runAttributes) {
-      app.log.info()('Loading modules...')
+      app.log.info()('Loading assets...')
 
-      var scriptElement = dom.get(app.scriptSelector),
-        values = scriptElement.getAttribute('module'),
-        value = values ? values.split(';') : 0,
-        total = value.length,
-        loaded = 0
+      var scriptElement = dom.get(app.scriptSelector)
 
-      for (var i = 0; i < total; i++) {
+      var vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false,
+        varsTotal = vars.length || 0
+
+      for (var i = 0; i < varsTotal; i++) {
+        app.xhr.get({
+          url: 'assets/json/vars/' + vars[i] + '.json',
+          onload: {
+            run: { func: 'app.assets.set.vars' },
+          },
+        })
+      }
+
+      var modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
+        modulesTotal = modules.length || 0,
+        modulesLoaded = 0
+
+      for (var i = 0; i < modulesTotal; i++) {
         var script = document.createElement('script')
-        script.name = value[i]
+        script.name = modules[i]
         script.src = 'modules/' + script.name + '.js'
         script.async = false
         script.onload = function () {
           app.log.info(1)(this.name)
-          loaded++
+          modulesLoaded++
           app.module[this.name].conf = function () { }
           if (app.module[this.name]._autoload) {
             app.module[this.name]._autoload({
               element: scriptElement,
-              onload: this.total == this.loaded ? { run: { func: 'app.attributes.run' } } : ''
+              onload: this.modulesTotal == this.modulesLoaded ? { run: { func: 'app.attributes.run' } } : ''
             })
           }
         }
@@ -155,8 +168,15 @@ var app = {
         document.head.appendChild(script)
       }
 
-      if (!total && runAttributes) app.attributes.run()
-    }
+      if (!modulesTotal && runAttributes) app.attributes.run()
+    },
+
+    set: {
+      vars: function () {
+        var $response = this.$response
+        console.log($response)
+      }
+    },
   },
 
   /**
@@ -217,7 +237,7 @@ var app = {
           dom.set('main', currentPageBody)
           app.language = responsePageContent.documentElement.lang
           app.config.set(responsePageScript)
-          app.extensions.load(true)
+          app.assets.load(true)
         } else {
 
           var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
@@ -614,7 +634,7 @@ var dom = {
     }
   },
 
-  loader: function(object, value) {
+  loader: function (object, value) {
     dom.hide(object)
     if (value) dom.show(value)
   },
@@ -817,5 +837,5 @@ document.addEventListener('click', function (event) {
 
 document.addEventListener('DOMContentLoaded', function () {
   app.config.set(dom.get(app.scriptSelector))
-  app.isFrontpage ? app.extensions.load(true) : app.templates.load()
+  app.isFrontpage ? app.assets.load(true) : app.templates.load()
 })
