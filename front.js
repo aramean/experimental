@@ -121,30 +121,45 @@ var app = {
    */
   assets: {
 
+    load: function () {
+      app.log.info()('Loading assets...')
+      this.loadVars()
+      this.loadModules(true)
+    },
+
+    loadVars: function () {
+      app.log.info(1)('Loading vars...')
+
+      var scriptElement = dom.get(app.scriptSelector),
+        vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false,
+        varsTotal = vars.length || 0,
+        varsLoaded = 0
+
+      for (var j = 0; j < varsTotal; j++) {
+        app.log.info(1)(vars[j])
+        varsLoaded++
+        app.xhr.get({
+          url: 'assets/json/vars/' + vars[j] + '.json',
+          response: 'test',
+          onload: {
+            run: {
+              func: 'app.assets.set.vars', arg: 'hej'
+            }
+          }
+        })
+      }
+    },
     /**
      * @function load
      * @memberof app
      * @param {function} [runAttributes] - A flag to indicate if the runAttributes function should be called after all modules are loaded.
      * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
      */
-    load: function (runAttributes) {
-      app.log.info()('Loading assets...')
+    loadModules: function (runAttributes) {
+      app.log.info()('Loading modules...')
 
-      var scriptElement = dom.get(app.scriptSelector)
-
-      var vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false,
-        varsTotal = vars.length || 0
-
-      for (var i = 0; i < varsTotal; i++) {
-        app.xhr.get({
-          url: 'assets/json/vars/' + vars[i] + '.json',
-          onload: {
-            run: { func: 'app.assets.set.vars' },
-          },
-        })
-      }
-
-      var modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
+      var scriptElement = dom.get(app.scriptSelector),
+        modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
         modulesTotal = modules.length || 0,
         modulesLoaded = 0
 
@@ -173,6 +188,8 @@ var app = {
 
     set: {
       vars: function () {
+        //arra_push()
+        app.assets.vars = this.$response
         var $response = this.$response
         console.log($response)
       }
@@ -237,7 +254,7 @@ var app = {
           dom.set('main', currentPageBody)
           app.language = responsePageContent.documentElement.lang
           app.config.set(responsePageScript)
-          app.assets.load(true)
+          app.assets.load()
         } else {
 
           var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
@@ -321,7 +338,9 @@ var app = {
 
               if (target) dom.set(target, xhr.response)
 
-              if (response) {
+              if (response === 'test') {
+                app.assets.set.$response = JSON.parse(xhr.responseText)
+              } else if (response) {
                 app.module[response].$response = JSON.parse(xhr.responseText)
               }
 
@@ -589,6 +608,12 @@ var dom = {
           replaceValue = (window.app[target]) ? window.app[target] : ''
         }
 
+        // Bind asset variable
+        if (replaceValue[0] === '^') {
+          //console.dir(window.app)
+          console.log(window.app.assets.vars)
+        }
+
         // Bind element
         if (replaceValue[0] === '#') {
           var binding = dom.get(replaceValue),
@@ -837,5 +862,5 @@ document.addEventListener('click', function (event) {
 
 document.addEventListener('DOMContentLoaded', function () {
   app.config.set(dom.get(app.scriptSelector))
-  app.isFrontpage ? app.assets.load(true) : app.templates.load()
+  app.isFrontpage ? app.assets.load() : app.templates.load()
 })

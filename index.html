@@ -11,7 +11,7 @@
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
   <link type="image/x-icon" href="favicon.ico" rel="shortcut icon">
-  <script src="front.js" module="globalize;json;navigate" var="api;cdn" conf="debug:false;varsDir:assets/json/vars" globalize-conf="folder:assets/json/locales" navigate-conf="startpage:experimental"></script>
+  <script src="front.js" module="globalize;json;navigate" var="api;cdn" conf="debug:localhost;varsDir:assets/json/vars" globalize-conf="folder:assets/json/locales" navigate-conf="startpage:experimental"></script>
 <style>
   [hide] {
   display: none
@@ -27,6 +27,7 @@
     <a href="pagejson.html">Page Json</a>
     <a href="pagejson2.html">Page Json 2</a>
     <a href="bigpage.html">Big page</a>
+    <a href="movies.html">Movies</a>
       <div id="jsonDiv" test="hej" json-src="json.json" target="#newheader" timeout="10000" progresscontent="<h1>Loading ...</h1>"></div>
       <div class="fr w100" id="newheader"></div>
   </header>
@@ -45,6 +46,10 @@
     <span globalize-get="page"></span>
 
     <div id="jsonDiv" json-src="json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
+    </div>
+
+    <div bind="#mjao:^cdn">
+      <div id="mjao"></div>
     </div>
 
     <div id="jsonDiv2" json-src="json2.json" target="#test2" timeout="2000" progresscontent="Loading 2 ...">
