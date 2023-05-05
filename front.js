@@ -143,7 +143,7 @@ var app = {
             url: 'assets/json/vars/' + vars[j] + '.json',
             response: 'test',
             onload: {
-              run: { func: 'app.assets.set.vars', arg: 'hej' }
+              run: { func: 'app.assets.set.vars', arg: vars[j] }
             }
           })
         }
@@ -188,11 +188,8 @@ var app = {
     },
 
     set: {
-      vars: function () {
-        //arra_push()
-        app.assets.vars = this.$response
-        var $response = this.$response
-        console.log($response)
+      vars: function (arg) {
+        app.var[arg] = this.$response
       }
     },
   },
@@ -612,7 +609,7 @@ var dom = {
         // Bind asset variable
         if (replaceValue[0] === '^') {
           //console.dir(window.app)
-          console.log(window.app.assets.vars)
+          console.error(window.app.var)
         }
 
         // Bind element
