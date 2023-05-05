@@ -130,12 +130,12 @@ var app = {
     get: {
       vars: function () {
         app.log.info(1)('Loading vars...')
-  
+
         var scriptElement = dom.get(app.scriptSelector),
           vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false,
           varsTotal = vars.length || 0,
           varsLoaded = 0
-  
+
         for (var j = 0; j < varsTotal; j++) {
           app.log.info(1)(vars[j])
           varsLoaded++
@@ -148,7 +148,7 @@ var app = {
           })
         }
       },
-  
+
       /**
        * @function load
        * @memberof app
@@ -157,12 +157,12 @@ var app = {
        */
       modules: function () {
         app.log.info()('Loading modules...')
-  
+
         var scriptElement = dom.get(app.scriptSelector),
           modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
           modulesTotal = modules.length || 0,
           modulesLoaded = 0
-  
+
         for (var i = 0; i < modulesTotal; i++) {
           var script = document.createElement('script')
           script.name = modules[i]
@@ -179,10 +179,10 @@ var app = {
               })
             }
           }
-  
+
           document.head.appendChild(script)
         }
-  
+
         if (!modulesTotal) app.attributes.run()
       },
     },
@@ -608,8 +608,12 @@ var dom = {
 
         // Bind asset variable
         if (replaceValue[0] === '^') {
-          //console.dir(window.app)
-          console.error(window.app.var)
+          var keys = target.split('.'),
+            value = keys.reduce(function (obj, key) {
+              return obj[key]
+            }, app.var)
+
+          replaceValue = value
         }
 
         // Bind element
