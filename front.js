@@ -142,20 +142,19 @@ var app = {
           url: 'assets/json/vars/' + vars[j] + '.json',
           response: 'test',
           onload: {
-            run: {
-              func: 'app.assets.set.vars', arg: 'hej'
-            }
+            run: { func: 'app.assets.set.vars', arg: 'hej' }
           }
         })
       }
     },
+
     /**
      * @function load
      * @memberof app
      * @param {function} [runAttributes] - A flag to indicate if the runAttributes function should be called after all modules are loaded.
      * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
      */
-    loadModules: function (runAttributes) {
+    loadModules: function () {
       app.log.info()('Loading modules...')
 
       var scriptElement = dom.get(app.scriptSelector),
@@ -183,7 +182,7 @@ var app = {
         document.head.appendChild(script)
       }
 
-      if (!modulesTotal && runAttributes) app.attributes.run()
+      if (!modulesTotal) app.attributes.run()
     },
 
     set: {
