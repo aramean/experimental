@@ -123,66 +123,68 @@ var app = {
 
     load: function () {
       app.log.info()('Loading assets...')
-      this.loadVars()
-      this.loadModules(true)
+      this.get.vars()
+      this.get.modules()
     },
 
-    loadVars: function () {
-      app.log.info(1)('Loading vars...')
-
-      var scriptElement = dom.get(app.scriptSelector),
-        vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false,
-        varsTotal = vars.length || 0,
-        varsLoaded = 0
-
-      for (var j = 0; j < varsTotal; j++) {
-        app.log.info(1)(vars[j])
-        varsLoaded++
-        app.xhr.get({
-          url: 'assets/json/vars/' + vars[j] + '.json',
-          response: 'test',
-          onload: {
-            run: { func: 'app.assets.set.vars', arg: 'hej' }
-          }
-        })
-      }
-    },
-
-    /**
-     * @function load
-     * @memberof app
-     * @param {function} [runAttributes] - A flag to indicate if the runAttributes function should be called after all modules are loaded.
-     * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
-     */
-    loadModules: function () {
-      app.log.info()('Loading modules...')
-
-      var scriptElement = dom.get(app.scriptSelector),
-        modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
-        modulesTotal = modules.length || 0,
-        modulesLoaded = 0
-
-      for (var i = 0; i < modulesTotal; i++) {
-        var script = document.createElement('script')
-        script.name = modules[i]
-        script.src = 'modules/' + script.name + '.js'
-        script.async = false
-        script.onload = function () {
-          app.log.info(1)(this.name)
-          modulesLoaded++
-          app.module[this.name].conf = function () { }
-          if (app.module[this.name]._autoload) {
-            app.module[this.name]._autoload({
-              element: scriptElement,
-              onload: this.modulesTotal == this.modulesLoaded ? { run: { func: 'app.attributes.run' } } : ''
-            })
-          }
+    get: {
+      vars: function () {
+        app.log.info(1)('Loading vars...')
+  
+        var scriptElement = dom.get(app.scriptSelector),
+          vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false,
+          varsTotal = vars.length || 0,
+          varsLoaded = 0
+  
+        for (var j = 0; j < varsTotal; j++) {
+          app.log.info(1)(vars[j])
+          varsLoaded++
+          app.xhr.get({
+            url: 'assets/json/vars/' + vars[j] + '.json',
+            response: 'test',
+            onload: {
+              run: { func: 'app.assets.set.vars', arg: 'hej' }
+            }
+          })
         }
-
-        document.head.appendChild(script)
-      }
-
-      if (!modulesTotal) app.attributes.run()
+      },
+  
+      /**
+       * @function load
+       * @memberof app
+       * @param {function} [runAttributes] - A flag to indicate if the runAttributes function should be called after all modules are loaded.
+       * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
+       */
+      modules: function () {
+        app.log.info()('Loading modules...')
+  
+        var scriptElement = dom.get(app.scriptSelector),
+          modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
+          modulesTotal = modules.length || 0,
+          modulesLoaded = 0
+  
+        for (var i = 0; i < modulesTotal; i++) {
+          var script = document.createElement('script')
+          script.name = modules[i]
+          script.src = 'modules/' + script.name + '.js'
+          script.async = false
+          script.onload = function () {
+            app.log.info(1)(this.name)
+            modulesLoaded++
+            app.module[this.name].conf = function () { }
+            if (app.module[this.name]._autoload) {
+              app.module[this.name]._autoload({
+                element: scriptElement,
+                onload: this.modulesTotal == this.modulesLoaded ? { run: { func: 'app.attributes.run' } } : ''
+              })
+            }
+          }
+  
+          document.head.appendChild(script)
+        }
+  
+        if (!modulesTotal) app.attributes.run()
+      },
     },
 
     set: {
