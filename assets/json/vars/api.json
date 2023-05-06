@@ -31,6 +31,6 @@
     "headers": "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNzYyNDkwNiwiZXhwIjoxOTMzMjAwOTA2fQ._-dA_LjamQizyEoNq2ZjUMkVe2vQPO7C_3Ba9SINXos"
   },
   "themoviedb": {
-    "popular": "https://api.themoviedb.org/3/movie/popular?api_key=342c7c6976e9730798bc4bfbb2786cf7&language=en-US&page=1"
+    "popular": "https://api.themoviedb.org/3/movie/popular?api_key=342c7c6976e9730798bc4bfbb2786cf7&language=en-US"
   }
 }

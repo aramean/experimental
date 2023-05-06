@@ -594,7 +594,8 @@ var dom = {
           replaceVariable = bindingParts[0].trim(),
           replaceValue = bindingParts[1].trim(),
           target = replaceValue.substr(1),
-          regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
+          regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g'),
+          regex2 = new RegExp('{' + replaceVariable + '}', 'g')
 
         // Bind query
         if (replaceValue[0] === '?') {
@@ -642,7 +643,7 @@ var dom = {
         for (var j = 0; j < attributes.length; j++) {
           var attr = attributes[j]
           if (attr.value.indexOf('{' + replaceVariable + '}') !== -1) {
-            var newValue = attr.value.replace(regex, replaceValue)
+            var newValue = attr.value.replace(regex2, replaceValue)
             object.setAttribute(attr.name, newValue)
           }
         }
@@ -823,6 +824,30 @@ var dom = {
 
   beforeend: function (object, value) {
     object.insertAdjacentText('beforeend', value)
+  },
+
+  insert: function (object, value) {
+    var parts = value.split(':'),
+      tag = object.localName,
+      type = object.type
+
+      console.log(value)
+    switch (tag) {
+      case 'input':
+        
+        break
+      case 'img':
+        //target.src = value
+        break
+      case 'a':
+        target.href = value
+        break
+      case 'select':
+        target.setAttribute('select', value)
+        break
+      default:
+        object.insertAdjacentText(parts[0], value)
+    }
   },
 
   /**
