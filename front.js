@@ -642,8 +642,15 @@ var dom = {
         // Replace variables in attributes
         for (var j = 0; j < attributes.length; j++) {
           var attr = attributes[j]
-          if (attr.value.indexOf('{' + replaceVariable + '}') !== -1) {
-            var newValue = attr.value.replace(regex2, replaceValue)
+          var value = attr.value
+          var defaultValue = ''
+          value = value.replace(/:([^&}]+)/g, function (match, capturedGroup) {
+            defaultValue = capturedGroup
+            return ''
+          })
+
+          if (value.indexOf('{' + replaceVariable + '}') !== -1) {
+            var newValue = value.replace(regex2, replaceValue === '' ? defaultValue : replaceValue)
             object.setAttribute(attr.name, newValue)
           }
         }
@@ -831,10 +838,10 @@ var dom = {
       tag = object.localName,
       type = object.type
 
-      console.log(value)
+    console.log(value)
     switch (tag) {
       case 'input':
-        
+
         break
       case 'img':
         //target.src = value
