@@ -60,7 +60,7 @@ app.module.json = {
     app.attributes.run(elements, ['json-get'])
 
     this._finish(options)
-    this._set(  $response, options)
+    this._set($response, options)
   },
 
   _finish: function (options) {
@@ -74,14 +74,14 @@ app.module.json = {
     var bind = options.element.getAttribute('json-set')
 
     if (bind) {
-      var parts = bind.split(';')
-      for (var i = 0; i < parts.length; i++) {
-        var parts = bind.split(':')
-        console.dir(parts)
+      var keys = bind.split(';')
+      
+      for (var i = 0; i < keys.length; i++) {
+        var values = keys[i].split(':'),
+        key = response[values[0]],
+        element = values[1]
+        dom.set(element, key)
       }
     }
-
-
-    //console.log(response[options.iterate].length)
   },
 }

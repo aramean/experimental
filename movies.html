@@ -7,7 +7,15 @@
 
 <hr>
 
-<div id="json" bind="page:?page;api:^api.themoviedb.popular" onbind="" json-src="{api}&page={page:1}" iterate="results" json-set="length:#lengthbindagain;length#lengthbindagain" loader="#loader" filter="true" class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
+<div
+  bind="page:?page;api:^api.themoviedb.popular"
+  json-src="{api}&page={page:1}"
+  json-set="page:#page;total_pages:#pages;total_results:#results"
+  iterate="results"
+  loader="#loader"
+  filter="true"
+  class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac"
+>
   <figure class="p05" onclick="copyText">
       <!--<img insert="beforebegin:ddd" json-get="poster_path"></img>-->
       <figcaption class="z08 md_dn" json-get="title"></figcaption>
@@ -17,6 +25,11 @@
   </figure>
 </div>
 
-<div><b>3288 items</b></div>
-
-<div>Items: <span id="lengthbind"></span> <span id="lengthbindagain"></span></div>
+<div>
+  Page: <span id="page">0</span>
+  <br>
+  Total Pages: <span id="pages">0</span>
+  <br>
+  Total Results: <span id="results">0</span>
+  <br>
+</div>
