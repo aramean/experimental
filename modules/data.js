@@ -1,6 +1,6 @@
 'use strict'
 
-app.module.json = {
+app.module.data = {
   get: function () { },
   bind: function () { },
 
@@ -13,11 +13,12 @@ app.module.json = {
       }
 
     app.xhr.get({
-      url: attr['json-src'].value,
+      url: attr['data-src'].value,
+      headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
       target: attr.target ? attr.target.value : false,
-      response: 'json',
+      response: 'data',
       onload: {
-        run: { func: 'app.module.json._run', arg: options },
+        run: { func: 'app.module.data._run', arg: options },
         timeout: (attr.timeout) ? attr.timeout.value : 0
       },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
@@ -48,16 +49,16 @@ app.module.json = {
 
     for (var i = 0; i < elements.length; i++) {
 
-      var jsonget = elements[i].getAttribute('json-get')
+      var dataget = elements[i].getAttribute('data-get')
 
       if (i % orginalNodeCountAll === 0) {
         j++
       }
 
-      if (jsonget) dom.set(elements[i], iterateObject[j][jsonget])
+      if (dataget) dom.set(elements[i], iterateObject[j][dataget])
     }
 
-    app.attributes.run(elements, ['json-get'])
+    app.attributes.run(elements, ['data-get'])
 
     this._finish(options)
     this._set($response, options)
@@ -71,7 +72,7 @@ app.module.json = {
   },
 
   _set: function (response, options) {
-    var bind = options.element.getAttribute('json-set')
+    var bind = options.element.getAttribute('data-set')
 
     if (bind) {
       var keys = bind.split(';')

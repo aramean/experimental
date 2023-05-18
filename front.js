@@ -294,6 +294,7 @@ var app = {
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
         response = options.response,
+        headers = options.headers || {},
 
         onload = options.onload,
         onprogress = options.onprogress,
@@ -316,6 +317,11 @@ var app = {
 
           var xhr = new XMLHttpRequest()
           xhr.open('GET', url + urlExtension, true)
+
+          // Set headers
+          for (var header in headers) {
+            xhr.setRequestHeader(header, headers[header])
+          }
 
           if (single) app.xhr.currentRequest = xhr
 

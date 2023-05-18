@@ -4,8 +4,8 @@
 <title>Bind</title>
 
 <input type="text" id="term">
-<div bind="t:#term" json-src="https://itunes.apple.com/search?term={t}" iterate="results">
+<div bind="t:#term" data-src="https://itunes.apple.com/search?term={t}" iterate="results">
   <figure class="p05">
-    <figcaption class="z08 md_dn" json-get="collectionName"></figcaption>
+    <figcaption class="z08 md_dn" data-get="collectionName"></figcaption>
   </figure>
 </div>

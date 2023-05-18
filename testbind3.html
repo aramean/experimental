@@ -11,21 +11,21 @@
 </select>
 
 <div id="loader" hide>Loading...</div>
-<div stop="json-src" bind="test:#hej4" json-src="http://universities.hipolabs.com/search?country={test}" loader="#loader" iterate="true">
+<div stop="data-src" bind="test:#hej4" data-src="http://universities.hipolabs.com/search?country={test}" loader="#loader" iterate="true">
   <figure class="p05">
-    <figcaption class="z08 md_dn" json-get="name"></figcaption>
+    <figcaption class="z08 md_dn" data-get="name"></figcaption>
   </figure>
 </div>
 
 <hr class="black mt2">
 <h3>Input</h3>
 <input type="text" id="josefinput">
-<div stop="json-src" bind="josef:#josefinput" json-src="assets/json/icons-material-{josef}.json" loader="false" iterate="icons" preloader="true" class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
+<div stop="data-src" bind="josef:#josefinput" data-src="assets/json/icons-material-{josef}.json" loader="false" iterate="icons" preloader="true" class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
   <figure class="p05">
     <figcaption class="z08 md_dn" uppercase slice="0,1" lowercase beforebegin="jj"></figcaption>
-    <figcaption class="z08 md_dn" json-get="title" slice="0,1"></figcaption>
+    <figcaption class="z08 md_dn" data-get="title" slice="0,1"></figcaption>
     <br>
-    <small json-get="name" slice="0,20" class="md_dn"></small>
-    <small json-get="html_entity" bindcopy="true" escape="true"></small>
+    <small data-get="name" slice="0,20" class="md_dn"></small>
+    <small data-get="html_entity" bindcopy="true" escape="true"></small>
   </figure>
 </div>

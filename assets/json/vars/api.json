@@ -30,7 +30,14 @@
     "endpoint": "https://nxsglpuwmlqladuxlmty.supabase.co/rest/v1/tasks",
     "headers": "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNzYyNDkwNiwiZXhwIjoxOTMzMjAwOTA2fQ._-dA_LjamQizyEoNq2ZjUMkVe2vQPO7C_3Ba9SINXos"
   },
+
+  "persons": {
+    "endpoint": "https://gqfktgknxmguhxgkajat.supabase.co/rest/v1/persons",
+    "headers": "apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMDc2MTg0NCwiZXhwIjoxOTM2MzM3ODQ0fQ.xEa_GuNypFdHSdQVLCd0beoL_v8jhWKjSTypX6kn-sg;Prefer:count=exact"
+  },
+  
   "themoviedb": {
+    "headers": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMDc2MTg0NCwiZXhwIjoxOTM2MzM3ODQ0fQ.xEa_GuNypFdHSdQVLCd0beoL_v8jhWKjSTypX6kn-sg;Prefer:count=exact",
     "popular": "https://api.themoviedb.org/3/movie/popular?api_key=342c7c6976e9730798bc4bfbb2786cf7&language=en-US"
   }
 }

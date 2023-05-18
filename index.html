@@ -11,7 +11,7 @@
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link type="text/css" href="https://cdn.front.nu/dist/design/front/theme/front.css" rel="stylesheet">
   <link type="image/x-icon" href="favicon.ico" rel="shortcut icon">
-  <script src="front.js" module="globalize;json;navigate" var="api;cdn" conf="debug:false;varsDir:assets/json/vars" globalize-conf="folder:assets/json/locales" navigate-conf="startpage:experimental"></script>
+  <script src="front.js" module="globalize;data;navigate" var="api;cdn" conf="debug:false;varsDir:assets/json/vars" globalize-conf="folder:assets/json/locales" navigate-conf="startpage:experimental"></script>
 <style>
   [hide] {
   display: none
@@ -28,7 +28,7 @@
     <a href="pagejson2.html">Page Json 2</a>
     <a href="bigpage.html">Big page</a>
     <a href="movies.html">Movies</a>
-      <div id="jsonDiv" test="hej" json-src="json.json" target="#newheader" timeout="10000" progresscontent="<h1>Loading ...</h1>"></div>
+      <div id="jsonDiv" test="hej" data-src="json.json" target="#newheader" timeout="10000" progresscontent="<h1>Loading ...</h1>"></div>
       <div class="fr w100" id="newheader"></div>
   </header>
   <aside class="w15r bcyellow p2">. 1 .</aside>
@@ -45,17 +45,17 @@
 
     <span globalize-get="page"></span>
 
-    <div id="jsonDiv" json-src="json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
+    <div id="jsonDiv" data-src="json.json" target="#test1" timeout="1000" progresscontent="Loading 1 ...">
     </div>
 
     <div bind="#mjao:^cdn">
       <div id="mjao"></div>
     </div>
 
-    <div id="jsonDiv2" json-src="json2.json" target="#test2" timeout="2000" progresscontent="Loading 2 ...">
+    <div id="jsonDiv2" data-src="json2.json" target="#test2" timeout="2000" progresscontent="Loading 2 ...">
     </div>
 
-    <div id="jsonDiv3" run="false" json-src="json3.json" target="#test3" timeout="3000" progresscontent="Loading 3 ..." errorcontent="<span class='red'>Error. Try again</span>">
+    <div id="jsonDiv3" run="false" data-src="json3.json" target="#test3" timeout="3000" progresscontent="Loading 3 ..." errorcontent="<span class='red'>Error. Try again</span>">
     </div>
 
     <div id="test1" run="false"></div>
