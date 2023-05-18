@@ -55,7 +55,7 @@ app.module.data = {
         j++
       }
 
-      if (dataget) dom.set(elements[i], iterateObject[j][dataget])
+      if (dataget) dom.set(elements[i], this._get(iterateObject[j], dataget))
     }
 
     app.attributes.run(elements, ['data-get'])
@@ -69,6 +69,18 @@ app.module.data = {
       dom.show(options.element)
       dom.hide(options.loader)
     }
+  },
+
+  _get: function (obj, valueString) {
+      var keys = valueString.split('.')
+      var value = obj
+      
+      for (var i = 0; i < keys.length; i++) {
+        var key = keys[i]
+        value = value[key]
+      }
+      
+      return value
   },
 
   _set: function (response, options) {
