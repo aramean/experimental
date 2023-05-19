@@ -60,8 +60,8 @@ app.module.data = {
 
     app.attributes.run(elements, ['data-get'])
 
-    this._finish(options)
     this._set($response, options)
+    this._finish(options)
   },
 
   _finish: function (options) {
@@ -72,15 +72,13 @@ app.module.data = {
   },
 
   _get: function (obj, valueString) {
-      var keys = valueString.split('.')
-      var value = obj
-      
-      for (var i = 0; i < keys.length; i++) {
-        var key = keys[i]
-        value = value[key]
-      }
-      
-      return value
+    var keys = valueString.split('.')
+    for (var i = 0; i < keys.length; i++) {
+      var key = keys[i],
+        obj = obj[key]
+    }
+
+    return obj
   },
 
   _set: function (response, options) {
@@ -88,11 +86,11 @@ app.module.data = {
 
     if (bind) {
       var keys = bind.split(';')
-      
+
       for (var i = 0; i < keys.length; i++) {
         var values = keys[i].split(':'),
-        key = response[values[0]],
-        element = values[1]
+          key = response[values[0]],
+          element = values[1]
         dom.set(element, key)
       }
     }

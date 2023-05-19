@@ -15,19 +15,21 @@
     <input type="radio" name="panel" id="tabalive" checked>
     <label for="tabalive" id="alive">Alive ({# alive #})</label>
     <section class="lg_p0 shade1" json="personsalive">
-      <div id="personsalive" class="box cards list br0-"
-        bind="page:?page;endpoint:^api.persons.endpoint;headers:^api.persons.headers" iterate="true"
-        data-src="{endpoint}?and=(death.is.null)" data-header="{headers}">
+      <div
+        id="personsalive"
+        class="box cards list br0-"
+        bind="page:?page;endpoint:^api.persons.endpoint;headers:^api.persons.headers"
+        iterate="true"
+        data-src="{endpoint}?and=(death.is.null)"
+        data-header="{headers}"
+      >
         <a href="database/person.html?id={{ jsonget:id }}">
           <figure class="p1 bcwhite bcblack001_h">
-            <img src="" jsonget="birth.country_code"
-              jsonbefore="https://cdn.front.nu/dist/design/front/flags/famfamfam/" jsonafter=".gif" class="f0">
+            <img data-get="birth.country_code" before="https://cdn.front.nu/dist/design/front/flags/famfamfam/" after=".gif" class="f0">
             <p class="f2 pl1" filteron="true">
-              <span data-get="first_name.swe"></span>
-              <span data-get="middle_name.swe"></span>
-              <span data-get="last_name.swe"></span>
+              <span data-get="first_name.swe"></span><span data-get="middle_name.swe"></span><span data-get="last_name.swe"></span>
             </p>
-            <p class="tar" jsonget="birth.date" format="age" globalize="years_0;0"></p>
+            <p class="tar" data-get="birth.date" format="age" globalize="years_0;0"></p>
           </figure>
         </a>
       </div>

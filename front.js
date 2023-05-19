@@ -738,7 +738,7 @@ var dom = {
     var target = object instanceof Object ? object : dom.get(object),
       tag = object.localName,
       type = object.type,
-      value = replace ? value.replace(/<[^>]+>/g, '') : value || '?'
+      value = replace ? value.replace(/<[^>]+>/g, '') : value || ''
 
     switch (tag) {
       case 'input':
