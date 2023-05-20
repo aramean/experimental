@@ -13,7 +13,7 @@
   </nav>
   <nav class="tabs mt1" id="test">
     <input type="radio" name="panel" id="tabalive" checked>
-    <label for="tabalive" id="alive">Alive ({# alive #})</label>
+    <label for="tabalive">Alive (<span id="alive" slice="0,1" split="/;1">0</span>)</label>
     <section class="lg_p0 shade1" json="personsalive">
       <div
         id="personsalive"
@@ -21,6 +21,8 @@
         bind="page:?page;endpoint:^api.persons.endpoint;headers:^api.persons.headers"
         iterate="true"
         data-src="{endpoint}?and=(death.is.null)"
+        data-set="^content-range:#alive"
+        data-mod="^content-range"
         data-header="{headers}"
       >
         <a href="database/person.html?id={{ jsonget:id }}">

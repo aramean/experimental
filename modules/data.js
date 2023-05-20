@@ -1,8 +1,6 @@
 'use strict'
 
 app.module.data = {
-  get: function () { },
-  bind: function () { },
 
   src: function (element) {
     var attr = element.attributes,
@@ -31,7 +29,7 @@ app.module.data = {
     var $response = this.$response,
       element = options.element,
       iterate = options.iterate,
-      iterateObject = iterate === 'true' ? $response : $response[iterate],
+      iterateObject = iterate === 'true' ? $response.data : $response.data[iterate],
       total = iterate && iterateObject.length - 1
 
     var originalNode = element.cloneNode(true),
@@ -89,9 +87,17 @@ app.module.data = {
 
       for (var i = 0; i < keys.length; i++) {
         var values = keys[i].split(':'),
-          key = response[values[0]],
-          element = values[1]
-        dom.set(element, key)
+          key = response.data[values[0]],
+          element = values[1],
+          value = values[0]
+
+          if (values[0][0] === '^') {
+            value = response.headers[value.substring(1)]
+          } else if (values[0] === '*length') {
+            value = response.data.length
+          }
+
+        dom.set(element, value)
       }
     }
   },

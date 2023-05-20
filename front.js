@@ -336,7 +336,21 @@ var app = {
 
           xhr.onload = function () {
             if (xhr.status === 200 || xhr.status === 204) {
-              //setTimeout(function () {
+              // Get the raw header string
+              var headers = xhr.getAllResponseHeaders()
+
+              // Convert the header string into an array of individual headers
+              var arr = headers.trim().split(/[\r\n]+/)
+
+              // Create a map of header names to values
+              var headerMap = {}
+              arr.forEach(function (line) {
+                var parts = line.split(": ")
+                var header = parts.shift()
+                var value = parts.join(": ")
+                headerMap[header] = value
+              })
+
               responses[i] = xhr.responseText
               loaded++
 
@@ -345,7 +359,7 @@ var app = {
               if (response === 'test') {
                 app.assets.set.$response = JSON.parse(xhr.responseText)
               } else if (response) {
-                app.module[response].$response = JSON.parse(xhr.responseText)
+                app.module[response].$response = { 'data': JSON.parse(xhr.responseText), 'headers': headerMap }
               }
 
               if (onload && loaded === total) {
@@ -363,7 +377,6 @@ var app = {
                     window[run[0]][run[1]](runarg)
                 }
               }
-              //}, timeout)
             } else {
               if (target) dom.set(target, xhr.statusText)
             }
