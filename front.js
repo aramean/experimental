@@ -889,6 +889,18 @@ var dom = {
       url: element.attributes.include.value,
       onload: { run: { func: 'app.attributes.run', arg: '#' + element.id + ' *' } }
     })
+  },
+
+  stopif: function (element, value) {
+    var elementValue = element.innerHTML || '',
+      values = value.split(':'),
+      condition = values[0],
+      attributes = values[1].split(';')
+
+    if (elementValue === condition) {
+      for (var i = 0; i < attributes.length; i++)
+        element.removeAttribute(attributes[i])
+    }
   }
 }
 
