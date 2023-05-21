@@ -98,6 +98,7 @@ app.module.data = {
           }
 
         dom.set(element, value)
+        app.attributes.run(element)
       }
     }
   },
