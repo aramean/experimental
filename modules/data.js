@@ -87,7 +87,6 @@ app.module.data = {
 
       for (var i = 0; i < keys.length; i++) {
         var values = keys[i].split(':'),
-          key = response.data[values[0]],
           element = values[1],
           value = values[0]
 
@@ -95,6 +94,8 @@ app.module.data = {
             value = response.headers[value.substring(1)]
           } else if (values[0] === '*length') {
             value = response.data.length
+          } else {
+            value = response.data[values[0]]
           }
 
         dom.set(element, value)
