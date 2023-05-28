@@ -744,14 +744,15 @@ var dom = {
    * @memberof dom
    * @param {Object} object - The element object to modify.
    * @param {string} value - The value to set as the content of the element.
-   * @param {boolean} [replace=false] - If true, remove all HTML tags from the value before setting it as the content.
+   * @param {boolean} [strip=false] - If true, remove all HTML tags from the value before setting it as the content.
    * @desc Sets the content of an element.
   */
-  set: function (object, value, replace) {
+  set: function (object, value, strip, replace) {
+
     var target = object instanceof Object ? object : dom.get(object),
       tag = object.localName,
       type = object.type,
-      value = replace ? value.replace(/<[^>]+>/g, '') : value || ''
+      value = strip ? value.replace(/<[^>]+>/g, '') : value || ''
 
     switch (tag) {
       case 'input':
@@ -761,6 +762,7 @@ var dom = {
         target.src = value
         break
       case 'a':
+        if (replace) value = target.href.replace(new RegExp('{' + replace + '}', 'g'), value)
         target.href = value
         break
       case 'select':

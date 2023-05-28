@@ -22,10 +22,9 @@
         iterate="true"
         data-src="{endpoint}?and=(death.is.null)"
         data-set="^content-range:#alive"
-        data-mod="^content-range"
         data-header="{headers}"
       >
-        <a href="database/person.html?id={{ jsonget:id }}">
+        <a href="database/person.html?id={id}" data-get="id:id">
           <figure class="p1 bcwhite bcblack001_h">
             <img data-get="birth.country_code" before="https://cdn.front.nu/dist/design/front/flags/famfamfam/" after=".gif" class="f0">
             <p class="f2 pl1" filteron="true">

@@ -49,11 +49,22 @@ app.module.data = {
 
       var dataget = elements[i].getAttribute('data-get')
 
-      if (i % orginalNodeCountAll === 0) {
-        j++
-      }
+      if (i % orginalNodeCountAll === 0) j++
 
-      if (dataget) dom.set(elements[i], this._get(iterateObject[j], dataget))
+      if (dataget) {
+        var isReplace = dataget.indexOf(':') !== -1,
+          replace = false,
+          value = ''
+        if (isReplace) {
+          var vars = dataget.split(':'),
+            value = this._get(iterateObject[j], vars[1]),
+            replace = vars[0]
+        } else {
+          value = this._get(iterateObject[j], dataget)
+        }
+
+        dom.set(elements[i], value, false, replace)
+      }
     }
 
     app.attributes.run(elements, ['data-get'])
@@ -90,13 +101,15 @@ app.module.data = {
           element = values[1],
           value = values[0]
 
-          if (values[0][0] === '^') {
-            value = response.headers[value.substring(1)]
-          } else if (values[0] === '*length') {
-            value = response.data.length
-          } else {
-            value = response.data[values[0]]
-          }
+        if (values[0][0] === '^') {
+          value = response.headers[value.substring(1)]
+        } else if (values[0] === '*length') {
+          value = response.data.length
+        } else if (values[1][0] === '#' || values[1][0] === '.') {
+          value = response.data[values[0]]
+        } else {
+          app.log.error(0)(values)
+        }
 
         dom.set(element, value)
         app.attributes.run(element)
