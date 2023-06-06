@@ -29,8 +29,8 @@ app.module.data = {
     var $response = this.$response,
       element = options.element,
       iterate = options.iterate,
-      iterateObject = iterate === 'true' ? $response.data : $response.data[iterate],
-      total = iterate && iterateObject.length - 1
+      iterateObject = iterate === 'true' ? $response.data : $response.data[iterate] || $response.data,
+      total = iterate && iterateObject.length - 1 || 0
 
     var originalNode = element.cloneNode(true),
       orginalNodeCountAll = dom.find(originalNode, '*').length,
@@ -44,7 +44,6 @@ app.module.data = {
     element.innerHTML = content
 
     var elements = dom.find(element, '*')
-
     for (var i = 0; i < elements.length; i++) {
 
       var dataget = elements[i].getAttribute('data-get')
@@ -55,6 +54,7 @@ app.module.data = {
         var isReplace = dataget.indexOf(':') !== -1,
           replace = false,
           value = ''
+
         if (isReplace) {
           var vars = dataget.split(':'),
             value = this._get(iterateObject[j], vars[1]),

@@ -1,0 +1,38 @@
+<script src="front.js"></script>
+<template srcdoc="index"></template>
+<title globalize="person">Person</title>
+
+<article
+  id="person"
+  bind="id:?id;endpoint:^api.persons.endpoint;headers:^api.persons.headers"
+  data-src="{endpoint}?select=*&or=(id.eq.{id})"
+  data-header="{headers}"
+>
+  <h1 globalize="person">Person</h1>
+  <nav class="crumbs pointer p05 bos6 bocblack01 bw1 bcsnow mt05 br05 gray w0">
+    <ol class="pl05">
+      <li><a href="./database" globalize="database">Database</a></li>
+      <li><a href="persons.html" globalize="persons">Persons</a></li>
+      <li>
+        <span data-get="first_name.swe">.</span>
+        <span data-get="middle_name.swe" stopif=":beforebegin" beforebegin="&nbsp;" beforeend="&nbsp;">.</span>
+        <span data-get="last_name.swe">.</span></li>
+    </ol>
+  </nav>
+  <div class="box cards list mt1 br0-">
+    <figure class="pauto bcwhite lh2">
+      <p>
+        <i class="dimgray w10r" globalize="first_name">First name</i><span data-get="first_name.swe">.</span><br>
+        <i class="dimgray w10r" globalize="middle_name">Middle name</i><span data-get="middle_name.swe">.</span><br>
+        <i class="dimgray w10r" globalize="last_name">Last name</i><span data-get="last_name.swe">.</span><br>
+      
+        <i class="dimgray w10r" globalize="gender">Gender</i><span data-get="gender">x</span><br>
+        <i class="dimgray w10r" globalize="date_of_birth">Date of birth</i><span data-get="birth.date">.</span><br>
+        <i class="dimgray w10r" globalize="country_of_birth">Country of birth</i><span data-get="birth.country_code">.</span><br>
+      </p>
+      <!--<p>
+        <i class="dimgray w10r" globalize="ethnicity">Ethnicity</i>Aramean
+      </p>-->
+    </figure>
+  </div>
+</article>
