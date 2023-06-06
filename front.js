@@ -319,10 +319,8 @@ var app = {
           xhr.open('GET', url + urlExtension, true)
 
           // Set headers
-          var headerKeys = Object.keys(headers)
-          for (var i = 0; i < headerKeys.length; i++) {
-            var header = headerKeys[i]
-            xhr.setRequestHeader(header, headers[header])
+          for (var header in headers) {
+            if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
           }
 
           if (single) app.xhr.currentRequest = xhr
