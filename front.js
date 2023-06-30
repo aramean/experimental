@@ -106,6 +106,16 @@ var app = {
     }
   },
 
+  storage: {
+    get: function (key) {
+      return JSON.parse(localStorage.getItem(key))
+    },
+
+    set: function (key, value) {
+      localStorage.setItem(key, JSON.stringify(value))
+    }
+  },
+
   listeners: {
     add: function (binding, type, value) {
       binding.addEventListener(type, function () {
@@ -293,6 +303,7 @@ var app = {
         total = url.length,
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
+        store = options.store || false,
         response = options.response,
         headers = options.headers || {},
 
@@ -354,12 +365,14 @@ var app = {
               responses[i] = xhr.responseText
               loaded++
 
-              if (target) dom.set(target, xhr.response)
+              if (target) dom.set(target, responses[i])
+
+              if (store) app.storage.set(store, { 'data': JSON.parse(responses[i]), 'headers': headerMap })
 
               if (response === 'test') {
-                app.assets.set.$response = JSON.parse(xhr.responseText)
+                app.assets.set.$response = JSON.parse(responses[i])
               } else if (response) {
-                app.module[response].$response = { 'data': JSON.parse(xhr.responseText), 'headers': headerMap }
+                app.module[response].$response = { 'data': JSON.parse(responses[i]), 'headers': headerMap }
               }
 
               if (onload && loaded === total) {
@@ -602,11 +615,12 @@ var dom = {
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
       type = object.tagName.toLowerCase(),
-      binding = object.getAttribute('bind'),
+      binding = object.getAttribute('bind') || object.getAttribute('var'),
       clonedObject = object.cloneNode(true)
 
-    if (binding.indexOf(':') !== -1) {
-      var bindings = binding.split(';')
+    // Set variable if colon is presented or update innerhtml.
+    
+      var bindings = binding.indexOf(':') !== -1 && binding.split(';')
 
       for (var i = 0; i < bindings.length; i++) {
         var bindingParts = bindings[i].split(':'),
@@ -685,7 +699,7 @@ var dom = {
       }
 
       object.innerHTML = innerHTML
-    }
+
   },
 
   loader: function (object, value) {
@@ -924,6 +938,28 @@ var dom = {
       for (var i = 0; i < attributes.length; i++)
         element.removeAttribute(attributes[i])
     }
+  },
+
+  callif: function (element, value) {
+    var elementValue = element.innerHTML || '',
+      values = value.split(':'),
+      condition = values[0],
+      attributes = values[1].split(';')
+
+    if (elementValue === condition) {
+      alert('hej')
+    }
+  },
+
+  var: function (element, value) {
+    if (element.localName === 'script') return
+    console.dir(value)
+    dom.bind(element, value)
+
+    var value = element.attributes.var
+    console.log(value)
+    console.dir(app.var)
+    console.dir(app.var[value])
   }
 }
 

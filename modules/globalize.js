@@ -11,16 +11,39 @@ app.module.globalize = {
    * @private
    */
   _autoload: function (options) {
-    var config = app.config.get('globalize', {
-      folder: 'assets/json/globalize',
-      language: app.language
-    }, options.element)
+    var query = app.querystrings.get(false, 'locale')
+    if (query) this.locale.set(query)
 
-    app.xhr.get({
-      url: [config.folder + '/' + config.language + '.json'],
-      response: 'globalize',
-      onload: options.onload
-    })
+    var config = app.config.get('globalize', {
+      store: true,
+      folder: 'assets/json/globalize',
+      language: this.locale.get(query),
+    }, options.element),
+      storeKey = 'globalize.' + config.language
+
+    if (app.storage.get(storeKey)) {
+      this.$response = app.storage.get(storeKey)
+      app.attributes.run()
+    } else {
+      app.xhr.get({
+        url: [config.folder + '/' + config.language + '.json'],
+        response: 'globalize',
+        store: storeKey,
+        onload: options.onload
+      })
+    }
+  },
+
+  locale: {
+    get: function (query) {
+      var storedLanguage = app.storage.get('globalize.language'),
+        language = storedLanguage || query || app.language
+      return language
+    },
+
+    set: function (language) {
+      app.storage.set('globalize.language', language)
+    }
   },
 
   /**

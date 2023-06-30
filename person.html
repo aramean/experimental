@@ -22,11 +22,12 @@
   <div class="box cards list mt1 br0-">
     <figure class="pauto bcwhite lh2">
       <p>
+        <div bind="endpoint:^api.persons.endpoint">{endpoint}</div>
         <i class="dimgray w10r" globalize="first_name">First name</i><span data-get="first_name.swe">.</span><br>
-        <i class="dimgray w10r" globalize="middle_name">Middle name</i><span data-get="middle_name.swe">.</span><br>
+        <i class="dimgray w10r" globalize="middle_name" callif=":hide">Middle name</i><span data-get="middle_name.swe" hide>.</span><br>
         <i class="dimgray w10r" globalize="last_name">Last name</i><span data-get="last_name.swe">.</span><br>
       
-        <i class="dimgray w10r" globalize="gender">Gender</i><span data-get="gender">x</span><br>
+        <i class="dimgray w10r" globalize="gender">Gender</i><span data-get="gender" var="^enum.<>.eng"></span><br>
         <i class="dimgray w10r" globalize="date_of_birth">Date of birth</i><span data-get="birth.date">.</span><br>
         <i class="dimgray w10r" globalize="country_of_birth">Country of birth</i><span data-get="birth.country_code">.</span><br>
       </p>
