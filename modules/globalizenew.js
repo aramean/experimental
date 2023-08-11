@@ -31,7 +31,7 @@ app.module.globalizenew = {
         response: 'globalizenew',
         store: storeKey,
         type: 'var',
-        cache: 300,
+        cache: { type: 'localstorage', key: storeKey, ttl: 300 },
         onload: options.onload
       })
     //}

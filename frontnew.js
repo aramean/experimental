@@ -594,11 +594,11 @@ var app = {
       app.log.info()('Load assets')
 
       var scriptElement = dom.get(app.scriptSelector),
-      modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
-      vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false
-      
+        modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
+        vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false
+
       app.scriptElement = scriptElement
-      
+
       app.modules.name = modules
       app.modules.total = modules.length || 0
 
@@ -863,47 +863,42 @@ function handleXHR() {
   // Override the open method to add an event listener to the XHR instance
   XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
 
-    var xhrInstance = this
     this.addEventListener('load', function () {
-      // Handle the XHR file loaded event here
 
-      // Get the raw header string
-      var headers = this.getAllResponseHeaders()
+      // Get the header string
+      var headers = this.getAllResponseHeaders(),
+        lines = headers.trim().split(/[\r\n]+/)
 
-      // Convert the header string into an array of individual headers
-      var arr = headers.trim().split(/[\r\n]+/)
-
-      // Create a map of header names to values
+      // Create an object to store the headers
       var headerMap = {}
-      arr.forEach(function (line) {
-        var parts = line.split(": ")
-        var header = parts.shift()
-        var value = parts.join(": ")
+      for (var i = 0; i < lines.length; i++) {
+        var parts = lines[i].split(": ")
+        var header = parts[0]
+        var value = parts.slice(1).join(": ")
         headerMap[header] = value
-      })
+      }
+
+
+      var options = this.options,
+        responseData = this.responseText
       
-
-      // Access the response data
-      var responseData = xhrInstance.responseText
-      var options = xhrInstance.options
-
       if (options.response === 'default') {
         app.assets.set.$response = JSON.parse(responseData)
       } else if (options.response) {
         app.module[options.response].$response = { 'data': JSON.parse(responseData), 'headers': headerMap }
       }
 
-      console.log('(XHR) ' + options.type + ' loaded:', url);
+      console.log('(XHR) ' + options.type + ' loaded:', url)
 
       switch (options.type) {
         case 'template':
-          app.templates.loaded++;
+          app.templates.loaded++
           break
         case 'var':
-          app.vars.loaded++;
+          app.vars.loaded++
           break
         case 'module':
-          app.modules.loaded++;
+          app.modules.loaded++
           break
       }
 
@@ -913,10 +908,10 @@ function handleXHR() {
         app.vars.loaded === app.vars.total &&
         app.modules.loaded === app.modules.total
       ) {
-        app.attributes.run();
-        console.log('Templates Loaded:', app.templates.loaded);
-        console.log('Vars Loaded:', app.vars.loaded);
-        console.log('Modules Loaded:', app.modules.loaded);
+        app.attributes.run()
+        console.log('Templates Loaded:', app.templates.loaded)
+        console.log('Vars Loaded:', app.vars.loaded)
+        console.log('Modules Loaded:', app.modules.loaded)
       }
 
       // You can perform additional actions based on the loaded file
@@ -940,17 +935,17 @@ window.addEventListener('load', function () {
     url: 'test2.html',
     type: 'template',
   })
-/*
-  app.xhr.get({
-    url: 'assets/json/vars/api.json',
-    type: 'var',
-  })
-
-  app.xhr.get({
-    url: 'assets/json/vars/cdn.json',
-    type: 'var',
-  })
-*/
+  /*
+    app.xhr.get({
+      url: 'assets/json/vars/api.json',
+      type: 'var',
+    })
+  
+    app.xhr.get({
+      url: 'assets/json/vars/cdn.json',
+      type: 'var',
+    })
+  */
 })
 
 document.addEventListener('DOMContentLoaded', function () {
