@@ -133,12 +133,19 @@ var app = {
 
     load: function () {
       app.log.info()('Loading assets...')
-      this.get.vars()
-      this.get.modules()
+    // Load vars first
+    this.get.vars(function() {
+      alert('hej assets')
+      // Once vars are loaded, proceed to load modules
+      this.get.modules();
+    }.bind(this));
+
+    app.attributes.run();
+
     },
 
     get: {
-      vars: function () {
+      vars: function (callback) {
         app.log.info(1)('Loading vars...')
 
         var scriptElement = dom.get(app.scriptSelector),
@@ -151,12 +158,16 @@ var app = {
           varsLoaded++
           app.xhr.get({
             url: 'assets/json/vars/' + vars[j] + '.json',
-            response: 'test',
+            response: 'default',
             onload: {
-              run: { func: 'app.assets.set.vars', arg: vars[j] }
+              run: { func: 'app.assets.set.vars', arg: vars[j] },
+              runAfter: { func: 'app.attributes.run', arg: varsTotal }
             }
           })
         }
+      if (varsTotal === varsLoaded) {
+        callback();
+      }
       },
 
       /**
@@ -168,6 +179,7 @@ var app = {
       modules: function () {
         app.log.info()('Loading modules...')
 
+        console.dir(app.scriptSelector);
         var scriptElement = dom.get(app.scriptSelector),
           modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
           modulesTotal = modules.length || 0,
@@ -185,7 +197,7 @@ var app = {
             if (app.module[this.name]._autoload) {
               app.module[this.name]._autoload({
                 element: scriptElement,
-                onload: this.modulesTotal == this.modulesLoaded ? { run: { func: 'app.attributes.run' } } : ''
+                //onload: this.modulesTotal == this.modulesLoaded ? { run: { func: 'app.attributes.run' } } : ''
               })
             }
           }
@@ -193,7 +205,7 @@ var app = {
           document.head.appendChild(script)
         }
 
-        if (!modulesTotal) app.attributes.run()
+        //if (!modulesTotal) app.attributes.run()
       },
     },
 
@@ -290,6 +302,7 @@ var app = {
   xhr: {
 
     currentRequest: null,
+    currentRequestCount: 0,
 
     /**
      * @function xhr
@@ -314,7 +327,9 @@ var app = {
         timeout = onload ? options.onload.timeout || 0 : 0,
         preloader = onprogress && onprogress.preloader ? dom.get(onprogress.preloader) : false,
         run = onload.run && onload.run.func ? onload.run.func.split('.') : false,
-        runarg = onload.run && onload.run.arg
+        runarg = onload.run && onload.run.arg,
+        runAfter = onload.runAfter && onload.runAfter.func ? onload.runAfter.func.split('.') : false,
+        runAfterArg = onload.runAfter && onload.runAfter.arg
 
       // Abort the previous request if it exists
       if (single && this.currentRequest) {
@@ -369,7 +384,7 @@ var app = {
 
               if (store) app.storage.set(store, { 'data': JSON.parse(responses[i]), 'headers': headerMap })
 
-              if (response === 'test') {
+              if (response === 'default') {
                 app.assets.set.$response = JSON.parse(responses[i])
               } else if (response) {
                 app.module[response].$response = { 'data': JSON.parse(responses[i]), 'headers': headerMap }
@@ -388,6 +403,17 @@ var app = {
                     window[run[0]][run[1]][run[2]](runarg)
                   else if (run.length === 2)
                     window[run[0]][run[1]](runarg)
+
+                  if (runAfter) {
+                    app.xhr.currentRequestCount++
+                    if (app.xhr.currentRequestCount === runAfterArg) {
+                      //app.attributes.run()
+                      console.log('run')
+                      //app.attributes.run()
+                    }
+                    console.log(app.xhr.currentRequestCount)
+                  }
+                  //console.dir(responses[i] );
                 }
               }
             } else {
@@ -424,7 +450,7 @@ var app = {
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
         excludes = exclude ? exclude.concat(this.defaultExclude) : this.defaultExclude
-
+      console.trace('RUN' + selector);
       app.log.info()('Running attributes ' + selector + ' ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
@@ -641,14 +667,45 @@ var dom = {
         }
 
         // Bind asset variable
-        if (replaceValue[0] === '^') {
-          var keys = target.split('.'),
-            value = keys.reduce(function (obj, key) {
-              return obj[key]
-            }, app.var)
+if (replaceValue[0] === '^') {
+  var keys = target.split('.');
+  var value = app.var;
 
-          replaceValue = value
-        }
+  // Define a callback function to handle the binding with the retrieved value
+  var handleVarBinding = function (retrievedValue) {
+    // Use the retrieved value for binding
+    // Perform the necessary binding action here
+    // For example: target.innerHTML = retrievedValue;
+
+    // Continue with the rest of the code
+    // ...
+
+    replaceValue = retrievedValue;
+  };
+
+  // Define a function to retrieve the value from nested keys
+  var retrieveValue = function (obj, index, callback) {
+    var currentKey = keys[index];
+    if (obj && obj.hasOwnProperty(currentKey)) {
+      var currentValue = obj[currentKey];
+      if (index === keys.length - 1) {
+        // Last key reached, call the callback with the retrieved value
+        callback(currentValue);
+      } else {
+        // Continue retrieving nested value with the next key
+        retrieveValue(currentValue, index + 1, callback);
+      }
+    } else {
+      // Key not found, call the callback with an appropriate default value or error handling
+      callback('');
+    }
+  };
+
+  // Start retrieving the value from nested keys
+  retrieveValue(value, 0, handleVarBinding);
+}
+
+console.log(replaceValue);
 
         // Bind element
         if (replaceValue[0] === '#') {
@@ -947,19 +1004,14 @@ var dom = {
       attributes = values[1].split(';')
 
     if (elementValue === condition) {
-      alert('hej')
+      alert('hej call if')
     }
   },
 
   var: function (element, value) {
     if (element.localName === 'script') return
-    console.dir(value)
     dom.bind(element, value)
-
     var value = element.attributes.var
-    console.log(value)
-    console.dir(app.var)
-    console.dir(app.var[value])
   }
 }
 
