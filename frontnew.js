@@ -748,6 +748,71 @@ var app = {
     currentRequest: null,
     currentRequestCount: 0,
 
+    start: function () {
+      // Save the original open method of XMLHttpRequest
+      var originalOpen = XMLHttpRequest.prototype.open
+    
+      // Override the open method to add an event listener to the XHR instance
+      XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
+    
+        this.addEventListener('load', function () {
+    
+          // Get the header string
+          var headers = this.getAllResponseHeaders(),
+            lines = headers.trim().split(/[\r\n]+/)
+    
+          // Create an object to store the headers
+          var headerMap = {}
+          for (var i = 0; i < lines.length; i++) {
+            var parts = lines[i].split(": ")
+            var header = parts[0]
+            var value = parts.slice(1).join(": ")
+            headerMap[header] = value
+          }
+    
+          var options = this.options,
+            responseData = this.responseText
+    
+          if (options.response === 'default') {
+            app.assets.set.$response = JSON.parse(responseData)
+          } else if (options.response) {
+            app.module[options.response].$response = { 'data': JSON.parse(responseData), 'headers': headerMap }
+          }
+    
+          console.log('(XHR) ' + options.type + ' loaded:', url)
+    
+          switch (options.type) {
+            case 'template':
+              app.templates.loaded++
+              break
+            case 'var':
+              app.vars.loaded++
+              break
+          }
+    
+          //console.log('Vars Loaded:', app.vars.loaded)
+    
+          // Check if all requests have finished loading
+          if (
+            app.templates.loaded === app.templates.total &&
+            app.vars.loaded === (app.vars.total + app.vars.total2) &&
+            app.modules.loaded === app.modules.total
+          ) {
+            app.attributes.run()
+            console.log('Templates Loaded:', app.templates.loaded)
+            console.log('Vars Loaded:', app.vars.loaded)
+            console.log('Modules Loaded:', app.modules.loaded)
+          }
+    
+          // You can perform additional actions based on the loaded file
+          // For example, check the response content, update UI, etc.
+        })
+    
+        // Call the original open method
+        originalOpen.apply(this, arguments);
+      }
+    },
+
     /**
      * @function xhr
      * @memberof app
@@ -869,72 +934,7 @@ var app = {
   }
 }
 
-function handleXHR() {
-  // Save the original open method of XMLHttpRequest
-  var originalOpen = XMLHttpRequest.prototype.open
-
-  // Override the open method to add an event listener to the XHR instance
-  XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
-
-    this.addEventListener('load', function () {
-
-      // Get the header string
-      var headers = this.getAllResponseHeaders(),
-        lines = headers.trim().split(/[\r\n]+/)
-
-      // Create an object to store the headers
-      var headerMap = {}
-      for (var i = 0; i < lines.length; i++) {
-        var parts = lines[i].split(": ")
-        var header = parts[0]
-        var value = parts.slice(1).join(": ")
-        headerMap[header] = value
-      }
-
-      var options = this.options,
-        responseData = this.responseText
-
-      if (options.response === 'default') {
-        app.assets.set.$response = JSON.parse(responseData)
-      } else if (options.response) {
-        app.module[options.response].$response = { 'data': JSON.parse(responseData), 'headers': headerMap }
-      }
-
-      console.log('(XHR) ' + options.type + ' loaded:', url)
-
-      switch (options.type) {
-        case 'template':
-          app.templates.loaded++
-          break
-        case 'var':
-          app.vars.loaded++
-          break
-      }
-
-      //console.log('Vars Loaded:', app.vars.loaded)
-
-      // Check if all requests have finished loading
-      if (
-        app.templates.loaded === app.templates.total &&
-        app.vars.loaded === (app.vars.total + app.vars.total2) &&
-        app.modules.loaded === app.modules.total
-      ) {
-        app.attributes.run()
-        console.log('Templates Loaded:', app.templates.loaded)
-        console.log('Vars Loaded:', app.vars.loaded)
-        console.log('Modules Loaded:', app.modules.loaded)
-      }
-
-      // You can perform additional actions based on the loaded file
-      // For example, check the response content, update UI, etc.
-    })
-
-    // Call the original open method
-    originalOpen.apply(this, arguments);
-  }
-}
-
 document.addEventListener('DOMContentLoaded', function () {
   app.assets.load()
-  handleXHR()
+  app.xhr.start()
 })
