@@ -473,7 +473,7 @@ var app = {
   scriptSelector: 'script[src*=front]',
 
   templates: { total: 2, loaded: 0 },
-  vars: { total: 0, loaded: 0 },
+  vars: { total: 0, total2: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
   /**
@@ -606,7 +606,6 @@ var app = {
       app.vars.total = vars.length || 0
 
       this.get.modules()
-      this.get.vars()
     },
 
     get: {
@@ -614,16 +613,20 @@ var app = {
         app.log.info(1)('Loading vars...')
         for (var j = 0; j < app.vars.total; j++) {
           app.log.info(1)(app.vars.name[j])
-          app.vars.loaded++
+          //app.vars.loaded++
           console.warn("(Vars) Loaded: " + app.vars.name[j])
           app.xhr.get({
             url: 'assets/json/vars/' + app.vars.name[j] + '.json',
-            response: 'var',
+            type: 'var',
             onload: {
               //run: { func: 'app.assets.set.vars', arg: vars[j] },
               //runAfter: { func: 'app.attributes.run', arg: varsTotal }
             }
           })
+
+          if (app.vars.loaded === app.vars.total) {
+            app.assets.get.templates()
+          }
         }
       },
 
@@ -640,7 +643,7 @@ var app = {
           var script = document.createElement('script')
           script.name = app.modules.name[i]
           script.src = 'modules/' + script.name + '.js'
-          script.async = false
+          script.async = true
           script.onload = function () {
             app.log.info(1)(this.name)
             app.modules.loaded++
@@ -651,7 +654,9 @@ var app = {
                 element: app.scriptElement
               })
             }
-
+            if (app.modules.loaded === app.modules.total) {
+              app.assets.get.vars()
+            }
           }
 
           document.head.appendChild(script)
@@ -760,13 +765,11 @@ var app = {
 
       // Abort the previous request if it exists
       if (single && this.currentRequest) {
-        this.currentRequest.abort()
+        //this.currentRequest.abort()
       }
 
-      for (var i = 0; i < total; i++) {
-        (function (i, url) {
-          var url = url[i],
-            urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension
+
+          var urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
 
           var xhr = new XMLHttpRequest()
           xhr.open('GET', url + urlExtension, true)
@@ -777,7 +780,7 @@ var app = {
             if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
           }
 
-          if (single) app.xhr.currentRequest = xhr
+          //if (single) app.xhr.currentRequest = xhr
 
           xhr.onabort = function () {
             if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
@@ -788,7 +791,7 @@ var app = {
             if (onprogress) target ? dom.set(target, onprogress.content) : ''
           }
 
-          xhr.onload = function () {
+          xhr.onload2 = function () {
             if (xhr.status === 200 || xhr.status === 204) {
 
               responses[i] = xhr.responseText
@@ -832,8 +835,6 @@ var app = {
           }
 
           xhr.send()
-        })(i, url)
-      }
     }
   },
 
@@ -878,7 +879,6 @@ function handleXHR() {
         headerMap[header] = value
       }
 
-
       var options = this.options,
         responseData = this.responseText
       
@@ -897,15 +897,14 @@ function handleXHR() {
         case 'var':
           app.vars.loaded++
           break
-        case 'module':
-          app.modules.loaded++
-          break
       }
+
+      //console.log('Vars Loaded:', app.vars.loaded)
 
       // Check if all requests have finished loading
       if (
         app.templates.loaded === app.templates.total &&
-        app.vars.loaded === app.vars.total &&
+        app.vars.loaded === (app.vars.total + app.vars.total2) &&
         app.modules.loaded === app.modules.total
       ) {
         app.attributes.run()
@@ -935,18 +934,11 @@ window.addEventListener('load', function () {
     url: 'test2.html',
     type: 'template',
   })
-  /*
-    app.xhr.get({
-      url: 'assets/json/vars/api.json',
-      type: 'var',
-    })
-  
-    app.xhr.get({
-      url: 'assets/json/vars/cdn.json',
-      type: 'var',
-    })
-  */
 })
+
+window.onload = function () {
+
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   app.assets.load()

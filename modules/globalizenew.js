@@ -25,15 +25,17 @@ app.module.globalizenew = {
     /*if (app.storage.get(storeKey)) {
       this.$response = app.storage.get(storeKey)
     } else {*/
-      app.vars.total++;
+   
+    //
       app.xhr.get({
         url: [config.folder + '/' + config.language + '.json'],
         response: 'globalizenew',
         store: storeKey,
         type: 'var',
         cache: { type: 'localstorage', key: storeKey, ttl: 300 },
-        onload: options.onload
       })
+
+      app.vars.total2++
     //}
   },
 
