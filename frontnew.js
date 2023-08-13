@@ -419,10 +419,12 @@ var dom = {
    */
   include2: function (element) {
     console.log('wee')
-    /*app.xhr.get({
+    app.xhr.get({
+      element: element,
       url: 'test2.html',
-      type: 'include',
-    })*/
+      type: 'template',
+      onload: { run: { func: 'app.attributes.run', arg: '#' + element.id + ' *' } }
+    })
     /*app.xhr.get({
       element: element,
       url: element.attributes.include.value,
@@ -809,7 +811,7 @@ var app = {
         })
     
         // Call the original open method
-        originalOpen.apply(this, arguments);
+        originalOpen.apply(this, arguments)
       }
     },
 
@@ -868,13 +870,13 @@ var app = {
         if (onprogress) target ? dom.set(target, onprogress.content) : ''
       }
 
-      xhr.onload2 = function () {
+      xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 204) {
 
-          responses[i] = xhr.responseText
+          responses = xhr.responseText
           loaded++
 
-          if (target) dom.set(target, responses[i])
+          if (target) dom.set(target, responses)
 
           if (onload && loaded === total) {
 
@@ -935,6 +937,6 @@ var app = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  app.assets.load()
   app.xhr.start()
+  app.assets.load()
 })
