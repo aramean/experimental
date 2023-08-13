@@ -417,20 +417,12 @@ var dom = {
    * @param {Object} element - The element to which the external content will be added.
    * @desc * Loads the content of an external file and insert it into the DOM.
    */
-  include2: function (element) {
-    console.log('wee')
+  include: function (element) {
     app.xhr.get({
       element: element,
-      url: 'test2.html',
-
+      url: element.attributes.include.value,
       //onload: { run: { func: 'app.attributes.run', arg: '#' + element.id + ' *' } }
     })
-    /*app.xhr.get({
-      element: element,
-      url: element.attributes.include.value,
-      type: 'include'
-      //onload: { run: { func: 'app.attributes.run', arg: '#' + element.id + ' *' } }
-    })*/
   },
 
   stopif: function (element, value) {
@@ -765,20 +757,14 @@ var app = {
             type = this.options.type
 
           if (type) {
-            // Get the header string
-            var headers = this.getAllResponseHeaders(),
-              lines = headers.trim().split(/[\r\n]+/)
-
-            // Create an object to store the headers
+            var headers = this.getAllResponseHeaders().trim().split(/[\r\n]+/)
             var headerMap = {}
-            for (var i = 0; i < lines.length; i++) {
-              var parts = lines[i].split(": ")
+            for (var i = 0; i < headers.length; i++) {
+              var parts = headers[i].split(": ")
               var header = parts[0]
               var value = parts.slice(1).join(": ")
               headerMap[header] = value
             }
-
-
 
             if (options.response === 'default') {
               app.assets.set.$response = JSON.parse(responseData)
