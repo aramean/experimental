@@ -624,7 +624,7 @@ var app = {
             }
           })
 
-          if (app.vars.loaded === app.vars.total) {
+          if (j + 1 === app.vars.total) {
             app.assets.get.templates()
           }
         }
@@ -664,6 +664,18 @@ var app = {
 
         //if (!modulesTotal) app.attributes.run()
       },
+
+      templates: function () {
+        app.xhr.get({
+          url: 'test.html',
+          type: 'template',
+        })
+
+        app.xhr.get({
+          url: 'test2.html',
+          type: 'template',
+        })
+      }
     },
 
     set: {
@@ -769,72 +781,72 @@ var app = {
       }
 
 
-          var urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
+      var urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
 
-          var xhr = new XMLHttpRequest()
-          xhr.open('GET', url + urlExtension, true)
-          xhr.options = options
+      var xhr = new XMLHttpRequest()
+      xhr.open('GET', url + urlExtension, true)
+      xhr.options = options
 
-          // Set headers
-          for (var header in headers) {
-            if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
-          }
+      // Set headers
+      for (var header in headers) {
+        if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
+      }
 
-          //if (single) app.xhr.currentRequest = xhr
+      //if (single) app.xhr.currentRequest = xhr
 
-          xhr.onabort = function () {
-            if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
-          }
+      xhr.onabort = function () {
+        if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
+      }
 
-          xhr.onprogress = function (e) {
-            if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
-            if (onprogress) target ? dom.set(target, onprogress.content) : ''
-          }
+      xhr.onprogress = function (e) {
+        if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
+        if (onprogress) target ? dom.set(target, onprogress.content) : ''
+      }
 
-          xhr.onload2 = function () {
-            if (xhr.status === 200 || xhr.status === 204) {
+      xhr.onload2 = function () {
+        if (xhr.status === 200 || xhr.status === 204) {
 
-              responses[i] = xhr.responseText
-              loaded++
+          responses[i] = xhr.responseText
+          loaded++
 
-              if (target) dom.set(target, responses[i])
+          if (target) dom.set(target, responses[i])
 
-              if (onload && loaded === total) {
+          if (onload && loaded === total) {
 
-                if (run) {
-                  app.log.info()('Calling: ' + run)
+            if (run) {
+              app.log.info()('Calling: ' + run)
 
-                  runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responses, arg: runarg } : runarg
+              runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responses, arg: runarg } : runarg
 
-                  if (run.length === 4)
-                    window[run[0]][run[1]][run[2]][run[3]](runarg)
-                  else if (run.length === 3)
-                    window[run[0]][run[1]][run[2]](runarg)
-                  else if (run.length === 2)
-                    window[run[0]][run[1]](runarg)
+              if (run.length === 4)
+                window[run[0]][run[1]][run[2]][run[3]](runarg)
+              else if (run.length === 3)
+                window[run[0]][run[1]][run[2]](runarg)
+              else if (run.length === 2)
+                window[run[0]][run[1]](runarg)
 
-                  if (runAfter) {
-                    app.xhr.currentRequestCount++
-                    if (app.xhr.currentRequestCount === runAfterArg) {
-                      //app.attributes.run()
-                      console.log('run')
-                      //app.attributes.run()
-                    }
-                    console.log(app.xhr.currentRequestCount)
-                  }
-                  //console.dir(responses[i] );
+              if (runAfter) {
+                app.xhr.currentRequestCount++
+                if (app.xhr.currentRequestCount === runAfterArg) {
+                  //app.attributes.run()
+                  console.log('run')
+                  //app.attributes.run()
                 }
+                console.log(app.xhr.currentRequestCount)
               }
-            } else {
-              if (target) dom.set(target, xhr.statusText)
+              //console.dir(responses[i] );
             }
           }
+        } else {
+          if (target) dom.set(target, xhr.statusText)
+        }
+      }
 
-          xhr.onerror = function () {
-            if (onerror && target) dom.set(target, onerror)
-          }
+      xhr.onerror = function () {
+        if (onerror && target) dom.set(target, onerror)
+      }
 
-          xhr.send()
+      xhr.send()
     }
   },
 
@@ -881,7 +893,7 @@ function handleXHR() {
 
       var options = this.options,
         responseData = this.responseText
-      
+
       if (options.response === 'default') {
         app.assets.set.$response = JSON.parse(responseData)
       } else if (options.response) {
@@ -920,24 +932,6 @@ function handleXHR() {
     // Call the original open method
     originalOpen.apply(this, arguments);
   }
-}
-
-
-window.addEventListener('load', function () {
-
-  app.xhr.get({
-    url: 'test.html',
-    type: 'template',
-  })
-
-  app.xhr.get({
-    url: 'test2.html',
-    type: 'template',
-  })
-})
-
-window.onload = function () {
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {
