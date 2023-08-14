@@ -108,41 +108,16 @@ var dom = {
 
       // Bind asset variable
       if (replaceValue[0] === '^') {
-        var keys = target.split('.');
-        var value = app.var;
-
-        // Define a callback function to handle the binding with the retrieved value
-        var handleVarBinding = function (retrievedValue) {
-          // Use the retrieved value for binding
-          // Perform the necessary binding action here
-          // For example: target.innerHTML = retrievedValue;
-
-          // Continue with the rest of the code
-          // ...
-
-          replaceValue = retrievedValue;
-        };
-
-        // Define a function to retrieve the value from nested keys
-        var retrieveValue = function (obj, index, callback) {
-          var currentKey = keys[index];
-          if (obj && obj.hasOwnProperty(currentKey)) {
-            var currentValue = obj[currentKey];
-            if (index === keys.length - 1) {
-              // Last key reached, call the callback with the retrieved value
-              callback(currentValue);
-            } else {
-              // Continue retrieving nested value with the next key
-              retrieveValue(currentValue, index + 1, callback);
-            }
-          } else {
-            // Key not found, call the callback with an appropriate default value or error handling
-            callback('');
-          }
-        };
-
-        // Start retrieving the value from nested keys
-        retrieveValue(value, 0, handleVarBinding);
+        var keys = target.split('.'); // split the target string by "."
+        var firstKey = keys.shift(); // get and remove the first element of keys
+        var value = app.caches[firstKey].data; // get the data object from app.caches
+        var remainingKeys = keys.join('.'); // join the remaining elements of keys with "."
+        var subKeys = remainingKeys.split('.'); // split again by "."
+        for (var i = 0; i < subKeys.length; i++) { // loop through the subkeys
+          var subKey = subKeys[i]; // get the current subkey
+          value = value[subKey]; // update the value by accessing the property with bracket notation
+        }
+       replaceValue = value; // log the final value
       }
 
       console.log(replaceValue);
@@ -466,6 +441,7 @@ var app = {
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
   scriptSelector: 'script[src*=front]',
 
+  caches: {},
   templates: { total: 2, loaded: 0 },
   vars: { total: 0, total2: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
@@ -612,9 +588,7 @@ var app = {
           app.xhr.get({
             url: 'assets/json/vars/' + name + '.json',
             type: 'var',
-            onload: {
-              run: { func: 'app.assets.set.vars', arg: name }
-            }
+            cache: { type: 'window', key: name }
           })
 
           if (j + 1 === app.vars.total) {
@@ -670,17 +644,17 @@ var app = {
     },
 
     set: {
-      vars: function (arg) {
-        app.var[arg] = this.$response
+      vars: function (arg, data) {
+        //app.var[arg] = data    
       }
     },
   },
 
   /**
-     * @namespace attributes
-     * @memberof app
-     * @desc
-     */
+   * @namespace attributes
+   * @memberof app
+   * @desc
+   */
   attributes: {
 
     defaultExclude: ['id', 'name', 'class', 'title', 'alt'],
@@ -730,10 +704,10 @@ var app = {
   },
 
   /**
-     * @namespace xhr
-     * @memberof app
-     * @desc
-     */
+   * @namespace xhr
+   * @memberof app
+   * @desc
+   */
   xhr: {
 
     currentRequest: null,
@@ -749,26 +723,19 @@ var app = {
         this.addEventListener('load', function () {
 
           var options = this.options,
-            type = options.type
+            type = options.type,
+            name = options.name
 
           if (this.status === 200 || this.status === 204) {
             if (options.response === 'default') {
-              app.assets.set.$response = JSON.parse(this.responseText)
+              app.assets.set.$response[name] = 'test'
+              //app.assets.set.$response = JSON.parse(this.responseText)
             } else if (options.response) {
-              app.module[options.response].$response = { 'data': JSON.parse(this.responseText), 'headers': headerMap }
+              app.module[options.response].$response = { 'data': JSON.parse(this.responseText), 'headers': this.getAllResponseHeaders }
             }
           }
 
           if (type) {
-            var headers = this.getAllResponseHeaders().trim().split(/[\r\n]+/)
-            var headerMap = {}
-            for (var i = 0; i < headers.length; i++) {
-              var parts = headers[i].split(": ")
-              var header = parts[0]
-              var value = parts.slice(1).join(": ")
-              headerMap[header] = value
-            }
-
             console.log('(XHR) ' + options.type + ' loaded:', url)
 
             switch (type) {
@@ -776,6 +743,7 @@ var app = {
                 app.templates.loaded++
                 break
               case 'var':
+                //app.assets.set.vars(name, this.responseText)
                 app.vars.loaded++
                 break
             }
@@ -786,11 +754,11 @@ var app = {
               app.vars.loaded === (app.vars.total + app.vars.total2) &&
               app.modules.loaded === app.modules.total
             ) {
-              console.warn('RUN *')
-              app.attributes.run()
               console.log('Templates Loaded:', app.templates.loaded)
               console.log('Vars Loaded:', app.vars.loaded)
               console.log('Modules Loaded:', app.modules.loaded)
+              console.warn('RUN *')
+              app.attributes.run()
             }
           }
         })
@@ -858,10 +826,30 @@ var app = {
       xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 204) {
 
+          var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
+          var headerMap = {}
+          for (var i = 0; i < headers.length; i++) {
+            var parts = headers[i].split(": ")
+            var header = parts[0]
+            var value = parts.slice(1).join(": ")
+            headerMap[header] = value
+          }
+
           var responseData = xhr.responseText
 
           if (target) dom.set(target, responseData)
-          if (cache) app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
+
+          if (cache) {
+            switch (cache.type) {
+              case 'localstorage':
+                app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
+                break
+              case 'sessionstorage':
+                break
+              case 'window':
+                app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
+            }
+          }
 
           if (onload) {
 

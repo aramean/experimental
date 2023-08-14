@@ -26,7 +26,6 @@ app.module.data = {
   },
 
   _run: function (options) {
-    console.dir(this)
     var $response = this.$response,
       element = options.element,
       iterate = options.iterate,

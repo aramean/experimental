@@ -1,0 +1,34 @@
+
+<h1>Movies</h1>
+
+<hr>
+
+<div id="page2" stop="lowercase;set" set="ABCDEFGH" lowercase></div>
+
+<div
+  bind="page:?page;api:^api.themoviedb.popular"
+  data-src="{api}&page={page:1}"
+  data-set="page:#page;total_pages:#pages;total_results:#results"
+  data-header=""
+  iterate="results"
+  loader="#loader"
+  filter="true"
+  class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac"
+>
+  <figure class="p05" onclick="copyText">
+      <img insert="beforebegin:ddd" data-get="poster_path">
+      <figcaption class="z1 md_dn" data-get="title"></figcaption>
+      <figcaption class="z08 md_dn" data-get="title" slice="0,1" uppercase></figcaption>
+      <small data-get="name" slice="0,20" class="md_dn"></small>
+      <small data-get="html_entity" bindcopy="true" escape="true"></small>
+  </figure>
+</div>
+
+<div>
+  Page: <span id="page">0</span>
+  <br>
+  Total Pages: <span id="pages" name="pages2">0</span>
+  <br>
+  Total Results: <span id="results">0</span>
+  <br>
+</div>
