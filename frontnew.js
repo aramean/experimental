@@ -606,15 +606,14 @@ var app = {
       vars: function () {
         app.log.info(1)('Loading vars...')
         for (var j = 0; j < app.vars.total; j++) {
-          app.log.info(1)(app.vars.name[j])
-          //app.vars.loaded++
-          console.warn("(Vars) Loaded: " + app.vars.name[j])
+          var name = app.vars.name[j]
+          app.log.info(1)(name)
+          console.warn("(Vars) Loaded: " + name)
           app.xhr.get({
-            url: 'assets/json/vars/' + app.vars.name[j] + '.json',
+            url: 'assets/json/vars/' + name + '.json',
             type: 'var',
             onload: {
-              //run: { func: 'app.assets.set.vars', arg: vars[j] },
-              //runAfter: { func: 'app.attributes.run', arg: varsTotal }
+              run: { func: 'app.assets.set.vars', arg: name }
             }
           })
 
@@ -752,14 +751,16 @@ var app = {
         this.addEventListener('load', function () {
 
           var options = this.options,
-            responseData = this.responseText,
             type = options.type
 
-          if (options.response === 'default') {
-            app.assets.set.$response = JSON.parse(responseData)
-          } else if (options.response) {
-            console.dir(options.response)
-            app.module[options.response].$response = { 'data': JSON.parse(responseData), 'headers': headerMap }
+          if (this.status === 200 || this.status === 204) {
+            var responseData = this.responseText
+
+            if (options.response === 'default') {
+              app.assets.set.$response = JSON.parse(responseData)
+            } else if (options.response) {
+              app.module[options.response].$response = { 'data': JSON.parse(responseData), 'headers': headerMap }
+            }
           }
 
           if (type) {
@@ -783,8 +784,6 @@ var app = {
                 break
             }
 
-            //console.log('Vars Loaded:', app.vars.loaded)
-
             // Check if all requests have finished loading
             if (
               app.templates.loaded === app.templates.total &&
@@ -796,7 +795,6 @@ var app = {
               console.log('Vars Loaded:', app.vars.loaded)
               console.log('Modules Loaded:', app.modules.loaded)
             }
-
           }
         })
 
