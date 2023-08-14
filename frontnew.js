@@ -914,7 +914,6 @@ var app = {
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
         excludes = exclude ? exclude.concat(this.defaultExclude) : this.defaultExclude
-      console.trace('RUN' + selector);
       app.log.info()('Running attributes ' + selector + ' ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
