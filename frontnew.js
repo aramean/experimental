@@ -654,8 +654,6 @@ var app = {
 
           document.head.appendChild(script)
         }
-
-        //if (!modulesTotal) app.attributes.run()
       },
 
       templates: function () {
@@ -754,12 +752,10 @@ var app = {
             type = options.type
 
           if (this.status === 200 || this.status === 204) {
-            var responseData = this.responseText
-
             if (options.response === 'default') {
-              app.assets.set.$response = JSON.parse(responseData)
+              app.assets.set.$response = JSON.parse(this.responseText)
             } else if (options.response) {
-              app.module[options.response].$response = { 'data': JSON.parse(responseData), 'headers': headerMap }
+              app.module[options.response].$response = { 'data': JSON.parse(this.responseText), 'headers': headerMap }
             }
           }
 
@@ -790,6 +786,7 @@ var app = {
               app.vars.loaded === (app.vars.total + app.vars.total2) &&
               app.modules.loaded === app.modules.total
             ) {
+              console.warn('RUN *')
               app.attributes.run()
               console.log('Templates Loaded:', app.templates.loaded)
               console.log('Vars Loaded:', app.vars.loaded)
