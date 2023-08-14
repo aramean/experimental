@@ -421,7 +421,7 @@ var dom = {
     app.xhr.get({
       element: element,
       url: element.attributes.include.value,
-      //onload: { run: { func: 'app.attributes.run', arg: '#' + element.id + ' *' } }
+      onload: { run: { func: 'app.attributes.run', arg: '#' + element.id + ' *' } }
     })
   },
 
@@ -468,7 +468,6 @@ var app = {
 
   templates: { total: 2, loaded: 0 },
   vars: { total: 0, total2: 0, loaded: 0 },
-  includes: { total: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
   /**
@@ -754,7 +753,14 @@ var app = {
 
           var options = this.options,
             responseData = this.responseText,
-            type = this.options.type
+            type = options.type
+
+          if (options.response === 'default') {
+            app.assets.set.$response = JSON.parse(responseData)
+          } else if (options.response) {
+            console.dir(options.response)
+            app.module[options.response].$response = { 'data': JSON.parse(responseData), 'headers': headerMap }
+          }
 
           if (type) {
             var headers = this.getAllResponseHeaders().trim().split(/[\r\n]+/)
@@ -764,12 +770,6 @@ var app = {
               var header = parts[0]
               var value = parts.slice(1).join(": ")
               headerMap[header] = value
-            }
-
-            if (options.response === 'default') {
-              app.assets.set.$response = JSON.parse(responseData)
-            } else if (options.response) {
-              app.module[options.response].$response = { 'data': JSON.parse(responseData), 'headers': headerMap }
             }
 
             console.log('(XHR) ' + options.type + ' loaded:', url)
@@ -795,8 +795,6 @@ var app = {
               console.log('Templates Loaded:', app.templates.loaded)
               console.log('Vars Loaded:', app.vars.loaded)
               console.log('Modules Loaded:', app.modules.loaded)
-              this.removeEventListener('load', app.xhr.start)
-              this.abort()
             }
 
           }
@@ -820,6 +818,7 @@ var app = {
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
         store = options.store || false,
+        cache = options.cache || false,
         response = options.response,
         headers = options.headers || {},
 
@@ -838,7 +837,6 @@ var app = {
       if (single && this.currentRequest) {
         //this.currentRequest.abort()
       }
-
 
       var urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
 
@@ -865,17 +863,17 @@ var app = {
       xhr.onload = function () {
         if (xhr.status === 200 || xhr.status === 204) {
 
-          responses = xhr.responseText
-          loaded++
+          var responseData = xhr.responseText
 
-          if (target) dom.set(target, responses)
+          if (target) dom.set(target, responseData)
+          if (cache) app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
 
-          if (onload && loaded === total) {
+          if (onload) {
 
             if (run) {
               app.log.info()('Calling: ' + run)
 
-              runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responses, arg: runarg } : runarg
+              runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
 
               if (run.length === 4)
                 window[run[0]][run[1]][run[2]][run[3]](runarg)
@@ -883,17 +881,6 @@ var app = {
                 window[run[0]][run[1]][run[2]](runarg)
               else if (run.length === 2)
                 window[run[0]][run[1]](runarg)
-
-              if (runAfter) {
-                app.xhr.currentRequestCount++
-                if (app.xhr.currentRequestCount === runAfterArg) {
-                  //app.attributes.run()
-                  console.log('run')
-                  //app.attributes.run()
-                }
-                console.log(app.xhr.currentRequestCount)
-              }
-              //console.dir(responses[i] );
             }
           }
         } else {
@@ -908,6 +895,114 @@ var app = {
       xhr.send()
     }
   },
+  /**
+     * @namespace attributes
+     * @memberof app
+     * @desc
+     */
+  attributes: {
+
+    defaultExclude: ['id', 'name', 'class', 'title', 'alt'],
+
+    /**
+     * @function run
+     * @memberof app
+     * @param {string} [selector='html *'] - A CSS selector for the elements to be processed.
+     * @desc Runs Front Text Markup Language in all elements matching a given selector.
+     */
+    run: function (selector, exclude) {
+      var selector = selector || 'html *',
+        node = typeof selector === 'string' ? dom.get(selector, true) : selector,
+        excludes = exclude ? exclude.concat(this.defaultExclude) : this.defaultExclude
+      console.trace('RUN' + selector);
+      app.log.info()('Running attributes ' + selector + ' ...')
+      for (var i = 0; i < node.length; i++) {
+        var element = node[i],
+          run = element.attributes.run ? element.attributes.run.value : false,
+          stop = element.attributes.stop ? element.attributes.stop.value.split(';') : false,
+          include = element.attributes.include ? element.attributes.include.value : '',
+          exclude = stop && excludes.indexOf('stop') === -1 ? exclude.concat(stop) : excludes
+
+        if (include) dom.setUniqueId(element)
+
+        if (run !== 'false') {
+          for (var j = 0; j < element.attributes.length; j++) {
+            var attributeName = element.attributes[j].name,
+              name = element.attributes[j].name.split('-'),
+              value = element.attributes[j].value
+
+            if (exclude.indexOf(attributeName) === -1) {
+              if (app.module[name[0]] && name[1]) {
+                app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
+                app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
+              } else if (dom[name]) {
+                app.log.info(1)('dom.' + name)
+                dom[name](element, value)
+              }
+            } else {
+              app.log.warn(1)(name + " [Skipping]")
+            }
+          }
+        }
+      }
+    }
+  },
+
+  variables: {
+    update: {
+      attributes: function (object, clonedObject, regex, replaceVariable, replaceValue, reset) {
+
+        var originalAttributes = []
+        var originalContent = clonedObject.innerHTML
+
+        for (var i = 0; i < object.attributes.length; i++) {
+
+          var attr = object.attributes[i]
+
+          originalAttributes.push({
+            name: attr.name,
+            value: attr.value
+          })
+
+          if (attr.name == 'bind') continue
+          var newValue = attr.value.replace(regex, function (match) {
+            if (match === '{' + replaceVariable + '}')
+              return replaceValue
+          })
+          object.setAttribute(attr.name, newValue)
+        }
+
+        if (reset) {
+          app.attributes.run([object], ['bind', 'stop'])
+          app.variables.reset.attributes(object, originalAttributes)
+          app.variables.reset.content(object, originalContent)
+        }
+      },
+      content: function (object, regex, replaceVariable, replaceValue) {
+        var innerHTML = object.innerHTML.replace(regex, function (match) {
+          if (match === '{' + replaceVariable + '}') {
+            return replaceValue
+          }
+          return match
+        })
+
+        object.innerHTML = innerHTML
+      }
+    },
+    reset: {
+      attributes: function (object, original) {
+        for (var i = 0; i < object.attributes.length; i++) {
+          var attr = object.attributes[i]
+          object.setAttribute(attr.name, original[i].value)
+        }
+      },
+
+      content: function (object, original) {
+        object.innerHTML = original
+      }
+    }
+  },
+
 
   querystrings: {
     get: function (url, param) {
@@ -929,6 +1024,7 @@ var app = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  //app.config.set(dom.get(app.scriptSelector))
   app.xhr.start()
   app.assets.load()
 })

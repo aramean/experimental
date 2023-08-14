@@ -22,21 +22,17 @@ app.module.globalizenew = {
     }, options.element),
       storeKey = 'globalize.' + config.language
 
-    /*if (app.storage.get(storeKey)) {
+    if (app.storage.get(storeKey)) {
       this.$response = app.storage.get(storeKey)
-    } else {*/
-   
-    //
+    } else {
+      app.vars.total2++
       app.xhr.get({
         url: [config.folder + '/' + config.language + '.json'],
         response: 'globalizenew',
-        store: storeKey,
         type: 'var',
         cache: { type: 'localstorage', key: storeKey, ttl: 300 },
       })
-
-      app.vars.total2++
-    //}
+    }
   },
 
   locale: {
