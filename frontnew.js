@@ -335,26 +335,28 @@ var dom = {
   },
 
   insert: function (object, value) {
-    var parts = value.split(':'),
-      tag = object.localName,
-      type = object.type
+    var tag = object.localName,
+      position = value.slice(0, value.indexOf(":")),
+      text = value.slice(value.indexOf(":") + 1),
+      beforebegin = position === 'beforebegin' ? text : '',
+      afterbegin = position === 'afterbegin' ? text : ''
 
-    console.log(value)
     switch (tag) {
       case 'input':
 
         break
       case 'img':
-        //target.src = value
+        var src = object.getAttribute('src')
+        if (src) object.src = beforebegin + src + afterbegin
         break
       case 'a':
-        target.href = value
+        object.href = beforebegin + object.href + afterbegin
         break
       case 'select':
-        target.setAttribute('select', value)
+        object.setAttribute('select', value)
         break
       default:
-        object.insertAdjacentText(parts[0], value)
+        object.insertAdjacentText(position, value)
     }
   },
 
