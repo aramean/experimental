@@ -108,19 +108,13 @@ var dom = {
 
       // Bind asset variable
       if (replaceValue[0] === '^') {
-        var keys = target.split('.'); // split the target string by "."
-        var firstKey = keys.shift(); // get and remove the first element of keys
-        var value = app.caches[firstKey].data; // get the data object from app.caches
-        var remainingKeys = keys.join('.'); // join the remaining elements of keys with "."
-        var subKeys = remainingKeys.split('.'); // split again by "."
-        for (var i = 0; i < subKeys.length; i++) { // loop through the subkeys
-          var subKey = subKeys[i]; // get the current subkey
-          value = value[subKey]; // update the value by accessing the property with bracket notation
+        var keys = target.split('.'),
+          value = app.caches[keys[0]].data
+        for (var i = 1; i < keys.length; i++) {
+          value = value[keys[i]]
         }
-       replaceValue = value; // log the final value
+        replaceValue = value
       }
-
-      console.log(replaceValue);
 
       // Bind element
       if (replaceValue[0] === '#') {
