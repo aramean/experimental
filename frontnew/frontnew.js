@@ -77,11 +77,12 @@ var dom = {
     document.documentElement.style.display = action
   },
 
-  bind: function (object, value) {
+  bind: function (object, value, callback) {
+
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
       type = object.tagName.toLowerCase(),
-      binding = object.getAttribute('bind') || object.getAttribute('var'),
+      binding = object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var'),
       clonedObject = object.cloneNode(true)
 
     // Set variable if colon is presented or update innerhtml.
@@ -108,12 +109,14 @@ var dom = {
 
       // Bind asset variable
       if (replaceValue[0] === '^') {
-        var keys = target.split('.'),
-          value = app.caches[keys[0]].data
-        for (var i = 1; i < keys.length; i++) {
-          value = value[keys[i]]
+        var keys = target.split('.')
+        if (app.caches[keys[0]]) {
+          var value = app.caches[keys[0]].data
+          for (var i = 1; i < keys.length; i++) {
+            value = value[keys[i]]
+          }
+          replaceValue = value
         }
-        replaceValue = value
       }
 
       // Bind element
@@ -166,6 +169,11 @@ var dom = {
 
     object.innerHTML = innerHTML
 
+    if (callback) {
+      console.log('run')
+      window.app.module.data._src(object)
+      //callback()
+    }
   },
 
   loader: function (object, value) {
@@ -439,7 +447,7 @@ var app = {
 
   caches: {},
   templates: { total: 2, loaded: 0 },
-  vars: { total: 0, total2: 0, loaded: 0 },
+  vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
   /**
@@ -606,7 +614,6 @@ var app = {
           var script = document.createElement('script')
           script.name = app.modules.name[i]
           script.src = 'modules/' + script.name + '.js'
-          script.async = true
           script.onload = function () {
             app.log.info(1)(this.name)
             app.modules.loaded++
@@ -636,12 +643,6 @@ var app = {
           url: 'test2.html',
           type: 'template',
         })
-      }
-    },
-
-    set: {
-      vars: function (arg, data) {
-        //app.var[arg] = data    
       }
     },
   },
@@ -716,45 +717,37 @@ var app = {
       // Override the open method to add an event listener to the XHR instance
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
 
-        this.addEventListener('load', function () {
-
-          var options = this.options,
-            type = options.type,
-            name = options.name
+        this.addEventListener('loadend', function () {
 
           if (this.status === 200 || this.status === 204) {
-            if (options.response === 'default') {
-              app.assets.set.$response[name] = 'test'
-              //app.assets.set.$response = JSON.parse(this.responseText)
-            } else if (options.response) {
-              app.module[options.response].$response = { 'data': JSON.parse(this.responseText), 'headers': this.getAllResponseHeaders }
-            }
-          }
+            var options = this.options,
+              type = options.type,
+              name = options.name
 
-          if (type) {
-            console.log('(XHR) ' + options.type + ' loaded:', url)
+            if (type) {
+              console.log('(XHR) ' + options.type + ' loaded:', url)
 
-            switch (type) {
-              case 'template':
-                app.templates.loaded++
-                break
-              case 'var':
-                //app.assets.set.vars(name, this.responseText)
-                app.vars.loaded++
-                break
-            }
+              switch (type) {
+                case 'template':
+                  app.templates.loaded++
+                  break
+                case 'var':
+                  app.vars.loaded++
+                  break
+              }
 
-            // Check if all requests have finished loading
-            if (
-              app.templates.loaded === app.templates.total &&
-              app.vars.loaded === (app.vars.total + app.vars.total2) &&
-              app.modules.loaded === app.modules.total
-            ) {
-              console.log('Templates Loaded:', app.templates.loaded)
-              console.log('Vars Loaded:', app.vars.loaded)
-              console.log('Modules Loaded:', app.modules.loaded)
-              console.warn('RUN *')
-              app.attributes.run()
+              // Check if all requests have finished loading
+              if (
+                app.templates.loaded === app.templates.total &&
+                app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
+                app.modules.loaded === app.modules.total
+              ) {
+                console.log('Templates loaded:', app.templates.loaded + '/' + app.templates.total)
+                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
+                console.warn('RUN *')
+                app.attributes.run()
+              }
             }
           }
         })
@@ -770,13 +763,9 @@ var app = {
      * @desc Creates XHR requests and updates the DOM based on the response.
      */
     get: function (options) {
-      var responses = [],
-        loaded = 0,
-        url = options.url instanceof Array ? options.url : [options.url],
-        total = url.length,
+      var url = options.url instanceof Array ? options.url : [options.url],
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
-        store = options.store || false,
         cache = options.cache || false,
         response = options.response,
         headers = options.headers || {},
@@ -833,7 +822,13 @@ var app = {
 
           var responseData = xhr.responseText
 
-          if (target) dom.set(target, responseData)
+          if (response) {
+            app.module[response].$response = { 'data': JSON.parse(responseData), 'headers': this.getAllResponseHeaders }
+          }
+
+          if (target) {
+            dom.set(target, responseData)
+          }
 
           if (cache) {
             switch (cache.type) {
@@ -1006,3 +1001,4 @@ document.addEventListener('DOMContentLoaded', function () {
   app.xhr.start()
   app.assets.load()
 })
+
