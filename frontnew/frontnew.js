@@ -1010,12 +1010,9 @@ var app = {
   }
 }
 
-window.addEventListener('load', function () {
-  app.assets.load()
-})
-
 document.addEventListener('DOMContentLoaded', function () {
   //app.config.set(dom.get(app.scriptSelector))
+  app.assets.load()
   app.xhr.start()
 })
 
