@@ -10,7 +10,6 @@ app.module.data = {
   },
 
   src: function (element) {
-    console.log('run')
     var attr = element.attributes,
       options = {
         loader: attr.loader && attr.loader.value,
