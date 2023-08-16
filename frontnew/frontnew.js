@@ -804,7 +804,6 @@ var app = {
         var xhr = new (window.XMLHttpRequest ? XMLHttpRequest : ActiveXObject("Microsoft.XMLHTTP")),
            urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
         xhr.options = options
-        xhr.open('GET', url + urlExtension, true)
 
         console.dir(xhr)
         // Set headers
@@ -882,6 +881,7 @@ var app = {
           if (onerror && target) dom.set(target, onerror)
         }
 
+        xhr.open('GET', url + urlExtension, true)
         xhr.send()
       /*} catch (e) {
         window.console && console.log(e)
