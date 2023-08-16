@@ -801,8 +801,8 @@ var app = {
       }
 
       try {
-        //var xhr = new (typeof XDomainRequest !== 'undefined' ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0'),
-        var xhr = new XMLHttpRequest,
+        var xhr = new (typeof XDomainRequest !== 'undefined' ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0'),
+        //var xhr = new XMLHttpRequest,
           urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
         xhr.options = options
         xhr.open('GET', url + urlExtension, true)
