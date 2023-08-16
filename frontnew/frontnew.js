@@ -800,7 +800,7 @@ var app = {
         xhr.currentRequest.abort()
       }
 
-      try {
+      //try {
         var xhr = new (window.XMLHttpRequest ? XMLHttpRequest : ActiveXObject("Microsoft.XMLHTTP")),
            urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
         xhr.options = options
@@ -883,9 +883,9 @@ var app = {
         }
 
         xhr.send()
-      } catch (e) {
+      /*} catch (e) {
         window.console && console.log(e)
-      }
+      }*/
     }
 
   },
