@@ -808,7 +808,8 @@ var app = {
       }
 
       xhr.onload = function () {
-        if (xhr.status === 200 || xhr.status === 204) {
+        var status = xhr.status
+        if (status === 200 || status === 204 || status === 304) {
 
           var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
           var headerMap = {}
