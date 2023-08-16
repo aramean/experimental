@@ -825,23 +825,23 @@ var app = {
           //var status = xhr.status
           //if (status === 200 || status === 204 || status === 304) {
 
-            var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
+            /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
             var headerMap = {}
             for (var i = 0; i < headers.length; i++) {
               var parts = headers[i].split(": ")
               var header = parts[0]
               var value = parts.slice(1).join(": ")
               headerMap[header] = value
-            }
+            }*/
 
-            var responseData = xhr.responseText
-
-            if (response) {
-              app.module[response].$response = { 'data': JSON.parse(responseData), 'headers': this.getAllResponseHeaders }
-            }
-
+            var responseData = this.responseText
+  
             if (target) {
               dom.set(target, responseData)
+            }
+
+            if (response) {
+              app.module[response].$response = { 'data': JSON.parse(responseData), 'headers': '' }
             }
 
             if (cache) {
