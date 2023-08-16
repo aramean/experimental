@@ -77,7 +77,7 @@ var dom = {
     document.documentElement.style.display = action
   },
 
-  bind: function (object, value, callback) {
+  bind: function (object, value) {
 
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
@@ -168,12 +168,6 @@ var dom = {
     }
 
     object.innerHTML = innerHTML
-
-    if (callback) {
-      console.log('run')
-      window.app.module.data._src(object)
-      //callback()
-    }
   },
 
   loader: function (object, value) {
@@ -645,7 +639,7 @@ var app = {
           type: 'template',
         })
       }
-    },
+    }
   },
 
   /**
@@ -841,7 +835,7 @@ var app = {
             }
 
             if (response) {
-              app.module[response].$response = { 'data': JSON.parse(responseData), 'headers': '' }
+              app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
             }
 
             if (cache) {

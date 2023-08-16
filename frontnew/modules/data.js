@@ -21,10 +21,10 @@ app.module.data = {
   },
 
   _run: function (options) {
-    var $response = this.$response,
+    var responseData = this.responseData,
       element = options.element,
       iterate = options.iterate,
-      iterateObject = iterate === 'true' ? $response.data : $response.data[iterate] || $response.data,
+      iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
       total = iterate && iterateObject.length - 1 || 0
 
     var originalNode = element.cloneNode(true),
@@ -63,7 +63,7 @@ app.module.data = {
     }
 
     app.attributes.run(elements, ['data-get'])
-    this._set($response, options)
+    this._set(responseData, options)
     this._finish(options)
   },
 

@@ -23,7 +23,7 @@ app.module.globalizenew = {
       storeKey = 'globalize.' + config.language
 
     if (app.storage.get(storeKey)) {
-      this.$response = app.storage.get(storeKey)
+      this.responseData = app.storage.get(storeKey)
     } else {
       app.vars.totalStore++
       app.xhr.get({
@@ -54,10 +54,10 @@ app.module.globalizenew = {
    * @desc Gets the globalized value and set it to the element.
    */
   get: function (element) {
-    var $response = this.$response,
+    var responseData = this.responseData,
       value = element.getAttribute('globalizenew-get'),
       isRoot = value[0] == '/' ? true : false,
-      setValue = isRoot ? $response.data[value.substring(1)] : $response.data.translations[value]
+      setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
     dom.set(element, setValue)
   }
 }
