@@ -800,7 +800,8 @@ var app = {
         //this.currentRequest.abort()
       }
 
-      var xhr = new (typeof XDomainRequest !== 'undefined' ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0'),
+      //var xhr = new (typeof XDomainRequest !== 'undefined' ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0'),
+      var xhr = new XMLHttpRequest,
         urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
       xhr.options = options
       xhr.open('GET', url + urlExtension, true)
@@ -1010,12 +1011,8 @@ var app = {
   }
 }
 
-window.addEventListener('load', function () {
-  app.assets.load()
-})
-
 document.addEventListener('DOMContentLoaded', function () {
-  //app.config.set(dom.get(app.scriptSelector))
+  app.assets.load()
   app.xhr.start()
 })
 
