@@ -717,9 +717,17 @@ var app = {
       // Override the open method to add an event listener to the XHR instance
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
         console.log('start')
-        this.addEventListener('loadend', function () {
-          console.log('loadend')
-        })
+        console.log(this.status)
+        var status = this.status
+        console.log(status)
+        
+        if (this.status === 200 || this.status === 204 || this.status === 304) {
+          this.addEventListener('loadend', function () {
+            alert('hej')
+          })
+        }
+
+
 
         this.onloadend = function () {
           var status = this.status
@@ -1002,9 +1010,12 @@ var app = {
   }
 }
 
+window.addEventListener('load', function () {
+  app.assets.load()
+})
+
 document.addEventListener('DOMContentLoaded', function () {
   //app.config.set(dom.get(app.scriptSelector))
-  app.assets.load()
   app.xhr.start()
 })
 
