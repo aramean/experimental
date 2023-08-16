@@ -998,7 +998,7 @@ var app = {
 
 document.addEventListener('DOMContentLoaded', function () {
   //app.config.set(dom.get(app.scriptSelector))
-  app.xhr.start()
   app.assets.load()
+  app.xhr.start()
 })
 
