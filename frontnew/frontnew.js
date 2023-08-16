@@ -806,9 +806,9 @@ var app = {
 
         console.dir(xhr)
         // Set headers
-        for (var header in headers) {
+        /*for (var header in headers) {
           if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
-        }
+        }*/
 
         //if (single) app.xhr.currentRequest = xhr
 
