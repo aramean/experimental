@@ -807,6 +807,7 @@ var app = {
         xhr.options = options
         xhr.open('GET', url + urlExtension, true)
 
+        console.dir(xhr)
         // Set headers
         for (var header in headers) {
           if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
