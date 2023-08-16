@@ -614,6 +614,7 @@ var app = {
           var script = document.createElement('script')
           script.name = app.modules.name[i]
           script.src = 'modules/' + script.name + '.js'
+          script.async = true
           script.onload = function () {
             app.log.info(1)(this.name)
             app.modules.loaded++
