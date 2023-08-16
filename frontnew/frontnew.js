@@ -430,7 +430,7 @@ var dom = {
   vars: function (element, value) {
     if (element.localName === 'script') return
     dom.bind(element, value)
-    var value = element.attributes.var
+    var value = element.attributes.vars
   }
 }
 
@@ -797,92 +797,97 @@ var app = {
 
       // Abort the previous request if it exists
       if (single && this.currentRequest) {
-        //this.currentRequest.abort()
+        xhr.currentRequest.abort()
       }
 
-      //var xhr = new (typeof XDomainRequest !== 'undefined' ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0'),
-      var xhr = new XMLHttpRequest,
-        urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
-      xhr.options = options
-      xhr.open('GET', url + urlExtension, true)
+      try {
+        //var xhr = new (typeof XDomainRequest !== 'undefined' ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0'),
+        var xhr = new XMLHttpRequest,
+          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
+        xhr.options = options
+        xhr.open('GET', url + urlExtension, true)
 
-      // Set headers
-      for (var header in headers) {
-        if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
-      }
-
-      //if (single) app.xhr.currentRequest = xhr
-
-      xhr.onabort = function () {
-        if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
-      }
-
-      xhr.onprogress = function (e) {
-        if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
-        if (onprogress) target ? dom.set(target, onprogress.content) : ''
-      }
-
-      xhr.onload = function () {
-        var status = xhr.status
-        if (status === 200 || status === 204 || status === 304) {
-
-          var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
-          var headerMap = {}
-          for (var i = 0; i < headers.length; i++) {
-            var parts = headers[i].split(": ")
-            var header = parts[0]
-            var value = parts.slice(1).join(": ")
-            headerMap[header] = value
-          }
-
-          var responseData = xhr.responseText
-
-          if (response) {
-            app.module[response].$response = { 'data': JSON.parse(responseData), 'headers': this.getAllResponseHeaders }
-          }
-
-          if (target) {
-            dom.set(target, responseData)
-          }
-
-          if (cache) {
-            switch (cache.type) {
-              case 'localstorage':
-                app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
-                break
-              case 'sessionstorage':
-                break
-              case 'window':
-                app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
-            }
-          }
-
-          if (onload) {
-
-            if (run) {
-              app.log.info()('Calling: ' + run)
-
-              runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
-
-              if (run.length === 4)
-                window[run[0]][run[1]][run[2]][run[3]](runarg)
-              else if (run.length === 3)
-                window[run[0]][run[1]][run[2]](runarg)
-              else if (run.length === 2)
-                window[run[0]][run[1]](runarg)
-            }
-          }
-        } else {
-          if (target) dom.set(target, xhr.statusText)
+        // Set headers
+        for (var header in headers) {
+          if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
         }
-      }
 
-      xhr.onerror = function () {
-        if (onerror && target) dom.set(target, onerror)
-      }
+        //if (single) app.xhr.currentRequest = xhr
 
-      xhr.send()
+        xhr.onabort = function () {
+          if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
+        }
+
+        xhr.onprogress = function (e) {
+          if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
+          if (onprogress) target ? dom.set(target, onprogress.content) : ''
+        }
+
+        xhr.onload = function () {
+          var status = xhr.status
+          if (status === 200 || status === 204 || status === 304) {
+
+            var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
+            var headerMap = {}
+            for (var i = 0; i < headers.length; i++) {
+              var parts = headers[i].split(": ")
+              var header = parts[0]
+              var value = parts.slice(1).join(": ")
+              headerMap[header] = value
+            }
+
+            var responseData = xhr.responseText
+
+            if (response) {
+              app.module[response].$response = { 'data': JSON.parse(responseData), 'headers': this.getAllResponseHeaders }
+            }
+
+            if (target) {
+              dom.set(target, responseData)
+            }
+
+            if (cache) {
+              switch (cache.type) {
+                case 'localstorage':
+                  app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
+                  break
+                case 'sessionstorage':
+                  break
+                case 'window':
+                  app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
+              }
+            }
+
+            if (onload) {
+
+              if (run) {
+                app.log.info()('Calling: ' + run)
+
+                runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
+
+                if (run.length === 4)
+                  window[run[0]][run[1]][run[2]][run[3]](runarg)
+                else if (run.length === 3)
+                  window[run[0]][run[1]][run[2]](runarg)
+                else if (run.length === 2)
+                  window[run[0]][run[1]](runarg)
+              }
+            }
+          } else {
+            if (target) dom.set(target, xhr.statusText)
+          }
+        }
+
+        xhr.onerror = function () {
+          if (onerror && target) dom.set(target, onerror)
+        }
+
+        xhr.send()
+      } catch (e) {
+        window.console && console.log(e)
+      }
     }
+
   },
   /**
      * @namespace attributes
