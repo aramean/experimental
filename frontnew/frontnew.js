@@ -802,7 +802,10 @@ var app = {
 
       var urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
 
-      var xhr = new XMLHttpRequest()
+      var ie89Cors = (typeof XDomainRequest !== "undefined");
+            var xhr = new (ie89Cors ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0');
+
+      //var xhr = new XMLHttpRequest()
       xhr.open('GET', url + urlExtension, true)
       xhr.options = options
 
