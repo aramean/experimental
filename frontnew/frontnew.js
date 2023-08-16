@@ -427,7 +427,7 @@ var dom = {
     }
   },
 
-  var: function (element, value) {
+  vars: function (element, value) {
     if (element.localName === 'script') return
     dom.bind(element, value)
     var value = element.attributes.var
