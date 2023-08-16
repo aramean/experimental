@@ -718,6 +718,7 @@ var app = {
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
         this.onloadend = function () {
           var status = this.status
+          console.log(status)
           if (status === 200 || status === 204 || status === 304) {
             var options = this.options,
               type = options.type,
