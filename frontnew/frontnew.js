@@ -717,7 +717,8 @@ var app = {
       // Override the open method to add an event listener to the XHR instance
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
         this.onloadend = function () {
-          if (this.status === 200 || this.status === 204) {
+          var status = this.status
+          if (status === 200 || status === 204 || status === 304) {
             var options = this.options,
               type = options.type,
               name = options.name
