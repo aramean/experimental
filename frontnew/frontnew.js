@@ -882,7 +882,7 @@ var app = {
         }
 
         xhr.open('GET', url + urlExtension, true)
-        xhr.send()
+        xhr.send(null)
       /*} catch (e) {
         window.console && console.log(e)
       }*/
