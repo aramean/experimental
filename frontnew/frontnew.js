@@ -721,7 +721,7 @@ var app = {
         console.log(this.status)
         var status = this.status
         console.log(status)
-        
+
         if (this.status === 200 || this.status === 204 || this.status === 304) {
           this.addEventListener('loadend', function () {
             alert('hej')
@@ -800,14 +800,10 @@ var app = {
         //this.currentRequest.abort()
       }
 
-      var urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
-
-      var ie89Cors = (typeof XDomainRequest !== "undefined");
-            var xhr = new (ie89Cors ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0');
-
-      //var xhr = new XMLHttpRequest()
-      xhr.open('GET', url + urlExtension, true)
+      var xhr = new (typeof XDomainRequest !== 'undefined' ? XDomainRequest : (XMLHttpRequest || ActiveXObject))('MSXML2.XMLHTTP.3.0'),
+        urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
       xhr.options = options
+      xhr.open('GET', url + urlExtension, true)
 
       // Set headers
       for (var header in headers) {
