@@ -800,7 +800,6 @@ var app = {
         xhr.currentRequest.abort()
       }
 
-      //try {
         var xhr = new (window.XMLHttpRequest ? XMLHttpRequest : ActiveXObject("Microsoft.XMLHTTP")),
            urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
         xhr.options = options
@@ -823,8 +822,8 @@ var app = {
         }
 
         xhr.onload = function () {
-          var status = xhr.status
-          if (status === 200 || status === 204 || status === 304) {
+          //var status = xhr.status
+          //if (status === 200 || status === 204 || status === 304) {
 
             var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
             var headerMap = {}
@@ -872,9 +871,9 @@ var app = {
                   window[run[0]][run[1]](runarg)
               }
             }
-          } else {
-            if (target) dom.set(target, xhr.statusText)
-          }
+          //} else {
+          //  if (target) dom.set(target, xhr.statusText)
+         //}
         }
 
         xhr.onerror = function () {
@@ -883,9 +882,6 @@ var app = {
 
         xhr.open('GET', url + urlExtension, true)
         xhr.send(null)
-      /*} catch (e) {
-        window.console && console.log(e)
-      }*/
     }
 
   },
