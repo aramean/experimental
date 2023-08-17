@@ -2,6 +2,8 @@
 
 app.module.data = {
 
+  responseData: '',
+
   _autoload: function() {},
 
   bind: function (element) {
