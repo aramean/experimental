@@ -25,7 +25,7 @@ app.module.globalizenew = {
     if (app.storage.get(storeKey)) {
       this.$response = app.storage.get(storeKey)
     } else {
-      app.vars.total2++
+      app.vars.totalStore++
       app.xhr.get({
         url: [config.folder + '/' + config.language + '.json'],
         response: 'globalizenew',
