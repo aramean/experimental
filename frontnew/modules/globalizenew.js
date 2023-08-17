@@ -2,8 +2,6 @@
 
 app.module.globalizenew = {
 
-  responseData: '',
-
   /**
    * @function _autoload
    * @memberof app.module.globalize

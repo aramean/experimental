@@ -722,15 +722,21 @@ var app = {
 
             var responseData = this.responseText
 
+            if (response) {
+              app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
+            }
+
             if (cache) {
+              var cacheData = { 'data': JSON.parse(responseData), 'headers': '' }
               switch (cache.type) {
                 case 'localstorage':
-                  app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
+                  app.caches[cache.key] = cacheData
+                  app.storage.set(cache.key, cacheData)
                   break
                 case 'sessionstorage':
                   break
                 default:
-                  app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
+                  app.caches[cache.key] = cacheData
               }
             }
 
@@ -821,45 +827,45 @@ var app = {
 
       xhr.onload = function () {
         var status = this.status
-        if (status === 200 || status === 204 || status === 304) {
+        //if (status === 200 || status === 204 || status === 304) {
 
-          /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
-          var headerMap = {}
-          for (var i = 0; i < headers.length; i++) {
-            var parts = headers[i].split(": ")
-            var header = parts[0]
-            var value = parts.slice(1).join(": ")
-            headerMap[header] = value
-          }*/
+        /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
+        var headerMap = {}
+        for (var i = 0; i < headers.length; i++) {
+          var parts = headers[i].split(": ")
+          var header = parts[0]
+          var value = parts.slice(1).join(": ")
+          headerMap[header] = value
+        }*/
 
-          var responseData = this.responseText
+        var responseData = this.responseText
 
-          if (target) {
-            dom.set(target, responseData)
-          }
-
-          if (response) {
-            app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
-          }
-
-          if (onload) {
-
-            if (run) {
-              app.log.info()('Calling: ' + run)
-
-              runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
-
-              if (run.length === 4)
-                window[run[0]][run[1]][run[2]][run[3]](runarg)
-              else if (run.length === 3)
-                window[run[0]][run[1]][run[2]](runarg)
-              else if (run.length === 2)
-                window[run[0]][run[1]](runarg)
-            }
-          }
-        } else {
-          if (target) dom.set(target, xhr.statusText)
+        if (target) {
+          dom.set(target, responseData)
         }
+
+        if (response) {
+          app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
+        }
+
+        if (onload) {
+
+          if (run) {
+            app.log.info()('Calling: ' + run)
+
+            runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
+
+            if (run.length === 4)
+              window[run[0]][run[1]][run[2]][run[3]](runarg)
+            else if (run.length === 3)
+              window[run[0]][run[1]][run[2]](runarg)
+            else if (run.length === 2)
+              window[run[0]][run[1]](runarg)
+          }
+        }
+        //} else {
+        //  if (target) dom.set(target, xhr.statusText)
+        //}
       }
 
       xhr.onerror = function () {
