@@ -842,6 +842,10 @@ var app = {
           dom.set(target, responseData)
         }
 
+        if (response) {
+          app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
+        }
+
         if (onload) {
 
           if (run) {

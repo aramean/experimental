@@ -26,8 +26,8 @@ app.module.data = {
 
   _run: function (options) {
     console.dir(app.caches)
-    console.dir(app.caches['module.' + this.module])
-    console.dir(this.responseData)
+    //console.dir(app.caches['module.' + this.module])
+    //console.dir(this.responseData)
     var responseData = this.responseData,
       element = options.element,
       iterate = options.iterate,
