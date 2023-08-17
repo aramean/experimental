@@ -706,10 +706,10 @@ var app = {
     currentRequestCount: 0,
 
     start: function () {
-      // Save the original open method of XMLHttpRequest
-      var originalOpen = XMLHttpRequest.prototype.open
 
-      // Override the open method to add an event listener to the XHR instance
+      var open = XMLHttpRequest.prototype.open,
+        send = XMLHttpRequest.prototype.send
+
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
         this.onreadystatechange = function (e) {
           if (e.target.readyState === 4) {
@@ -765,8 +765,12 @@ var app = {
           }
         }
 
-        // Call the original open method
-        originalOpen.apply(this, arguments)
+        open.apply(this, arguments)
+      }
+
+      XMLHttpRequest.prototype.send = function (data) {
+        if (data) console.log(data)
+        send.apply(this, arguments)
       }
     },
 
