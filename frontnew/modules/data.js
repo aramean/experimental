@@ -34,6 +34,7 @@ app.module.data = {
       iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
       total = iterate && iterateObject.length - 1 || 0
 
+      console.log(responseData)
     var originalNode = element.cloneNode(true),
       orginalNodeCountAll = dom.find(originalNode, '*').length,
       content = '',
