@@ -25,7 +25,8 @@ app.module.data = {
   },
 
   _run: function (options) {
-    console.dir(app.caches['module' + this.module])
+    console.dir(app.caches)
+    console.dir(app.caches['module.' + this.module])
     console.dir(this.responseData)
     var responseData = this.responseData,
       element = options.element,
@@ -93,7 +94,7 @@ app.module.data = {
         run: { func: 'app.module.data._run', arg: options },
         timeout: (attr.timeout) ? attr.timeout.value : 0
       },
-      cache: { key: 'module' + this.module },
+      cache: { key: 'module.' + this.module },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
       onerror: { content: (attr.errorcontent) ? attr.errorcontent.value : false },
     })
