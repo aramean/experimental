@@ -294,6 +294,7 @@ var dom = {
    * @desc Slices the content of an element and replaces it with the sliced portion.
    */
   slice: function (object, value) {
+    console.log('slice')
     var values = value.replace(/\s+/g, '').split(',')
     object.innerHTML = object.innerHTML.slice(values[0], values[1])
   },
