@@ -716,21 +716,26 @@ var app = {
             var options = this.options,
               type = options.type,
               name = options.name,
+              response = options.response,
               cache = options.cache
-            
-              var responseData = this.responseText
 
-              if (cache) {
-                switch (cache.type) {
-                  case 'localstorage':
-                    app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
-                    break
-                  case 'sessionstorage':
-                    break
-                  case 'window':
-                    app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
-                }
+            var responseData = this.responseText
+
+            if (response) {
+              app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
+            }
+
+            if (cache) {
+              switch (cache.type) {
+                case 'localstorage':
+                  app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
+                  break
+                case 'sessionstorage':
+                  break
+                case 'window':
+                  app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
               }
+            }
 
             if (type) {
               console.log('(XHR) ' + options.type + ' loaded:', url)
@@ -794,86 +799,70 @@ var app = {
         xhr.currentRequest.abort()
       }
 
-        var xhr = new XMLHttpRequest(),
-           urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
-        xhr.options = options
-        // Set headers
-        /*for (var header in headers) {
-          if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
+      var xhr = new XMLHttpRequest(),
+        urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
+      xhr.options = options
+      // Set headers
+      /*for (var header in headers) {
+        if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
+      }*/
+
+      //if (single) app.xhr.currentRequest = xhr
+
+      xhr.onabort = function () {
+        if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
+      }
+
+      xhr.onprogress = function (e) {
+        if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
+        if (onprogress) target ? dom.set(target, onprogress.content) : ''
+      }
+
+      xhr.onload = function () {
+        //var status = xhr.status
+        //if (status === 200 || status === 204 || status === 304) {
+
+        /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
+        var headerMap = {}
+        for (var i = 0; i < headers.length; i++) {
+          var parts = headers[i].split(": ")
+          var header = parts[0]
+          var value = parts.slice(1).join(": ")
+          headerMap[header] = value
         }*/
 
-        //if (single) app.xhr.currentRequest = xhr
+        var responseData = this.responseText
 
-        xhr.onabort = function () {
-          if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
+        if (target) {
+          dom.set(target, responseData)
         }
 
-        xhr.onprogress = function (e) {
-          if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
-          if (onprogress) target ? dom.set(target, onprogress.content) : ''
+        if (onload) {
+
+          if (run) {
+            app.log.info()('Calling: ' + run)
+
+            runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
+
+            if (run.length === 4)
+              window[run[0]][run[1]][run[2]][run[3]](runarg)
+            else if (run.length === 3)
+              window[run[0]][run[1]][run[2]](runarg)
+            else if (run.length === 2)
+              window[run[0]][run[1]](runarg)
+          }
         }
+        //} else {
+        //  if (target) dom.set(target, xhr.statusText)
+        //}
+      }
 
-        xhr.onload = function () {
-          //var status = xhr.status
-          //if (status === 200 || status === 204 || status === 304) {
+      xhr.onerror = function () {
+        if (onerror && target) dom.set(target, onerror)
+      }
 
-            /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
-            var headerMap = {}
-            for (var i = 0; i < headers.length; i++) {
-              var parts = headers[i].split(": ")
-              var header = parts[0]
-              var value = parts.slice(1).join(": ")
-              headerMap[header] = value
-            }*/
-
-            var responseData = this.responseText
-  
-            if (target) {
-              dom.set(target, responseData)
-            }
-
-            if (response) {
-              app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
-            }
-
-            /*if (cache) {
-              switch (cache.type) {
-                case 'localstorage':
-                  app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
-                  break
-                case 'sessionstorage':
-                  break
-                case 'window':
-                  app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
-              }
-            }*/
-
-            if (onload) {
-
-              if (run) {
-                app.log.info()('Calling: ' + run)
-
-                runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
-
-                if (run.length === 4)
-                  window[run[0]][run[1]][run[2]][run[3]](runarg)
-                else if (run.length === 3)
-                  window[run[0]][run[1]][run[2]](runarg)
-                else if (run.length === 2)
-                  window[run[0]][run[1]](runarg)
-              }
-            }
-          //} else {
-          //  if (target) dom.set(target, xhr.statusText)
-         //}
-        }
-
-        xhr.onerror = function () {
-          if (onerror && target) dom.set(target, onerror)
-        }
-
-        xhr.open('GET', url + urlExtension, true)
-        xhr.send(null)
+      xhr.open('GET', url + urlExtension, true)
+      xhr.send(null)
     }
 
   },
