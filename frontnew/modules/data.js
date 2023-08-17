@@ -4,7 +4,9 @@ app.module.data = {
 
   responseData: '',
 
-  _autoload: function() {},
+  _autoload: function(options) {
+    this.module = options.name
+  },
 
   bind: function (element) {
     var value = element.getAttribute('data-bind')
@@ -23,6 +25,8 @@ app.module.data = {
   },
 
   _run: function (options) {
+    console.dir(app.caches['module' + this.module])
+    console.dir(this.responseData)
     var responseData = this.responseData,
       element = options.element,
       iterate = options.iterate,
@@ -84,11 +88,12 @@ app.module.data = {
       url: attr['data-src'].value,
       headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
       target: attr.target ? attr.target.value : false,
-      response: 'data',
+      response: this.module,
       onload: {
         run: { func: 'app.module.data._run', arg: options },
         timeout: (attr.timeout) ? attr.timeout.value : 0
       },
+      cache: { key: 'module' + this.module },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
       onerror: { content: (attr.errorcontent) ? attr.errorcontent.value : false },
     })

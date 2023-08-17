@@ -616,7 +616,8 @@ var app = {
             app.module[this.name].conf = function () { }
             if (app.module[this.name]._autoload) {
               app.module[this.name]._autoload({
-                element: app.scriptElement
+                element: app.scriptElement,
+                name: this.name
               })
             }
             if (app.modules.loaded === app.modules.total) {
@@ -732,7 +733,7 @@ var app = {
                   break
                 case 'sessionstorage':
                   break
-                case 'window':
+                default:
                   app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
               }
             }
