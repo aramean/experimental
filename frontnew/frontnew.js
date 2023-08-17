@@ -722,10 +722,6 @@ var app = {
 
             var responseData = this.responseText
 
-            if (response) {
-              app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
-            }
-
             if (cache) {
               switch (cache.type) {
                 case 'localstorage':
@@ -823,7 +819,8 @@ var app = {
         if (onprogress) target ? dom.set(target, onprogress.content) : ''
       }
 
-      xhr.onload = function () {
+      xhr.onload = function (e) {
+        console.dir(e)
         //var status = xhr.status
         //if (status === 200 || status === 204 || status === 304) {
 
