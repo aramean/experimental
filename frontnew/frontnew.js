@@ -845,7 +845,7 @@ var app = {
         }
 
         if (response) {
-          app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
+          //app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
         }
 
         if (onload) {
