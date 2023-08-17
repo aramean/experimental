@@ -711,26 +711,26 @@ var app = {
 
       // Override the open method to add an event listener to the XHR instance
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
-        console.log('start')
-        console.log(this.status)
-        var status = this.status
-        console.log(status)
-
-        if (this.status === 200 || this.status === 204 || this.status === 304) {
-          this.addEventListener('loadend', function () {
-            alert('hej')
-          })
-        }
-
-
-
-        this.onloadend = function () {
-          var status = this.status
-          console.log(status)
-          if (status === 200 || status === 204 || status === 304) {
+        this.onreadystatechange = function (e) {
+          if (e.target.readyState === 4) {
             var options = this.options,
               type = options.type,
-              name = options.name
+              name = options.name,
+              cache = options.cache
+            
+              var responseData = this.responseText
+
+              if (cache) {
+                switch (cache.type) {
+                  case 'localstorage':
+                    app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
+                    break
+                  case 'sessionstorage':
+                    break
+                  case 'window':
+                    app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
+                }
+              }
 
             if (type) {
               console.log('(XHR) ' + options.type + ' loaded:', url)
@@ -794,11 +794,9 @@ var app = {
         xhr.currentRequest.abort()
       }
 
-        var xhr = new (window.XMLHttpRequest ? XMLHttpRequest : ActiveXObject("Microsoft.XMLHTTP")),
+        var xhr = new XMLHttpRequest(),
            urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
         xhr.options = options
-
-        console.dir(xhr)
         // Set headers
         /*for (var header in headers) {
           if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
@@ -838,7 +836,7 @@ var app = {
               app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
             }
 
-            if (cache) {
+            /*if (cache) {
               switch (cache.type) {
                 case 'localstorage':
                   app.storage.set(cache.key, { 'data': JSON.parse(responseData), 'headers': '' })
@@ -848,7 +846,7 @@ var app = {
                 case 'window':
                   app.caches[cache.key] = { 'data': JSON.parse(responseData), 'headers': '' }
               }
-            }
+            }*/
 
             if (onload) {
 
