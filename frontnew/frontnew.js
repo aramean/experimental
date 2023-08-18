@@ -81,7 +81,7 @@ var dom = {
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
       type = object.tagName.toLowerCase(),
-      binding = object.getAttribute(attr ? attr : 'bind') || object.getAttribute('var'),
+      binding = object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var'),
       clonedObject = object.cloneNode(true)
 
     // Set variable if colon is presented or update innerhtml.
