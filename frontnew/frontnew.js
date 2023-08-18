@@ -903,6 +903,7 @@ var app = {
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
           attributes = element.attributes,
+
           run = attributes.run ? attributes.run.value : false,
           stop = attributes.stop ? attributes.stop.value.split(';') : false,
           include = attributes.include ? attributes.include.value : '',
@@ -911,8 +912,9 @@ var app = {
         // Fix IE bug
         if (app.docMode >= 9) {
           for (var j = 0; j < attributes.length; j++) {
-            var name = attributes[j].name
-            var value = element.getAttribute(name)
+            console.log('yess')
+            var name = attributes[j].name,
+              value = element.getAttribute(name)
             element.removeAttribute(name)
             element.setAttribute(name, value)
           }
