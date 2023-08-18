@@ -274,7 +274,6 @@ var dom = {
    */
   uppercase: function (object, first) {
     object.innerHTML = !first || first === 'true' ? object.innerHTML.toUpperCase() : object.innerHTML.charAt(0).toUpperCase() + object.innerHTML.slice(1)
-    console.log('uppercase')
   },
 
   /**
@@ -295,7 +294,6 @@ var dom = {
    * @desc Slices the content of an element and replaces it with the sliced portion.
    */
   slice: function (object, value) {
-    console.log('slice')
     var values = value.replace(/\s+/g, '').split(',')
     object.innerHTML = object.innerHTML.slice(values[0], values[1])
   },
@@ -859,17 +857,7 @@ var app = {
         if (include) dom.setUniqueId(element)
 
         // Fix IE bug
-        if (app.docMode >= 9) {
-          for (var j = 0; j < attributes.length; j++) {
-            console.log('yess')
-            var name = attributes[j].name,
-              value = element.getAttribute(name)
-            element.removeAttribute(name)
-            var attributeNode = document.createAttribute(name); // create a new attribute node
-attributeNode.value = value; // set the value of the attribute node
-element.setAttributeNode(attributeNode);
-          }
-        }
+        if (app.docMode >= 9) {}
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
@@ -877,6 +865,7 @@ element.setAttributeNode(attributeNode);
               name = attributes[j].name.split('-'),
               value = attributes[j].value
 
+            console.log(attributeName);
             if (exclude.indexOf(attributeName) === -1) {
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
