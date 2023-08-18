@@ -10,7 +10,7 @@ app.module.data = {
 
   bind: function (element) {
     var value = element.getAttribute('data-bind')
-    dom.bind(element, value)
+    dom.bind(element, value, 'data-bind')
   },
 
   src: function (element) {
@@ -26,15 +26,12 @@ app.module.data = {
 
   _run: function (options) {
   
-    //console.dir(app.caches['module.' + this.module])
-    //console.dir(this.responseData)
     var responseData = this.responseData,
       element = options.element,
       iterate = options.iterate,
       iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
       total = iterate && iterateObject.length - 1 || 0
 
-      console.log(responseData)
     var originalNode = element.cloneNode(true),
       orginalNodeCountAll = dom.find(originalNode, '*').length,
       content = '',
