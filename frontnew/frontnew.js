@@ -865,7 +865,7 @@ var app = {
             var name = attributes[j].name,
               value = element.getAttribute(name)
             element.removeAttribute(name)
-            element.setAttribute(name, value)
+            element.setAttributeNode(name, value)
           }
         }
 
