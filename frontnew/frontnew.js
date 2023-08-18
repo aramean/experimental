@@ -963,7 +963,3 @@ document.addEventListener('DOMContentLoaded', function () {
   app.assets.load()
   app.xhr.start()
 })
-
-window.onload = function () {
-
-}
