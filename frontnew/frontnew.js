@@ -912,7 +912,8 @@ var app = {
         if (include) dom.setUniqueId(element)
 
         // Fix IE bug
-        var { j, name, value } = newFunction(attributes, element)
+        element = newFunction(attributes, element)
+        attributes = element.attributes
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
@@ -1030,5 +1031,5 @@ function newFunction(attributes, element) {
       element.setAttribute(name, value)
     }
   }
-  return { j, name, value }
+  return element
 }
