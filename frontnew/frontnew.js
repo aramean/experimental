@@ -856,11 +856,11 @@ var app = {
 
         if (include) dom.setUniqueId(element)
 
-        // Fix IE bug
+        // Fix IE attribute bug.
         if (app.docMode >= 9) {
-        var array = Array.prototype.slice.call(attributes)
-        attributes = array.reverse()
-      }
+          var array = Array.prototype.slice.call(attributes)
+          attributes = array.reverse()
+        }
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
@@ -965,5 +965,5 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 window.onload = function () {
-  
+
 }
