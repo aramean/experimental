@@ -437,7 +437,7 @@ var app = {
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
-  docMode: document.documentMode,
+  docMode: document.documentMode || '',
   baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
   scriptSelector: 'script[src*=front]',
@@ -903,13 +903,14 @@ var app = {
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
           attributes = element.attributes,
-          run = element.attributes.run ? element.attributes.run.value : false,
-          stop = element.attributes.stop ? element.attributes.stop.value.split(';') : false,
-          include = element.attributes.include ? element.attributes.include.value : '',
+          run = attributes.run ? attributes.run.value : false,
+          stop = attributes.stop ? attributes.stop.value.split(';') : false,
+          include = attributes.include ? attributes.include.value : '',
           exclude = stop && excludes.indexOf('stop') === -1 ? exclude.concat(stop) : excludes
 
         // Fix IE bug
-        if (app.docMode in [9, 10, 11]) {
+        if ([9, 10, 11].includes(app.docMode)) {
+          console.error(app.docMode)
           for (var j = 0; j < attributes.length; j++) {
             var name = attributes[j].name
             var value = element.getAttribute(name)
@@ -921,10 +922,10 @@ var app = {
         if (include) dom.setUniqueId(element)
 
         if (run !== 'false') {
-          for (var j = 0; j < element.attributes.length; j++) {
-            var attributeName = element.attributes[j].name,
-              name = element.attributes[j].name.split('-'),
-              value = element.attributes[j].value
+          for (var j = 0; j < attributes.length; j++) {
+            var attributeName = attributes[j].name,
+              name = attributes[j].name.split('-'),
+              value = attributes[j].value
 
             if (exclude.indexOf(attributeName) === -1) {
               if (app.module[name[0]] && name[1]) {
