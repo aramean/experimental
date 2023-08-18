@@ -54,6 +54,7 @@ app.module.globalizenew = {
    * @desc Gets the globalized value and set it to the element.
    */
   get: function (element) {
+    console.log(element.outerHTML)
     var responseData = this.responseData,
       value = element.getAttribute('globalizenew-get'),
       isRoot = value[0] == '/' ? true : false,

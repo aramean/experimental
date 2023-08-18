@@ -274,6 +274,7 @@ var dom = {
    */
   uppercase: function (object, first) {
     object.innerHTML = !first || first === 'true' ? object.innerHTML.toUpperCase() : object.innerHTML.charAt(0).toUpperCase() + object.innerHTML.slice(1)
+    console.log('uppercase')
   },
 
   /**
