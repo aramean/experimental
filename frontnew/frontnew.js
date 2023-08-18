@@ -437,6 +437,7 @@ var app = {
   language: document.documentElement.lang,
   title: document.title,
   isFrontpage: document.doctype,
+  docMode: document.documentMode,
   baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
   scriptSelector: 'script[src*=front]',
@@ -901,10 +902,21 @@ var app = {
       app.log.info()('Running attributes ' + selector + ' ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
+          attributes = element.attributes,
           run = element.attributes.run ? element.attributes.run.value : false,
           stop = element.attributes.stop ? element.attributes.stop.value.split(';') : false,
           include = element.attributes.include ? element.attributes.include.value : '',
           exclude = stop && excludes.indexOf('stop') === -1 ? exclude.concat(stop) : excludes
+
+        // Fix IE bug
+        if (app.docMode in [9, 10, 11]) {
+          for (var j = 0; j < attributes.length; j++) {
+            var name = attributes[j].name
+            var value = element.getAttribute(name)
+            element.removeAttribute(name)
+            element.setAttribute(name, value)
+          }
+        }
 
         if (include) dom.setUniqueId(element)
 
