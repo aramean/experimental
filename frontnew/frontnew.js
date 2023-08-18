@@ -909,8 +909,7 @@ var app = {
           exclude = stop && excludes.indexOf('stop') === -1 ? exclude.concat(stop) : excludes
 
         // Fix IE bug
-        if ([9, 10, 11].includes(app.docMode)) {
-          console.error(app.docMode)
+        if (app.docMode >= 9) {
           for (var j = 0; j < attributes.length; j++) {
             var name = attributes[j].name
             var value = element.getAttribute(name)
