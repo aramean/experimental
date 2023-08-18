@@ -865,7 +865,9 @@ var app = {
             var name = attributes[j].name,
               value = element.getAttribute(name)
             element.removeAttribute(name)
-            element.setAttribute(name, value)
+            var attributeNode = document.createAttribute(name); // create a new attribute node
+attributeNode.value = value; // set the value of the attribute node
+element.setAttributeNode(attributeNode);
           }
         }
 
