@@ -912,15 +912,7 @@ var app = {
         if (include) dom.setUniqueId(element)
 
         // Fix IE bug
-        if (app.docMode >= 9) {
-          for (var j = 0; j < attributes.length; j++) {
-            console.log('yess')
-            var name = attributes[j].name,
-              value = element.getAttribute(name)
-            element.removeAttribute(name)
-            element.setAttribute(name, value)
-          }
-        }
+        var { j, name, value } = newFunction(attributes, element)
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
@@ -1024,3 +1016,19 @@ document.addEventListener('DOMContentLoaded', function () {
   app.assets.load()
   app.xhr.start()
 })
+
+window.onload = function () {
+
+}
+
+function newFunction(attributes, element) {
+  if (app.docMode >= 9) {
+    for (var j = 0; j < attributes.length; j++) {
+      console.log('yess')
+      var name = attributes[j].name, value = element.getAttribute(name)
+      element.removeAttribute(name)
+      element.setAttribute(name, value)
+    }
+  }
+  return { j, name, value }
+}
