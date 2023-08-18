@@ -647,59 +647,6 @@ var app = {
   },
 
   /**
-   * @namespace attributes
-   * @memberof app
-   * @desc
-   */
-  attributes: {
-
-    defaultExclude: ['id', 'name', 'class', 'title', 'alt'],
-
-    /**
-     * @function run
-     * @memberof app
-     * @param {string} [selector='html *'] - A CSS selector for the elements to be processed.
-     * @desc Runs Front Text Markup Language in all elements matching a given selector.
-     */
-    run: function (selector, exclude) {
-      var selector = selector || 'html *',
-        node = typeof selector === 'string' ? dom.get(selector, true) : selector,
-        excludes = exclude ? exclude.concat(this.defaultExclude) : this.defaultExclude
-      console.warn('RUN ' + selector);
-      app.log.info()('Running attributes ' + selector + ' ...')
-      for (var i = 0; i < node.length; i++) {
-        var element = node[i],
-          run = element.attributes.run ? element.attributes.run.value : false,
-          stop = element.attributes.stop ? element.attributes.stop.value.split(';') : false,
-          include = element.attributes.include ? element.attributes.include.value : '',
-          exclude = stop && excludes.indexOf('stop') === -1 ? exclude.concat(stop) : excludes
-
-        if (include) dom.setUniqueId(element)
-
-        if (run !== 'false') {
-          for (var j = 0; j < element.attributes.length; j++) {
-            var attributeName = element.attributes[j].name,
-              name = element.attributes[j].name.split('-'),
-              value = element.attributes[j].value
-
-            if (exclude.indexOf(attributeName) === -1) {
-              if (app.module[name[0]] && name[1]) {
-                app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
-                app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
-              } else if (dom[name]) {
-                app.log.info(1)('dom.' + name)
-                dom[name](element, value)
-              }
-            } else {
-              app.log.warn(1)(name + " [Skipping]")
-            }
-          }
-        }
-      }
-    }
-  },
-
-  /**
    * @namespace xhr
    * @memberof app
    * @desc
@@ -912,8 +859,15 @@ var app = {
         if (include) dom.setUniqueId(element)
 
         // Fix IE bug
-        element = newFunction(attributes, element)
-        attributes = element.attributes
+        if (app.docMode >= 9) {
+          for (var j = 0; j < attributes.length; j++) {
+            console.log('yess')
+            var name = attributes[j].name,
+              value = element.getAttribute(name)
+            element.removeAttribute(name)
+            element.setAttribute(name, value)
+          }
+        }
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
@@ -1019,17 +973,5 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 window.onload = function () {
-
-}
-
-function newFunction(attributes, element) {
-  if (app.docMode >= 9) {
-    for (var j = 0; j < attributes.length; j++) {
-      console.log('yess')
-      var name = attributes[j].name, value = element.getAttribute(name)
-      element.removeAttribute(name)
-      element.setAttribute(name, value)
-    }
-  }
-  return element
+  
 }
