@@ -1,6 +1,6 @@
 'use strict'
 
-app.module.globalizenew = {
+app.module.globalize = {
 
   /**
    * @function _autoload
@@ -11,16 +11,16 @@ app.module.globalizenew = {
    * @private
    */
   _autoload: function (options) {
-    console.warn('(Module) Initialized: globalizenew')
+    this.module = options.name
     var query = app.querystrings.get(false, 'locale')
     if (query) this.locale.set(query)
 
-    var config = app.config.get('globalize', {
+    var config = app.config.get(this.module, {
       store: true,
-      folder: 'assets/json/globalize',
+      folder: 'assets/json/' + this.module,
       language: this.locale.get(query),
     }, options.element),
-      storeKey = 'globalize.' + config.language
+      storeKey = this.module + '.' + config.language
 
     if (app.storage.get(storeKey)) {
       this.responseData = app.storage.get(storeKey)
@@ -28,7 +28,7 @@ app.module.globalizenew = {
       app.vars.totalStore++
       app.xhr.get({
         url: [config.folder + '/' + config.language + '.json'],
-        response: 'globalizenew',
+        response: this.module,
         type: 'var',
         cache: { type: 'localstorage', key: storeKey, ttl: 300 },
       })
@@ -37,13 +37,13 @@ app.module.globalizenew = {
 
   locale: {
     get: function (query) {
-      var storedLanguage = app.storage.get('globalize.language'),
+      var storedLanguage = app.storage.get(this.module + '.language'),
         language = storedLanguage || query || app.language
       return language
     },
 
     set: function (language) {
-      app.storage.set('globalize.language', language)
+      app.storage.set(this.module + '.language', language)
     }
   },
 
@@ -55,7 +55,7 @@ app.module.globalizenew = {
    */
   get: function (element) {
     var responseData = this.responseData,
-      value = element.getAttribute('globalizenew-get'),
+      value = element.getAttribute(this.module + '-get'),
       isRoot = value[0] == '/' ? true : false,
       setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
     dom.set(element, setValue)
