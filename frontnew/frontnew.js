@@ -857,15 +857,16 @@ var app = {
         if (include) dom.setUniqueId(element)
 
         // Fix IE bug
-        if (app.docMode >= 9) {}
+        if (app.docMode >= 9) {
+        var array = Array.prototype.slice.call(attributes)
+        attributes = array.reverse()
+      }
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
             var attributeName = attributes[j].name,
               name = attributes[j].name.split('-'),
               value = attributes[j].value
-
-            console.log(attributeName);
             if (exclude.indexOf(attributeName) === -1) {
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
