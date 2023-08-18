@@ -909,6 +909,8 @@ var app = {
           include = attributes.include ? attributes.include.value : '',
           exclude = stop && excludes.indexOf('stop') === -1 ? exclude.concat(stop) : excludes
 
+        if (include) dom.setUniqueId(element)
+
         // Fix IE bug
         if (app.docMode >= 9) {
           for (var j = 0; j < attributes.length; j++) {
@@ -919,8 +921,6 @@ var app = {
             element.setAttribute(name, value)
           }
         }
-
-        if (include) dom.setUniqueId(element)
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
