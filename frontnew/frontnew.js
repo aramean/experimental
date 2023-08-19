@@ -744,9 +744,7 @@ var app = {
         timeout = onload ? options.onload.timeout || 0 : 0,
         preloader = onprogress && onprogress.preloader ? dom.get(onprogress.preloader) : false,
         run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
-        runarg = onload && onload.run && onload.run.arg,
-        runAfter = onload && onload.runAfter && onload.runAfter.func ? onload.runAfter.func.split('.') : false,
-        runAfterArg = onload && onload.runAfter && onload.runAfter.arg
+        runarg = onload && onload.run && onload.run.arg
 
       // Abort the previous request if it exists
       if (single && this.currentRequest) {
@@ -789,10 +787,6 @@ var app = {
 
         if (target) {
           dom.set(target, responseData)
-        }
-
-        if (response) {
-          //app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
         }
 
         if (onload) {
