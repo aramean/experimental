@@ -28,7 +28,6 @@ app.module.navigate = {
    * @private
    */
   _click: function (event) {
-    console.log('click click')
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
       event.preventDefault()
