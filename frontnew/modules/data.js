@@ -21,6 +21,7 @@ app.module.data = {
         element: element
       }
     
+    this.element = element
     this._open(attr, options)
   },
 

@@ -438,6 +438,7 @@ var app = {
   baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
   scriptSelector: 'script[src*=front]',
+  script: {},
 
   caches: {},
   templates: { total: 2, loaded: 0 },
@@ -562,10 +563,14 @@ var app = {
       app.log.info()('Load assets')
 
       var scriptElement = dom.get(app.scriptSelector),
-        modules = scriptElement.attributes.module ? scriptElement.attributes.module.value.split(';') : false,
-        vars = scriptElement.attributes.var ? scriptElement.attributes.var.value.split(';') : false
+        src = scriptElement.attributes.src && scriptElement.attributes.src.value, 
+        modules = scriptElement.attributes.module && scriptElement.attributes.module.value.split(';'),
+        vars = scriptElement.attributes.var && scriptElement.attributes.var.value.split(';')
 
-      app.scriptElement = scriptElement
+      app.script = { 
+        element: scriptElement,
+        path: (src.match(/^(\.\.\/)+/) || [''])[0]
+      }
 
       app.modules.name = modules
       app.modules.total = modules.length || 0
@@ -584,7 +589,7 @@ var app = {
           app.log.info(1)(name)
           console.warn("(Vars) Loaded: " + name)
           app.xhr.get({
-            url: 'assets/json/vars/' + name + '.json',
+            url: app.script.path + 'assets/json/vars/' + name + '.json',
             type: 'var',
             cache: { type: 'window', key: name }
           })
@@ -607,7 +612,7 @@ var app = {
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
           script.name = app.modules.name[i]
-          script.src = 'modules/' + script.name + '.js'
+          script.src = app.script.path + 'modules/' + script.name + '.js'
           script.async = true
           script.onload = function () {
             app.log.info(1)(this.name)
@@ -616,7 +621,7 @@ var app = {
             app.module[this.name].conf = function () { }
             if (app.module[this.name]._autoload) {
               app.module[this.name]._autoload({
-                element: app.scriptElement,
+                element: app.script.element,
                 name: this.name
               })
             }
@@ -631,12 +636,12 @@ var app = {
 
       templates: function () {
         app.xhr.get({
-          url: 'test.html',
+          url: app.script.path + 'test.html',
           type: 'template',
         })
 
         app.xhr.get({
-          url: 'test2.html',
+          url: app.script.path + 'test2.html',
           type: 'template',
         })
       }
