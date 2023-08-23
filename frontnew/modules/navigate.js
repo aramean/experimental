@@ -9,14 +9,17 @@ app.module.navigate = {
    * @private
    */
   _autoload: function (options) {
-    this.config = app.config.get('navigate', {
-      baseUrl: app.baseUrl,
-      target: 'main',
-      preloader: '#navloader'
-    }, options.element)
-    this.preloader = dom.get(this.config.preloader)
+    if (window.history) {
+      this.config = app.config.get('navigate', {
+        baseUrl: app.baseUrl,
+        target: 'main',
+        preloader: '#navloader'
+      }, options.element)
+      this.preloader = dom.get(this.config.preloader)
 
-    app.listeners.add(document, 'click', this._click.bind(this))
+      app.listeners.add(window, 'popstate', this._pop.bind(this))
+      app.listeners.add(document, 'click', this._click.bind(this))
+    }
   },
 
   /**
