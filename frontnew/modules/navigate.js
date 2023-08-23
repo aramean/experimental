@@ -9,7 +9,7 @@ app.module.navigate = {
    * @private
    */
   _autoload: function (options) {
-    if (window.history) {
+    if (history.pushState) {
       this.config = app.config.get('navigate', {
         baseUrl: app.baseUrl,
         target: 'main',
