@@ -15,6 +15,8 @@ app.module.navigate = {
       preloader: '#navloader'
     }, options.element)
     this.preloader = dom.get(this.config.preloader)
+
+    app.listeners.add(document, 'click', this._click.bind(this))
   },
 
   /**
@@ -23,6 +25,7 @@ app.module.navigate = {
    * @private
    */
   _click: function (event) {
+    console.log('click click')
     var link = dom.getTagLink(event.target)
     if (link && link.target !== '_blank') {
       event.preventDefault()

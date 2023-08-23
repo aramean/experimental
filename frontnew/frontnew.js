@@ -437,8 +437,7 @@ var app = {
   docMode: document.documentMode || '',
   baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
-  scriptSelector: 'script[src*=front]',
-  script: {},
+  script: { selector: 'script[src*=front]' },
 
   caches: {},
   templates: { total: 2, loaded: 0 },
@@ -518,7 +517,7 @@ var app = {
      */
     set: function (scriptElement) {
       dom.hreflocal(dom.get('head base'))
-      var element = scriptElement ? scriptElement : dom.get(app.scriptSelector),
+      var element = scriptElement ? scriptElement : dom.get(app.script.selector),
         config = this.get(false, {
           debug: false,
           debugLocalhost: false,
@@ -543,11 +542,10 @@ var app = {
     }
   },
 
+  
   listeners: {
-    add: function (binding, type, value) {
-      binding.addEventListener(type, function () {
-        console.log('test')
-      })
+    add: function (element, eventType, callback) {
+      element.addEventListener(eventType, callback)
     }
   },
 
@@ -562,7 +560,7 @@ var app = {
     load: function () {
       app.log.info()('Load assets')
 
-      var scriptElement = dom.get(app.scriptSelector),
+      var scriptElement = dom.get(app.script.selector),
         src = scriptElement.attributes.src && scriptElement.attributes.src.value, 
         modules = scriptElement.attributes.module && scriptElement.attributes.module.value.split(';'),
         vars = scriptElement.attributes.var && scriptElement.attributes.var.value.split(';')
