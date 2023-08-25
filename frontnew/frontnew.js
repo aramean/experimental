@@ -580,10 +580,10 @@ var app = {
       }
 
       app.modules.name = modules
-      app.modules.total = modules.length || 0
+      app.modules.total = modules ? modules.length : []
 
       app.vars.name = vars
-      app.vars.total = vars.length || 0
+      app.vars.total = vars ? vars.length : []
 
       this.get.modules()
     },
