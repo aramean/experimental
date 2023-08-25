@@ -855,9 +855,9 @@ var app = {
           attributes = element.attributes,
 
           run = attributes.run ? attributes.run.value : false,
-          stop = attributes.stop ? attributes.stop.value.split(';') : false,
+          stop = attributes.stop ? attributes.stop.value.split(';') : [],
           include = attributes.include ? attributes.include.value : '',
-          exclude = stop && excludes.indexOf('stop') === -1 ? exclude.concat(stop) : excludes
+          exclude = stop && excludes.indexOf('stop') === -1 ? excludes.concat(stop) : excludes
 
         if (include) dom.setUniqueId(element)
 
