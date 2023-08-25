@@ -442,7 +442,7 @@ var app = {
   var: {},
   language: document.documentElement.lang,
   title: document.title,
-  isFrontpage: document.doctype,
+  isFrontpage: document.doctype ? true : false,
   docMode: document.documentMode || '',
   baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
@@ -551,39 +551,30 @@ var app = {
     }
   },
 
-  
   listeners: {
     add: function (element, eventType, callback) {
       element.addEventListener(eventType, callback)
     }
   },
 
-
   /**
-     * @namespace assets
-     * @memberof app
-     * @desc
-     */
+   * @namespace assets
+   * @memberof app
+   * @desc
+   */
   assets: {
-
     load: function () {
       app.log.info()('Load assets')
 
-      var scriptElement = dom.get(app.script.selector),
-        src = scriptElement.attributes.src && scriptElement.attributes.src.value, 
-        modules = scriptElement.attributes.module && scriptElement.attributes.module.value.split(';'),
-        vars = scriptElement.attributes.var && scriptElement.attributes.var.value.split(';')
-
-      app.script = { 
-        element: scriptElement,
-        path: (src.match(/^(\.\.\/)+/) || [''])[0]
-      }
+      var scriptAttr = app.script.element.attributes,
+        modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
+        vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
       app.modules.name = modules
-      app.modules.total = modules ? modules.length : []
+      app.modules.total = modules.length
 
       app.vars.name = vars
-      app.vars.total = vars ? vars.length : []
+      app.vars.total = vars.length
 
       this.get.modules()
     },
@@ -660,7 +651,15 @@ var app = {
    * @memberof app
    * @desc
    */
-  start: function() {
+  start: function () {
+    var scriptElement = dom.get(app.script.selector),
+      src = scriptElement.attributes.src.value
+
+    app.script = {
+      element: scriptElement,
+      path: (src.match(/^(\.\.\/)+/) || [''])[0]
+    }
+
     app.assets.load()
     app.xhr.start()
   },
