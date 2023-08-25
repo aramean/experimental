@@ -656,6 +656,16 @@ var app = {
   },
 
   /**
+   * @namespace start
+   * @memberof app
+   * @desc
+   */
+  start: function() {
+    app.assets.load()
+    app.xhr.start()
+  },
+
+  /**
    * @namespace xhr
    * @memberof app
    * @desc
@@ -965,6 +975,5 @@ var app = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  app.assets.load()
-  app.xhr.start()
+  app.start()
 })
