@@ -450,7 +450,7 @@ var app = {
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
 
   caches: {},
-  templates: { total: 2, loaded: 0 },
+  templates: { total: 0, loaded: 0 },
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
@@ -576,10 +576,7 @@ var app = {
       app.vars.name = vars
       app.vars.total = vars.length
 
-      console.dir(app.srcTemplate)
-      console.dir(app.srcDocTemplate)
-
-      this.get.modules()
+      !app.isFrontpage ? this.get.templates() : this.get.modules()
     },
 
     get: {
@@ -636,17 +633,15 @@ var app = {
       },
 
       templates: function () {
-
-        var urls = [
-          'test.html',
-          'test2.html',
-        ]
-
-        for (var i = 0; i < urls.length; i++) {
-          app.xhr.get({
-            url: app.script.path + urls[i],
-            type: 'template'
-          })
+        var templateSrcArray = app.srcTemplate.url.templateSrc || []
+        for (var i = 0; i < app.srcTemplate.total; i++) {
+          var currentTemplateSrc = i === 0 ? app.srcTemplate.url.templateSrcDoc : templateSrcArray[i - 1];
+          if (currentTemplateSrc) {
+            app.xhr.get({
+              url: app.script.path + currentTemplateSrc + '.html',
+              type: 'template'
+            })
+          }
         }
       }
     }
@@ -658,20 +653,26 @@ var app = {
    * @desc
    */
   start: function () {
+
+    app.xhr.start()
+
     var scriptElement = dom.get('script[src*=front]'),
       templateElement = dom.get('template'),
-      src = scriptElement.attributes.src.value
+      scriptSrc = scriptElement.attributes.src.value,
+      templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc'),
+      templateSrc = templateElement && templateElement.getAttribute('src').split(';')
 
     app.script = {
       element: scriptElement,
-      path: (src.match(/^(\.\.\/)+/) || [''])[0]
+      path: (scriptSrc.match(/^(\.\.\/)+/) || [''])[0]
     }
 
-    app.srcDocTemplate = templateElement && templateElement.getAttribute('srcdoc')
-    app.srcTemplate = templateElement && templateElement.getAttribute('src')
+    app.srcTemplate = {
+      url: { templateSrcDoc, templateSrc },
+      total: templateSrc.length + (templateSrcDoc ? 1 : 0),
+    }
 
     app.assets.load()
-    app.xhr.start()
   },
 
   /**
