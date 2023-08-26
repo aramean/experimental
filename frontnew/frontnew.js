@@ -995,6 +995,14 @@ var app = {
 
       return ''
     }
+  },
+
+  templates: {
+    render: function (options) {
+      app.log.info()('Rendering templates...')
+      var currentPageBody = document.body.innerHTML,
+        data = options.data || []
+    }
   }
 }
 
