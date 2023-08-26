@@ -632,6 +632,11 @@ var app = {
         }
       },
 
+      /**
+       * @function load
+       * @memberof app
+       * 
+       */
       templates: function () {
         var templateSrcArray = app.srcTemplate.url.templateSrc || []
         for (var i = 0; i < app.srcTemplate.total; i++) {
@@ -720,7 +725,7 @@ var app = {
             }
 
             if (type) {
-              console.log('(XHR) ' + options.type + ' loaded:', url)
+              console.log('(XHR) ' + options.type + ' intercepted:', url)
 
               switch (type) {
                 case 'template':
@@ -848,13 +853,13 @@ var app = {
       xhr.open('GET', url + urlExtension, true)
       xhr.send(null)
     }
-
   },
+
   /**
-     * @namespace attributes
-     * @memberof app
-     * @desc
-     */
+   * @namespace attributes
+   * @memberof app
+   * @desc
+   */
   attributes: {
 
     defaultExclude: ['id', 'name', 'class', 'title', 'alt'],
@@ -909,6 +914,11 @@ var app = {
     }
   },
 
+  /**
+   * @namespace variables
+   * @memberof app
+   * @desc
+   */
   variables: {
     update: {
       attributes: function (object, clonedObject, regex, replaceVariable, replaceValue, reset) {
@@ -964,7 +974,11 @@ var app = {
     }
   },
 
-
+  /**
+   * @namespace querystrings
+   * @memberof app
+   * @desc
+   */
   querystrings: {
     get: function (url, param) {
       var parser = document.createElement('a')
