@@ -442,11 +442,12 @@ var app = {
   var: {},
   language: document.documentElement.lang,
   title: document.title,
-  isFrontpage: document.doctype ? true : false,
   docMode: document.documentMode || '',
+  isFrontpage: document.doctype ? true : false,
+  srcDocTemplate: '',
+  srcTemplate: [],
   baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
-  script: { selector: 'script[src*=front]' },
 
   caches: {},
   templates: { total: 2, loaded: 0 },
@@ -526,12 +527,11 @@ var app = {
      */
     set: function (scriptElement) {
       dom.hreflocal(dom.get('head base'))
-      var element = scriptElement ? scriptElement : dom.get(app.script.selector),
-        config = this.get(false, {
-          debug: false,
-          debugLocalhost: false,
-          fileExtension: '.html'
-        }, element)
+      config = this.get(false, {
+        debug: false,
+        debugLocalhost: false,
+        fileExtension: '.html'
+      }, app.script.element)
 
       for (var prop in config) {
         if (config.hasOwnProperty(prop)) {
@@ -575,6 +575,9 @@ var app = {
 
       app.vars.name = vars
       app.vars.total = vars.length
+
+      console.dir(app.srcTemplate)
+      console.dir(app.srcDocTemplate)
 
       this.get.modules()
     },
@@ -633,15 +636,18 @@ var app = {
       },
 
       templates: function () {
-        app.xhr.get({
-          url: app.script.path + 'test.html',
-          type: 'template',
-        })
 
-        app.xhr.get({
-          url: app.script.path + 'test2.html',
-          type: 'template',
-        })
+        var urls = [
+          'test.html',
+          'test2.html',
+        ]
+
+        for (var i = 0; i < urls.length; i++) {
+          app.xhr.get({
+            url: app.script.path + urls[i],
+            type: 'template'
+          })
+        }
       }
     }
   },
@@ -652,13 +658,17 @@ var app = {
    * @desc
    */
   start: function () {
-    var scriptElement = dom.get(app.script.selector),
+    var scriptElement = dom.get('script[src*=front]'),
+      templateElement = dom.get('template'),
       src = scriptElement.attributes.src.value
 
     app.script = {
       element: scriptElement,
       path: (src.match(/^(\.\.\/)+/) || [''])[0]
     }
+
+    app.srcDocTemplate = templateElement && templateElement.getAttribute('srcdoc')
+    app.srcTemplate = templateElement && templateElement.getAttribute('src')
 
     app.assets.load()
     app.xhr.start()
