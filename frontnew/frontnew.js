@@ -450,7 +450,6 @@ var app = {
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
 
   caches: {},
-  templates: { total: 0, loaded: 0 },
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
@@ -593,7 +592,7 @@ var app = {
           })
 
           if (j + 1 === app.vars.total) {
-            app.assets.get.templates()
+            //app.assets.get.templates()
           }
         }
       },
@@ -638,15 +637,17 @@ var app = {
        * 
        */
       templates: function () {
+        app.templates.total = 3
         var templateSrcArray = app.srcTemplate.url.templateSrc || []
         for (var i = 0; i < app.srcTemplate.total; i++) {
-          var currentTemplateSrc = i === 0 ? app.srcTemplate.url.templateSrcDoc : templateSrcArray[i - 1];
-          if (currentTemplateSrc) {
+          var currentTemplate = i === 0 ? app.srcTemplate.url.templateSrcDoc : templateSrcArray[i - 1];
             app.xhr.get({
-              url: app.script.path + currentTemplateSrc + '.html',
-              type: 'template'
+              url: app.script.path + currentTemplate + '.html',
+              type: 'template',
+              cache: { format: 'html', key: currentTemplate },
+              onload: { run: { func: 'app.templates.render', arg: { currentTemplate } } }
             })
-          }
+          
         }
       }
     }
@@ -664,8 +665,9 @@ var app = {
     var scriptElement = dom.get('script[src*=front]'),
       templateElement = dom.get('template'),
       scriptSrc = scriptElement.attributes.src.value,
+      templateAttr = templateElement && templateElement.attributes.src
       templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc'),
-      templateSrc = templateElement && templateElement.getAttribute('src').split(';')
+      templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
     app.script = {
       element: scriptElement,
@@ -707,11 +709,22 @@ var app = {
             var responseData = this.responseText
 
             if (response) {
-              app.module[response].responseData = { 'data': JSON.parse(responseData), 'headers': '' }
+              app.module[response].responseData = {
+                'data': JSON.parse(responseData),
+                'headers': ''
+              }
             }
 
             if (cache) {
-              var cacheData = { 'data': JSON.parse(responseData), 'headers': '' }
+              var cacheData = responseData
+
+              switch (cache.format) {
+                case 'html':
+                  break;
+                default:
+                  cacheData = { 'data': JSON.parse(cacheData), 'headers': '' }
+              }
+
               switch (cache.type) {
                 case 'localstorage':
                   app.caches[cache.key] = cacheData
@@ -736,6 +749,7 @@ var app = {
                   break
               }
 
+              console.log(app.templates)
               // Check if all requests have finished loading
               if (
                 app.templates.loaded === app.templates.total &&
@@ -949,6 +963,7 @@ var app = {
           app.variables.reset.content(object, originalContent)
         }
       },
+
       content: function (object, regex, replaceVariable, replaceValue) {
         var innerHTML = object.innerHTML.replace(regex, function (match) {
           if (match === '{' + replaceVariable + '}') {
@@ -960,6 +975,7 @@ var app = {
         object.innerHTML = innerHTML
       }
     },
+
     reset: {
       attributes: function (object, original) {
         for (var i = 0; i < object.attributes.length; i++) {
@@ -997,11 +1013,24 @@ var app = {
     }
   },
 
+  /**
+   * @namespace templates
+   * @memberof app
+   * @desc
+   */
   templates: {
+    loaded: 0,
+    total: 0,
+
+    data: '',
+
     render: function (options) {
       app.log.info()('Rendering templates...')
       var currentPageBody = document.body.innerHTML,
         data = options.data || []
+      console.dir(options)
+        //dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
+        dom.set('main', currentPageBody)
     }
   }
 }
