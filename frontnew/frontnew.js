@@ -640,14 +640,22 @@ var app = {
         app.templates.total = 3
         var templateSrcArray = app.srcTemplate.url.templateSrc || []
         for (var i = 0; i < app.srcTemplate.total; i++) {
-          var currentTemplate = i === 0 ? app.srcTemplate.url.templateSrcDoc : templateSrcArray[i - 1];
-            app.xhr.get({
-              url: app.script.path + currentTemplate + '.html',
-              type: 'template',
-              cache: { format: 'html', key: currentTemplate },
-              onload: { run: { func: 'app.templates.render', arg: { currentTemplate } } }
-            })
-          
+          var currentTemplate = i === 0 ? app.srcTemplate.url.templateSrcDoc : templateSrcArray[i - 1]
+          var isStartpage = i == 0 ? true : false
+          app.xhr.get({
+            url: app.script.path + currentTemplate + '.html',
+            type: 'template',
+            cache: { format: 'html', key: currentTemplate },
+            onload: {
+              run: {
+                func: 'app.templates.render',
+                arg: {
+                  name: currentTemplate,
+                  isStartpage: isStartpage
+                }
+              }
+            }
+          })
         }
       }
     }
@@ -665,7 +673,7 @@ var app = {
     var scriptElement = dom.get('script[src*=front]'),
       templateElement = dom.get('template'),
       scriptSrc = scriptElement.attributes.src.value,
-      templateAttr = templateElement && templateElement.attributes.src
+      templateAttr = templateElement && templateElement.attributes.src,
       templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc'),
       templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
@@ -676,7 +684,7 @@ var app = {
 
     app.srcTemplate = {
       url: { templateSrcDoc, templateSrc },
-      total: templateSrc.length + (templateSrcDoc ? 1 : 0),
+      total: templateSrc.length + (templateSrcDoc ? 1 : 0)
     }
 
     app.assets.load()
@@ -1029,8 +1037,11 @@ var app = {
       var currentPageBody = document.body.innerHTML,
         data = options.data || []
       console.dir(options)
-        //dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
+      if (options.arg.isStartpage) {
+        dom.set(document.documentElement, data)
         dom.set('main', currentPageBody)
+        console.warn('startpage')
+      }
     }
   }
 }
