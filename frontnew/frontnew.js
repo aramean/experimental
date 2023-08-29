@@ -645,16 +645,8 @@ var app = {
           app.xhr.get({
             url: app.script.path + currentTemplate + '.html',
             type: 'template',
-            cache: { format: 'html', key: currentTemplate },
-            onload: {
-              run: {
-                func: 'app.templates.render',
-                arg: {
-                  name: currentTemplate,
-                  isStartpage: isStartpage
-                }
-              }
-            }
+            cache: { format: 'html', name: 'template', key: currentTemplate },
+            extra: { name: currentTemplate, isStartpage: isStartpage }
           })
         }
       }
@@ -711,6 +703,7 @@ var app = {
             var options = this.options,
               type = options.type,
               name = options.name,
+              extra = options.extra,
               response = options.response,
               cache = options.cache
 
@@ -757,19 +750,29 @@ var app = {
                   break
               }
 
-              console.log(app.templates)
-              // Check if all requests have finished loading
-              if (
-                app.templates.loaded === app.templates.total &&
-                app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
-                app.modules.loaded === app.modules.total
-              ) {
-                console.log('Templates loaded:', app.templates.loaded + '/' + app.templates.total)
-                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
-                console.warn('RUN *')
-                app.attributes.run()
+              if (extra) {
+                if (
+                  app.templates.loaded === app.templates.total
+                ) {
+                  console.dir(app.caches)
+                  //app.templates.render(options)
+                  console.warn('all templates loaded')
+                }
+              } else {
+                // Check if all requests have finished loading
+                if (
+                  app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
+                  app.modules.loaded === app.modules.total
+                ) {
+                  console.log('Templates loaded:', app.templates.loaded + '/' + app.templates.total)
+                  console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                  console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
+                  console.warn('RUN *')
+                  app.attributes.run()
+                }
+
               }
+
             }
           }
         }
@@ -1036,8 +1039,7 @@ var app = {
       app.log.info()('Rendering templates...')
       var currentPageBody = document.body.innerHTML,
         data = options.data || []
-      console.dir(options)
-      if (options.arg.isStartpage) {
+      if (options.extra.isStartpage) {
         dom.set(document.documentElement, data)
         dom.set('main', currentPageBody)
         console.warn('startpage')
