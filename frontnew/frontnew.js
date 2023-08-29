@@ -717,14 +717,20 @@ var app = {
             }
 
             if (cache) {
-              var cacheData = responseData
+              var data = responseData
 
               switch (cache.format) {
                 case 'html':
                   break;
+                case 'xml':
+                  data = new DOMParser().parseFromString(data, 'text/xml')
+                  break;
+                case 'json':
                 default:
-                  cacheData = { 'data': JSON.parse(cacheData), 'headers': '' }
+                  data = JSON.parse(data)
               }
+
+              cacheData = { 'data': data, 'headers': '' }
 
               switch (cache.type) {
                 case 'localstorage':
