@@ -588,7 +588,7 @@ var app = {
           app.xhr.get({
             url: app.script.path + 'assets/json/vars/' + name + '.json',
             type: 'var',
-            cache: { type: 'window', key: name }
+            cache: { key: name }
           })
 
           if (j + 1 === app.vars.total) {
@@ -730,7 +730,7 @@ var app = {
                   data = JSON.parse(data)
               }
 
-              cacheData = { 'data': data, 'headers': '' }
+              var cacheData = { 'data': data, 'headers': '' }
 
               switch (cache.type) {
                 case 'localstorage':
