@@ -5,65 +5,71 @@
   <script src="frontnew.js" module="globalize;data;navigate" var="api;cdn;enum"
     conf="debug:false;varsDir:assets/json/vars" globalize-conf="folder:assets/json/locales"
     navigate-conf="startpage:experimental" defer></script>
+  <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
 </head>
 
 <body>
-  <h2>DOM</h2>
-  <span test lowercase uppercase></span>
-  <span lowercase uppercase slice="0,1">LOWERCASE to UPPERCASE</span><br>
+  <header>H</header>
+  <aside>A1</aside>
+  <main>
+    <h2>DOM</h2>
+    <span test lowercase uppercase></span>
+    <span lowercase uppercase slice="0,1">LOWERCASE to UPPERCASE</span><br>
 
-  <span lowercase>LOWERCASE</span>
-  <div>
-    <span uppercase>uppercase</span>
-  </div>
-  <hr>
-  <h2>Globalize</h2>
-  <hr>
-  <span globalize-get="page" slice="1,2" lowercase uppercase>...</span><br>
-  <span globalize-get="Man" uppercase>...</span><br>
-  <span globalize-get="views">...</span><br>
-  <span globalize-get="cache">...</span>
+    <span lowercase>LOWERCASE</span>
+    <div>
+      <span uppercase>uppercase</span>
+    </div>
+    <hr>
+    <h2>Globalize</h2>
+    <hr>
+    <span globalize-get="page" slice="1,2" lowercase uppercase>...</span><br>
+    <span globalize-get="Man" uppercase>...</span><br>
+    <span globalize-get="views">...</span><br>
+    <span globalize-get="cache">...</span>
 
-  <hr>
-  <h2>Include</h2>
-  <div include="josefinclude2.html" run="false"></div><br>
-  <div include="test2s.html" run="true" onerror="ssss"></div>
-  <div include="test.html" run="false"></div>
+    <hr>
+    <h2>Include</h2>
+    <div include="josefinclude2.html" run="false"></div><br>
+    <div include="test2s.html" run="true" onerror="ssss"></div>
+    <div include="test.html" run="false"></div>
 
-  <div include="includemovies.html"></div>
+    <div include="includemovies.html"></div>
 
-  <hr>
-  <h2>Bind</h2>
-  <select id="hej4">
-    <option value="denmark">Danmark</option>
-    <option value="germany">Tyskland</option>
-    <option value="sweden">Sverige</option>
-    <option value="thailand">Thailand</option>
-    <option value="fiji">Fiji</option>
-    <option value="japan">Japan</option>
-    <option value="china">Kina</option>
-    <option value="monaco">Monaco</option>
-  </select>
-  <div stop="data-src" bind="test:#hej4" data-src="http://universities.hipolabs.com/search?country={test}"
-    preloader="true" iterate="true">
-    <figure class="p05">
-      <figcaption class="z08 md_dn" data-get="name"></figcaption>
-    </figure>
-  </div>
+    <hr>
+    <h2>Bind</h2>
+    <select id="hej4">
+      <option value="denmark">Danmark</option>
+      <option value="germany">Tyskland</option>
+      <option value="sweden">Sverige</option>
+      <option value="thailand">Thailand</option>
+      <option value="fiji">Fiji</option>
+      <option value="japan">Japan</option>
+      <option value="china">Kina</option>
+      <option value="monaco">Monaco</option>
+    </select>
+    <div stop="data-src" bind="test:#hej4" data-src="http://universities.hipolabs.com/search?country={test}"
+      preloader="true" iterate="true">
+      <figure class="p05">
+        <figcaption class="z08 md_dn" data-get="name"></figcaption>
+      </figure>
+    </div>
 
-  <input type="text" id="josefinput">
-  <div bind="josef:#josefinput" data-src="assets/json/icons-material-{josef}.json" loader="false" iterate="icons"
-    filter="true" preloader="true" stop="data-src"
-    class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
-    <figure class="p05">
-      <figcaption class="z08 md_dn" uppercase slice="0,1" lowercase beforebegin="jj"></figcaption>
-      <figcaption class="z08 md_dn" data-get="title" slice="0,1"></figcaption>
-      <br>
-      <small data-get="name" slice="0,20" class="md_dn"></small>
-      <small data-get="html_entity" bindcopy="true" escape="true"></small>
-    </figure>
-  </div>
-
+    <input type="text" id="josefinput">
+    <div bind="josef:#josefinput" data-src="assets/json/icons-material-{josef}.json" loader="false" iterate="icons"
+      filter="true" preloader="true" stop="data-src"
+      class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
+      <figure class="p05">
+        <figcaption class="z08 md_dn" uppercase slice="0,1" lowercase beforebegin="jj"></figcaption>
+        <figcaption class="z08 md_dn" data-get="title" slice="0,1"></figcaption>
+        <br>
+        <small data-get="name" slice="0,20" class="md_dn"></small>
+        <small data-get="html_entity" bindcopy="true" escape="true"></small>
+      </figure>
+    </div>
+  </main>
+  <aside>A2</aside>
+  <footer>F</footer>
 </body>
 
 </html>

@@ -449,7 +449,7 @@ var app = {
   baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
 
-  caches: {},
+  caches: { template: {}, var: {}, module: {} },
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
@@ -645,8 +645,7 @@ var app = {
           app.xhr.get({
             url: app.script.path + currentTemplate + '.html',
             type: 'template',
-            cache: { format: 'html', name: 'template', key: currentTemplate },
-            extra: { name: currentTemplate, isStartpage: isStartpage }
+            cache: { format: 'html', name: 'template', key: currentTemplate, extraData: { isStartPage: isStartpage } },
           })
         }
       }
@@ -756,12 +755,13 @@ var app = {
                   break
               }
 
-              if (extra) {
+              if (type === 'template') {
                 if (
                   app.templates.loaded === app.templates.total
                 ) {
-                  console.dir(app.caches)
-                  //app.templates.render(options)
+
+                  app.templates.render(options, app.caches)
+                  app.attributes.run()
                   console.warn('all templates loaded')
                 }
               } else {
@@ -1041,14 +1041,33 @@ var app = {
 
     data: '',
 
-    render: function (options) {
-      app.log.info()('Rendering templates...')
+    render: function (options, data) {
+      //app.log.info()('Rendering templates...')
       var currentPageBody = document.body.innerHTML,
         data = options.data || []
-      if (options.extra.isStartpage) {
-        dom.set(document.documentElement, data)
+
+      var src = app.srcTemplate.url.templateSrc
+      var srcDoc = app.srcTemplate.url.templateSrcDoc
+      if (srcDoc) {
+        dom.set(document.documentElement, app.caches[srcDoc].data)
         dom.set('main', currentPageBody)
-        console.warn('startpage')
+      }
+      if (src) {
+        for (var i = 0; i < src.length; i++) {
+          dom.get('header').innerHTML = 'TEST'
+          /*var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
+          templateHeader = dom.find(template, 'header').innerHTML,
+          templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
+          templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
+          templateFooter = dom.find(template, 'footer').innerHTML
+
+        if (templateHeader) dom.set('header', templateHeader)
+        if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
+        if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
+        if (templateFooter) dom.set('footer', templateFooter)*/
+
+          //console.log(src[i])
+        }
       }
     }
   }
