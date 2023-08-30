@@ -244,6 +244,7 @@ var dom = {
       type = object.type,
       value = strip ? value.replace(/<[^>]+>/g, '') : value || ''
 
+    console.dir(target)
     switch (tag) {
       case 'input':
         type == 'checkbox' ? target.checked = value : target.value = value
