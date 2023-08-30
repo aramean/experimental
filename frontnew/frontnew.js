@@ -1049,9 +1049,16 @@ var app = {
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
-        document.documentElement.innerHTML = app.caches[srcDoc].data
-        //dom.set(document.documentElement, app.caches[srcDoc].data)
-        //dom.set('main', currentPageBody)
+        // Fix IE bug.
+        if (app.docMode >= 9) {
+          document.open()
+          document.write(app.caches[srcDoc].data)
+          document.close()
+        } else {
+          dom.set(document.documentElement, app.caches[srcDoc].data)
+        }
+
+        dom.set('main', currentPageBody)
       }
       if (src) {
         for (var i = 0; i < src.length; i++) {
