@@ -920,9 +920,8 @@ var app = {
 
         // Fix IE attribute bug.
         if (app.docMode >= 9) {
-          //var array = Array.prototype.slice.call(attributes)
-          //attributes = array.reverse()
-          attributes.reverse()
+          var array = Array.prototype.slice.call(attributes)
+          attributes = array.reverse()
         }
 
         if (run !== 'false') {
