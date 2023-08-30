@@ -1049,7 +1049,8 @@ var app = {
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
-        dom.set(document.documentElement, app.caches[srcDoc].data)
+        document.documentElement.innerHTML = app.caches[srcDoc].data
+        //dom.set(document.documentElement, app.caches[srcDoc].data)
         //dom.set('main', currentPageBody)
       }
       if (src) {
