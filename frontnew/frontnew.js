@@ -638,10 +638,10 @@ var app = {
        */
       templates: function () {
         app.templates.total = 3
-        var templateSrcArray = app.srcTemplate.url.templateSrc || []
+        var templateArray = app.srcTemplate.url.src || []
         for (var i = 0; i < app.srcTemplate.total; i++) {
-          var currentTemplate = i === 0 ? app.srcTemplate.url.templateSrcDoc : templateSrcArray[i - 1]
-          var isStartpage = i == 0 ? true : false
+          var currentTemplate = i === 0 ? app.srcTemplate.url.srcDoc : templateArray[i - 1],
+            isStartpage = i == 0 ? true : false
           app.xhr.get({
             url: app.script.path + currentTemplate + '.html',
             type: 'template',
@@ -674,7 +674,7 @@ var app = {
     }
 
     app.srcTemplate = {
-      url: { templateSrcDoc, templateSrc },
+      url: { srcDoc: templateSrcDoc, src: templateSrc },
       total: templateSrc.length + (templateSrcDoc ? 1 : 0)
     }
 
@@ -1043,11 +1043,10 @@ var app = {
 
     render: function (options, data) {
       //app.log.info()('Rendering templates...')
-      var currentPageBody = document.body.innerHTML,
-        data = options.data || []
+      var currentPageBody = document.body.innerHTML
+      var srcDoc = app.srcTemplate.url.srcDoc,
+        src = app.srcTemplate.url.src
 
-      var src = app.srcTemplate.url.templateSrc
-      var srcDoc = app.srcTemplate.url.templateSrcDoc
       if (srcDoc) {
         dom.set(document.documentElement, app.caches[srcDoc].data)
         dom.set('main', currentPageBody)
