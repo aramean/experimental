@@ -1050,7 +1050,7 @@ var app = {
 
       if (srcDoc) {
         dom.set(document.documentElement, app.caches[srcDoc].data)
-        dom.set('main', currentPageBody)
+        //dom.set('main', currentPageBody)
       }
       if (src) {
         for (var i = 0; i < src.length; i++) {
