@@ -1049,13 +1049,17 @@ var app = {
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
+
+        var responsePageContent = dom.parse.text(app.caches[srcDoc].data)
+        console.dir(responsePageContent)
+
         // Fix IE bug.
         if (app.docMode >= 9) {
           document.open()
           document.write(app.caches[srcDoc].data)
           document.close()
         } else {
-          dom.set(document.documentElement, app.caches[srcDoc].data)
+          dom.set(document.documentElement, responsePageContent)
         }
 
         dom.set('main', currentPageBody)
