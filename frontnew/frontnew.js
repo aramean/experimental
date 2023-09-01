@@ -46,8 +46,10 @@ var dom = {
      * @desc Parses a string of HTML and return a DOM node.
     */
     text: function (string) {
-      var type = app.docMode === 9 ? 'text/xml' : 'text/html'
-      return new DOMParser().parseFromString(string, type)
+      var el = document.createElement('slot')
+      el.innerHTML = string
+      console.dir(el)
+      return el
     }
   },
 
@@ -1052,8 +1054,7 @@ var app = {
       if (srcDoc) {
 
         var responsePage = dom.parse.text(app.caches[srcDoc].data)
-          responsePageContent = responsePage.documentElement.innerHTML
-        console.dir(responsePageContent)
+          responsePageContent = responsePage.innerHTML
 
         // Fix IE bug.
         if (app.docMode >= 9) {
@@ -1061,7 +1062,7 @@ var app = {
           document.write(app.caches[srcDoc].data)
           document.close()
         } else {
-          dom.set(document.documentElement, responsePageContent.documentElement.innerHTML)
+          dom.set(document.documentElement, responsePageContent)
         }
 
         dom.set('main', currentPageBody)
