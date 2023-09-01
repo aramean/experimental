@@ -46,7 +46,7 @@ var dom = {
      * @desc Parses a string of HTML and return a DOM node.
     */
     text: function (string) {
-      var el = document.createElement('template')
+      var el = document.createElement('spot')
       el.innerHTML = string
       return el
     }
@@ -1051,7 +1051,9 @@ var app = {
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
-        var responsePage = dom.parse.text(app.caches[srcDoc].data)
+        var responsePage = dom.parse.text(app.caches[srcDoc].data),
+          responsePageHtml = dom.find(responsePage, 'html'),
+          responsePageScript = dom.find(responsePage, app.scriptSelector),
           responsePageContent = responsePage.innerHTML
 
         // Fix IE bug.
@@ -1062,7 +1064,8 @@ var app = {
         } else {
           dom.set(document.documentElement, responsePageContent)
         }
-
+        console.dir(responsePage)
+        //app.language = responsePage.documentElement.lang
         dom.set('main', currentPageBody)
       }
       if (src) {
