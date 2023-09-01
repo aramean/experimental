@@ -763,7 +763,7 @@ var app = {
                   app.templates.loaded === app.templates.total
                 ) {
 
-                  app.templates.render(options, app.caches)
+                  app.templates.render(options)
                   app.attributes.run()
                   console.warn('all templates loaded')
                 }
@@ -1044,27 +1044,17 @@ var app = {
 
     data: '',
 
-    render: function (options, data) {
+    render: function (options) {
       //app.log.info()('Rendering templates...')
       var currentPageBody = document.body.innerHTML
       var srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
-
         var responsePage = dom.parse.text(app.caches[srcDoc].data)
           responsePageContent = responsePage.innerHTML
-
-        // Fix IE bug.
-        if (app.docMode >= 9) {
-          document.open()
-          document.write(app.caches[srcDoc].data)
-          document.close()
-        } else {
-          dom.set(document.documentElement, responsePageContent)
-        }
-
-        dom.set('main', currentPageBody)
+          dom.set('html', responsePageContent)
+          dom.set('main', currentPageBody)
       }
       if (src) {
         for (var i = 0; i < src.length; i++) {
