@@ -1059,10 +1059,10 @@ var app = {
         // Fix IE bug.
         if (app.docMode >= 9) {
           document.open()
-          document.write(app.caches[srcDoc].data)
+          document.write(responsePageContent)
           document.close()
         } else {
-          dom.set(document.documentElement, responsePageContent)
+          dom.set('html', responsePageContent)
         }
         console.dir(responsePage)
         //app.language = responsePage.documentElement.lang
