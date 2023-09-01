@@ -46,7 +46,7 @@ var dom = {
      * @desc Parses a string of HTML and return a DOM node.
     */
     text: function (string) {
-      var el = document.createElement('html')
+      var el = document.createElement('template')
       el.innerHTML = string
       return el
     }
