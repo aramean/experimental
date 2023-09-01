@@ -46,9 +46,8 @@ var dom = {
      * @desc Parses a string of HTML and return a DOM node.
     */
     text: function (string) {
-      var el = document.createElement('slot')
+      var el = document.createElement('html')
       el.innerHTML = string
-      console.dir(el)
       return el
     }
   },
