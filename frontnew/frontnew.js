@@ -581,12 +581,6 @@ var app = {
 
         this.get.modules()
       } else {
-
-        var templateEl = dom.get('template'),
-          srcDoc = templateEl.attributes.srcDoc && templateEl.attributes.srcDoc.value ? 1 : 0,
-          src = 2
-
-        app.templates.total = srcDoc + src
         this.get.templates()
       }
     },
@@ -770,7 +764,7 @@ var app = {
 
               if (type === 'template') {
                 if (
-                  app.templates.loaded === app.templates.total
+                  app.templates.loaded === app.srcTemplate.total
                 ) {
 
                   app.templates.render(options)
