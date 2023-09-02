@@ -583,15 +583,15 @@ var app = {
       } else {
 
         var templateElement = dom.get('template'),
-        templateAttr = templateElement && templateElement.attributes.src,
-        templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc'),
-        templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
+          templateAttr = templateElement && templateElement.attributes.src,
+          templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc'),
+          templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
         app.srcTemplate = {
           url: { srcDoc: templateSrcDoc, src: templateSrc },
           total: templateSrc.length + (templateSrcDoc ? 1 : 0)
         }
- 
+
         this.get.templates()
       }
     },
