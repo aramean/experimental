@@ -583,7 +583,7 @@ var app = {
 
         var templateElement = dom.get('template'),
           templateAttr = templateElement && templateElement.attributes.src,
-          templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc'),
+          templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc') || false,
           templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
         app.srcTemplate = {
@@ -655,14 +655,23 @@ var app = {
        * 
        */
       templates: function () {
-        var templateArray = app.srcTemplate.url.src || []
+        var src = app.srcTemplate.url.src,
+          srcDoc = app.srcTemplate.url.srcDoc,
+          hasStartpage = srcDoc ? -1 : 0
+
         for (var i = 0; i < app.srcTemplate.total; i++) {
-          var currentTemplate = i === 0 ? app.srcTemplate.url.srcDoc : templateArray[i - 1],
-            isStartpage = i == 0 ? true : false
+          var isStartpage = srcDoc && i === 0 ? true : false,
+            currentTemplate = isStartpage ? srcDoc : src[i + hasStartpage]
+
           app.xhr.get({
             url: app.script.path + currentTemplate + '.html',
             type: 'template',
-            cache: { format: 'html', name: 'template', key: currentTemplate, extraData: { isStartPage: isStartpage } },
+            cache: {
+              format: 'html',
+              name: 'template',
+              key: currentTemplate,
+              extraData: { isStartPage: isStartpage }
+            },
           })
         }
       }
