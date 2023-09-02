@@ -74,6 +74,7 @@ var dom = {
    * @desc Retrieves elements from a given node by selector.
    */
   find: function (node, selector) {
+    console.dir(selector)
     var element = node.querySelectorAll(selector)
     return element.length == 1 ? element[0] : element
   },
@@ -246,7 +247,6 @@ var dom = {
       type = object.type,
       value = strip ? value.replace(/<[^>]+>/g, '') : value || ''
 
-    console.dir(target)
     switch (tag) {
       case 'input':
         type == 'checkbox' ? target.checked = value : target.value = value
@@ -568,17 +568,27 @@ var app = {
     load: function () {
       app.log.info()('Load assets')
 
-      var scriptAttr = app.script.element.attributes,
-        modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
-        vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
+      if (app.isFrontpage) {
+        var scriptAttr = app.script.element.attributes,
+          modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
+          vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
-      app.modules.name = modules
-      app.modules.total = modules.length
+        app.modules.name = modules
+        app.modules.total = modules.length
 
-      app.vars.name = vars
-      app.vars.total = vars.length
+        app.vars.name = vars
+        app.vars.total = vars.length
 
-      !app.isFrontpage ? this.get.templates() : this.get.modules()
+        this.get.modules()
+      } else {
+
+        var templateEl = dom.get('template'),
+          srcDoc = templateEl.attributes.srcDoc && templateEl.attributes.srcDoc.value ? 1 : 0,
+          src = 2
+
+        app.templates.total = srcDoc + src
+        this.get.templates()
+      }
     },
 
     get: {
@@ -608,7 +618,8 @@ var app = {
        */
       modules: function () {
         app.log.info()('Loading modules...')
-
+        console.warn('loading modules')
+        console.log(app.modules.total)
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
           script.name = app.modules.name[i]
@@ -640,7 +651,6 @@ var app = {
        * 
        */
       templates: function () {
-        app.templates.total = 3
         var templateArray = app.srcTemplate.url.src || []
         for (var i = 0; i < app.srcTemplate.total; i++) {
           var currentTemplate = i === 0 ? app.srcTemplate.url.srcDoc : templateArray[i - 1],
@@ -1056,6 +1066,14 @@ var app = {
           responsePageScript = dom.find(responsePage, app.scriptSelector),
           responsePageContent = responsePage.innerHTML
 
+        responsePageContent = responsePageContent.replace('frontnew.js', ''),
+
+          console.dir(responsePage)
+        console.dir(app.script)
+
+
+        app.assets.get.modules()
+
         // Fix IE bug.
         if (app.docMode >= 9) {
           document.open()
@@ -1064,7 +1082,8 @@ var app = {
         } else {
           dom.set('html', responsePageContent)
         }
-        console.dir(responsePage)
+
+
         //app.language = responsePage.documentElement.lang
         dom.set('main', currentPageBody)
       }
