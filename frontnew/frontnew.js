@@ -581,6 +581,17 @@ var app = {
 
         this.get.modules()
       } else {
+
+        var templateElement = dom.get('template'),
+        templateAttr = templateElement && templateElement.attributes.src,
+        templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc'),
+        templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
+
+        app.srcTemplate = {
+          url: { srcDoc: templateSrcDoc, src: templateSrc },
+          total: templateSrc.length + (templateSrcDoc ? 1 : 0)
+        }
+ 
         this.get.templates()
       }
     },
@@ -669,20 +680,11 @@ var app = {
     app.xhr.start()
 
     var scriptElement = dom.get('script[src*=front]'),
-      templateElement = dom.get('template'),
-      scriptSrc = scriptElement.attributes.src.value,
-      templateAttr = templateElement && templateElement.attributes.src,
-      templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc'),
-      templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
+      scriptSrc = scriptElement.attributes.src.value
 
     app.script = {
       element: scriptElement,
       path: (scriptSrc.match(/^(\.\.\/)+/) || [''])[0]
-    }
-
-    app.srcTemplate = {
-      url: { srcDoc: templateSrcDoc, src: templateSrc },
-      total: templateSrc.length + (templateSrcDoc ? 1 : 0)
     }
 
     app.assets.load()
