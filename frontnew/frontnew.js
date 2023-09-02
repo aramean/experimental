@@ -74,7 +74,6 @@ var dom = {
    * @desc Retrieves elements from a given node by selector.
    */
   find: function (node, selector) {
-    console.dir(selector)
     var element = node.querySelectorAll(selector)
     return element.length == 1 ? element[0] : element
   },
@@ -1062,13 +1061,9 @@ var app = {
           responsePageScript = dom.find(responsePage, app.scriptSelector),
           responsePageContent = responsePage.innerHTML
 
-        responsePageContent = responsePageContent.replace('frontnew.js', ''),
+        responsePageContent = responsePageContent.replace('frontnew.js', '')
 
-          console.dir(responsePage)
-        console.dir(app.script)
-
-
-        app.assets.get.modules()
+        //app.assets.get.modules()
 
         // Fix IE bug.
         if (app.docMode >= 9) {
