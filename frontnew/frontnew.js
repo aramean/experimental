@@ -572,6 +572,7 @@ var app = {
           modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
           vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
+          console.dir(modules)
         app.modules.name = modules
         app.modules.total = modules.length
 
@@ -607,10 +608,6 @@ var app = {
             type: 'var',
             cache: { key: name }
           })
-
-          if (j + 1 === app.vars.total) {
-            //app.assets.get.templates()
-          }
         }
       },
 
@@ -623,7 +620,7 @@ var app = {
       modules: function () {
         app.log.info()('Loading modules...')
         console.warn('loading modules')
-        console.log(app.modules.total)
+        console.log(app.modules.name[1])
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
           script.name = app.modules.name[i]
@@ -795,9 +792,7 @@ var app = {
                   console.warn('RUN *')
                   app.attributes.run()
                 }
-
               }
-
             }
           }
         }
@@ -1072,9 +1067,14 @@ var app = {
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
 
+          var scriptAttr = responsePageScript.attributes,
+          modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
+          vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
+
         responsePageContent = responsePageContent.replace('frontnew.js', '')
-        
-        console.dir(responsePage)
+
+        app.modules.name = modules
+        app.modules.total = modules.length
 
         app.assets.get.modules()
 
@@ -1093,7 +1093,7 @@ var app = {
       }
       if (src) {
         for (var i = 0; i < src.length; i++) {
-          dom.get('header').innerHTML = 'TEST'
+          //dom.get('header').innerHTML = 'TEST'
           /*var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
           templateHeader = dom.find(template, 'header').innerHTML,
           templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
