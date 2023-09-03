@@ -687,12 +687,14 @@ var app = {
 
     app.xhr.start()
 
-    var scriptElement = dom.get('script[src*=front]'),
-      scriptSrc = scriptElement.attributes.src.value
+    var selector = 'script[src*=front]', 
+      element = dom.get(selector),
+      value = element.attributes.src.value
 
     app.script = {
-      element: scriptElement,
-      path: (scriptSrc.match(/^(\.\.\/)+/) || [''])[0]
+      element: element,
+      path: (value.match(/^(\.\.\/)+/) || [''])[0],
+      selector: selector
     }
 
     app.assets.load()
@@ -1067,12 +1069,14 @@ var app = {
       if (srcDoc) {
         var responsePage = dom.parse.text(app.caches[srcDoc].data),
           responsePageHtml = dom.find(responsePage, 'html'),
-          responsePageScript = dom.find(responsePage, app.scriptSelector),
+          responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
 
         responsePageContent = responsePageContent.replace('frontnew.js', '')
+        
+        console.dir(responsePage)
 
-        //app.assets.get.modules()
+        app.assets.get.modules()
 
         // Fix IE bug.
         if (app.docMode >= 9) {
