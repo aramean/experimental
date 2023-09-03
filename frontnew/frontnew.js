@@ -1074,6 +1074,7 @@ var app = {
 
         //app.config.set(responsePageScript)
 
+        app.language = 'en'
         app.modules.name = modules
         app.modules.total = modules.length
 
