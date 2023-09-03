@@ -572,7 +572,6 @@ var app = {
           modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
           vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
-          console.dir(modules)
         app.modules.name = modules
         app.modules.total = modules.length
 
@@ -620,7 +619,6 @@ var app = {
       modules: function () {
         app.log.info()('Loading modules...')
         console.warn('loading modules')
-        console.log(app.modules.name[1])
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
           script.name = app.modules.name[i]
@@ -772,14 +770,15 @@ var app = {
               }
 
               if (type === 'template') {
-                if (
-                  app.templates.loaded === app.srcTemplate.total
-                ) {
-
-                  app.templates.render(options)
-                  app.attributes.run()
+                if (app.templates.loaded === app.srcTemplate.total) {
                   console.warn('all templates loaded')
+                  app.templates.render(options)
                 }
+
+                if (app.vars.loaded === app.vars.total) {
+                  app.attributes.run()
+                }
+                
               } else {
                 // Check if all requests have finished loading
                 if (
@@ -1071,12 +1070,19 @@ var app = {
           modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
           vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
-        responsePageContent = responsePageContent.replace('frontnew.js', '')
+   //     responsePageContent = responsePageContent.replace('frontnew.js', '')
+
+        //app.config.set(responsePageScript)
 
         app.modules.name = modules
         app.modules.total = modules.length
 
+        app.vars.name = vars
+        app.vars.total = vars.length
+        
         app.assets.get.modules()
+
+
 
         // Fix IE bug.
         if (app.docMode >= 9) {
