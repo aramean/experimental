@@ -531,8 +531,8 @@ var app = {
       config = this.get(false, {
         debug: false,
         debugLocalhost: false,
-        fileExtension: '.html'
-      }, app.script.element)
+        //fileExtension: '.html'
+      }, scriptElement || app.script.element)
 
       for (var prop in config) {
         if (config.hasOwnProperty(prop)) {
@@ -597,11 +597,10 @@ var app = {
 
     get: {
       vars: function () {
-        app.log.info(1)('Loading vars...')
+        app.log.info()('Loading vars...')
         for (var j = 0; j < app.vars.total; j++) {
           var name = app.vars.name[j]
           app.log.info(1)(name)
-          console.warn("(Vars) Loaded: " + name)
           app.xhr.get({
             url: app.script.path + 'assets/json/vars/' + name + '.json',
             type: 'var',
@@ -618,7 +617,6 @@ var app = {
        */
       modules: function () {
         app.log.info()('Loading modules...')
-        console.warn('loading modules')
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
           script.name = app.modules.name[i]
@@ -627,7 +625,6 @@ var app = {
           script.onload = function () {
             app.log.info(1)(this.name)
             app.modules.loaded++
-            console.warn("(Module) Loaded: " + this.name)
             app.module[this.name].conf = function () { }
             if (app.module[this.name]._autoload) {
               app.module[this.name]._autoload({
@@ -691,6 +688,8 @@ var app = {
       path: (value.match(/^(\.\.\/)+/) || [''])[0],
       selector: selector
     }
+
+    app.config.set()
 
     app.assets.load()
   },
@@ -1072,7 +1071,7 @@ var app = {
 
    //     responsePageContent = responsePageContent.replace('frontnew.js', '')
 
-        //app.config.set(responsePageScript)
+        app.config.set(responsePageScript)
 
         app.language = 'en'
         app.modules.name = modules
