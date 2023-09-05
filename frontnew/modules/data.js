@@ -26,8 +26,7 @@ app.module.data = {
   },
 
   _run: function (options) {
-  
-    var responseData = this.responseData,
+    var responseData = app.caches['module.'+ this.module],
       element = options.element,
       iterate = options.iterate,
       iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
@@ -96,7 +95,10 @@ app.module.data = {
         },
         timeout: (attr.timeout) ? attr.timeout.value : 0
       },
-      cache: { key: 'module.' + this.module },
+      cache: {
+        format: 'json',
+        key: 'module.' + this.module
+      },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
       onerror: { content: (attr.errorcontent) ? attr.errorcontent.value : false },
     })

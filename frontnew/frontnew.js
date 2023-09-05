@@ -49,6 +49,15 @@ var dom = {
       var el = document.createElement('spot')
       el.innerHTML = string
       return el
+    },
+
+    json: function (string) {
+      try {
+        string = JSON.parse(string)
+      } catch (error) {
+        string = ''
+      }
+      return string
     }
   },
 
@@ -726,7 +735,7 @@ var app = {
 
             if (response) {
               app.module[response].responseData = {
-                'data': isStatusOK ? JSON.parse(responseData) : 'ERROR',
+                'data': isStatusOK && dom.parse.json(responseData),
                 'headers': ''
               }
             }
@@ -739,7 +748,11 @@ var app = {
                   data = new DOMParser().parseFromString(data, 'text/xml')
                   break
                 case 'json':
-                  data = isStatusOK ? JSON.parse(data) : 'ERROR'
+                  try {
+                    data = isStatusOK ? JSON.parse(data) : 'ERROR';
+                  } catch (error) {
+                    data = 'ERROR';
+                  }
                   break
               }
 
