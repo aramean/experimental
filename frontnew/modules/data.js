@@ -26,7 +26,7 @@ app.module.data = {
   },
 
   _run: function (options) {
-    var responseData = app.caches['module.'+ this.module],
+    var responseData = app.caches['module.' + this.module],
       element = options.element,
       iterate = options.iterate,
       iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,

@@ -784,6 +784,7 @@ var app = {
 
               if (type === 'template') {
                 if (app.templates.loaded === app.srcTemplate.total) {
+                  console.log('Templates loaded:', app.templates.loaded + '/' + app.srcTemplate.total)
                   app.templates.render(options)
                 }
 
@@ -797,7 +798,6 @@ var app = {
                   app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
                   app.modules.loaded === app.modules.total
                 ) {
-                  console.log('Templates loaded:', app.templates.loaded + '/' + app.templates.total)
                   console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                   console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
                   app.attributes.run()
