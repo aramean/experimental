@@ -741,7 +741,7 @@ var app = {
                   break
                 case 'json':
                   try {
-                    data = isStatusOK ? JSON.parse(data) : 'ERROR';
+                    data = dom.parse.json(data)
                   } catch (error) {
                     data = 'ERROR';
                   }
