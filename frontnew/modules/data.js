@@ -87,7 +87,6 @@ app.module.data = {
       url: attr['data-src'].value,
       headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
       target: attr.target ? attr.target.value : false,
-      response: this.module,
       onload: {
         run: {
           func: 'app.module.data._run',

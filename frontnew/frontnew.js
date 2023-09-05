@@ -727,18 +727,10 @@ var app = {
               type = options.type,
               name = options.name,
               extra = options.extra,
-              response = options.response,
               cache = options.cache
 
             var responseData = this.responseText,
               isStatusOK = this.status === 200
-
-            if (response) {
-              app.module[response].responseData = {
-                'data': isStatusOK && dom.parse.json(responseData),
-                'headers': ''
-              }
-            }
 
             if (cache) {
               var data = responseData
