@@ -27,10 +27,15 @@ app.module.globalize = {
     } else {
       app.vars.totalStore++
       app.xhr.get({
-        url: [ app.script.path + config.folder + '/' + config.language + '.json'],
+        url: app.script.path + config.folder + '/' + config.language + '.json',
         response: this.module,
         type: 'var',
-        cache: { format: 'json', type: 'localstorage', key: storeKey, ttl: 300 },
+        cache: { 
+          format: 'json',
+          type: 'localstorage',
+          key: storeKey,
+          ttl: 300
+        }
       })
     }
   },

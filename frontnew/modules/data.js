@@ -90,7 +90,10 @@ app.module.data = {
       target: attr.target ? attr.target.value : false,
       response: this.module,
       onload: {
-        run: { func: 'app.module.data._run', arg: options },
+        run: {
+          func: 'app.module.data._run',
+          arg: options
+        },
         timeout: (attr.timeout) ? attr.timeout.value : 0
       },
       cache: { key: 'module.' + this.module },

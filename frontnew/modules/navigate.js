@@ -77,7 +77,12 @@ app.module.navigate = {
       target: state.target,
       single: true,
       onprogress: { preloader: this.config.preloader },
-      onload: { run: { func: 'app.attributes.run', arg: 'main *' } }
+      onload: {
+        run: { 
+          func: 'app.attributes.run',
+          arg: 'main *'
+        } 
+      }
     })
   },
 
