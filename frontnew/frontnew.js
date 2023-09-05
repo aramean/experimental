@@ -602,7 +602,10 @@ var app = {
           app.xhr.get({
             url: app.script.path + 'assets/json/vars/' + name + '.json',
             type: 'var',
-            cache: { format: 'json', key: name }
+            cache: {
+              format: 'json',
+              key: name
+            }
           })
         }
       },
@@ -719,11 +722,11 @@ var app = {
               cache = options.cache
 
             var responseData = this.responseText,
-              statusOK = this.status === 200
+              isStatusOK = this.status === 200
 
             if (response) {
               app.module[response].responseData = {
-                'data': statusOK ? JSON.parse(responseData) : 'ERROR',
+                'data': isStatusOK ? JSON.parse(responseData) : 'ERROR',
                 'headers': ''
               }
             }
@@ -734,10 +737,10 @@ var app = {
               switch (cache.format) {
                 case 'xml':
                   data = new DOMParser().parseFromString(data, 'text/xml')
-                  break;
+                  break
                 case 'json':
-                  data = statusOK ? JSON.parse(data) : 'ERROR'
-                  break;
+                  data = isStatusOK ? JSON.parse(data) : 'ERROR'
+                  break
               }
 
               var cacheData = { 'data': data, 'headers': '' }
