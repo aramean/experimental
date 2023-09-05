@@ -565,8 +565,6 @@ var app = {
    */
   assets: {
     load: function () {
-      app.log.info()('Load assets')
-
       if (app.isFrontpage) {
         var scriptAttr = app.script.element.attributes,
           modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
@@ -604,7 +602,7 @@ var app = {
           app.xhr.get({
             url: app.script.path + 'assets/json/vars/' + name + '.json',
             type: 'var',
-            cache: { key: name }
+            cache: { format: 'json', key: name }
           })
         }
       },
@@ -647,6 +645,7 @@ var app = {
        * 
        */
       templates: function () {
+        app.log.info()('Loading templates...')
         var src = app.srcTemplate.url.src,
           srcDoc = app.srcTemplate.url.srcDoc,
           hasStartpage = srcDoc ? -1 : 0
@@ -719,11 +718,12 @@ var app = {
               response = options.response,
               cache = options.cache
 
-            var responseData = this.responseText
+            var responseData = this.responseText,
+              statusOK = this.status === 200
 
             if (response) {
               app.module[response].responseData = {
-                'data': JSON.parse(responseData),
+                'data': statusOK ? JSON.parse(responseData) : 'ERROR',
                 'headers': ''
               }
             }
@@ -732,14 +732,12 @@ var app = {
               var data = responseData
 
               switch (cache.format) {
-                case 'html':
-                  break;
                 case 'xml':
                   data = new DOMParser().parseFromString(data, 'text/xml')
                   break;
                 case 'json':
-                default:
-                  data = JSON.parse(data)
+                  data = statusOK ? JSON.parse(data) : 'ERROR'
+                  break;
               }
 
               var cacheData = { 'data': data, 'headers': '' }
@@ -770,7 +768,6 @@ var app = {
 
               if (type === 'template') {
                 if (app.templates.loaded === app.srcTemplate.total) {
-                  console.warn('all templates loaded')
                   app.templates.render(options)
                 }
 
@@ -787,7 +784,6 @@ var app = {
                   console.log('Templates loaded:', app.templates.loaded + '/' + app.templates.total)
                   console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                   console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
-                  console.warn('RUN *')
                   app.attributes.run()
                 }
               }
@@ -917,7 +913,7 @@ var app = {
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
         excludes = exclude ? exclude.concat(this.defaultExclude) : this.defaultExclude
-      app.log.info()('Running attributes ' + selector + ' ...')
+      app.log.info()('Running attributes (' + selector + ') ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
           attributes = element.attributes,

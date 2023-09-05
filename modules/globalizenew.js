@@ -30,7 +30,7 @@ app.module.globalizenew = {
         url: [config.folder + '/' + config.language + '.json'],
         response: 'globalizenew',
         type: 'var',
-        cache: { type: 'localstorage', key: storeKey, ttl: 300 },
+        cache: { format: 'json', type: 'localstorage', key: storeKey, ttl: 300 },
       })
     }
   },

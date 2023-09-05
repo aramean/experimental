@@ -30,7 +30,7 @@ app.module.globalize = {
         url: [ app.script.path + config.folder + '/' + config.language + '.json'],
         response: this.module,
         type: 'var',
-        cache: { type: 'localstorage', key: storeKey, ttl: 300 },
+        cache: { format: 'json', type: 'localstorage', key: storeKey, ttl: 300 },
       })
     }
   },
