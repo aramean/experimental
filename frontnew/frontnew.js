@@ -413,7 +413,12 @@ var dom = {
     app.xhr.get({
       element: element,
       url: element.attributes.include.value,
-      onload: { run: { func: 'app.attributes.run', arg: '#' + element.id + ' *' } }
+      onload: {
+        run: {
+          func: 'app.attributes.run',
+          arg: '#' + element.id + ' *'
+        }
+      }
     })
   },
 
@@ -587,14 +592,16 @@ var app = {
 
         this.get.modules()
       } else {
-
         var templateElement = dom.get('template'),
           templateAttr = templateElement && templateElement.attributes.src,
           templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc') || false,
           templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
         app.srcTemplate = {
-          url: { srcDoc: templateSrcDoc, src: templateSrc },
+          url: {
+            srcDoc: templateSrcDoc,
+            src: templateSrc
+          },
           total: templateSrc.length + (templateSrcDoc ? 1 : 0)
         }
 
@@ -1086,8 +1093,6 @@ var app = {
         
         app.assets.get.modules()
 
-
-
         // Fix IE bug.
         if (app.docMode >= 9) {
           document.open()
@@ -1096,7 +1101,6 @@ var app = {
         } else {
           dom.set('html', responsePageContent)
         }
-
 
         //app.language = responsePage.documentElement.lang
         dom.set('main', currentPageBody)
