@@ -570,7 +570,7 @@ var app = {
       switch (type) {
         case 'localstorage':
           app.caches[key] = data
-          app.storage.set(key, data)
+          localStorage.setItem(key, JSON.stringify(data))
           break
         case 'sessionstorage':
           break
@@ -586,10 +586,6 @@ var app = {
   storage: {
     get: function (key) {
       return JSON.parse(localStorage.getItem(key))
-    },
-
-    set: function (key, value) {
-      localStorage.setItem(key, JSON.stringify(value))
     }
   },
 
@@ -784,10 +780,7 @@ var app = {
                 'headers': ''
               }
 
-              if (cache) {
-                console.dir(cache)
-                app.caches.set(cache.type, cache.key, cacheData)
-              }
+              app.caches.set(cache.type, cache.key, cacheData)
             }
 
             if (type) {
@@ -928,7 +921,6 @@ var app = {
           }
 
         } else if (isClientError || isServerError) {
-          console.error(loader)
           loader && dom.loader(loader)
           error && dom.show(error)
         }
