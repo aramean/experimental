@@ -562,30 +562,33 @@ var app = {
   },
 
   caches: {
+  
     get: function (type, key) {
-      console.log('get cache')
+      var data
+      switch (type) {
+        case 'local':
+          data = JSON.parse(localStorage.getItem(key))
+          break
+        case 'session':
+          data = JSON.parse(sessionStorage.getItem(key))
+          break
+        default:
+          data = app.caches[key]
+      }
+      return data
     },
 
     set: function (type, key, data) {
+      app.caches[key] = data
+
       switch (type) {
-        case 'localstorage':
-          app.caches[key] = data
+        case 'local':
           localStorage.setItem(key, JSON.stringify(data))
           break
-        case 'sessionstorage':
+        case 'session':
+          sessionStorage.setItem(key, JSON.stringify(data))
           break
-        default:
-          app.caches[key] = data
       }
-
-      console.log('set cache' + type)
-    }
-
-  },
-
-  storage: {
-    get: function (key) {
-      return JSON.parse(localStorage.getItem(key))
     }
   },
 
