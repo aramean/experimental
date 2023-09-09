@@ -2,6 +2,8 @@
 
 app.module.globalize = {
 
+  storageType: 'local',
+
   /**
    * @function _autoload
    * @memberof app.module.globalize
@@ -23,8 +25,8 @@ app.module.globalize = {
 
     this.storeKey = this.module + '.' + config.language
 
-    if (app.caches.get('local', this.storeKey)) {
-      this.responseData = app.caches.get('local', this.storeKey)
+    if (app.caches.get(this.storageType, this.storeKey)) {
+      this.responseData = app.caches.get(this.storageType, this.storeKey)
     } else {
       app.vars.totalStore++
       app.xhr.get({
@@ -33,7 +35,7 @@ app.module.globalize = {
         type: 'var',
         cache: {
           format: 'json',
-          type: 'local',
+          type: this.storageType,
           key: this.storeKey,
           ttl: 300
         }
@@ -43,13 +45,13 @@ app.module.globalize = {
 
   locale: {
     get: function (query) {
-      var storedLanguage = app.caches.get('local', this.module + '.language'),
+      var storedLanguage = app.caches.get(this.storageType, this.module + '.language'),
         language = storedLanguage || query || app.language
       return language
     },
 
     set: function (language) {
-      app.caches.set('local', this.module + '.language', language)
+      app.caches.set(this.storageType, this.module + '.language', language)
     }
   },
 
