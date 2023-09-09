@@ -19,11 +19,12 @@ app.module.globalize = {
       store: true,
       folder: 'assets/json/' + this.module,
       language: this.locale.get(query),
-    }, options.element),
-      storeKey = this.module + '.' + config.language
+    }, options.element)
 
-    if (app.storage.get(storeKey)) {
-      this.responseData = app.storage.get(storeKey)
+    this.storeKey = this.module + '.' + config.language
+
+    if (app.storage.get(this.storeKey)) {
+      this.responseData = app.storage.get(this.storeKey)
     } else {
       app.vars.totalStore++
       app.xhr.get({
@@ -33,7 +34,7 @@ app.module.globalize = {
         cache: {
           format: 'json',
           type: 'localstorage',
-          key: storeKey,
+          key: this.storeKey,
           ttl: 300
         }
       })
@@ -59,7 +60,7 @@ app.module.globalize = {
    * @desc Gets the globalized value and set it to the element.
    */
   get: function (element) {
-    var responseData = this.responseData,
+    var responseData = this.responseData || app.caches[this.storeKey],
       value = element.getAttribute(this.module + '-get'),
       isRoot = value[0] == '/' ? true : false,
       setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]

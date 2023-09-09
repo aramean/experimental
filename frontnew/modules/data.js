@@ -99,9 +99,9 @@ app.module.data = {
         key: 'module.' + this.module
       },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
-      loader: attr.loader.value,
-      error: attr.error.value,
-      success: attr.success.value
+      loader: attr.loader && attr.loader.value,
+      error: attr.error && attr.error.value,
+      success: attr.success && attr.success.value
     })
   },
 

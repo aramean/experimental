@@ -545,6 +545,7 @@ var app = {
      * @desc Sets the configuration to the app object.
      */
     set: function (scriptElement) {
+      console.log(scriptElement)
       dom.hreflocal(dom.get('head base'))
       config = this.get(false, {
         debug: false,
@@ -558,6 +559,28 @@ var app = {
         }
       }
     }
+  },
+
+  caches: {
+    get: function (type, key) {
+      console.log('get cache')
+    },
+
+    set: function (type, key, data) {
+      switch (type) {
+        case 'localstorage':
+          app.caches[key] = data
+          app.storage.set(key, data)
+          break
+        case 'sessionstorage':
+          break
+        default:
+          app.caches[key] = data
+      }
+
+      console.log('set cache' + type)
+    }
+
   },
 
   storage: {
@@ -761,15 +784,9 @@ var app = {
                 'headers': ''
               }
 
-              switch (cache.type) {
-                case 'localstorage':
-                  app.caches[cache.key] = cacheData
-                  app.storage.set(cache.key, cacheData)
-                  break
-                case 'sessionstorage':
-                  break
-                default:
-                  app.caches[cache.key] = cacheData
+              if (cache) {
+                console.dir(cache)
+                app.caches.set(cache.type, cache.key, cacheData)
               }
             }
 
@@ -911,14 +928,15 @@ var app = {
           }
 
         } else if (isClientError || isServerError) {
-          dom.loader(loader)
-          dom.show(error)
+          console.error(loader)
+          loader && dom.loader(loader)
+          error && dom.show(error)
         }
       }
 
       xhr.onerror = function () {
-        dom.loader(loader)
-        dom.show(error)
+        loader && dom.loader(loader)
+        error & dom.show(error)
       }
 
       xhr.open('GET', url + urlExtension, true)
