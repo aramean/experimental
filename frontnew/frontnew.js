@@ -53,9 +53,13 @@ var dom = {
 
     json: function (string) {
       try {
-        string = JSON.parse(string)
+        string = { value: JSON.parse(string) }
       } catch (error) {
-        string = ''
+        string = {
+          value: '',
+          errorName: error.name,
+          errorMessage: error.message
+        }
       }
       return string
     }
@@ -697,7 +701,7 @@ var app = {
 
     app.xhr.start()
 
-    var selector = 'script[src*=front]', 
+    var selector = 'script[src*=front]',
       element = dom.get(selector),
       value = element.attributes.src.value
 
@@ -736,8 +740,7 @@ var app = {
               extra = options.extra,
               cache = options.cache
 
-            var responseData = this.responseText,
-              isStatusOK = this.status === 200
+            var responseData = this.responseText
 
             if (cache) {
               var data = responseData
@@ -747,15 +750,16 @@ var app = {
                   data = new DOMParser().parseFromString(data, 'text/xml')
                   break
                 case 'json':
-                  try {
-                    data = dom.parse.json(data)
-                  } catch (error) {
-                    data = 'ERROR';
-                  }
+                  var json = dom.parse.json(data)
+                  data = json.value 
+                  this.responseError = json.errorMessage
                   break
               }
 
-              var cacheData = { 'data': data, 'headers': '' }
+              var cacheData = {
+                'data': data,
+                'headers': ''
+              }
 
               switch (cache.type) {
                 case 'localstorage':
@@ -790,7 +794,7 @@ var app = {
                 if (app.vars.loaded === app.vars.total) {
                   app.attributes.run()
                 }
-                
+
               } else {
                 // Check if all requests have finished loading
                 if (
@@ -830,7 +834,6 @@ var app = {
 
         onload = options.onload,
         onprogress = options.onprogress,
-        onerror = options.onerror,
 
         timeout = onload ? options.onload.timeout || 0 : 0,
         preloader = onprogress && onprogress.preloader ? dom.get(onprogress.preloader) : false,
@@ -861,47 +864,61 @@ var app = {
         if (onprogress) target ? dom.set(target, onprogress.content) : ''
       }
 
-      xhr.onload = function () {
-        var status = this.status
-        //if (status === 200 || status === 204 || status === 304) {
+      xhr.onload = function (e) {
 
-        /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
-        var headerMap = {}
-        for (var i = 0; i < headers.length; i++) {
-          var parts = headers[i].split(": ")
-          var header = parts[0]
-          var value = parts.slice(1).join(": ")
-          headerMap[header] = value
-        }*/
+        var isInformational = this.status >= 100 && this.status <= 199,
+          isSuccess = this.status >= 200 && this.status <= 299,
+          isRedirect = this.status >= 300 && this.status <= 399,
+          isClientError = this.status >= 400 && this.status <= 499,
+          isServerError = this.status >= 500 && this.status <= 599
 
-        var responseData = this.responseText
+        if (isSuccess || isRedirect) {
 
-        if (target) {
-          dom.set(target, responseData)
-        }
+          /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
+          var headerMap = {}
+          for (var i = 0; i < headers.length; i++) {
+            var parts = headers[i].split(": ")
+            var header = parts[0]
+            var value = parts.slice(1).join(": ")
+            headerMap[header] = value
+          }*/
 
-        if (onload) {
+          var responseData = this.responseText,
+            responseError = this.responseError
 
-          if (run) {
-            app.log.info()('Calling: ' + run)
-
-            runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
-
-            if (run.length === 4)
-              window[run[0]][run[1]][run[2]][run[3]](runarg)
-            else if (run.length === 3)
-              window[run[0]][run[1]][run[2]](runarg)
-            else if (run.length === 2)
-              window[run[0]][run[1]](runarg)
+          if (target) {
+            dom.set(target, responseData)
           }
+
+          if (responseError) {
+            console.dir(error)
+            dom.show(error)
+          }
+
+          if (onload) {
+
+            if (run) {
+              app.log.info()('Calling: ' + run)
+
+              runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
+
+              if (run.length === 4)
+                window[run[0]][run[1]][run[2]][run[3]](runarg)
+              else if (run.length === 3)
+                window[run[0]][run[1]][run[2]](runarg)
+              else if (run.length === 2)
+                window[run[0]][run[1]](runarg)
+            }
+          }
+
+        } else if (isClientError || isServerError) {
+          dom.show(error)
         }
-        //} else {
-        //  if (target) dom.set(target, xhr.statusText)
-        //}
       }
 
-      xhr.onerror = function () {
-        if (onerror && target) dom.set(target, onerror)
+      xhr.onerror = function (e) {
+        dom.loader(loader)
+        dom.show(error)
       }
 
       xhr.open('GET', url + urlExtension, true)
@@ -1076,11 +1093,11 @@ var app = {
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
 
-          var scriptAttr = responsePageScript.attributes,
+        var scriptAttr = responsePageScript.attributes,
           modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
           vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
-   //     responsePageContent = responsePageContent.replace('frontnew.js', '')
+        //     responsePageContent = responsePageContent.replace('frontnew.js', '')
 
         app.config.set(responsePageScript)
 
@@ -1090,7 +1107,7 @@ var app = {
 
         app.vars.name = vars
         app.vars.total = vars.length
-        
+
         app.assets.get.modules()
 
         // Fix IE bug.

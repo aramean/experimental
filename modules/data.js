@@ -16,13 +16,14 @@ app.module.data = {
       target: attr.target ? attr.target.value : false,
       response: 'data',
       onload: {
-        run: { func: 'app.module.data._run', arg: options },
+        run: {
+          func: 'app.module.data._run',
+          arg: options
+        },
         timeout: (attr.timeout) ? attr.timeout.value : 0
       },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
-      onerror: { content: (attr.errorcontent) ? attr.errorcontent.value : false },
     })
-
   },
 
   _run: function (options) {
@@ -115,5 +116,5 @@ app.module.data = {
         app.attributes.run(element)
       }
     }
-  },
+  }
 }
