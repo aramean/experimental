@@ -872,7 +872,7 @@ var app = {
           isClientError = this.status >= 400 && this.status <= 499,
           isServerError = this.status >= 500 && this.status <= 599
 
-        if (isSuccess || isRedirect) {
+        if (isInformational || isSuccess || isRedirect) {
 
           /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
           var headerMap = {}
@@ -891,7 +891,6 @@ var app = {
           }
 
           if (responseError) {
-            console.dir(error)
             dom.show(error)
           }
 
@@ -912,11 +911,12 @@ var app = {
           }
 
         } else if (isClientError || isServerError) {
+          dom.loader(loader)
           dom.show(error)
         }
       }
 
-      xhr.onerror = function (e) {
+      xhr.onerror = function () {
         dom.loader(loader)
         dom.show(error)
       }
