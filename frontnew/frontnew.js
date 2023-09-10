@@ -544,10 +544,9 @@ var app = {
      * @param {object} [scriptElement=null] - The script DOM element.
      * @desc Sets the configuration to the app object.
      */
-    set: function (scriptElement) {
-      console.log(scriptElement)
+      set: function (scriptElement) {
       dom.hreflocal(dom.get('head base'))
-      config = this.get(false, {
+      var config = this.get(false, {
         debug: false,
         debugLocalhost: false,
         //fileExtension: '.html'
@@ -572,21 +571,43 @@ var app = {
         case 'session':
           data = JSON.parse(sessionStorage.getItem(key))
           break
+        case 'cookie':
+          data = document.cookie
+          break
         default:
           data = app.caches[key]
       }
       return data
     },
 
-    set: function (type, key, data) {
-      app.caches[key] = data
+    set: function (type, format, key, data) {
+      switch (format) {
+        case 'xml':
+          data = new DOMParser().parseFromString(data, 'text/xml')
+          break
+        case 'json':
+          var json = dom.parse.json(data)
+          data = json.value 
+          this.responseError = json.errorMessage
+          break
+      }
+
+      var cacheData = {
+        'data': data,
+        'headers': ''
+      }
+
+      app.caches[key] = cacheData
 
       switch (type) {
         case 'local':
-          localStorage.setItem(key, JSON.stringify(data))
+          localStorage.setItem(key, JSON.stringify(cacheData))
           break
         case 'session':
-          sessionStorage.setItem(key, JSON.stringify(data))
+          sessionStorage.setItem(key, JSON.stringify(cacheData))
+          break
+        case 'cookie':
+          document.cookie = cacheData.data
           break
       }
     }
@@ -754,40 +775,22 @@ var app = {
         send = XMLHttpRequest.prototype.send
 
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
-        this.onreadystatechange = function (e) {
-          if (e.target.readyState === 4) {
-            var options = this.options,
+        this.onreadystatechange = function () {
+          if (this.readyState === 4) {
+
+            var isSuccess = this.status >= 200 && this.status <= 299,
+              options = this.options,
               type = options.type,
               name = options.name,
               extra = options.extra,
               cache = options.cache
 
-            var responseData = this.responseText
-
-            if (cache) {
-              var data = responseData
-
-              switch (cache.format) {
-                case 'xml':
-                  data = new DOMParser().parseFromString(data, 'text/xml')
-                  break
-                case 'json':
-                  var json = dom.parse.json(data)
-                  data = json.value 
-                  this.responseError = json.errorMessage
-                  break
-              }
-
-              var cacheData = {
-                'data': data,
-                'headers': ''
-              }
-
-              app.caches.set(cache.type, cache.key, cacheData)
+            if (cache && isSuccess) {
+              app.caches.set(cache.type, cache.format, cache.key, this.responseText)
             }
 
             if (type) {
-              console.log('(XHR) ' + options.type + ' intercepted:', url)
+              app.log.warn()('(XHR) ' + options.type + ' intercepted:', url)
 
               switch (type) {
                 case 'template':
@@ -800,7 +803,7 @@ var app = {
 
               if (type === 'template') {
                 if (app.templates.loaded === app.srcTemplate.total) {
-                  console.log('Templates loaded:', app.templates.loaded + '/' + app.srcTemplate.total)
+                  //console.log('Templates loaded:', app.templates.loaded + '/' + app.srcTemplate.total)
                   app.templates.render(options)
                 }
 
@@ -814,8 +817,8 @@ var app = {
                   app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
                   app.modules.loaded === app.modules.total
                 ) {
-                  console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                  console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
+                  //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                  //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
                   app.attributes.run()
                 }
               }
@@ -853,6 +856,8 @@ var app = {
         run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload && onload.run && onload.run.arg
 
+      console.error(options)
+
       // Abort the previous request if it exists
       if (single && this.currentRequest) {
         xhr.currentRequest.abort()
@@ -877,7 +882,7 @@ var app = {
         if (onprogress) target ? dom.set(target, onprogress.content) : ''
       }
 
-      xhr.onload = function (e) {
+      xhr.onload = function () {
 
         var isInformational = this.status >= 100 && this.status <= 199,
           isSuccess = this.status >= 200 && this.status <= 299,
@@ -924,14 +929,14 @@ var app = {
           }
 
         } else if (isClientError || isServerError) {
-          loader && dom.loader(loader)
-          error && dom.show(error)
+          if (loader) dom.loader(loader)
+          if (error) dom.show(error)
         }
       }
 
       xhr.onerror = function () {
-        loader && dom.loader(loader)
-        error & dom.show(error)
+        if (loader) dom.loader(loader)
+        if (error) dom.show(error)
       }
 
       xhr.open('GET', url + urlExtension, true)
@@ -1112,16 +1117,15 @@ var app = {
 
         //     responsePageContent = responsePageContent.replace('frontnew.js', '')
 
-        app.config.set(responsePageScript)
-
+        
+        app.script.element = responsePageScript
+        
         app.language = 'en'
         app.modules.name = modules
         app.modules.total = modules.length
 
         app.vars.name = vars
         app.vars.total = vars.length
-
-        app.assets.get.modules()
 
         // Fix IE bug.
         if (app.docMode >= 9) {
@@ -1152,6 +1156,8 @@ var app = {
           //console.log(src[i])
         }
       }
+
+      app.assets.get.modules()
     }
   }
 }

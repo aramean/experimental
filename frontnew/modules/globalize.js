@@ -17,12 +17,16 @@ app.module.globalize = {
     var query = app.querystrings.get(false, 'locale')
     if (query) this.locale.set(query)
 
+    
+
     var config = app.config.get(this.module, {
       store: true,
       folder: 'assets/json/' + this.module,
       language: this.locale.get(query),
     }, options.element)
 
+    console.dir(options.element)
+    
     this.storeKey = this.module + '.' + config.language
 
     if (app.caches.get(this.storageType, this.storeKey)) {
