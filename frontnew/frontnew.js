@@ -46,8 +46,26 @@ var dom = {
      * @desc Parses a string of HTML and return a DOM node.
     */
     text: function (string) {
-      var el = document.createElement('spot')
+      var matches = string.match(/<html\s+([^>]*)>/i),
+        el = document.createElement('spot')
+
       el.innerHTML = string
+
+      if (matches) {
+        var attributes = matches[1].trim()
+        var attributePairs = attributes.split(/\s+/)
+
+        for (var i = 0; i < attributePairs.length; i++) {
+          var pair = attributePairs[i].split('=')
+
+          if (pair.length === 2) {
+            var name = pair[0];
+            var value = pair[1].slice(1, -1)
+            el.setAttribute(name, value)
+          }
+        }
+      }
+
       return el
     },
 
@@ -460,7 +478,7 @@ var app = {
   module: {},
   plugin: {},
   var: {},
-  language: document.documentElement.lang,
+  language: document.documentElement.lang || 'en',
   title: document.title,
   docMode: document.documentMode || '',
   isFrontpage: document.doctype ? true : false,
@@ -544,7 +562,7 @@ var app = {
      * @param {object} [scriptElement=null] - The script DOM element.
      * @desc Sets the configuration to the app object.
      */
-      set: function (scriptElement) {
+    set: function (scriptElement) {
       dom.hreflocal(dom.get('head base'))
       var config = this.get(false, {
         debug: false,
@@ -561,7 +579,7 @@ var app = {
   },
 
   caches: {
-  
+
     get: function (type, key) {
       var data
       switch (type) {
@@ -587,7 +605,7 @@ var app = {
           break
         case 'json':
           var json = dom.parse.json(data)
-          data = json.value 
+          data = json.value
           this.responseError = json.errorMessage
           break
       }
@@ -856,8 +874,6 @@ var app = {
         run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload && onload.run && onload.run.arg
 
-      console.error(options)
-
       // Abort the previous request if it exists
       if (single && this.currentRequest) {
         xhr.currentRequest.abort()
@@ -1107,7 +1123,6 @@ var app = {
 
       if (srcDoc) {
         var responsePage = dom.parse.text(app.caches[srcDoc].data),
-          responsePageHtml = dom.find(responsePage, 'html'),
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
 
@@ -1117,10 +1132,9 @@ var app = {
 
         //     responsePageContent = responsePageContent.replace('frontnew.js', '')
 
-        
+        app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
         app.script.element = responsePageScript
-        
-        app.language = 'en'
+
         app.modules.name = modules
         app.modules.total = modules.length
 
