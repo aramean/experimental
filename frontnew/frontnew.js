@@ -52,17 +52,14 @@ var dom = {
       el.innerHTML = string
 
       if (matches) {
-        var attributes = matches[1].trim()
-        var attributePairs = attributes.split(/\s+/)
+        var attributes = matches[1].trim(),
+          attributePairs = attributes.split(/\s+/)
 
         for (var i = 0; i < attributePairs.length; i++) {
-          var pair = attributePairs[i].split('=')
-
-          if (pair.length === 2) {
-            var name = pair[0];
-            var value = pair[1].slice(1, -1)
-            el.setAttribute(name, value)
-          }
+          var pair = attributePairs[i].split('='),
+            name = pair[0],
+            value = pair[1].slice(1, -1)
+          el.setAttribute(name, value)
         }
       }
 
@@ -1134,7 +1131,7 @@ var app = {
 
         app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
         app.script.element = responsePageScript
-
+        console.dir(responsePage)
         app.modules.name = modules
         app.modules.total = modules.length
 
