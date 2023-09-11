@@ -15,7 +15,7 @@
 
 <body>
   <header>
-    <h1 class="p1">Movies</h1><input class="ml1 mt1 bs1 p1 h3" type="text" value="Search...">
+    <h1 class="p1">Movies</h1><input class="ml1 mt1 bs1 p1 h3" id="josefinput" type="text" placeholder="Search...">
     <a href="page1.html">Page 1</a>
   </header>
 
@@ -29,10 +29,10 @@
     <div id="success" class="green mb2" hide>It's working!</div>
 
     <div
-      bind="page:?page"
+      bind="page:?page;josef:#josefinput"
       data-bind="api:^api.themoviedb.popular"
       disabled-data-src="index.html"
-      data-src="{api}&page={page:1}"
+      data-src="{api}&josef={josef}&page={page:1}"
       data-set="page:#page;total_pages:#pages;total_results:#results"
       data-header=""
       iterate="results"
@@ -40,6 +40,7 @@
       error="#error"
       success="#success"
       filter="true"
+      cache="type:local;ttl:3600"
       class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
       <figure class="p05">
         <img insert="beforebegin:https://image.tmdb.org/t/p/w220_and_h330_face" data-get="poster_path">
