@@ -49,8 +49,6 @@ var dom = {
       var matches = string.match(/<html\s+([^>]*)>/i),
         el = document.createElement('spot')
 
-      el.innerHTML = string
-
       if (matches) {
         var attributes = matches[1].trim(),
           attributePairs = attributes.split(/\s+/)
@@ -62,7 +60,9 @@ var dom = {
           el.setAttribute(name, value)
         }
       }
+      el.innerHTML = string
 
+      console.dir(el)
       return el
     },
 
@@ -102,6 +102,7 @@ var dom = {
    * @desc Retrieves elements from a given node by selector.
    */
   find: function (node, selector) {
+    console.error(node)
     var element = node.querySelectorAll(selector)
     return element.length == 1 ? element[0] : element
   },
@@ -979,7 +980,8 @@ var app = {
       app.log.info()('Running attributes (' + selector + ') ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
-          attributes = element.attributes,
+          localName = element.localName
+        attributes = element.attributes,
 
           run = attributes.run ? attributes.run.value : false,
           stop = attributes.stop ? attributes.stop.value.split(';') : [],
@@ -987,6 +989,7 @@ var app = {
           exclude = stop && excludes.indexOf('stop') === -1 ? excludes.concat(stop) : excludes
 
         if (include) dom.setUniqueId(element)
+        if (localName === 'title') document.title = element.textContent // TODO: Is called multiple times.
 
         // Fix IE attribute bug.
         if (app.docMode >= 9) {
@@ -1110,11 +1113,10 @@ var app = {
     loaded: 0,
     total: 0,
 
-    data: '',
-
     render: function (options) {
       //app.log.info()('Rendering templates...')
-      var currentPageBody = document.body.innerHTML
+      var currentPageBody = document.body.innerHTML,
+        currentPageTitle = document.head.textContent
       var srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
@@ -1127,11 +1129,9 @@ var app = {
           modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
           vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
-        //     responsePageContent = responsePageContent.replace('frontnew.js', '')
-
         app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
         app.script.element = responsePageScript
-        console.dir(responsePage)
+
         app.modules.name = modules
         app.modules.total = modules.length
 
@@ -1147,27 +1147,28 @@ var app = {
           dom.set('html', responsePageContent)
         }
 
-        //app.language = responsePage.documentElement.lang
         dom.set('main', currentPageBody)
       }
+  
       if (src) {
         for (var i = 0; i < src.length; i++) {
-          //dom.get('header').innerHTML = 'TEST'
-          /*var template = dom.parse.text(dom.find(responsePageHtml, 'template').innerHTML),
-          templateHeader = dom.find(template, 'header').innerHTML,
-          templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
-          templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
-          templateFooter = dom.find(template, 'footer').innerHTML
+          var name = src[i],
+            responsePage = dom.parse.text(app.caches[name].data),
+            template = dom.parse.text(dom.find(responsePage, 'template').innerHTML),
+            templateHeader = dom.find(template, 'header').innerHTML,
+            templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
+            templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
+            templateFooter = dom.find(template, 'footer').innerHTML
 
         if (templateHeader) dom.set('header', templateHeader)
         if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
         if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
-        if (templateFooter) dom.set('footer', templateFooter)*/
+        if (templateFooter) dom.set('footer', templateFooter)
 
-          //console.log(src[i])
         }
       }
 
+      document.title = currentPageTitle
       app.assets.get.modules()
     }
   }
