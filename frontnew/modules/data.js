@@ -2,7 +2,7 @@
 
 app.module.data = {
 
-  responseData: '',
+  storageType: 'window',
 
   _autoload: function(options) {
     this.module = options.name
@@ -26,10 +26,10 @@ app.module.data = {
   },
 
   _run: function (options) {
-    var responseData = app.caches['module.' + this.module],
-      element = options.element,
+    this.responseData = app.caches.get(this.storageType, 'module.' + this.module)
+    var element = options.element,
       iterate = options.iterate,
-      iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
+      iterateObject = iterate === 'true' ? this.responseData.data : this.responseData.data[iterate] || this.responseData.data,
       total = iterate && iterateObject.length - 1 || 0
 
     var originalNode = element.cloneNode(true),
@@ -68,7 +68,7 @@ app.module.data = {
     }
 
     app.attributes.run(elements, ['data-get'])
-    this._set(responseData, options)
+    this._set(this.responseData, options)
     this._finish(options)
   },
 
