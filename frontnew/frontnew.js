@@ -628,6 +628,8 @@ var app = {
 
   listeners: {
     add: function (element, eventType, callback) {
+      console.log('add listener' + element + eventType + callback)
+      element.removeEventListener(eventType, callback)
       element.addEventListener(eventType, callback)
     }
   },
@@ -693,6 +695,7 @@ var app = {
        * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
        */
       modules: function () {
+        console.error('loading modules')
         app.log.info()('Loading modules...')
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
@@ -701,9 +704,11 @@ var app = {
           script.async = true
           script.onload = function () {
             app.log.info(1)(this.name)
+            console.log(this.name)
             app.modules.loaded++
             app.module[this.name].conf = function () { }
             if (app.module[this.name]._autoload) {
+              //console.log('this is running: ' + this.name)
               app.module[this.name]._autoload({
                 element: app.script.element,
                 name: this.name
@@ -729,6 +734,7 @@ var app = {
           srcDoc = app.srcTemplate.url.srcDoc,
           hasStartpage = srcDoc ? -1 : 0
 
+          app.modules.total = 0
         for (var i = 0; i < app.srcTemplate.total; i++) {
           var isStartpage = srcDoc && i === 0 ? true : false,
             currentTemplate = isStartpage ? srcDoc : src[i + hasStartpage]
@@ -790,14 +796,23 @@ var app = {
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
         this.onreadystatechange = function () {
           if (this.readyState === 4) {
-            var isSuccess = this.status >= 200 && this.status <= 299,
-              options = this.options,
+            var statusType = {
+              informational: this.status >= 100 && this.status <= 199,
+              success: this.status >= 200 && this.status <= 299,
+              redirect: this.status >= 300 && this.status <= 399,
+              clientError: this.status >= 400 && this.status <= 499,
+              serverError: this.status >= 500 && this.status <= 599
+            }
+
+            this.statusType = statusType
+
+            var options = this.options,
               type = options.type,
               name = options.name,
               extra = options.extra,
               cache = options.cache
 
-            if (cache && isSuccess) {
+            if (cache && statusType.success) {
               app.caches.set(cache.type, cache.format, cache.key, this.responseText)
             }
 
@@ -820,20 +835,19 @@ var app = {
                 var responsePageTitle = dom.find(responsePage, 'title').textContent,
                   templateElement = dom.find(responsePage, 'template'),
                   templateAttr = templateElement && templateElement.attributes.src,
-                  templateSrcDoc = false,
                   templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
-                console.dir(responsePageTitle)
                 app.srcTemplate = {
                   url: {
-                    srcDoc: templateSrcDoc,
+                    srcDoc: '',
                     src: templateSrc
                   },
                   total: templateSrc.length
                 }
                 document.title = responsePageTitle
                 app.assets.get.templates()
-              }
+              }else{
+
               if (type === 'template') {
                 if (app.templates.loaded === app.srcTemplate.total) {
                   //console.log('Templates loaded:', app.templates.loaded + '/' + app.srcTemplate.total)
@@ -856,6 +870,7 @@ var app = {
                 }
               }
             }
+          }
           }
         }
 
@@ -889,89 +904,91 @@ var app = {
         run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload && onload.run && onload.run.arg
 
-      // Abort the previous request if it exists
-      if (single && this.currentRequest) {
-        xhr.currentRequest.abort()
-      }
+      if (false) {
+        console.dir(cache)
+        console.log('hej')
+      } else {
 
-      var xhr = new XMLHttpRequest(),
-        urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
-      xhr.options = options
-      // Set headers
-      /*for (var header in headers) {
-        if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
-      }*/
+        // Abort the previous request if it exists
+        if (single && this.currentRequest) {
+          //xhr.currentRequest.abort()
+        }
 
-      //if (single) this.currentRequest = xhr
+        var xhr = new XMLHttpRequest(),
+          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
+        xhr.options = options
+        // Set headers
+        /*for (var header in headers) {
+          if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
+        }*/
 
-      xhr.onabort = function () {
-        if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
-      }
+        //if (single) this.currentRequest = xhr
 
-      xhr.onprogress = function (e) {
-        if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
-        if (onprogress) target ? dom.set(target, onprogress.content) : ''
-      }
+        xhr.onabort = function () {
+          //if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
+        }
 
-      xhr.onload = function () {
+        xhr.onprogress = function (e) {
+          //if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
+          //if (onprogress) target ? dom.set(target, onprogress.content) : ''
+        }
 
-        var isInformational = this.status >= 100 && this.status <= 199,
-          isSuccess = this.status >= 200 && this.status <= 299,
-          isRedirect = this.status >= 300 && this.status <= 399,
-          isClientError = this.status >= 400 && this.status <= 499,
-          isServerError = this.status >= 500 && this.status <= 599
+        xhr.onload = function () {
+          console.log('run:' +url)
+         var status = this.statusType 
+        
+          if (status.informational || status.success || status.redirect) {
 
-        if (isInformational || isSuccess || isRedirect) {
+            /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
+            var headerMap = {}
+            for (var i = 0; i < headers.length; i++) {
+              var parts = headers[i].split(": ")
+              var header = parts[0]
+              var value = parts.slice(1).join(": ")
+              headerMap[header] = value
+            }*/
 
-          /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
-          var headerMap = {}
-          for (var i = 0; i < headers.length; i++) {
-            var parts = headers[i].split(": ")
-            var header = parts[0]
-            var value = parts.slice(1).join(": ")
-            headerMap[header] = value
-          }*/
+            var responseData = this.responseText,
+              responseError = this.responseError
 
-          var responseData = this.responseText,
-            responseError = this.responseError
-
-          if (target) {
-            dom.set(target, responseData)
-          }
-
-          if (responseError) {
-            dom.show(error)
-          }
-
-          if (onload) {
-
-            if (run) {
-              app.log.info()('Calling: ' + run)
-
-              runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
-
-              if (run.length === 4)
-                window[run[0]][run[1]][run[2]][run[3]](runarg)
-              else if (run.length === 3)
-                window[run[0]][run[1]][run[2]](runarg)
-              else if (run.length === 2)
-                window[run[0]][run[1]](runarg)
+            if (target) {
+              dom.set(target, responseData)
             }
-          }
 
-        } else if (isClientError || isServerError) {
+            if (responseError) {
+              dom.show(error)
+            }
+
+            if (onload) {
+
+              if (run) {
+                app.log.info()('Calling: ' + run)
+
+                runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
+
+                if (run.length === 4)
+                  window[run[0]][run[1]][run[2]][run[3]](runarg)
+                else if (run.length === 3)
+                  window[run[0]][run[1]][run[2]](runarg)
+                else if (run.length === 2)
+                  window[run[0]][run[1]](runarg)
+              }
+            }
+
+          } else if (status.clientError || status.serverError) {
+            if (loader) dom.loader(loader)
+            if (error) dom.show(error)
+          }
+        }
+
+        xhr.onerror = function () {
           if (loader) dom.loader(loader)
           if (error) dom.show(error)
         }
-      }
 
-      xhr.onerror = function () {
-        if (loader) dom.loader(loader)
-        if (error) dom.show(error)
+        xhr.open('GET', url + urlExtension, true)
+        xhr.send(null)
       }
-
-      xhr.open('GET', url + urlExtension, true)
-      xhr.send(null)
     }
   },
 
