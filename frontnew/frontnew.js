@@ -817,22 +817,22 @@ var app = {
 
                 var responsePage = dom.parse.text(this.responseText)
 
-                var templateElement = dom.find(responsePage, 'template'),
+                var responsePageTitle = dom.find(responsePage, 'title').textContent,
+                  templateElement = dom.find(responsePage, 'template'),
                   templateAttr = templateElement && templateElement.attributes.src,
-                  //templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc') || false,
+                  templateSrcDoc = false,
                   templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
+                console.dir(responsePageTitle)
                 app.srcTemplate = {
                   url: {
+                    srcDoc: templateSrcDoc,
                     src: templateSrc
                   },
                   total: templateSrc.length
                 }
-
-                //console.dir(app.srcTemplate)
+                document.title = responsePageTitle
                 app.assets.get.templates()
-                //this.get.templates()
-                //app.templates.render(options)
               }
               if (type === 'template') {
                 if (app.templates.loaded === app.srcTemplate.total) {
@@ -997,7 +997,6 @@ var app = {
       app.log.info()('Running attributes (' + selector + ') ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
-          localName = element.localName,
           attributes = element.attributes,
 
           run = attributes.run ? attributes.run.value : false,
@@ -1006,7 +1005,6 @@ var app = {
           exclude = stop && excludes.indexOf('stop') === -1 ? excludes.concat(stop) : excludes
 
         if (include) dom.setUniqueId(element)
-        // if (localName === 'title') document.title = element.textContent // TODO: Is called multiple times.
 
         // Fix IE attribute bug.
         if (app.docMode >= 9) {
@@ -1132,8 +1130,8 @@ var app = {
 
     render: function () {
       //app.log.info()('Rendering templates...')
-      var currentPageBody = document.body.innerHTML,
-        currentPageTitle = document.head.textContent
+      var currentPageTitle = document.title,
+        currentPageBody = document.body.innerHTML
       var srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
