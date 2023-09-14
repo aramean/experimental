@@ -61,8 +61,6 @@ var dom = {
         }
       }
       el.innerHTML = string
-
-      console.dir(el)
       return el
     },
 
@@ -102,7 +100,6 @@ var dom = {
    * @desc Retrieves elements from a given node by selector.
    */
   find: function (node, selector) {
-    console.error(node)
     var element = node.querySelectorAll(selector)
     return element.length == 1 ? element[0] : element
   },
@@ -793,7 +790,6 @@ var app = {
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
         this.onreadystatechange = function () {
           if (this.readyState === 4) {
-
             var isSuccess = this.status >= 200 && this.status <= 299,
               options = this.options,
               type = options.type,
@@ -817,10 +813,31 @@ var app = {
                   break
               }
 
+              if (type === 'page') {
+
+                var responsePage = dom.parse.text(this.responseText)
+
+                var templateElement = dom.find(responsePage, 'template'),
+                  templateAttr = templateElement && templateElement.attributes.src,
+                  //templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc') || false,
+                  templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
+
+                app.srcTemplate = {
+                  url: {
+                    src: templateSrc
+                  },
+                  total: templateSrc.length
+                }
+
+                //console.dir(app.srcTemplate)
+                app.assets.get.templates()
+                //this.get.templates()
+                //app.templates.render(options)
+              }
               if (type === 'template') {
                 if (app.templates.loaded === app.srcTemplate.total) {
                   //console.log('Templates loaded:', app.templates.loaded + '/' + app.srcTemplate.total)
-                  app.templates.render(options)
+                  app.templates.render()
                 }
 
                 if (app.vars.loaded === app.vars.total) {
@@ -885,7 +902,7 @@ var app = {
         if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
       }*/
 
-      //if (single) app.xhr.currentRequest = xhr
+      //if (single) this.currentRequest = xhr
 
       xhr.onabort = function () {
         if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
@@ -980,8 +997,8 @@ var app = {
       app.log.info()('Running attributes (' + selector + ') ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
-          localName = element.localName
-        attributes = element.attributes,
+          localName = element.localName,
+          attributes = element.attributes,
 
           run = attributes.run ? attributes.run.value : false,
           stop = attributes.stop ? attributes.stop.value.split(';') : [],
@@ -989,7 +1006,7 @@ var app = {
           exclude = stop && excludes.indexOf('stop') === -1 ? excludes.concat(stop) : excludes
 
         if (include) dom.setUniqueId(element)
-        if (localName === 'title') document.title = element.textContent // TODO: Is called multiple times.
+        // if (localName === 'title') document.title = element.textContent // TODO: Is called multiple times.
 
         // Fix IE attribute bug.
         if (app.docMode >= 9) {
@@ -1113,7 +1130,7 @@ var app = {
     loaded: 0,
     total: 0,
 
-    render: function (options) {
+    render: function () {
       //app.log.info()('Rendering templates...')
       var currentPageBody = document.body.innerHTML,
         currentPageTitle = document.head.textContent
@@ -1149,7 +1166,7 @@ var app = {
 
         dom.set('main', currentPageBody)
       }
-  
+
       if (src) {
         for (var i = 0; i < src.length; i++) {
           var name = src[i],
@@ -1160,10 +1177,10 @@ var app = {
             templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
             templateFooter = dom.find(template, 'footer').innerHTML
 
-        if (templateHeader) dom.set('header', templateHeader)
-        if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
-        if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
-        if (templateFooter) dom.set('footer', templateFooter)
+          if (templateHeader) dom.set('header', templateHeader)
+          if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
+          if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
+          if (templateFooter) dom.set('footer', templateFooter)
 
         }
       }
