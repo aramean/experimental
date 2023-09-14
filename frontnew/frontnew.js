@@ -855,7 +855,7 @@ var app = {
                 }
 
                 if (app.vars.loaded === app.vars.total) {
-                  app.attributes.run()
+                  //app.attributes.run()
                 }
 
               } else {
