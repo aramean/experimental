@@ -628,7 +628,6 @@ var app = {
 
   listeners: {
     add: function (element, eventType, callback) {
-      console.log('add listener' + element + eventType + callback)
       element.removeEventListener(eventType, callback)
       element.addEventListener(eventType, callback)
     }
@@ -695,7 +694,6 @@ var app = {
        * @desc Loads extensions(modules) from the `module` attribute of the script element and call autoload function if exists.
        */
       modules: function () {
-        console.error('loading modules')
         app.log.info()('Loading modules...')
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
@@ -704,11 +702,9 @@ var app = {
           script.async = true
           script.onload = function () {
             app.log.info(1)(this.name)
-            console.log(this.name)
             app.modules.loaded++
             app.module[this.name].conf = function () { }
             if (app.module[this.name]._autoload) {
-              //console.log('this is running: ' + this.name)
               app.module[this.name]._autoload({
                 element: app.script.element,
                 name: this.name
@@ -734,14 +730,17 @@ var app = {
           srcDoc = app.srcTemplate.url.srcDoc,
           hasStartpage = srcDoc ? -1 : 0
 
-          app.modules.total = 0
         for (var i = 0; i < app.srcTemplate.total; i++) {
           var isStartpage = srcDoc && i === 0 ? true : false,
             currentTemplate = isStartpage ? srcDoc : src[i + hasStartpage]
-
           app.xhr.get({
             url: app.script.path + currentTemplate + '.html',
             type: 'template',
+            onload: {
+              run: {
+                func: 'app.templates.render'
+              }
+            },
             cache: {
               format: 'html',
               name: 'template',
@@ -818,59 +817,48 @@ var app = {
 
             if (type) {
               app.log.warn()('(XHR) ' + options.type + ' intercepted:', url)
-
               switch (type) {
-                case 'template':
-                  app.templates.loaded++
+                case 'page':
+                  var responsePage = dom.parse.text(this.responseText)
+                  var responsePageTitle = dom.find(responsePage, 'title').textContent,
+                    templateElement = dom.find(responsePage, 'template'),
+                    templateAttr = templateElement && templateElement.attributes.src,
+                    templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
+
+                  app.modules.total = 0
+                  app.templates.total = 0
+                  app.templates.loaded = 0
+                  app.vars.total = 0
+
+                  app.srcTemplate = {
+                    url: {
+                      srcDoc: '',
+                      src: templateSrc
+                    },
+                    total: templateSrc.length
+                  }
+                  document.title = responsePageTitle
+                  app.assets.get.templates()
                   break
                 case 'var':
                   app.vars.loaded++
                   break
+                case 'template':
+                  app.templates.loaded++
+                  break
               }
 
-              if (type === 'page') {
-
-                var responsePage = dom.parse.text(this.responseText)
-
-                var responsePageTitle = dom.find(responsePage, 'title').textContent,
-                  templateElement = dom.find(responsePage, 'template'),
-                  templateAttr = templateElement && templateElement.attributes.src,
-                  templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
-
-                app.srcTemplate = {
-                  url: {
-                    srcDoc: '',
-                    src: templateSrc
-                  },
-                  total: templateSrc.length
-                }
-                document.title = responsePageTitle
-                app.assets.get.templates()
-              }else{
-
-              if (type === 'template') {
-                if (app.templates.loaded === app.srcTemplate.total) {
-                  //console.log('Templates loaded:', app.templates.loaded + '/' + app.srcTemplate.total)
-                  app.templates.render()
-                }
-
-                if (app.vars.loaded === app.vars.total) {
-                  //app.attributes.run()
-                }
-
-              } else {
-                // Check if all requests have finished loading
-                if (
-                  app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
-                  app.modules.loaded === app.modules.total
-                ) {
-                  //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                  //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
-                  app.attributes.run()
-                }
+              // Check if all requests have finished loading
+              if (
+                app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
+                app.modules.loaded === app.modules.total
+              ) {
+                //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
+                app.attributes.run()
               }
+
             }
-          }
           }
         }
 
@@ -934,9 +922,8 @@ var app = {
         }
 
         xhr.onload = function () {
-          console.log('run:' +url)
-         var status = this.statusType 
-        
+          var status = this.statusType
+
           if (status.informational || status.success || status.redirect) {
 
             /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
@@ -1146,62 +1133,63 @@ var app = {
     total: 0,
 
     render: function () {
-      //app.log.info()('Rendering templates...')
-      var currentPageTitle = document.title,
-        currentPageBody = document.body.innerHTML
-      var srcDoc = app.srcTemplate.url.srcDoc,
-        src = app.srcTemplate.url.src
+      if (app.templates.loaded === app.srcTemplate.total) {
+        //app.log.info()('Rendering templates...')
+        var currentPageTitle = document.title,
+          currentPageBody = document.body.innerHTML
+        var srcDoc = app.srcTemplate.url.srcDoc,
+          src = app.srcTemplate.url.src
 
-      if (srcDoc) {
-        var responsePage = dom.parse.text(app.caches[srcDoc].data),
-          responsePageScript = dom.find(responsePage, app.script.selector),
-          responsePageContent = responsePage.innerHTML
+        if (srcDoc) {
+          var responsePage = dom.parse.text(app.caches[srcDoc].data),
+            responsePageScript = dom.find(responsePage, app.script.selector),
+            responsePageContent = responsePage.innerHTML
 
-        var scriptAttr = responsePageScript.attributes,
-          modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
-          vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
+          var scriptAttr = responsePageScript.attributes,
+            modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
+            vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
-        app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
-        app.script.element = responsePageScript
+          app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
+          app.script.element = responsePageScript
 
-        app.modules.name = modules
-        app.modules.total = modules.length
+          app.modules.name = modules
+          app.modules.total = modules.length
 
-        app.vars.name = vars
-        app.vars.total = vars.length
+          app.vars.name = vars
+          app.vars.total = vars.length
 
-        // Fix IE bug.
-        if (app.docMode >= 9) {
-          document.open()
-          document.write(responsePageContent)
-          document.close()
-        } else {
-          dom.set('html', responsePageContent)
+          // Fix IE bug.
+          if (app.docMode >= 9) {
+            document.open()
+            document.write(responsePageContent)
+            document.close()
+          } else {
+            dom.set('html', responsePageContent)
+          }
+
+          dom.set('main', currentPageBody)
         }
 
-        dom.set('main', currentPageBody)
-      }
+        if (src) {
+          for (var i = 0; i < src.length; i++) {
+            var name = src[i],
+              responsePage = dom.parse.text(app.caches[name].data),
+              template = dom.parse.text(dom.find(responsePage, 'template').innerHTML),
+              templateHeader = dom.find(template, 'header').innerHTML,
+              templateAside0 = dom.find(template, 'aside:nth-of-type(1)'),
+              templateAside1 = dom.find(template, 'aside:nth-of-type(2)'),
+              templateFooter = dom.find(template, 'footer')
 
-      if (src) {
-        for (var i = 0; i < src.length; i++) {
-          var name = src[i],
-            responsePage = dom.parse.text(app.caches[name].data),
-            template = dom.parse.text(dom.find(responsePage, 'template').innerHTML),
-            templateHeader = dom.find(template, 'header').innerHTML,
-            templateAside0 = dom.find(template, 'aside:nth-of-type(1)').innerHTML,
-            templateAside1 = dom.find(template, 'aside:nth-of-type(2)').innerHTML,
-            templateFooter = dom.find(template, 'footer').innerHTML
-
-          if (templateHeader) dom.set('header', templateHeader)
-          if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0)
-          if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1)
-          if (templateFooter) dom.set('footer', templateFooter)
-
+            if (templateHeader) dom.set('header', templateHeader.innerHTML)
+            if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0.innerHTML)
+            if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1.innerHTML)
+            if (templateFooter) dom.set('footer', templateFooter.innerHTML)
+          }
         }
-      }
 
-      document.title = currentPageTitle
-      app.assets.get.modules()
+        document.title = currentPageTitle
+        app.assets.get.modules()
+      }
     }
   }
 }
