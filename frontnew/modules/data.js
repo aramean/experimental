@@ -34,8 +34,7 @@ app.module.data = {
 
     var originalNode = element.cloneNode(true),
       orginalNodeCountAll = dom.find(originalNode, '*').length,
-      content = '',
-      j = -1
+      content = ''
 
     for (var i = 0; i <= total; i++) {
       content += originalNode.innerHTML
@@ -44,26 +43,14 @@ app.module.data = {
     element.innerHTML = content
 
     var elements = dom.find(element, '*')
-    for (var i = 0; i < elements.length; i++) {
+    for (var i = 0, j = -1; i < elements.length; i++) {
 
       var dataget = elements[i].getAttribute('data-get')
 
       if (i % orginalNodeCountAll === 0) j++
 
       if (dataget) {
-        var isReplace = dataget.indexOf(':') !== -1,
-          replace = false,
-          value = ''
-
-        if (isReplace) {
-          var vars = dataget.split(':'),
-            value = this._get(iterateObject[j], vars[1]),
-            replace = vars[0]
-        } else {
-          value = this._get(iterateObject[j], dataget)
-        }
-
-        dom.set(elements[i], value, false, replace)
+        dom.set(elements[i], this._get(iterateObject[j], dataget), false)
       }
     }
 
