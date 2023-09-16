@@ -1134,7 +1134,6 @@ var app = {
 
     render: function () {
       if (app.templates.loaded === app.srcTemplate.total) {
-        console.dir(app.caches)
         //app.log.info()('Rendering templates...')
         var currentPageTitle = document.title,
           currentPageBody = document.body.innerHTML
@@ -1175,15 +1174,17 @@ var app = {
           for (var i = 0; i < src.length; i++) {
             var html = dom.parse.text(app.caches[src[i]].data),
               template = dom.parse.text(dom.find(html, 'template').innerHTML),
-              header = dom.find(template, 'header'),
-              aside0 = dom.find(template, 'aside:nth-of-type(1)'),
-              aside1 = dom.find(template, 'aside:nth-of-type(2)'),
-              footer = dom.find(template, 'footer')
+              elementTypes = ['header', 'aside:nth-of-type(1)', 'aside:nth-of-type(2)', 'footer']
 
-            if (header) dom.set('header', header.innerHTML)
-            if (aside0) dom.set('aside:nth-of-type(1)', aside0.innerHTML)
-            if (aside1) dom.set('aside:nth-of-type(2)', aside1.innerHTML)
-            if (footer) dom.set('footer', footer.innerHTML)
+            for (var j = 0; j < elementTypes.length; j++) {
+              var elementType = elementTypes[j],
+                el = dom.find(template, elementType)
+
+              if (el) {
+                dom.set(elementType, el.innerHTML)
+                app.attributes.run(elementType + ' *')
+              }
+            }
           }
         }
 
