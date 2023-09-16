@@ -761,16 +761,13 @@ var app = {
   start: function () {
     var selector = 'script[src*=front]',
       element = dom.get(selector),
-      path = element.attributes.src.value.match(/^(\.\.\/)+/)[0] || ''
+      value = element.attributes.src.value
 
     app.script = {
       element: element,
-      path: path,
+      path: (value.match(/^(\.\.\/)+/) || [''])[0],
       selector: selector
     }
-
-    console.dir(path)
-    console.dir(app.script.path)
 
     app.xhr.start()
     app.config.set()
