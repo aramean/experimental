@@ -759,21 +759,21 @@ var app = {
    * @desc
    */
   start: function () {
-
-    app.xhr.start()
-
     var selector = 'script[src*=front]',
       element = dom.get(selector),
-      value = element.attributes.src.value
+      path = element.attributes.src.value.match(/^(\.\.\/)+/)[0] || ''
 
     app.script = {
       element: element,
-      path: (value.match(/^(\.\.\/)+/) || [''])[0],
+      path: path,
       selector: selector
     }
 
-    app.config.set()
+    console.dir(path)
+    console.dir(app.script.path)
 
+    app.xhr.start()
+    app.config.set()
     app.assets.load()
   },
 
@@ -1131,6 +1131,7 @@ var app = {
   templates: {
     loaded: 0,
     total: 0,
+    elements: ['header', 'aside:nth-of-type(1)', 'aside:nth-of-type(2)', 'footer'],
 
     render: function () {
       if (app.templates.loaded === app.srcTemplate.total) {
@@ -1139,11 +1140,19 @@ var app = {
           currentPageBody = document.body.innerHTML
         var srcDoc = app.srcTemplate.url.srcDoc,
           src = app.srcTemplate.url.src
-
+console.dir(srcDoc)
         if (srcDoc) {
           var responsePage = dom.parse.text(app.caches[srcDoc].data),
             responsePageScript = dom.find(responsePage, app.script.selector),
             responsePageContent = responsePage.innerHTML
+
+            for (var j = 0; j < this.elements.length; j++) {
+              var el = dom.find(responsePage, this.elements[j]).innerHTML
+              //if (el) {
+                dom.set(this.elements[j], el)
+                //app.attributes.run(this.elements[j] + ' *')
+              //}
+            }
 
           var scriptAttr = responsePageScript.attributes,
             modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
@@ -1173,16 +1182,14 @@ var app = {
         if (src) {
           for (var i = 0; i < src.length; i++) {
             var html = dom.parse.text(app.caches[src[i]].data),
-              template = dom.parse.text(dom.find(html, 'template').innerHTML),
-              elementTypes = ['header', 'aside:nth-of-type(1)', 'aside:nth-of-type(2)', 'footer']
+              template = dom.parse.text(dom.find(html, 'template').innerHTML)
 
-            for (var j = 0; j < elementTypes.length; j++) {
-              var elementType = elementTypes[j],
-                el = dom.find(template, elementType)
+            for (var j = 0; j < this.elements.length; j++) {
+              var el = dom.find(template, this.elements[j]).innerHTML
 
               if (el) {
-                dom.set(elementType, el.innerHTML)
-                app.attributes.run(elementType + ' *')
+                dom.set(this.elements[j], el)
+                app.attributes.run(this.elements[j] + ' *')
               }
             }
           }
