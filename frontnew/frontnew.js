@@ -1134,6 +1134,7 @@ var app = {
 
     render: function () {
       if (app.templates.loaded === app.srcTemplate.total) {
+        console.dir(app.caches)
         //app.log.info()('Rendering templates...')
         var currentPageTitle = document.title,
           currentPageBody = document.body.innerHTML
@@ -1172,18 +1173,17 @@ var app = {
 
         if (src) {
           for (var i = 0; i < src.length; i++) {
-            var name = src[i],
-              responsePage = dom.parse.text(app.caches[name].data),
-              template = dom.parse.text(dom.find(responsePage, 'template').innerHTML),
-              templateHeader = dom.find(template, 'header'),
-              templateAside0 = dom.find(template, 'aside:nth-of-type(1)'),
-              templateAside1 = dom.find(template, 'aside:nth-of-type(2)'),
-              templateFooter = dom.find(template, 'footer')
+            var html = dom.parse.text(app.caches[src[i]].data),
+              template = dom.parse.text(dom.find(html, 'template').innerHTML),
+              header = dom.find(template, 'header'),
+              aside0 = dom.find(template, 'aside:nth-of-type(1)'),
+              aside1 = dom.find(template, 'aside:nth-of-type(2)'),
+              footer = dom.find(template, 'footer')
 
-            if (templateHeader) dom.set('header', templateHeader.innerHTML)
-            if (templateAside0) dom.set('aside:nth-of-type(1)', templateAside0.innerHTML)
-            if (templateAside1) dom.set('aside:nth-of-type(2)', templateAside1.innerHTML)
-            if (templateFooter) dom.set('footer', templateFooter.innerHTML)
+            if (header) dom.set('header', header.innerHTML)
+            if (aside0) dom.set('aside:nth-of-type(1)', aside0.innerHTML)
+            if (aside1) dom.set('aside:nth-of-type(2)', aside1.innerHTML)
+            if (footer) dom.set('footer', footer.innerHTML)
           }
         }
 
