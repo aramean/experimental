@@ -6,7 +6,8 @@
 <div id="page2" stop="lowercase;set" set="ABCDEFGH" lowercase></div>
 
 <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif" async></div>
-
+    <div id="error" class="red mb2" hide>Something went wrong!</div>
+    <div id="success" class="green mb2" hide>It's working!</div>
 <div
   bind="page:?page;api:^api.themoviedb.popular"
   data-src="{api}&page={page:1}"
@@ -14,6 +15,7 @@
   data-header=""
   iterate="results"
   loader="#loader"
+  error="#error"
   filter="true"
   class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac"
 >

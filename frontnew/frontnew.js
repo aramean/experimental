@@ -790,7 +790,7 @@ var app = {
         send = XMLHttpRequest.prototype.send
 
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
-        this.onreadystatechange = function () {
+        this.onreadystatechange = function (e) {
           if (this.readyState === 4) {
             var statusType = {
               informational: this.status >= 100 && this.status <= 199,
@@ -878,14 +878,14 @@ var app = {
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
         cache = options.cache || false,
-        response = options.response,
         headers = options.headers || {},
 
         onload = options.onload,
+        error = options.error,
         onprogress = options.onprogress,
 
         timeout = onload ? options.onload.timeout || 0 : 0,
-        preloader = onprogress && onprogress.preloader ? dom.get(onprogress.preloader) : false,
+        loader = onprogress && onprogress.loader ? dom.get(onprogress.loader) : false,
         run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload && onload.run && onload.run.arg
 
@@ -1137,19 +1137,19 @@ var app = {
           currentPageBody = document.body.innerHTML
         var srcDoc = app.srcTemplate.url.srcDoc,
           src = app.srcTemplate.url.src
-console.dir(srcDoc)
+        console.dir(srcDoc)
         if (srcDoc) {
           var responsePage = dom.parse.text(app.caches[srcDoc].data),
             responsePageScript = dom.find(responsePage, app.script.selector),
             responsePageContent = responsePage.innerHTML
 
-            for (var j = 0; j < this.elements.length; j++) {
-              var el = dom.find(responsePage, this.elements[j]).innerHTML
-              //if (el) {
-                dom.set(this.elements[j], el)
-                //app.attributes.run(this.elements[j] + ' *')
-              //}
-            }
+          for (var j = 0; j < this.elements.length; j++) {
+            var el = dom.find(responsePage, this.elements[j]).innerHTML
+            //if (el) {
+            dom.set(this.elements[j], el)
+            //app.attributes.run(this.elements[j] + ' *')
+            //}
+          }
 
           var scriptAttr = responsePageScript.attributes,
             modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
