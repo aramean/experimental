@@ -948,8 +948,6 @@ var app = {
               if (run) {
                 app.log.info()('Calling: ' + run)
 
-                runarg = run[1] === 'templates' && run[2] === 'render' ? { data: responseData, arg: runarg } : runarg
-
                 if (run.length === 4)
                   window[run[0]][run[1]][run[2]][run[3]](runarg)
                 else if (run.length === 3)
@@ -1135,9 +1133,10 @@ var app = {
         //app.log.info()('Rendering templates...')
         var currentPageTitle = document.title,
           currentPageBody = document.body.innerHTML
-        var srcDoc = app.srcTemplate.url.srcDoc,
+        var page = app.srcTemplate.page,
+          srcDoc = app.srcTemplate.url.srcDoc,
           src = app.srcTemplate.url.src
-        console.dir(srcDoc)
+
         if (srcDoc) {
           var responsePage = dom.parse.text(app.caches[srcDoc].data),
             responsePageScript = dom.find(responsePage, app.script.selector),
@@ -1164,16 +1163,18 @@ var app = {
           app.vars.name = vars
           app.vars.total = vars.length
 
-          // Fix IE bug.
-          if (app.docMode >= 9) {
-            document.open()
-            document.write(responsePageContent)
-            document.close()
-          } else {
-            dom.set('html', responsePageContent)
-          }
+          if (!page) {
+            // Fix IE bug.
+            if (app.docMode >= 9) {
+              document.open()
+              document.write(responsePageContent)
+              document.close()
+            } else {
+              dom.set('html', responsePageContent)
+            }
 
-          dom.set('main', currentPageBody)
+            dom.set('main', currentPageBody)
+          }
         }
 
         if (src) {
