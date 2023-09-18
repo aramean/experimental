@@ -852,7 +852,7 @@ var app = {
               ) {
                 //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                 //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
-                app.attributes.run()
+                if (type !== 'template') app.attributes.run()
               }
 
             }
@@ -986,13 +986,15 @@ var app = {
     /**
      * @function run
      * @memberof app
-     * @param {string} [selector='html *'] - A CSS selector for the elements to be processed.
-     * @desc Runs Front Text Markup Language in all elements matching a given selector.
+     * @param {string|Object} [selector='html *'] - A CSS selector or an object representing elements to be processed.
+     * @param {Array} [exclude] - An array of items to be excluded from processing.
+     * @desc Runs Front Text Markup Language in elements matching the given selector or provided object.
      */
     run: function (selector, exclude) {
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
         excludes = exclude ? exclude.concat(this.defaultExclude) : this.defaultExclude
+
       app.log.info()('Running attributes (' + selector + ') ...')
       for (var i = 0; i < node.length; i++) {
         var element = node[i],
