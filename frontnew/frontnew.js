@@ -894,11 +894,6 @@ var app = {
         console.log('hej')
       } else {
 
-        // Abort the previous request if it exists
-        if (single && this.currentRequest) {
-          //xhr.currentRequest.abort()
-        }
-
         var xhr = new XMLHttpRequest(),
           urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
         xhr.options = options
@@ -907,7 +902,10 @@ var app = {
           if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
         }*/
 
-        //if (single) this.currentRequest = xhr
+        if (single) {
+          if (this.currentRequest) this.currentRequest.abort()
+          this.currentRequest = xhr
+        }
 
         xhr.onabort = function () {
           //if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
@@ -1131,6 +1129,7 @@ var app = {
     elements: ['header', 'aside:nth-of-type(1)', 'aside:nth-of-type(2)', 'footer'],
 
     render: function () {
+      console.log(app.templates.loaded + '/' + app.srcTemplate.total)
       if (app.templates.loaded === app.srcTemplate.total) {
         //app.log.info()('Rendering templates...')
         var currentPageTitle = document.title,
