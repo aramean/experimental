@@ -734,6 +734,7 @@ var app = {
         for (var i = 0; i < app.srcTemplate.total; i++) {
           var isStartpage = srcDoc && i === 0 ? true : false,
             currentTemplate = isStartpage ? srcDoc : src[i + hasStartpage]
+
           app.xhr.get({
             url: app.script.path + currentTemplate + '.html',
             type: 'template',
@@ -854,7 +855,7 @@ var app = {
               ) {
                 //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                 //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
-                 app.attributes.run()
+                app.attributes.run()
               }
 
             }
