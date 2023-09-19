@@ -847,14 +847,13 @@ var app = {
                   break
               }
 
-              // Check if all requests have finished loading
               if (
                 app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
                 app.modules.loaded === app.modules.total &&
                 type !== 'template'
               ) {
-                //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
+                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
                 app.attributes.run()
               }
 
