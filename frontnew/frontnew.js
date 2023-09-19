@@ -663,6 +663,7 @@ var app = {
             srcDoc: templateSrcDoc,
             src: templateSrc
           },
+          page: false,
           total: templateSrc.length + (templateSrcDoc ? 1 : 0)
         }
 
@@ -736,11 +737,6 @@ var app = {
           app.xhr.get({
             url: app.script.path + currentTemplate + '.html',
             type: 'template',
-            onload: {
-              run: {
-                func: 'app.templates.render'
-              }
-            },
             cache: {
               format: 'html',
               name: 'template',
@@ -790,7 +786,7 @@ var app = {
         send = XMLHttpRequest.prototype.send
 
       XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
-        this.onreadystatechange = function (e) {
+        this.onreadystatechange = function () {
           if (this.readyState === 4) {
             var statusType = {
               informational: this.status >= 100 && this.status <= 199,
@@ -820,6 +816,7 @@ var app = {
                   var responsePageTitle = dom.find(responsePage, 'title').textContent,
                     templateElement = dom.find(responsePage, 'template'),
                     templateAttr = templateElement && templateElement.attributes.src,
+                    templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc') || false,
                     templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
                   app.modules.total = 0
@@ -832,6 +829,7 @@ var app = {
                       srcDoc: '',
                       src: templateSrc
                     },
+                    page: true,
                     total: templateSrc.length
                   }
                   document.title = responsePageTitle
@@ -842,17 +840,21 @@ var app = {
                   break
                 case 'template':
                   app.templates.loaded++
+                  if (app.templates.loaded === app.srcTemplate.total) {
+                    app.templates.render()
+                  }
                   break
               }
 
               // Check if all requests have finished loading
               if (
                 app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
-                app.modules.loaded === app.modules.total
+                app.modules.loaded === app.modules.total &&
+                type !== 'template'
               ) {
                 //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                 //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
-                if (type !== 'template') app.attributes.run()
+                 app.attributes.run()
               }
 
             }
@@ -1129,74 +1131,72 @@ var app = {
     elements: ['header', 'aside:nth-of-type(1)', 'aside:nth-of-type(2)', 'footer'],
 
     render: function () {
-      console.log(app.templates.loaded + '/' + app.srcTemplate.total)
-      if (app.templates.loaded === app.srcTemplate.total) {
-        //app.log.info()('Rendering templates...')
-        var currentPageTitle = document.title,
-          currentPageBody = document.body.innerHTML
-        var page = app.srcTemplate.page,
-          srcDoc = app.srcTemplate.url.srcDoc,
-          src = app.srcTemplate.url.src
+      //app.log.info()('Rendering templates...')
+      var currentPageTitle = document.title,
+        currentPageBody = document.body.innerHTML
+      var page = app.srcTemplate.page,
+        srcDoc = app.srcTemplate.url.srcDoc,
+        src = app.srcTemplate.url.src
 
-        if (srcDoc) {
-          var responsePage = dom.parse.text(app.caches[srcDoc].data),
-            responsePageScript = dom.find(responsePage, app.script.selector),
-            responsePageContent = responsePage.innerHTML
+      if (srcDoc) {
+        var responsePage = dom.parse.text(app.caches[srcDoc].data),
+          responsePageScript = dom.find(responsePage, app.script.selector),
+          responsePageContent = responsePage.innerHTML
+
+
+        for (var j = 0; j < this.elements.length; j++) {
+          var el = dom.find(responsePage, this.elements[j]).innerHTML
+          if (el) {
+            dom.set(this.elements[j], el)
+            app.attributes.run(this.elements[j] + ' *')
+          }
+        }
+
+        var scriptAttr = responsePageScript.attributes,
+          modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
+          vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
+
+        app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
+        app.script.element = responsePageScript
+
+        app.modules.name = modules
+        app.modules.total = modules.length
+
+        app.vars.name = vars
+        app.vars.total = vars.length
+
+        if (page === false) {
+          // Fix IE bug.
+          if (app.docMode >= 9) {
+            document.open()
+            document.write(responsePageContent)
+            document.close()
+          } else {
+            dom.set('html', responsePageContent)
+          }
+
+          dom.set('main', currentPageBody)
+        }
+      }
+
+      if (src) {
+        for (var i = 0; i < src.length; i++) {
+          var html = dom.parse.text(app.caches[src[i]].data),
+            template = dom.parse.text(dom.find(html, 'template').innerHTML)
 
           for (var j = 0; j < this.elements.length; j++) {
-            var el = dom.find(responsePage, this.elements[j]).innerHTML
-            //if (el) {
-            dom.set(this.elements[j], el)
-            //app.attributes.run(this.elements[j] + ' *')
-            //}
-          }
+            var el = dom.find(template, this.elements[j]).innerHTML
 
-          var scriptAttr = responsePageScript.attributes,
-            modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
-            vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
-
-          app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
-          app.script.element = responsePageScript
-
-          app.modules.name = modules
-          app.modules.total = modules.length
-
-          app.vars.name = vars
-          app.vars.total = vars.length
-
-          if (!page) {
-            // Fix IE bug.
-            if (app.docMode >= 9) {
-              document.open()
-              document.write(responsePageContent)
-              document.close()
-            } else {
-              dom.set('html', responsePageContent)
-            }
-
-            dom.set('main', currentPageBody)
-          }
-        }
-
-        if (src) {
-          for (var i = 0; i < src.length; i++) {
-            var html = dom.parse.text(app.caches[src[i]].data),
-              template = dom.parse.text(dom.find(html, 'template').innerHTML)
-
-            for (var j = 0; j < this.elements.length; j++) {
-              var el = dom.find(template, this.elements[j]).innerHTML
-
-              if (el) {
-                dom.set(this.elements[j], el)
-                app.attributes.run(this.elements[j] + ' *')
-              }
+            if (el) {
+              dom.set(this.elements[j], el)
+              app.attributes.run(this.elements[j] + ' *')
             }
           }
         }
-
-        document.title = currentPageTitle
-        app.assets.get.modules()
       }
+
+      document.title = currentPageTitle
+      app.assets.get.modules()
     }
   }
 }
