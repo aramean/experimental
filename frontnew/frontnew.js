@@ -654,8 +654,8 @@ var app = {
         this.get.modules()
       } else {
         var templateElement = dom.get('template'),
-          templateAttr = templateElement && templateElement.attributes.src,
-          templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc') || false,
+          templateAttr = templateElement && templateElement.attributes,
+          templateSrcDoc = templateElement  && templateAttr && templateElement.getAttribute('srcdoc') || false,
           templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
         app.srcTemplate = {
@@ -816,8 +816,8 @@ var app = {
                   var responsePage = dom.parse.text(this.responseText)
                   var responsePageTitle = dom.find(responsePage, 'title').textContent,
                     templateElement = dom.find(responsePage, 'template'),
-                    templateAttr = templateElement && templateElement.attributes.src,
-                    templateSrcDoc = templateElement && templateElement.getAttribute('srcdoc') || false,
+                    templateAttr = templateElement && templateElement.attributes,
+                    templateSrcDoc = templateElement && templateAttr && templateElement.getAttribute('srcdoc') || false,
                     templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
                   app.modules.total = 0
