@@ -946,8 +946,7 @@ var app = {
             if (onload) {
 
               if (run) {
-                app.log.info()('Calling: ' + run)
-                console.log('calling ' + run)
+                app.log.info()('Calling: ' + run + ' ' + runarg)
                 if (run.length === 4)
                   window[run[0]][run[1]][run[2]][run[3]](runarg)
                 else if (run.length === 3)
