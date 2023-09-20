@@ -655,7 +655,7 @@ var app = {
       } else {
         var templateElement = dom.get('template'),
           templateAttr = templateElement && templateElement.attributes,
-          templateSrcDoc = templateElement  && templateAttr && templateElement.getAttribute('srcdoc') || false,
+          templateSrcDoc = templateElement && templateAttr && templateElement.getAttribute('srcdoc') || false,
           templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
 
         app.srcTemplate = {
@@ -827,11 +827,11 @@ var app = {
 
                   app.srcTemplate = {
                     url: {
-                      srcDoc: '',
+                      srcDoc: templateSrcDoc,
                       src: templateSrc
                     },
                     page: true,
-                    total: templateSrc.length
+                    total: templateSrc.length + (templateSrcDoc ? 1 : 0)
                   }
                   document.title = responsePageTitle
                   app.assets.get.templates()
@@ -852,8 +852,8 @@ var app = {
                 app.modules.loaded === app.modules.total &&
                 type !== 'template'
               ) {
-                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
+                /*console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)*/
                 app.attributes.run()
               }
 
@@ -947,7 +947,7 @@ var app = {
 
               if (run) {
                 app.log.info()('Calling: ' + run)
-
+                console.log('calling ' + run)
                 if (run.length === 4)
                   window[run[0]][run[1]][run[2]][run[3]](runarg)
                 else if (run.length === 3)
@@ -1131,18 +1131,19 @@ var app = {
     elements: ['header', 'aside:nth-of-type(1)', 'aside:nth-of-type(2)', 'footer'],
 
     render: function () {
-      //app.log.info()('Rendering templates...')
+      app.log.info()('Rendering templates...')
       var currentPageTitle = document.title,
         currentPageBody = document.body.innerHTML
       var page = app.srcTemplate.page,
         srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
+      document.title = currentPageTitle
+
       if (srcDoc) {
         var responsePage = dom.parse.text(app.caches[srcDoc].data),
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
-
 
         for (var j = 0; j < this.elements.length; j++) {
           var el = dom.find(responsePage, this.elements[j]).innerHTML
@@ -1152,20 +1153,20 @@ var app = {
           }
         }
 
-        var scriptAttr = responsePageScript.attributes,
-          modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
-          vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
-
-        app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
-        app.script.element = responsePageScript
-
-        app.modules.name = modules
-        app.modules.total = modules.length
-
-        app.vars.name = vars
-        app.vars.total = vars.length
-
         if (page === false) {
+          var scriptAttr = responsePageScript.attributes,
+            modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
+            vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
+
+          app.language = responsePage.attributes.lang ? responsePage.attributes.lang.value : app.language
+          app.script.element = responsePageScript
+
+          app.modules.name = modules
+          app.modules.total = modules.length
+
+          app.vars.name = vars
+          app.vars.total = vars.length
+
           // Fix IE bug.
           if (app.docMode >= 9) {
             document.open()
@@ -1195,7 +1196,6 @@ var app = {
         }
       }
 
-      document.title = currentPageTitle
       app.assets.get.modules()
     }
   }
