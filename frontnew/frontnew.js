@@ -805,7 +805,7 @@ var app = {
               extra = options.extra,
               cache = options.cache
 
-            if (cache && statusType.success) {
+            if (cache && (statusType.success || statusType.redirect)) {
               app.caches.set(cache.type, cache.format, cache.key, this.responseText)
             }
 
@@ -843,6 +843,7 @@ var app = {
                   app.templates.loaded++
                   if (app.templates.loaded === app.srcTemplate.total) {
                     app.templates.render()
+                    app.assets.get.modules()
                   }
                   break
               }
@@ -1194,8 +1195,6 @@ var app = {
           }
         }
       }
-
-      app.assets.get.modules()
     }
   }
 }
