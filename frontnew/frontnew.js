@@ -1150,6 +1150,8 @@ var app = {
           if (el) {
             dom.set(this.elements[j], el)
             app.attributes.run(this.elements[j] + ' *')
+          } else {
+            dom.set(this.elements[j], '')
           }
         }
 
