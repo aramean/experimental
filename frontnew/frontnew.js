@@ -475,7 +475,7 @@ var app = {
   var: {},
   language: document.documentElement.lang || 'en',
   title: document.title,
-  docMode: document.documentMode || '',
+  docMode: document.documentMode || 0,
   isFrontpage: document.doctype ? true : false,
   srcDocTemplate: '',
   srcTemplate: [],
@@ -1008,7 +1008,7 @@ var app = {
         if (include) dom.setUniqueId(element)
 
         // Fix IE attribute bug.
-        if (app.docMode >= 9) {
+        if (app.docMode > 0 && app.docMode <= 9) {
           var array = Array.prototype.slice.call(attributes)
           attributes = array.reverse()
         }
@@ -1174,15 +1174,6 @@ var app = {
 
           app.vars.name = vars
           app.vars.total = vars.length
-
-          // Fix IE bug.
-          /*if (app.docMode >= 9) {
-            document.open()
-            document.write(responsePageContent)
-            document.close()
-          } else {
-            dom.set('html', responsePageContent)
-          }*/
 
           dom.set('html', responsePageContent)
           dom.set('main', currentPageBody)
