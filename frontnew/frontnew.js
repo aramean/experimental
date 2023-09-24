@@ -1176,14 +1176,15 @@ var app = {
           app.vars.total = vars.length
 
           // Fix IE bug.
-          //if (app.docMode >= 9) {
-            //document.open()
-            //document.write(responsePageContent)
-            //document.close()
-          //} else {
+          /*if (app.docMode >= 9) {
+            document.open()
+            document.write(responsePageContent)
+            document.close()
+          } else {
             dom.set('html', responsePageContent)
-          //}
+          }*/
 
+          dom.set('html', responsePageContent)
           dom.set('main', currentPageBody)
         }
       }
