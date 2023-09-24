@@ -1143,8 +1143,13 @@ var app = {
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
 
-        var titleElement = dom.find(responsePage, 'title')
-        if (titleElement) titleElement.parentNode.removeChild(titleElement)
+        var titleElement = dom.find(responsePage, 'title'),
+            styleElement = dom.find(responsePage, 'style'),
+            linkElement = dom.find(responsePage, 'link')
+        responsePageScript.parentNode.removeChild(responsePageScript)
+        if (titleElement.nodeName) titleElement.parentNode.removeChild(titleElement)
+        if (styleElement.nodeName) styleElement.parentNode.removeChild(styleElement)
+        if (linkElement.nodeName) linkElement.parentNode.removeChild(linkElement)
 
         for (var j = 0; j < this.elements.length; j++) {
           var el = dom.find(responsePage, this.elements[j]).innerHTML
