@@ -1145,8 +1145,8 @@ var app = {
           responsePageContent = responsePage.innerHTML
 
         var titleElement = dom.find(responsePage, 'title'),
-            styleElement = dom.find(responsePage, 'style'),
-            linkElement = dom.find(responsePage, 'link')
+          styleElement = dom.find(responsePage, 'style'),
+          linkElement = dom.find(responsePage, 'link')
         responsePageScript.parentNode.removeChild(responsePageScript)
         if (titleElement.nodeName) titleElement.parentNode.removeChild(titleElement)
         if (styleElement.nodeName) styleElement.parentNode.removeChild(styleElement)
@@ -1176,7 +1176,14 @@ var app = {
           app.vars.name = vars
           app.vars.total = vars.length
 
-          dom.set('html', responsePageContent)
+          if (app.docMode > 0 && app.docMode >= 9) {
+            document.open()
+            document.write(responsePageContent)
+            document.close()
+          } else {
+            dom.set('html', responsePageContent)
+          }
+
           dom.set('main', currentPageBody)
         }
       }
