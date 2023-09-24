@@ -45,7 +45,7 @@ var dom = {
      * @return {Node} - A DOM node representing the parsed HTML.
      * @desc Parses a string of HTML and return a DOM node.
     */
-    text: function (string) {
+    text: function (string, exclude) {
       var matches = string.match(/<html\s+([^>]*)>/i),
         el = document.createElement('spot')
 
@@ -60,7 +60,20 @@ var dom = {
           el.setAttribute(name, value)
         }
       }
+
+      if (exclude) {
+        var regexArray = exclude.map(function(tag) {
+          return new RegExp('<' + tag + '[^>]*>[\\s\\S]*?</' + tag + '>', 'g');
+          //return new RegExp('<' + tag + '\\s[^>]*>.*?</' + tag + '>', 'g');
+        })
+
+        for (var i = 0; i < regexArray.length; i++) {
+          string = string.replace(regexArray[i], '')
+        }
+      }
+
       el.innerHTML = string
+
       return el
     },
 
@@ -1140,17 +1153,9 @@ var app = {
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
-        var responsePage = dom.parse.text(app.caches[srcDoc].data),
+        var responsePage = dom.parse.text(app.caches[srcDoc].data, ['title']),
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
-
-        var titleElement = dom.find(responsePage, 'title'),
-          styleElement = dom.find(responsePage, 'style'),
-          linkElement = dom.find(responsePage, 'link')
-        responsePageScript.parentNode.removeChild(responsePageScript)
-        if (titleElement.nodeName) titleElement.parentNode.removeChild(titleElement)
-        if (styleElement.nodeName) styleElement.parentNode.removeChild(styleElement)
-        if (linkElement.nodeName) linkElement.parentNode.removeChild(linkElement)
 
         for (var j = 0; j < this.elements.length; j++) {
           var el = dom.find(responsePage, this.elements[j]).innerHTML
