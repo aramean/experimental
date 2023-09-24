@@ -1177,9 +1177,9 @@ var app = {
 
           // Fix IE bug.
           if (app.docMode >= 9) {
-            document.open()
-            document.write(responsePageContent)
-            document.close()
+            //document.open()
+            //document.write(responsePageContent)
+            //document.close()
           } else {
             dom.set('html', responsePageContent)
           }
