@@ -1138,12 +1138,13 @@ var app = {
         srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
-      document.title = currentPageTitle
-
       if (srcDoc) {
         var responsePage = dom.parse.text(app.caches[srcDoc].data),
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
+
+        var titleElement = dom.find(responsePage, 'title')
+        if (titleElement) titleElement.parentNode.removeChild(titleElement)
 
         for (var j = 0; j < this.elements.length; j++) {
           var el = dom.find(responsePage, this.elements[j]).innerHTML
@@ -1197,6 +1198,8 @@ var app = {
           }
         }
       }
+
+      document.title = currentPageTitle
     }
   }
 }
