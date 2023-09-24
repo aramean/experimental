@@ -287,6 +287,7 @@ var dom = {
         target.setAttribute('select', value)
         break
       default:
+        console.dir(target)
         target.innerHTML = value
     }
   },
