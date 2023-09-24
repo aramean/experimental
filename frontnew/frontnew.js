@@ -1008,7 +1008,7 @@ var app = {
         if (include) dom.setUniqueId(element)
 
         // Fix IE attribute bug.
-        if (app.docMode > 0 && app.docMode <= 9) {
+        if (app.docMode > 0 && app.docMode <= 10) {
           var array = Array.prototype.slice.call(attributes)
           attributes = array.reverse()
         }
