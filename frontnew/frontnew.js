@@ -995,7 +995,7 @@ var app = {
    */
   attributes: {
 
-    defaultExclude: ['id', 'name', 'class', 'title', 'alt'],
+    defaultExclude: ['alt', 'class', 'height', 'id', 'name', 'src', 'style', 'title', 'width'],
 
     /**
      * @function run
@@ -1181,7 +1181,7 @@ var app = {
           app.vars.name = vars
           app.vars.total = vars.length
 
-          if (app.docMode > 0 && app.docMode >= 9) {
+          if (app.docMode > 0 && app.docMode < 10) {
             document.open()
             document.write(responsePageContent)
             document.close()
