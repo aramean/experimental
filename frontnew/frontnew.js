@@ -211,7 +211,6 @@ var dom = {
           console.log("Old: " + replaceVariable)
           console.log("New: " + newValue)
           attr.value = newValue
-          //object.setAttribute(attr.name, newValue)
         }
       }
 
