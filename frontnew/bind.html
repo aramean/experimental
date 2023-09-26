@@ -12,6 +12,8 @@
   <hr>
   <span bind="page:?page;api:^api.themoviedb.popular" test="{api}" set="{api}">...</span>
 
+  <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif" async></div>
+
   <div bind="mazeit:^api.tvmaze.people" data-src="{mazeit}" iterate="true" loader="#loader">
     <figure class="p05">
       <span data-get="name"></span>
