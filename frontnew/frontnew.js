@@ -161,7 +161,7 @@ var dom = {
         var keys = target.split('.')
 
 
-        console.warn(app.caches[keys[0]])
+        console.log(app.caches[keys[0]])
 
         if (app.caches[keys[0]]) {
           var value = app.caches[keys[0]].data
