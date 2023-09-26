@@ -198,19 +198,19 @@ var dom = {
 
       // Replace variables in attributes
       for (var j = 0; j < attributes.length; j++) {
-        var attr = attributes[j];
-        var value = attr.value;
-        var defaultValue = '';
-      
-        // Use a function to replace values
+        var attr = attributes[j]
+        var value = attr.value
+        var defaultValue = ''
         value = value.replace(/:([^&}]+)/g, function (match, capturedGroup) {
-          defaultValue = capturedGroup;
-          return '';
-        });
-      
-        if (value.includes('{' + replaceVariable + '}')) {
-          var newValue = value.replace(regex2, replaceValue === '' ? defaultValue : replaceValue);
-          object.setAttribute(attr.name, newValue);
+          defaultValue = capturedGroup
+          return ''
+        })
+
+        if (value.indexOf('{' + replaceVariable + '}') !== -1) {
+          var newValue = value.replace(regex2, replaceValue === '' ? defaultValue : replaceValue)
+          console.log("Old: " + replaceVariable)
+          console.log("New: " + newValue)
+          object.setAttribute(attr.name, newValue)
         }
       }
 
