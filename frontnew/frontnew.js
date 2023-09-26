@@ -159,6 +159,10 @@ var dom = {
       // Bind asset variable
       if (replaceValue[0] === '^') {
         var keys = target.split('.')
+
+
+        console.warn(app.caches[keys[0]])
+
         if (app.caches[keys[0]]) {
           var value = app.caches[keys[0]].data
           for (var i = 1; i < keys.length; i++) {
