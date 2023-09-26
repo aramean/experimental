@@ -169,6 +169,8 @@ var dom = {
             value = value[keys[i]]
           }
           replaceValue = value
+
+          console.log(replaceValue)
         }
       }
 
