@@ -484,6 +484,7 @@ var dom = {
 }
 
 var app = {
+  version: { major: 1, minor: 0, patch: 0, build: 0 },
   module: {},
   plugin: {},
   var: {},
@@ -825,6 +826,7 @@ var app = {
 
             if (type) {
               app.log.warn()('(XHR) ' + options.type + ' intercepted:', url)
+              console.log('(XHR) ' + options.type + ' intercepted:', url)
               switch (type) {
                 case 'page':
                   var responsePage = dom.parse.text(this.responseText)
