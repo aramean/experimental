@@ -874,11 +874,10 @@ var app = {
 
               if (
                 app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
-                app.modules.loaded === app.modules.total &&
-                type !== 'template'
+                app.modules.loaded === app.modules.total 
               ) {
-                /*console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)*/
+                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
                 app.attributes.run()
               }
 
