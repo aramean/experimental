@@ -224,7 +224,7 @@ var dom = {
 
     }
 
-    //object.innerHTML = innerHTML
+    object.innerHTML = innerHTML
   },
 
   loader: function (object, value) {
