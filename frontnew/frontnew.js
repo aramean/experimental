@@ -210,7 +210,7 @@ var dom = {
           var newValue = value.replace(regex2, replaceValue === '' ? defaultValue : replaceValue)
           console.log("Old: " + replaceVariable)
           console.log("New: " + newValue)
-          attr.value = newValue
+          object.setAttribute(attr.name, newValue)
         }
       }
 
