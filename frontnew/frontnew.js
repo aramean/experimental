@@ -62,9 +62,8 @@ var dom = {
       }
 
       if (exclude) {
-        var regexArray = exclude.map(function(tag) {
-          return new RegExp('<' + tag + '[^>]*>[\\s\\S]*?</' + tag + '>', 'g');
-          //return new RegExp('<' + tag + '\\s[^>]*>.*?</' + tag + '>', 'g');
+        var regexArray = exclude.map(function (tag) {
+          return new RegExp('<' + tag + '[^>]*>[\\s\\S]*?</' + tag + '>', 'g')
         })
 
         for (var i = 0; i < regexArray.length; i++) {
@@ -160,17 +159,12 @@ var dom = {
       if (replaceValue[0] === '^') {
         var keys = target.split('.')
 
-
-        console.log(app.caches[keys[0]])
-
         if (app.caches[keys[0]]) {
           var value = app.caches[keys[0]].data
           for (var i = 1; i < keys.length; i++) {
             value = value[keys[i]]
           }
           replaceValue = value
-
-          console.log(replaceValue)
         }
       }
 
@@ -208,8 +202,6 @@ var dom = {
 
         if (value.indexOf('{' + replaceVariable + '}') !== -1) {
           var newValue = value.replace(regex2, replaceValue === '' ? defaultValue : replaceValue)
-          console.log("Old: " + replaceVariable)
-          console.log("New: " + newValue)
           attr.value = newValue
         }
       }
@@ -309,7 +301,6 @@ var dom = {
         target.setAttribute('select', value)
         break
       default:
-        console.dir(target)
         target.innerHTML = value
     }
   },
@@ -834,8 +825,6 @@ var app = {
             }
 
             if (type) {
-              app.log.warn()('(XHR) ' + options.type + ' intercepted:', url)
-              console.log('(XHR) ' + options.type + ' intercepted:', url)
               switch (type) {
                 case 'page':
                   var responsePage = dom.parse.text(this.responseText)
@@ -875,10 +864,10 @@ var app = {
 
               if (
                 app.vars.loaded === (app.vars.total + app.vars.totalStore) &&
-                app.modules.loaded === app.modules.total 
+                app.modules.loaded === app.modules.total
               ) {
-                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
+                /*console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)*/
                 app.attributes.run()
               }
 
@@ -1134,9 +1123,9 @@ var app = {
       var vars = query.split('&')
 
       for (var i = 0, len = vars.length; i < len; i++) {
-        var pair = vars[i].split('=')
-        var key = decodeURIComponent(pair[0])
-        var value = decodeURIComponent(pair[1] || '')
+        var pair = vars[i].split('='),
+          key = decodeURIComponent(pair[0]),
+          value = decodeURIComponent(pair[1] || '')
         if (key === param) return value
       }
 
