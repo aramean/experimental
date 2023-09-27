@@ -13,7 +13,8 @@ app.module.navigate = {
       this.config = app.config.get('navigate', {
         baseUrl: app.baseUrl,
         target: 'main',
-        preloader: '#navloader'
+        preloader: '#navloader',
+        startpage: false,
       }, options.element)
       this.preloader = dom.get(this.config.preloader)
 
@@ -63,8 +64,9 @@ app.module.navigate = {
    * @private
    */
   _load: function (state) {
-    app.log.info()('Loading page: ' + state.href)
-    if (state.href === '/' || state.href === app.baseUrl) {
+    var replace = /^\/+|\/+$/g
+    if (state.href === '/' || state.href.replace(replace, '') ===  this.config.startpage.replace(replace, '')) {
+    //if (state.href === '/' || state.href === app.baseUrl) {
       state.target = 'html'
       state.extension = false
     } else if (!state.target || state.target[0] === '_') {

@@ -353,21 +353,27 @@ var dom = {
    * @memberof dom
    * @param {Object} object - The element object to modify.
    * @param {string} value - A string representing the type of trim operation to perform ('left', 'right', or undefined).
-   * @desc Trims whitespace from the content of an element based on the value of the `trim` attribute.
+   * @desc Trims chars from the content of an element.
    */
   trim: function (object, value) {
-    var regex
-    switch (value.toLowerCase()) {
+    var regex,
+      values = value.split(';'),
+      direction = values[0].toLowerCase(),
+      char = values[1] || ' '
+
+    switch (direction) {
       case 'left':
-        regex = /^\s+/
+        regex = '^[' + char + '\\t]+'
         break
       case 'right':
-        regex = /\s+$/
-        break
+        regex = '[' + char + '\\t]+$'
+        break;
       default:
-        regex = /^\s+|\s+$/g
+        regex = '^[' + char + '\\t]+|[' + char + '\\t]+$'
+        break
     }
-    object.innerHTML = object.innerHTML.replace(regex, '')
+  
+    object.innerHTML = object.innerHTML.replace(new RegExp(regex, 'g'), '');
   },
 
   afterbegin: function (object, value) {
