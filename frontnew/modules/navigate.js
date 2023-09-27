@@ -65,7 +65,7 @@ app.module.navigate = {
    */
   _load: function (state) {
     var replace = /^\/+|\/+$/g
-    if (state.href === '/' || state.href.replace(replace, '') ===  this.config.startpage.replace(replace, '')) {
+    if (state.href === '/' || state.href.replace(replace, '') === this.config.startpage.replace(replace, '')) {
     //if (state.href === '/' || state.href === app.baseUrl) {
       state.target = 'html'
       state.extension = false
