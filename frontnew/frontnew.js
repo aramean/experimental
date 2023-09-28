@@ -726,8 +726,8 @@ var app = {
             app.log.info(1)(this.name)
             app.modules.loaded++
             app.module[this.name].conf = function () { }
-            if (app.module[this.name]._autoload) {
-              app.module[this.name]._autoload({
+            if (app.module[this.name].__autoload) {
+              app.module[this.name].__autoload({
                 element: app.script.element,
                 name: this.name
               })
@@ -800,7 +800,6 @@ var app = {
   xhr: {
 
     currentRequest: null,
-    currentRequestCount: 0,
 
     start: function () {
 
@@ -934,6 +933,7 @@ var app = {
         }
 
         xhr.onprogress = function (e) {
+          if (e.target.options.type === 'page') app.module.navigate._preloader.load(e)
           //if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
           //if (onprogress) target ? dom.set(target, onprogress.content) : ''
         }

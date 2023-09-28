@@ -244,7 +244,12 @@ var app = {
 
         app.xhr.get({
           url: (srcdocValue && !options.disableSrcdoc) ? srcdocValue.concat(srcValue) : srcValue,
-          onload: { run: { func: 'app.templates.render', arg: options } }
+          onload: { 
+            run: { 
+              func: 'app.templates.render',
+              arg: options
+            } 
+          }
         })
       }
 

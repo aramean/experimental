@@ -8,16 +8,17 @@ app.module.navigate = {
    * @param {HTMLElement} scriptElement - The script element to load the configuration for.
    * @private
    */
-  _autoload: function (options) {
-    if (history.pushState) {
-      this.config = app.config.get('navigate', {
-        baseUrl: app.baseUrl,
-        target: 'main',
-        preloader: '#navloader',
-        startpage: false,
-      }, options.element)
-      this.preloader = dom.get(this.config.preloader)
+  __autoload: function (options) {
+    this.config = app.config.get('navigate', {
+      baseUrl: app.baseUrl,
+      target: 'main',
+      preloader: '#navloader',
+      startpage: false,
+    }, options.element)
 
+    this._preloader.set(this.config.preloader)
+
+    if (history.pushState) {
       app.listeners.add(window, 'popstate', this._pop.bind(this))
       app.listeners.add(document, 'click', this._click.bind(this))
     }
@@ -95,13 +96,16 @@ app.module.navigate = {
    * @private
    */
   _preloader: {
+    element: null,
     intervalId: null,
-    preloader: null,
     treshold: 10000,
     increment: 4,
 
-    load: function (preloader, e) {
-      this.preloader = preloader
+    set: function (selector) {
+      this.element = dom.get(selector)
+    },
+
+    load: function (e) {
       this.reset()
 
       var loaded = e.loaded || 0,
@@ -117,7 +121,7 @@ app.module.navigate = {
     },
 
     animate: function () {
-      var width = parseInt(this.preloader.firstChild.style.width, 10)
+      var width = parseInt(this.element.firstChild.style.width, 10)
       if (width >= 100) {
         this.finish()
       } else {
@@ -127,20 +131,20 @@ app.module.navigate = {
     },
 
     progress: function (width) {
-      this.preloader.firstChild.style.width = width + '%'
+      this.element.firstChild.style.width = width + '%'
     },
 
     reset: function () {
       this.progress(0)
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
-      dom.show(this.preloader)
+      dom.show(this.element)
     },
 
     finish: function () {
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
-      dom.hide(this.preloader)
+      dom.hide(this.element)
     },
   },
 }

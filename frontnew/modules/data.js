@@ -4,7 +4,7 @@ app.module.data = {
 
   storageType: 'window',
 
-  _autoload: function(options) {
+  __autoload: function(options) {
     this.module = options.name
   },
 

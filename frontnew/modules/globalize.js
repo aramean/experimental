@@ -12,7 +12,7 @@ app.module.globalize = {
    * @desc Autoloads the globalize configuration for a specified script element.
    * @private
    */
-  _autoload: function (options) {
+  __autoload: function (options) {
     this.module = options.name
     var query = app.querystrings.get(false, 'locale')
     if (query) this.locale.set(query)
