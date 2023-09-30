@@ -905,8 +905,9 @@ var app = {
         error = options.error,
         onprogress = options.onprogress,
 
+        loader = onprogress && onprogress.preloader ? onprogress.preloader : false,
+        type = options.type,
         timeout = onload ? options.onload.timeout || 0 : 0,
-        loader = onprogress && onprogress.loader ? dom.get(onprogress.loader) : false,
         run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload && onload.run && onload.run.arg
 
@@ -933,9 +934,7 @@ var app = {
         }
 
         xhr.onprogress = function (e) {
-          if (e.target.options.type === 'page') app.module.navigate._preloader.load(e)
-          //if (preloader && app.module.navigate) app.module.navigate._preloader.load(preloader, e)
-          //if (onprogress) target ? dom.set(target, onprogress.content) : ''
+          if (app.module.navigate && type === 'page') app.module.navigate._preloader.load(e)
         }
 
         xhr.onload = function () {
@@ -964,7 +963,6 @@ var app = {
             }
 
             if (onload) {
-
               if (run) {
                 app.log.info()('Calling: ' + run + ' ' + runarg)
                 if (run.length === 4)
@@ -974,6 +972,11 @@ var app = {
                 else if (run.length === 2)
                   window[run[0]][run[1]](runarg)
               }
+            }
+
+            if (loader) {
+              console.dir(dom.get(loader))
+              app.module.navigate._preloader.set('#navloader')
             }
 
           } else if (status.clientError || status.serverError) {

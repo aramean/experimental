@@ -67,7 +67,7 @@ app.module.navigate = {
   _load: function (state) {
     var replace = /^\/+|\/+$/g
     if (state.href === '/' || state.href.replace(replace, '') === this.config.startpage.replace(replace, '')) {
-    //if (state.href === '/' || state.href === app.baseUrl) {
+      //if (state.href === '/' || state.href === app.baseUrl) {
       state.target = 'html'
       state.extension = false
     } else if (!state.target || state.target[0] === '_') {
@@ -85,7 +85,7 @@ app.module.navigate = {
         run: {
           func: 'app.attributes.run',
           arg: 'main *'
-        } 
+        }
       }
     })
   },
@@ -96,42 +96,60 @@ app.module.navigate = {
    * @private
    */
   _preloader: {
-    element: null,
     intervalId: null,
     treshold: 10000,
     increment: 4,
+    element: null,
+    elementChild: null,
+    animationInProgress: false,
 
     set: function (selector) {
       this.element = dom.get(selector)
+      this.elementChild = this.element.firstChild
     },
 
     load: function (e) {
       this.reset()
 
+      console.log('next')
+
       var loaded = e.loaded || 0,
         total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
         percent = Math.round((loaded / total) * 100) || 100
 
+      console.log(e)
       app.log.info(1)('Loading bytes: ' + loaded + ' of ' + total)
       if (loaded !== total && total > this.treshold) {
-        if (percent !== 100) this.progress(percent)
+        console.log
+        if (percent !== 100) {
+          this.progress(percent)
+        }
       } else {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
     },
 
     animate: function () {
-      var width = parseInt(this.element.firstChild.style.width, 10)
-      if (width >= 100) {
-        this.finish()
-      } else {
-        this.progress(width + this.increment)
-        this.intervalId = requestAnimationFrame(this.animate.bind(this))
+      var self = this,
+        width = 0
+
+      function animateFrame() {
+        width += self.increment
+        self.progress(width)
+
+        if (width < 100) {
+          requestAnimationFrame(animateFrame)
+        } else {
+          self.finish()
+        }
       }
+
+      requestAnimationFrame(animateFrame)
     },
 
     progress: function (width) {
-      this.element.firstChild.style.width = width + '%'
+      console.log(this.elementChild)
+      this.elementChild.style.width = width + '%'
     },
 
     reset: function () {
