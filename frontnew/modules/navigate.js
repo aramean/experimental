@@ -114,15 +114,16 @@ app.module.navigate = {
       console.log('next')
 
       var loaded = e.loaded || 0,
-        total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
-        percent = Math.round((loaded / total) * 100) || 100
+        total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0
 
       console.log(e)
       app.log.info(1)('Loading bytes: ' + loaded + ' of ' + total)
       if (loaded !== total && total > this.treshold) {
-        console.log
+        
+        var percent = Math.round((loaded / total) * 100) || 100
         if (percent !== 100) {
-          this.progress(percent)
+          console.log(percent)
+          //this.progress(percent)
         }
       } else {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
@@ -147,9 +148,14 @@ app.module.navigate = {
       requestAnimationFrame(animateFrame)
     },
 
+    prevWidth:null,
     progress: function (width) {
-      console.log(this.elementChild)
-      this.elementChild.style.width = width + '%'
+      console.log(width)
+      if (width !== this.prevWidth) { // Check if it's a different width value
+        this.elementChild.style.width = width + '%';
+        //console.log(width)
+        this.prevWidth = width; // Update the previous width value
+      }
     },
 
     reset: function () {
