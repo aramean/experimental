@@ -101,7 +101,6 @@ app.module.navigate = {
     increment: 4,
     element: null,
     elementChild: null,
-    animationInProgress: false,
 
     set: function (selector) {
       this.element = dom.get(selector)
@@ -111,20 +110,13 @@ app.module.navigate = {
     load: function (e) {
       this.reset()
 
-      console.log('next')
-
       var loaded = e.loaded || 0,
-        total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0
+        total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
+        percent = Math.round((loaded / total) * 100) || 0
 
-      console.log(e)
       app.log.info(1)('Loading bytes: ' + loaded + ' of ' + total)
-      if (loaded !== total && total > this.treshold) {
-        
-        var percent = Math.round((loaded / total) * 100) || 100
-        if (percent !== 100) {
-          console.log(percent)
-          //this.progress(percent)
-        }
+      if (loaded <= total && total >= this.treshold) { // big and slow page
+        if (percent <= 100) this.progress(percent)
       } else {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
@@ -133,11 +125,10 @@ app.module.navigate = {
     animate: function () {
       var self = this,
         width = 0
-
+    
       function animateFrame() {
         width += self.increment
         self.progress(width)
-
         if (width < 100) {
           requestAnimationFrame(animateFrame)
         } else {
@@ -148,14 +139,9 @@ app.module.navigate = {
       requestAnimationFrame(animateFrame)
     },
 
-    prevWidth:null,
     progress: function (width) {
-      console.log(width)
-      if (width !== this.prevWidth) { // Check if it's a different width value
-        this.elementChild.style.width = width + '%';
-        //console.log(width)
-        this.prevWidth = width; // Update the previous width value
-      }
+      this.elementChild.style.width = width + '%'
+      if (width >= 100) this.finish()
     },
 
     reset: function () {
