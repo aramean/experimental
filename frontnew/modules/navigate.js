@@ -115,7 +115,7 @@ app.module.navigate = {
         percent = Math.round((loaded / total) * 100) || 0
 
       app.log.info(1)('Loading bytes: ' + loaded + ' of ' + total)
-      if (loaded <= total && total >= this.treshold) { // big and slow page
+      if (loaded !== total && total >= this.treshold) { // big and slow page
         if (percent <= 100) this.progress(percent)
       } else {
         this.intervalId = requestAnimationFrame(this.animate.bind(this))

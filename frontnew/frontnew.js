@@ -916,6 +916,7 @@ var app = {
         console.log('hej')
       } else {
 
+        var spa = app.module.navigate || false
         var xhr = new XMLHttpRequest(),
           urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
         xhr.options = options
@@ -930,11 +931,11 @@ var app = {
         }
 
         xhr.onabort = function () {
-          //if (preloader && app.module.navigate) app.module.navigate._preloader.reset(preloader)
+          if (spa && loader) app.module.navigate._preloader.reset()
         }
 
         xhr.onprogress = function (e) {
-          if (app.module.navigate && type === 'page') app.module.navigate._preloader.load(e)
+          if (spa && type === 'page') app.module.navigate._preloader.load(e)
         }
 
         xhr.onload = function () {
@@ -972,11 +973,6 @@ var app = {
                 else if (run.length === 2)
                   window[run[0]][run[1]](runarg)
               }
-            }
-
-            if (loader) {
-              console.dir(dom.get(loader))
-              app.module.navigate._preloader.set('#navloader')
             }
 
           } else if (status.clientError || status.serverError) {
