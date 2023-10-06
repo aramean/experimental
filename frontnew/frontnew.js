@@ -935,7 +935,7 @@ var app = {
         }
 
         xhr.onprogress = function (e) {
-          if (spa && type === 'page') app.module.navigate._preloader.load(e)
+          if (spa && type === 'page') app.module.navigate._preloader.load(e, true)
         }
 
         xhr.onload = function () {

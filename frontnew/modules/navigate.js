@@ -101,31 +101,43 @@ app.module.navigate = {
     increment: 4,
     element: null,
     elementChild: null,
+    test: true,
+    eventCount: 0,
 
     set: function (selector) {
       this.element = dom.get(selector)
       this.elementChild = this.element.firstChild
     },
 
-    load: function (e) {
+    load: function (e, onprogress) {
+      console.log(e.target.options.onprogress.reset)
+      if (this.test) this.eventCount = 0
       this.reset()
 
       var loaded = e.loaded || 0,
         total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
         percent = Math.round((loaded / total) * 100) || 0
 
-      app.log.info(1)('Loading bytes: ' + loaded + ' of ' + total)
+      console.log('Loading bytes: ' + loaded + ' of ' + total)
       if (loaded !== total && total >= this.treshold) { // big and slow page
-        if (percent <= 100) this.progress(percent)
+        if (percent <= 100 && this.eventCount > 1) {
+          this.progress(percent)
+        }
+        this.test = false
+        console.log('wee')
       } else {
-        this.intervalId = requestAnimationFrame(this.animate.bind(this))
+        if (this.test) this.intervalId = requestAnimationFrame(this.animate.bind(this))
       }
+
+      if (onprogress) this.eventCount++
+
+      console.log(this.eventCount)
     },
 
     animate: function () {
       var self = this,
         width = 0
-    
+
       function animateFrame() {
         width += self.increment
         self.progress(width)
@@ -146,6 +158,7 @@ app.module.navigate = {
 
     reset: function () {
       this.progress(0)
+      this.test = true
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
       dom.show(this.element)
