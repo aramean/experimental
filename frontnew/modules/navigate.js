@@ -14,6 +14,7 @@ app.module.navigate = {
       target: 'main',
       preloader: '#navloader',
       startpage: false,
+      startpageLocal: false,
     }, options.element)
 
     this._preloader.set(this.config.preloader)
@@ -65,8 +66,10 @@ app.module.navigate = {
    * @private
    */
   _load: function (state) {
-    var replace = /^\/+|\/+$/g
-    if (state.href === '/' || state.href.replace(replace, '') === this.config.startpage.replace(replace, '')) {
+    var regex = /^\/+|\/+$/g,
+      startpage = app.isLocalNetwork ? this.config.startpageLocal : this.config.starpage
+
+    if (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, '')) {
       //if (state.href === '/' || state.href === app.baseUrl) {
       state.target = 'html'
       state.extension = false
