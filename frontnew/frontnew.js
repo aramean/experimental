@@ -362,8 +362,8 @@ var dom = {
         regex = '^[' + char + '\\t]+|[' + char + '\\t]+$'
         break
     }
-  
-    object.innerHTML = object.innerHTML.replace(new RegExp(regex, 'g'), '');
+
+    object.innerHTML = object.innerHTML.replace(new RegExp(regex, 'g'), '')
   },
 
   afterbegin: function (object, value) {
@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 5 },
+  version: { major: 1, minor: 0, patch: 0, build: 6 },
   module: {},
   plugin: {},
   var: {},
@@ -904,9 +904,10 @@ var app = {
         console.log('hej')
       } else {
 
-        var spa = app.module.navigate || false
         var xhr = new XMLHttpRequest(),
-          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
+          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || '',
+          spa = app.module.navigate || false
+
         xhr.options = options
         // Set headers
         /*for (var header in headers) {
@@ -919,11 +920,11 @@ var app = {
         }
 
         xhr.onabort = function () {
-          if (spa && loader) app.module.navigate._preloader.reset()
+          if (spa && loader) spa._preloader.reset()
         }
 
         xhr.onprogress = function (e) {
-          if (spa && type === 'page') app.module.navigate._preloader.load(e, true)
+          if (spa && type === 'page') spa._preloader.load(e, true)
         }
 
         xhr.onload = function () {
