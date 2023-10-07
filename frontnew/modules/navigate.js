@@ -113,6 +113,7 @@ app.module.navigate = {
     },
 
     load: function (e, onprogress) {
+      if (onprogress) this.eventCount++
       if (this.isFastPage) this.eventCount = 0
       this.isFastPage = true
 
@@ -129,10 +130,6 @@ app.module.navigate = {
         else
           this.progress(100)
       }
-
-      if (onprogress) this.eventCount++
-
-      console.log(this.eventCount)
     },
 
     animate: function () {
@@ -142,13 +139,8 @@ app.module.navigate = {
       function animateFrame() {
         width += self.increment
         self.progress(width)
-        if (width === 100) {
-          console.log(width)
-          self.finish()
-        } else {
+        if (width <= 100)
           requestAnimationFrame(animateFrame)
-
-        }
       }
 
       requestAnimationFrame(animateFrame)
