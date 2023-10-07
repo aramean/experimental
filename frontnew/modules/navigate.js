@@ -156,7 +156,6 @@ app.module.navigate = {
           self.finish()
         } else {
           requestAnimationFrame(animateFrame)
-          
         }
       }
 
@@ -164,22 +163,26 @@ app.module.navigate = {
     },
 
     progress: function (width) {
+      if (width >= 100) {
+        console.log(width)
+        return this.finish()
+      }
       this.elementChild.style.width = width + '%'
-      if (width >= 100) this.finish()
     },
 
     reset: function () {
+      console.error('reset')
+      dom.show(this.element)
       this.progress(0)
       this.isFastPage = true
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
-      dom.show(this.element)
     },
 
     finish: function () {
+      dom.hide(this.element)
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
-      dom.hide(this.element)
     },
   },
 }
