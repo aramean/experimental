@@ -66,7 +66,7 @@ app.module.navigate = {
    */
   _load: function (state) {
     var regex = /^\/+|\/+$/g,
-      startpage = app.isLocalNetwork ? this.config.startpageLocal : this.config.starpage
+      startpage = app.isLocalNetwork ? this.config.startpageLocal : this.config.startpage
 
     if (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, '')) {
       state.target = 'html'
