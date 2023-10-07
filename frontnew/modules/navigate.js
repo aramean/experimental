@@ -10,7 +10,6 @@ app.module.navigate = {
    */
   __autoload: function (options) {
     this.config = app.config.get('navigate', {
-      baseUrl: app.baseUrl,
       target: 'main',
       preloader: '#navloader',
       startpage: false,
@@ -70,7 +69,6 @@ app.module.navigate = {
       startpage = app.isLocalNetwork ? this.config.startpageLocal : this.config.starpage
 
     if (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, '')) {
-      //if (state.href === '/' || state.href === app.baseUrl) {
       state.target = 'html'
       state.extension = false
     } else if (!state.target || state.target[0] === '_') {
@@ -100,12 +98,11 @@ app.module.navigate = {
    */
   _preloader: {
     intervalId: null,
-    treshold: 10000,
     increment: 4,
     element: null,
     elementChild: null,
-    test: true,
     eventCount: 0,
+    isFastPage: true,
 
     set: function (selector) {
       this.element = dom.get(selector)
@@ -113,23 +110,33 @@ app.module.navigate = {
     },
 
     load: function (e, onprogress) {
-      console.log(e.target.options.onprogress.reset)
-      if (this.test) this.eventCount = 0
+      if (this.isFastPage) this.eventCount = 0
       this.reset()
 
       var loaded = e.loaded || 0,
         total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
         percent = Math.round((loaded / total) * 100) || 0
 
-      console.log('Loading bytes: ' + loaded + ' of ' + total)
-      if (loaded !== total && total >= this.treshold) { // big and slow page
-        if (percent <= 100 && this.eventCount > 1) {
+      //console.log('Loading bytes: ' + loaded + ' of ' + total)
+      console.log(e)
+      if (loaded !== total) { // Slow page
+        this.isFastPage = false
+        if (percent <= 100 && this.eventCount > 0) {
           this.progress(percent)
         }
-        this.test = false
-        console.log('wee')
-      } else {
-        if (this.test) this.intervalId = requestAnimationFrame(this.animate.bind(this))
+      } else { // Fast page
+        
+        if (this.eventCount > 1) {
+          console.log('Slow page')
+        }
+
+        console.error("Event count: " + this.eventCount)
+
+        console.log(this.isFastPage)
+        if (this.isFastPage && this.eventCount < 3) {
+          console.error('running fast page')
+          this.intervalId = requestAnimationFrame(this.animate.bind(this))
+        }
       }
 
       if (onprogress) this.eventCount++
@@ -144,10 +151,12 @@ app.module.navigate = {
       function animateFrame() {
         width += self.increment
         self.progress(width)
-        if (width < 100) {
-          requestAnimationFrame(animateFrame)
-        } else {
+        if (width === 100) {
+          console.log(width)
           self.finish()
+        } else {
+          requestAnimationFrame(animateFrame)
+          
         }
       }
 
@@ -161,7 +170,7 @@ app.module.navigate = {
 
     reset: function () {
       this.progress(0)
-      this.test = true
+      this.isFastPage = true
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
       dom.show(this.element)

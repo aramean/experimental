@@ -305,16 +305,6 @@ var dom = {
     }
   },
 
-  hreflocal: function (object) {
-    var envLocalhost = (object) ? object.getAttribute('hreflocal') : false,
-      envSubdomain = (object) ? object.getAttribute('hrefprod') : false,
-      val = (envLocalhost && app.isLocalNetwork) ? envLocalhost : envSubdomain
-
-    if (object)
-      object.setAttribute('href', val)
-    app.baseUrl = val
-  },
-
   /**
    * @function uppercase
    * @memberof dom
@@ -500,7 +490,6 @@ var app = {
   isFrontpage: document.doctype ? true : false,
   srcDocTemplate: '',
   srcTemplate: [],
-  baseUrl: '',
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
 
   caches: { template: {}, var: {}, module: {} },
@@ -579,7 +568,6 @@ var app = {
      * @desc Sets the configuration to the app object.
      */
     set: function (scriptElement) {
-      dom.hreflocal(dom.get('head base'))
       var config = this.get(false, {
         debug: false,
         debugLocalhost: false,
