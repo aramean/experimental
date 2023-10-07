@@ -89,6 +89,8 @@ app.module.navigate = {
         }
       }
     })
+
+    this._preloader.reset()
   },
 
   /**
@@ -112,32 +114,20 @@ app.module.navigate = {
 
     load: function (e, onprogress) {
       if (this.isFastPage) this.eventCount = 0
-      this.reset()
+      this.isFastPage = true
 
       var loaded = e.loaded || 0,
         total = e.total || (e.target.getResponseHeader('Content-Length') || e.target.getResponseHeader('content-length')) || 0,
         percent = Math.round((loaded / total) * 100) || 0
 
-      //console.log('Loading bytes: ' + loaded + ' of ' + total)
-      console.log(e)
       if (loaded !== total && total >= this.treshold) { // Slow page
         this.isFastPage = false
-        if (percent <= 100 && this.eventCount > 0) {
-          this.progress(percent)
-        }
+        if (percent <= 100 && this.eventCount > 0) this.progress(percent)
       } else { // Fast page
-        
-        if (this.eventCount > 1) {
-          console.log('Slow page')
-        }
-
-        console.error("Event count: " + this.eventCount)
-
-        console.log(this.isFastPage)
-        if (this.isFastPage && this.eventCount < 3) {
-          console.error('running fast page')
+        if (this.isFastPage && this.eventCount < 3)
           this.intervalId = requestAnimationFrame(this.animate.bind(this))
-        }
+        else
+          this.progress(100)
       }
 
       if (onprogress) this.eventCount++
@@ -157,7 +147,7 @@ app.module.navigate = {
           self.finish()
         } else {
           requestAnimationFrame(animateFrame)
-          
+
         }
       }
 
@@ -171,7 +161,6 @@ app.module.navigate = {
 
     reset: function () {
       this.progress(0)
-      this.isFastPage = true
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
       dom.show(this.element)
