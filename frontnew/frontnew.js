@@ -357,7 +357,7 @@ var dom = {
         break
       case 'right':
         regex = '[' + char + '\\t]+$'
-        break;
+        break
       default:
         regex = '^[' + char + '\\t]+|[' + char + '\\t]+$'
         break
@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 6 },
+  version: { major: 1, minor: 0, patch: 0, build: 7 },
   module: {},
   plugin: {},
   var: {},
