@@ -16,8 +16,6 @@ app.module.navigate = {
       startpageLocal: false,
     }, options.element)
 
-    this._preloader.set(this.config.preloader)
-
     if (history.pushState) {
       app.listeners.add(window, 'popstate', this._pop.bind(this))
       app.listeners.add(document, 'click', this._click.bind(this))
@@ -90,6 +88,7 @@ app.module.navigate = {
       }
     })
 
+    this._preloader.set(this.config.preloader)
     this._preloader.reset()
   },
 
