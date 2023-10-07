@@ -98,6 +98,7 @@ app.module.navigate = {
    */
   _preloader: {
     intervalId: null,
+    treshold: 10000,
     increment: 4,
     element: null,
     elementChild: null,
@@ -119,7 +120,7 @@ app.module.navigate = {
 
       //console.log('Loading bytes: ' + loaded + ' of ' + total)
       console.log(e)
-      if (loaded !== total) { // Slow page
+      if (loaded !== total && total >= this.treshold) { // Slow page
         this.isFastPage = false
         if (percent <= 100 && this.eventCount > 0) {
           this.progress(percent)
@@ -156,6 +157,7 @@ app.module.navigate = {
           self.finish()
         } else {
           requestAnimationFrame(animateFrame)
+          
         }
       }
 
@@ -163,26 +165,22 @@ app.module.navigate = {
     },
 
     progress: function (width) {
-      if (width >= 100) {
-        console.log(width)
-        return this.finish()
-      }
       this.elementChild.style.width = width + '%'
+      if (width >= 100) this.finish()
     },
 
     reset: function () {
-      console.error('reset')
-      dom.show(this.element)
       this.progress(0)
       this.isFastPage = true
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
+      dom.show(this.element)
     },
 
     finish: function () {
-      dom.hide(this.element)
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
+      dom.hide(this.element)
     },
   },
 }
