@@ -63,6 +63,8 @@ app.module.navigate = {
       }
     }
 
+    console.dir(state)
+
     this._load(state)
   },
 
