@@ -50,7 +50,7 @@ app.module.navigate = {
   _pop: function (event) {
     var state = (event.state) ? event.state : {
       'href': window.location.href,
-      'target': 'html',
+      'target': event.state ? 'html' : false,
       'extension': false,
       'arg': { disableSrcdoc: true, runAttributes: true }
     }
