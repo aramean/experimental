@@ -48,12 +48,21 @@ app.module.navigate = {
    * @private
    */
   _pop: function (event) {
-    var state = (event.state) ? event.state : {
-      'href': window.location.href,
-      'target': event.state ? 'html' : false,
-      'extension': false,
-      'arg': { disableSrcdoc: true, runAttributes: true }
+    if (!event.state) {
+      var state = {
+        'href': window.location.href,
+        'extension': false,
+        'arg': { disableSrcdoc: true, runAttributes: true }
+      }
+    } else {
+      var state = (event.state) ? event.state : {
+        'href': window.location.href,
+        'target': 'html',
+        'extension': false,
+        'arg': { disableSrcdoc: true, runAttributes: true }
+      }
     }
+
     this._load(state)
   },
 
