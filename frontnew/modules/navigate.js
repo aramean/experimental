@@ -36,7 +36,7 @@ app.module.navigate = {
           'href': link.pathname,
           'target': link.target,
           'arg': { disableSrcdoc: true, runAttributes: true }
-        }, 'Titel', link.href)
+        }, '', link.href)
       }
       this._load(history.state)
     }
