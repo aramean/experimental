@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 20 },
+  version: { major: 1, minor: 0, patch: 0, build: 21 },
   module: {},
   plugin: {},
   var: {},
@@ -771,7 +771,7 @@ var app = {
 
     app.script = {
       element: element,
-      path: (value.match(/^(\.\.\/)+/) || [''])[0],
+      path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
       selector: selector
     }
 
