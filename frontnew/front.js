@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 21 },
+  version: { major: 1, minor: 0, patch: 0, build: 22 },
   module: {},
   plugin: {},
   var: {},
@@ -664,8 +664,10 @@ var app = {
       } else {
         var templateElement = dom.get('template'),
           templateAttr = templateElement && templateElement.attributes,
-          templateSrcDoc = templateElement && templateAttr && templateElement.getAttribute('srcdoc') || false,
-          templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
+          elementSrcDoc = templateAttr && templateAttr.srcdoc && templateAttr.srcdoc.value,
+          elementSrc = templateAttr && templateAttr.src && templateAttr.src.value,
+          templateSrcDoc = elementSrcDoc || false,
+          templateSrc = elementSrc && elementSrc.split(';') || []
 
         app.srcTemplate = {
           url: {
@@ -820,12 +822,14 @@ var app = {
             if (type) {
               switch (type) {
                 case 'page':
-                  var responsePage = dom.parse.text(this.responseText)
-                  var responsePageTitle = dom.find(responsePage, 'title').textContent,
+                  var responsePage = dom.parse.text(this.responseText),
+                    responsePageTitle = dom.find(responsePage, 'title').textContent,
                     templateElement = dom.find(responsePage, 'template'),
                     templateAttr = templateElement && templateElement.attributes,
-                    templateSrcDoc = templateElement && templateAttr && templateElement.getAttribute('srcdoc') || false,
-                    templateSrc = templateElement && templateAttr && templateElement.getAttribute('src').split(';') || []
+                    elementSrcDoc = templateAttr && templateAttr.srcdoc && templateAttr.srcdoc.value,
+                    elementSrc = templateAttr && templateAttr.src && templateAttr.src.value,
+                    templateSrcDoc = elementSrcDoc || false,
+                    templateSrc = elementSrc && elementSrc.split(';') || []
 
                   app.modules.total = 0
                   app.templates.total = 0
