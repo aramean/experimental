@@ -2,7 +2,7 @@
 
 app.module.data = {
 
-  storageType: 'window',
+  storageMechanism: 'window',
 
   __autoload: function(options) {
     this.module = options.name
@@ -26,7 +26,7 @@ app.module.data = {
   },
 
   _run: function (options) {
-    this.responseData = app.caches.get(this.storageType, 'module.' + this.module)
+    this.responseData = app.caches.get(this.storageMechanism, 'module', 'module.' + this.module)
     var element = options.element,
       iterate = options.iterate,
       iterateObject = iterate === 'true' ? this.responseData.data : this.responseData.data[iterate] || this.responseData.data,
@@ -83,6 +83,7 @@ app.module.data = {
       },
       cache: {
         format: 'json',
+        keyType: 'module',
         key: 'module.' + this.module
       },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },

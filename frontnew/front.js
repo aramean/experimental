@@ -159,8 +159,8 @@ var dom = {
       if (replaceValue[0] === '^') {
         var keys = target.split('.')
 
-        if (app.caches[keys[0]]) {
-          var value = app.caches[keys[0]].data
+        if (app.caches['var'][keys[0]]) {
+          var value = app.caches['var'][keys[0]].data
           for (var i = 1; i < keys.length; i++) {
             value = value[keys[i]]
           }
@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 22 },
+  version: { major: 1, minor: 0, patch: 0, build: 23 },
   module: {},
   plugin: {},
   var: {},
@@ -492,7 +492,6 @@ var app = {
   srcTemplate: [],
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
 
-  caches: { template: {}, var: {}, module: {} },
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
@@ -583,10 +582,14 @@ var app = {
   },
 
   caches: {
+    module: {},
+    var: {},
+    page: {},
+    template: {},
 
-    get: function (type, key) {
+    get: function (mechanism, type, key) {
       var data
-      switch (type) {
+      switch (mechanism) {
         case 'local':
           data = JSON.parse(localStorage.getItem(key))
           break
@@ -597,12 +600,12 @@ var app = {
           data = document.cookie
           break
         default:
-          data = app.caches[key]
-      }
+          data = app.caches[type][key]
+        }
       return data
     },
-
-    set: function (type, format, key, data) {
+  
+    set: function (mechanism, type, key, data, format) {
       switch (format) {
         case 'xml':
           data = new DOMParser().parseFromString(data, 'text/xml')
@@ -619,9 +622,9 @@ var app = {
         'headers': ''
       }
 
-      app.caches[key] = cacheData
+      app.caches[type][key] = cacheData
 
-      switch (type) {
+      switch (mechanism) {
         case 'local':
           localStorage.setItem(key, JSON.stringify(cacheData))
           break
@@ -693,6 +696,7 @@ var app = {
             type: 'var',
             cache: {
               format: 'json',
+              keyType: 'var',
               key: name
             }
           })
@@ -752,6 +756,7 @@ var app = {
             cache: {
               format: 'html',
               name: 'template',
+              keyType: 'template',
               key: currentTemplate,
               extraData: { isStartPage: isStartpage }
             },
@@ -810,13 +815,14 @@ var app = {
             this.statusType = statusType
 
             var options = this.options,
+              mechanism = options.mechanism,
               type = options.type,
               name = options.name,
               extra = options.extra,
               cache = options.cache
 
             if (cache && (statusType.success || statusType.redirect)) {
-              app.caches.set(cache.type, cache.format, cache.key, this.responseText)
+              app.caches.set(cache.type, cache.keyType, cache.key, this.responseText, cache.format)
             }
 
             if (type) {
@@ -1148,7 +1154,7 @@ var app = {
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
-        var responsePage = dom.parse.text(app.caches[srcDoc].data, ['title']),
+        var responsePage = dom.parse.text(app.caches['template'][srcDoc].data, ['title']),
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
 
@@ -1190,7 +1196,7 @@ var app = {
 
       if (src) {
         for (var i = 0; i < src.length; i++) {
-          var html = dom.parse.text(app.caches[src[i]].data),
+          var html = dom.parse.text(app.caches['template'][src[i]].data),
             template = dom.parse.text(dom.find(html, 'template').innerHTML)
 
           for (var j = 0; j < this.elements.length; j++) {

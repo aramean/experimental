@@ -2,7 +2,7 @@
 
 app.module.globalize = {
 
-  storageType: 'local',
+  storageMechanism: 'local',
 
   /**
    * @function _autoload
@@ -25,8 +25,8 @@ app.module.globalize = {
     
     this.storeKey = this.module + '.' + config.language
 
-    if (app.caches.get(this.storageType, this.storeKey)) {
-      this.responseData = app.caches.get(this.storageType, this.storeKey)
+    if (app.caches.get(this.storageMechanism, 'module', this.storeKey)) {
+      this.responseData = app.caches.get(this.storageMechanism, 'module', this.storeKey)
     } else {
       app.vars.totalStore++
       app.xhr.get({
@@ -35,7 +35,8 @@ app.module.globalize = {
         type: 'var',
         cache: {
           format: 'json',
-          type: this.storageType,
+          keyType: 'module',
+          type: this.storageMechanism,
           key: this.storeKey,
           ttl: 300
         }
@@ -45,13 +46,13 @@ app.module.globalize = {
 
   locale: {
     get: function (query) {
-      var storedLanguage = app.caches.get(this.storageType, this.module + '.language'),
+      var storedLanguage = app.caches.get(this.storageMechanism, 'module', this.module + '.language'),
         language = storedLanguage || query || app.language
       return language
     },
 
     set: function (language) {
-      app.caches.set(this.storageType, this.module + '.language', language)
+      app.caches.set(this.storageMechanism, 'module', this.module + '.language', language)
     }
   },
 
@@ -62,7 +63,7 @@ app.module.globalize = {
    * @desc Gets the globalized value and set it to the element.
    */
   get: function (element) {
-    var responseData = this.responseData || app.caches[this.storeKey],
+    var responseData = this.responseData || app.caches['module'][this.storeKey],
       value = element.getAttribute(this.module + '-get'),
       isRoot = value[0] == '/' ? true : false,
       setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
