@@ -3,8 +3,9 @@
 app.module.data = {
 
   storageMechanism: 'window',
+  storageKey: null,
 
-  __autoload: function(options) {
+  __autoload: function (options) {
     this.module = options.name
   },
 
@@ -21,11 +22,11 @@ app.module.data = {
         element: element
       }
 
-    this.storageKey = 'module.' + this.module
     this._open(attr, options)
   },
 
   _open: function (attr, options) {
+    options.storageKey = this.module + this._generateId(attr['data-src'].value)
     app.xhr.get({
       url: attr['data-src'].value,
       headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
@@ -40,7 +41,7 @@ app.module.data = {
       cache: {
         format: 'json',
         keyType: 'module',
-        key: this.storageKey
+        key: options.storageKey
       },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
       loader: attr.loader && attr.loader.value,
@@ -50,10 +51,10 @@ app.module.data = {
   },
 
   _run: function (options) {
-    this.responseData = app.caches.get(this.storageMechanism, 'module', this.storageKey)
-    var element = options.element,
+    var responseData = app.caches.get(this.storageMechanism, 'module', options.storageKey),
+      element = options.element,
       iterate = options.iterate,
-      iterateObject = iterate === 'true' ? this.responseData.data : this.responseData.data[iterate] || this.responseData.data,
+      iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
       total = iterate && iterateObject.length - 1 || 0
 
     var originalNode = element.cloneNode(true),
@@ -79,7 +80,7 @@ app.module.data = {
     }
 
     app.attributes.run(elements, ['data-get'])
-    this._set(this.responseData, options)
+    this._set(responseData, options)
     this._finish(options)
   },
 
@@ -118,6 +119,14 @@ app.module.data = {
         app.attributes.run(element)
       }
     }
+  },
+
+  _generateId: function (str) {
+    var hash = 0
+    for (var i = 0; i < str.length; i++) {
+      hash = (hash * 31 + str.charCodeAt(i)) >>> 0
+    }
+    return hash
   },
 
   _finish: function (options) {
