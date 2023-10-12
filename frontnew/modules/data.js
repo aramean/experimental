@@ -20,10 +20,33 @@ app.module.data = {
         iterate: attr.iterate && attr.iterate.value,
         element: element
       }
-    
-    this.element = element
+
     this.storageKey = 'module.' + this.module
     this._open(attr, options)
+  },
+
+  _open: function (attr, options) {
+    app.xhr.get({
+      url: attr['data-src'].value,
+      headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
+      target: attr.target ? attr.target.value : false,
+      onload: {
+        run: {
+          func: 'app.module.data._run',
+          arg: options
+        },
+        timeout: (attr.timeout) ? attr.timeout.value : 0
+      },
+      cache: {
+        format: 'json',
+        keyType: 'module',
+        key: this.storageKey
+      },
+      onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
+      loader: attr.loader && attr.loader.value,
+      error: attr.error && attr.error.value,
+      success: attr.success && attr.success.value
+    })
   },
 
   _run: function (options) {
@@ -68,30 +91,6 @@ app.module.data = {
     }
 
     return obj
-  },
-
-  _open: function (attr, options) {
-    app.xhr.get({
-      url: attr['data-src'].value,
-      headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
-      target: attr.target ? attr.target.value : false,
-      onload: {
-        run: {
-          func: 'app.module.data._run',
-          arg: options
-        },
-        timeout: (attr.timeout) ? attr.timeout.value : 0
-      },
-      cache: {
-        format: 'json',
-        keyType: 'module',
-        key: this.storageKey
-      },
-      onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
-      loader: attr.loader && attr.loader.value,
-      error: attr.error && attr.error.value,
-      success: attr.success && attr.success.value
-    })
   },
 
   _set: function (response, options) {
