@@ -22,11 +22,12 @@ app.module.data = {
       }
     
     this.element = element
+    this.storageKey = 'module.' + this.module
     this._open(attr, options)
   },
 
   _run: function (options) {
-    this.responseData = app.caches.get(this.storageMechanism, 'module', 'module.' + this.module)
+    this.responseData = app.caches.get(this.storageMechanism, 'module', this.storageKey)
     var element = options.element,
       iterate = options.iterate,
       iterateObject = iterate === 'true' ? this.responseData.data : this.responseData.data[iterate] || this.responseData.data,
@@ -84,7 +85,7 @@ app.module.data = {
       cache: {
         format: 'json',
         keyType: 'module',
-        key: 'module.' + this.module
+        key: this.storageKey
       },
       onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
       loader: attr.loader && attr.loader.value,
