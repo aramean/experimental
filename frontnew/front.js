@@ -157,8 +157,8 @@ var dom = {
 
       // Bind asset variable
       if (replaceValue[0] === '^') {
-        var keys = target.split('.')
-        var cache = app.caches['var'][keys[0]].data
+        var keys = target.split('.'),
+          cache = app.caches.get('window', 'var', keys[0]).data
         if (cache) {
           var value = cache
           for (var i = 1; i < keys.length; i++) {
@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 24 },
+  version: { major: 1, minor: 0, patch: 0, build: 25 },
   module: {},
   plugin: {},
   var: {},
@@ -601,10 +601,10 @@ var app = {
           break
         default:
           data = app.caches[type][key]
-        }
+      }
       return data
     },
-  
+
     set: function (mechanism, type, key, data, format) {
       switch (format) {
         case 'xml':
