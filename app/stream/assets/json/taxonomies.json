@@ -1,0 +1,24 @@
+{
+  "taxonomies": [
+    {
+      "name": "Action",
+      "description": ""
+    },
+    {
+      "name": "Drama",
+      "description": ""
+    },
+    {
+      "name": "Comedy",
+      "description": ""
+    },
+    {
+      "name": "Romance",
+      "description": ""
+    },
+    {
+      "name": "Science fiction",
+      "description": ""
+    }
+  ]
+}

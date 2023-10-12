@@ -16,19 +16,16 @@
   <title>Stream</title>
 </head>
 
-<body>
+<body class="dark">
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
-  <header class="topbar bcwhite h4 shade1 gap3- fwb- syellow- ttu-">
+  <header class="topbar dark h4_5 gap2- pr2 shade1">
     <h1 class="p1"><a href="./">Movies</a></h1><input class="ml1 mt1 bs1 p1 h3" id="josefinput" type="text" placeholder="Search...">
-    <a href="page1.html">P1</a>
-    <a href="page2.html">P2</a>
-    <a href="page3.html">P3</a>
-    <a href="page4.html">P4</a>
-    <a href="page5.html">P5</a>
+    <a href="movies.html">Movies</a>
+    <a href="shows.html">Shows</a>
   </header>
 
   <aside></aside>
-  <main class="pauto">
+  <main>
 
     <div id="page2" stop="lowercase;set" set="ABCDEFGH" lowercase></div>
 
@@ -50,7 +47,8 @@
       success="#success"
       filter="true"
       cache="type:local;ttl:3600"
-      class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac">
+      class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac"
+    >
       <figure class="p05">
         <img insert="beforebegin:https://image.tmdb.org/t/p/w220_and_h330_face" data-get="poster_path">
         <figcaption class="z1 md_dn" data-get="title"></figcaption>
