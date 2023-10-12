@@ -158,9 +158,9 @@ var dom = {
       // Bind asset variable
       if (replaceValue[0] === '^') {
         var keys = target.split('.')
-
-        if (app.caches['var'][keys[0]]) {
-          var value = app.caches['var'][keys[0]].data
+        var cache = app.caches['var'][keys[0]].data
+        if (cache) {
+          var value = cache
           for (var i = 1; i < keys.length; i++) {
             value = value[keys[i]]
           }
@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 23 },
+  version: { major: 1, minor: 0, patch: 0, build: 24 },
   module: {},
   plugin: {},
   var: {},
