@@ -113,7 +113,7 @@ var dom = {
    */
   find: function (node, selector) {
     var element = node.querySelectorAll(selector)
-    return element.length == 1 ? element[0] : element
+    return element.length == 1 && selector != '*' ? element[0] : element
   },
 
   /**
@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 32 },
+  version: { major: 1, minor: 0, patch: 0, build: 33 },
   module: {},
   plugin: {},
   var: {},

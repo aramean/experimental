@@ -60,7 +60,7 @@ app.module.data = {
       total = iterate && iterateObject.length - 1 || 0
 
     var originalNode = element.cloneNode(true),
-      orginalNodeCountAll = dom.find(originalNode, '*').length || originalNode.childElementCount,
+      orginalNodeCountAll = dom.find(originalNode, '*').length,
       content = ''
 
     for (var i = 0; i <= total; i++) {
