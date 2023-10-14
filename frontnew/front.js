@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 29 },
+  version: { major: 1, minor: 0, patch: 0, build: 30 },
   module: {},
   plugin: {},
   var: {},
@@ -801,7 +801,7 @@ var app = {
       var open = XMLHttpRequest.prototype.open,
         send = XMLHttpRequest.prototype.send
 
-      XMLHttpRequest.prototype.open = function (method, url, async, user, password) {
+      XMLHttpRequest.prototype.open = function () {
         this.onreadystatechange = function () {
           if (this.readyState === 4) {
             var statusType = {
