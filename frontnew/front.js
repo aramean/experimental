@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 28 },
+  version: { major: 1, minor: 0, patch: 0, build: 29 },
   module: {},
   plugin: {},
   var: {},
@@ -865,7 +865,7 @@ var app = {
                   break
               }
 
-              if (app.vars.loaded === (app.vars.total + app.vars.totalStore) && app.modules.loaded === app.modules.total) {
+              if (app.vars.loaded === (app.vars.total + app.vars.totalStore) && app.modules.loaded === app.modules.total && type !== 'template') {
                 /*
                 console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                 console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
