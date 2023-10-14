@@ -4,7 +4,7 @@ app.module.data = {
 
   storageMechanism: 'window',
   storageType: 'module',
-  storageKey: null,
+  storageKey: '',
 
   __autoload: function (options) {
     this.module = options.name
@@ -40,6 +40,7 @@ app.module.data = {
         timeout: (attr.timeout) ? attr.timeout.value : 0
       },
       cache: {
+        mechanism: this.storageMechanism,
         format: 'json',
         keyType: this.storageType,
         key: options.storageKey
@@ -59,7 +60,7 @@ app.module.data = {
       total = iterate && iterateObject.length - 1 || 0
 
     var originalNode = element.cloneNode(true),
-      orginalNodeCountAll = dom.find(originalNode, '*').length,
+      orginalNodeCountAll = dom.find(originalNode, '*').length || originalNode.childElementCount,
       content = ''
 
     for (var i = 0; i <= total; i++) {
