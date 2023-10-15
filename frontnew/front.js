@@ -127,6 +127,9 @@ var dom = {
   },
 
   bind: function (object, value, attr) {
+
+    console.error(object)
+
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
       type = object.tagName.toLowerCase(),
@@ -480,7 +483,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 35 },
+  version: { major: 1, minor: 0, patch: 0, build: 36 },
   module: {},
   plugin: {},
   var: {},
@@ -1203,7 +1206,7 @@ var app = {
 
             if (el) {
               dom.set(this.elements[j], el)
-              app.attributes.run(this.elements[j] + ' *')
+              if (dom.get('template')) app.attributes.run(this.elements[j] + ' *')
             }
           }
         }
