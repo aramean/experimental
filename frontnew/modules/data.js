@@ -118,7 +118,7 @@ app.module.data = {
         }
 
         dom.set(element, value)
-        app.attributes.run(element)
+        //app.attributes.run(element)
       }
     }
   },
