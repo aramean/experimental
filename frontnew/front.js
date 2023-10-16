@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 39 },
+  version: { major: 1, minor: 0, patch: 0, build: 40 },
   module: {},
   plugin: {},
   var: {},
@@ -496,10 +496,10 @@ var app = {
   modules: { total: 0, loaded: 0 },
 
   /**
- * @namespace start
- * @memberof app
- * @desc
- */
+   * @namespace start
+   * @memberof app
+   * @desc
+   */
   start: function () {
     var selector = 'script[src*=front]',
       element = dom.get(selector),
