@@ -271,6 +271,11 @@ var dom = {
     element.id = 'id' + dom.uniqueId
   },
 
+  title: function (value) {
+    app.title = value
+    document.title = value
+  },
+
   /**
    * @function set
    * @memberof dom
@@ -480,7 +485,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 40 },
+  version: { major: 1, minor: 0, patch: 0, build: 41 },
   module: {},
   plugin: {},
   var: {},
@@ -851,7 +856,7 @@ var app = {
                     page: true,
                     total: templateSrc.length + (templateSrcDoc ? 1 : 0)
                   }
-                  document.title = responsePageTitle
+                  dom.title(responsePageTitle)
                   app.assets.get.templates()
                   break
                 case 'var':
@@ -1161,11 +1166,7 @@ var app = {
 
         for (var j = 0; j < this.elements.length; j++) {
           var el = dom.find(responsePage, this.elements[j]).innerHTML
-          if (el) {
-            dom.set(this.elements[j], el)
-          } else {
-            dom.set(this.elements[j], '')
-          }
+          dom.set(this.elements[j], el ? el : '')
         }
 
         if (page === false) {
@@ -1210,7 +1211,7 @@ var app = {
         }
       }
 
-      document.title = currentPageTitle
+      dom.title(currentPageTitle)
     }
   }
 }
