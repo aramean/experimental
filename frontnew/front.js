@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 37 },
+  version: { major: 1, minor: 0, patch: 0, build: 38 },
   module: {},
   plugin: {},
   var: {},
@@ -570,6 +570,7 @@ var app = {
       var config = this.get(false, {
         debug: false,
         debugLocalhost: false,
+        varsDir: app.script.path
         //fileExtension: '.html'
       }, scriptElement || app.script.element)
 
@@ -692,7 +693,7 @@ var app = {
           var name = app.vars.name[j]
           app.log.info(1)(name)
           app.xhr.get({
-            url: app.script.path + 'assets/json/vars/' + name + '.json',
+            url: 'assets/json/vars/' + name + '.json',
             type: 'var',
             cache: {
               format: 'json',
