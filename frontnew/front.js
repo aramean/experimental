@@ -480,7 +480,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 38 },
+  version: { major: 1, minor: 0, patch: 0, build: 39 },
   module: {},
   plugin: {},
   var: {},
@@ -494,6 +494,27 @@ var app = {
 
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
+
+  /**
+ * @namespace start
+ * @memberof app
+ * @desc
+ */
+  start: function () {
+    var selector = 'script[src*=front]',
+      element = dom.get(selector),
+      value = element.attributes.src.value
+
+    app.script = {
+      element: element,
+      path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
+      selector: selector
+    }
+
+    app.xhr.start()
+    app.config.set()
+    app.assets.load()
+  },
 
   /**
    @namespace log
@@ -765,27 +786,6 @@ var app = {
         }
       }
     }
-  },
-
-  /**
-   * @namespace start
-   * @memberof app
-   * @desc
-   */
-  start: function () {
-    var selector = 'script[src*=front]',
-      element = dom.get(selector),
-      value = element.attributes.src.value
-
-    app.script = {
-      element: element,
-      path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
-      selector: selector
-    }
-
-    app.xhr.start()
-    app.config.set()
-    app.assets.load()
   },
 
   /**
