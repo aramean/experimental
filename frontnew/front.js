@@ -137,6 +137,13 @@ var dom = {
 
     var bindings = binding.indexOf(':') !== -1 && binding.split(';')
 
+    // Fix timing bug. Sort so that bind asset variables are always last.
+    bindings.sort(function (a, b) {
+      if (a.includes(':^')) return 1
+      if (b.includes(':^')) return -1
+      return 0
+    })
+
     for (var i = 0; i < bindings.length; i++) {
       var bindingParts = bindings[i].split(':'),
         replaceVariable = bindingParts[0].trim(),
@@ -158,11 +165,19 @@ var dom = {
       // Bind asset variable
       if (replaceValue[0] === '^') {
         var keys = target.split('.'),
-          cache = app.caches.get('window', 'var', keys[0])
+          cache = app.caches.get('window', 'var', keys[0]),
+          value
+
+        console.log(cache.data)
         if (cache && cache.data) {
-          var value = cache.data
+          value = cache.data
           for (var i = 1; i < keys.length; i++) {
-            value = value[keys[i]]
+            if (value.hasOwnProperty(keys[i])) {
+              value = value[keys[i]]
+            } else {
+              console.error('Key ' + keys[i] + ' does not exist on value object')
+              return
+            }
           }
           replaceValue = value
         }
@@ -190,19 +205,17 @@ var dom = {
         continue
       }
 
-      // Replace variables in attributes
+      // Replace variables in attributes.
       for (var j = 0; j < attributes.length; j++) {
-        var attr = attributes[j]
-        var value = attr.value
-        var defaultValue = ''
-        value = value.replace(/:([^&}]+)/g, function (match, capturedGroup) {
+        var attr = attributes[j],
+          defaultValue = ''
+        var value = attr.value.replace(/:([^&}]+)/, function (match, capturedGroup) {
           defaultValue = capturedGroup
           return ''
         })
 
         if (value.indexOf('{' + replaceVariable + '}') !== -1) {
-          var newValue = value.replace(regex2, replaceValue === '' ? defaultValue : replaceValue)
-          attr.value = newValue
+          attr.value = value.replace(regex2, replaceValue === '' ? defaultValue : replaceValue)
         }
       }
 
@@ -487,7 +500,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 44 },
+  version: { major: 1, minor: 0, patch: 0, build: 45 },
   module: {},
   plugin: {},
   var: {},
