@@ -152,6 +152,7 @@ var dom = {
 
       // Bind global variable
       if (replaceValue[0] === '*') {
+        console.log(replaceValue)
         replaceValue = (window.app[target]) ? window.app[target] : ''
       }
 
@@ -442,6 +443,8 @@ var dom = {
    * @desc * Loads the content of an external file and insert it into the DOM.
    */
   include: function (element) {
+    var bind = element.attributes.bind
+    if (bind) dom.bind.include = bind.value
     app.xhr.get({
       element: element,
       url: element.attributes.include.value,
@@ -485,7 +488,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 42 },
+  version: { major: 1, minor: 0, patch: 0, build: 43 },
   module: {},
   plugin: {},
   var: {},
