@@ -152,7 +152,6 @@ var dom = {
 
       // Bind global variable
       if (replaceValue[0] === '*') {
-        console.log(replaceValue)
         replaceValue = (window.app[target]) ? window.app[target] : ''
       }
 
@@ -488,7 +487,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 43 },
+  version: { major: 1, minor: 0, patch: 0, build: 44 },
   module: {},
   plugin: {},
   var: {},
