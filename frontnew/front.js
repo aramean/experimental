@@ -161,12 +161,11 @@ var dom = {
       }
       // Bind asset variable
       else if (replaceValue[0] === '^') {
-        var keys = target.split('.')
-        var cache = app.caches.get('window', 'var', keys[0])
-        var value
+        var keys = target.split('.'),
+          cache = app.caches.get('window', 'var', keys[0])
 
         if (cache && cache.data) {
-          value = cache.data
+          var value = cache.data
           for (var j = 1; j < keys.length; j++) {
             if (value.hasOwnProperty(keys[j])) {
               value = value[keys[j]]
@@ -176,7 +175,6 @@ var dom = {
             }
           }
 
-          console.log(keys + ': ' + value);
           replaceValue = value
         }
       }
@@ -498,7 +496,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 46 },
+  version: { major: 1, minor: 0, patch: 0, build: 47 },
   module: {},
   plugin: {},
   var: {},
