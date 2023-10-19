@@ -134,7 +134,6 @@ var dom = {
       clonedObject = object.cloneNode(true)
 
     // Set variable if colon is presented or update innerhtml.
-
     var bindings = binding.indexOf(':') !== -1 && binding.split(';')
 
     // Fix timing bug. Sort so that bind asset variables are always last.
@@ -156,35 +155,33 @@ var dom = {
       if (replaceValue[0] === '?') {
         replaceValue = app.querystrings.get(false, target)
       }
-
       // Bind global variable
-      if (replaceValue[0] === '*') {
-        replaceValue = (window.app[target]) ? window.app[target] : ''
+      else if (replaceValue[0] === '*') {
+        replaceValue = window.app[target] || ''
       }
-
       // Bind asset variable
-      if (replaceValue[0] === '^') {
-        var keys = target.split('.'),
-          cache = app.caches.get('window', 'var', keys[0]),
-          value
+      else if (replaceValue[0] === '^') {
+        var keys = target.split('.')
+        var cache = app.caches.get('window', 'var', keys[0])
+        var value
 
-        console.log(cache.data)
         if (cache && cache.data) {
           value = cache.data
-          for (var i = 1; i < keys.length; i++) {
-            if (value.hasOwnProperty(keys[i])) {
-              value = value[keys[i]]
+          for (var j = 1; j < keys.length; j++) {
+            if (value.hasOwnProperty(keys[j])) {
+              value = value[keys[j]]
             } else {
-              console.error('Key ' + keys[i] + ' does not exist on value object')
+              console.error('Key ' + keys[j] + ' does not exist on the value object')
               return
             }
           }
+
+          console.log(keys + ': ' + value);
           replaceValue = value
         }
       }
-
       // Bind element
-      if (replaceValue[0] === '#') {
+      else if (replaceValue[0] === '#') {
         var binding = dom.get(replaceValue),
           type = binding.type
         switch (type) {
@@ -205,28 +202,29 @@ var dom = {
         continue
       }
 
-      // Replace variables in attributes.
       for (var j = 0; j < attributes.length; j++) {
         var attr = attributes[j],
-          defaultValue = ''
-        var value = attr.value.replace(/:([^&}]+)/, function (match, capturedGroup) {
-          defaultValue = capturedGroup
-          return ''
+          attrValue = attr.value
+
+        function replacePlaceholder(match, capturedGroup) {
+          return replaceValue === '' ? capturedGroup : replaceValue
+        }
+
+        var value = attrValue.replace(/{[^}]*:([^}]+)}/, function (match, capturedGroup) {
+          defaultValue = replaceValue ? replaceValue : capturedGroup
+          return defaultValue
         })
 
-        if (value.indexOf('{' + replaceVariable + '}') !== -1) {
-          attr.value = value.replace(regex2, replaceValue === '' ? defaultValue : replaceValue)
-        }
+        attrValue = value.replace(regex2, replacePlaceholder);
+        attr.value = attrValue;
       }
 
-      // Replace variables in innerHTML
       innerHTML = innerHTML.replace(regex, function (match) {
         if (match === '{' + replaceVariable + '}') {
           return replaceValue
         }
         return match
       })
-
     }
 
     //object.innerHTML = innerHTML
@@ -500,7 +498,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 45 },
+  version: { major: 1, minor: 0, patch: 0, build: 46 },
   module: {},
   plugin: {},
   var: {},
