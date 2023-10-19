@@ -7,8 +7,8 @@
     <div id="error" class="red mb2" hide>Something went wrong!</div>
     <div id="success" class="green mb2" hide>It's working!</div>
 <div
-  bind="page:?page;test:mjaoo;api:^api.themoviedb.movies.popular;test2:skafunka"
-  data-src="{api}&page={page:1}&{test}&{test2}"
+  bind="page:?page;page2:?page2;test:mjaoo;api:^api.themoviedb.movies.popular;josef:^api.themoviedb.shows.popular;test2:skafunka"
+  data-src="{api}&page={page:1}&page2={page2:2}&{test}&{test2}&{josef}"
   data-set="page:#page;total_pages:#pages;total_results:#results"
   data-header=""
   iterate="results"
