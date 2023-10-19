@@ -157,7 +157,7 @@ var dom = {
       }
       // Bind global variable
       else if (replaceValue[0] === '*') {
-        replaceValue = window.app[target] || ''
+        replaceValue = app[target] || ''
       }
       // Bind asset variable
       else if (replaceValue[0] === '^') {
@@ -494,7 +494,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 50 },
+  version: { major: 1, minor: 0, patch: 0, build: 51 },
   module: {},
   plugin: {},
   var: {},
