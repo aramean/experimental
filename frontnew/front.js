@@ -209,7 +209,7 @@ var dom = {
         }
 
         var value = attrValue.replace(/{[^}]*:([^}]+)}/, function (match, capturedGroup) {
-          return replaceValue ? replaceValue : capturedGroup
+          return replaceValue || capturedGroup
         })
 
         attrValue = value.replace(regex2, replacePlaceholder);
@@ -495,7 +495,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 48 },
+  version: { major: 1, minor: 0, patch: 0, build: 49 },
   module: {},
   plugin: {},
   var: {},
