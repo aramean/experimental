@@ -136,13 +136,6 @@ var dom = {
     // Set variable if colon is presented or update innerhtml.
     var bindings = binding.indexOf(':') !== -1 && binding.split(';')
 
-    // Fix timing bug. Sort so that bind asset variables are always last.
-    bindings.sort(function (a, b) {
-      if (a.includes(':^')) return 1
-      if (b.includes(':^')) return -1
-      return 0
-    })
-
     for (var i = 0; i < bindings.length; i++) {
       var bindingParts = bindings[i].split(':'),
         replaceVariable = bindingParts[0].trim(),
@@ -494,7 +487,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 51 },
+  version: { major: 1, minor: 0, patch: 0, build: 52 },
   module: {},
   plugin: {},
   var: {},
