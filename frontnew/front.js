@@ -130,11 +130,12 @@ var dom = {
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
       type = object.tagName.toLowerCase(),
-      binding = object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var'),
+      bindInclude = this.bind.include || '',
+      binding = (object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var')) || '' + bindInclude,
       clonedObject = object.cloneNode(true)
 
     // Set variable if colon is presented or update innerhtml.
-    var bindings = binding.indexOf(':') !== -1 && binding.split(';') || []
+    var bindings = binding ? binding.indexOf(':') !== -1 && binding.split(';') : []
 
     for (var i = 0; i < bindings.length; i++) {
       var bindingParts = bindings[i].split(':'),
@@ -218,6 +219,7 @@ var dom = {
 
     //object.innerHTML = innerHTML
     dom.set(object, innerHTML)
+    delete this.bind.include
   },
 
   loader: function (object, value) {
@@ -487,7 +489,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 53 },
+  version: { major: 1, minor: 0, patch: 0, build: 55 },
   module: {},
   plugin: {},
   var: {},
