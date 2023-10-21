@@ -219,7 +219,7 @@ var dom = {
 
     //object.innerHTML = innerHTML
     dom.set(object, innerHTML)
-    delete this.bind.include
+    //delete this.bind.include
   },
 
   loader: function (object, value) {
@@ -444,6 +444,7 @@ var dom = {
    * @desc * Loads the content of an external file and insert it into the DOM.
    */
   include: function (element) {
+    delete this.bind.include
     var bind = element.attributes.bind
     if (bind) dom.bind.include = bind.value
     app.xhr.get({
@@ -489,7 +490,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 55 },
+  version: { major: 1, minor: 0, patch: 0, build: 56 },
   module: {},
   plugin: {},
   var: {},
