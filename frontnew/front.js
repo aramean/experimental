@@ -134,7 +134,7 @@ var dom = {
       clonedObject = object.cloneNode(true)
 
     // Set variable if colon is presented or update innerhtml.
-    var bindings = binding.indexOf(':') !== -1 && binding.split(';')
+    var bindings = binding.indexOf(':') !== -1 && binding.split(';') || []
 
     for (var i = 0; i < bindings.length; i++) {
       var bindingParts = bindings[i].split(':'),
@@ -487,7 +487,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 52 },
+  version: { major: 1, minor: 0, patch: 0, build: 53 },
   module: {},
   plugin: {},
   var: {},
