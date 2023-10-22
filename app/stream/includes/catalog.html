@@ -1,12 +1,6 @@
-<!--<h1 bind="title:*title" set="{title}"></h1>-->
-
-<!--<span bind="page:?page" set="{josef}">.</span>-->
-
-
-<span bind=":" set="{josef}">.</span>
-
-<br>
-..................................
+<h2 bind="title:*title" set="{title}"></h2>
+<hr>
+<span bind=":" set="{extra}">.</span>
 
 <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif" async></div>
 <div id="error" class="red mb2" hide>Something went wrong!</div>
@@ -23,8 +17,8 @@
   class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2- br05- bcwhite- border- tac"
 >
   <figure class="">
-      <img width="100" data-get="poster_path" insert="beforebegin:https://image.tmdb.org/t/p/w220_and_h330_face">
-      <figcaption class="z1 md_dn fs08" data-get="title"></figcaption>
+    <img width="100" data-get="poster_path" insert="beforebegin:https://image.tmdb.org/t/p/w220_and_h330_face">
+    <figcaption class="z1 md_dn fs08" bind=":" data-get="{name}"></figcaption>
   </figure>
 </div>
 

@@ -1,7 +1,5 @@
 <template>
   <aside>
-    <ul class="list" bind="hej:josef;api:^api.themoviedb.movies.popular" data-src="assets/json/categories.json?{hej}{api}" iterate="categories">
-      <li data-get="name">.</li>
-    </ul>
+    <div include="includes/genre.html"></div>
   </aside>
 </template>

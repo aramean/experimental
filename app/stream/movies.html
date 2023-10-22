@@ -1,4 +1,4 @@
 <script src="../../frontnew/front.js"></script>
 <title>Movies</title>
 <template srcdoc="../app/stream/index" src="../app/stream/templates/movies"></template>
-<div bind="api:^api.themoviedb.movies.popular" include="includes/catalog.html"></div>
+<div bind="api:^api.themoviedb.movies.popular;name:title" include="includes/catalog.html"></div>
