@@ -178,18 +178,21 @@ var dom = {
           type = target.type,
           name = target.id || target.name
 
+        var match = binding.match(new RegExp("([^:]+):[#.]" + name)),
+          replaceVariableNew = match ? match[1] : ''
+
         switch (type) {
           case 'text':
             app.listeners.add(target, 'input', function () {
-              app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
-              app.variables.update.content(object, regex, replaceVariable, this.value)
+              app.variables.update.attributes(object, clonedObject, regex, replaceVariableNew, this.value, true)
+              app.variables.update.content(object, regex, replaceVariableNew, this.value)
             })
             break
           case 'select-one':
             app.listeners.add(target, 'change', function () {
               var value = this.options[this.selectedIndex].value
-              app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
-              app.variables.update.content(object, regex, replaceVariable, value)
+              app.variables.update.attributes(object, clonedObject, regex, replaceVariableNew, this.value, true)
+              app.variables.update.content(object, regex, replaceVariableNew, value)
             })
             break
         }
@@ -490,7 +493,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 59 },
+  version: { major: 1, minor: 0, patch: 0, build: 60 },
   module: {},
   plugin: {},
   var: {},
@@ -1070,7 +1073,6 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, regex, replaceVariable, replaceValue, reset) {
-
         var originalAttributes = []
         var originalContent = clonedObject.innerHTML
 
@@ -1084,11 +1086,8 @@ var app = {
           })
 
           if (attr.name == 'bind') continue
-          var newValue = attr.value.replace(regex, function (match) {
-            if (match === '{' + replaceVariable + '}')
-              return replaceValue
-          })
-          object.setAttribute(attr.name, newValue)
+          var regex = new RegExp('\\{' + replaceVariable + '\\}', 'g')
+          object.setAttribute(attr.name, attr.value.replace(regex, replaceValue))
         }
 
         if (reset) {
