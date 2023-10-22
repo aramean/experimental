@@ -174,17 +174,19 @@ var dom = {
       }
       // Bind element
       else if (replaceValue[0] === '#') {
-        var binding = dom.get(replaceValue),
-          type = binding.type
+        var target = dom.get(replaceValue),
+          type = target.type,
+          name = target.id || target.name
+
         switch (type) {
           case 'text':
-            app.listeners.add(binding, 'input', function () {
+            app.listeners.add(target, 'input', function () {
               app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
               app.variables.update.content(object, regex, replaceVariable, this.value)
             })
             break
           case 'select-one':
-            app.listeners.add(binding, 'change', function () {
+            app.listeners.add(target, 'change', function () {
               var value = this.options[this.selectedIndex].value
               app.variables.update.attributes(object, clonedObject, regex, replaceVariable, this.value, true)
               app.variables.update.content(object, regex, replaceVariable, value)
@@ -488,7 +490,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 58 },
+  version: { major: 1, minor: 0, patch: 0, build: 59 },
   module: {},
   plugin: {},
   var: {},
