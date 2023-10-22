@@ -130,15 +130,15 @@ var dom = {
     var attributes = object.attributes,
       innerHTML = object.innerHTML,
       type = object.tagName.toLowerCase(),
-      bindInclude = this.bind.include || '',
-      binding = (object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var')) || '' + bindInclude,
+      bindInclude = this.bind.include ? ';' + this.bind.include : '',
+      binding = ((object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var')) || '') + bindInclude,
       clonedObject = object.cloneNode(true)
 
     // Set variable if colon is presented or update innerhtml.
-    var bindings = binding ? binding.indexOf(':') !== -1 && binding.split(';') : []
+    var bindings = binding ? binding.split(';') : []
 
     for (var i = 0; i < bindings.length; i++) {
-      var bindingParts = bindings[i].split(':'),
+      var bindingParts = bindings[i].split(':') || [],
         replaceVariable = bindingParts[0].trim(),
         replaceValue = bindingParts[1].trim(),
         target = replaceValue.substr(1),
@@ -219,7 +219,6 @@ var dom = {
 
     //object.innerHTML = innerHTML
     dom.set(object, innerHTML)
-    //delete this.bind.include
   },
 
   loader: function (object, value) {
@@ -444,7 +443,6 @@ var dom = {
    * @desc * Loads the content of an external file and insert it into the DOM.
    */
   include: function (element) {
-    delete this.bind.include
     var bind = element.attributes.bind
     if (bind) dom.bind.include = bind.value
     app.xhr.get({
@@ -490,7 +488,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 56 },
+  version: { major: 1, minor: 0, patch: 0, build: 57 },
   module: {},
   plugin: {},
   var: {},
@@ -862,6 +860,7 @@ var app = {
                     total: templateSrc.length + (templateSrcDoc ? 1 : 0)
                   }
                   dom.title(responsePageTitle)
+                  dom.bind.include = ''
                   app.assets.get.templates()
                   break
                 case 'var':
