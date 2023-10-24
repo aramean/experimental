@@ -306,7 +306,7 @@ var dom = {
         break
       case 'a':
         if (replace) value = target.href.replace(new RegExp('{' + replace + '}', 'g'), value)
-        target.href = value
+        target.innerHTML = value
         break
       case 'select':
         target.setAttribute('select', value)
@@ -493,7 +493,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 60 },
+  version: { major: 1, minor: 0, patch: 0, build: 61 },
   module: {},
   plugin: {},
   var: {},

@@ -87,13 +87,40 @@ app.module.data = {
   },
 
   _get: function (obj, valueString) {
-    var keys = valueString.split('.')
-    for (var i = 0; i < keys.length; i++) {
-      var key = keys[i],
-        obj = obj[key]
+    var orPaths = valueString.split('||'),
+      result
+
+    for (var i = 0; i < orPaths.length; i++) {
+      var andPaths = orPaths[i].trim().split('&&'),
+        tempResult = []
+
+      for (var j = 0; j < andPaths.length; j++) {
+        var tempObj = obj,
+          keys = andPaths[j].trim().split('.')
+
+        for (var k = 0; k < keys.length; k++) {
+          if (tempObj[keys[k]] !== undefined) {
+            tempObj = tempObj[keys[k]]
+          } else {
+            tempObj = undefined
+            break
+          }
+        }
+
+        if (tempObj !== undefined) {
+          tempResult.push(tempObj)
+        } else {
+          break
+        }
+      }
+
+      if (tempResult.length === andPaths.length) {
+        result = tempResult.join(' ')
+        break
+      }
     }
 
-    return obj
+    return result
   },
 
   _set: function (response, options) {
