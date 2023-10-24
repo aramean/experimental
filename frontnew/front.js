@@ -448,6 +448,9 @@ var dom = {
    * @desc * Loads the content of an external file and insert it into the DOM.
    */
   include: function (element) {
+
+    //@TODO Fix ie bugg with reversed attributes.
+  
     var bind = element.attributes.bind
     if (bind) dom.bind.include = bind.value
     app.xhr.get({
@@ -493,7 +496,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 61 },
+  version: { major: 1, minor: 0, patch: 0, build: 62 },
   module: {},
   plugin: {},
   var: {},
