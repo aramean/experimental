@@ -449,7 +449,7 @@ var dom = {
    */
   include: function (element) {
 
-    //@TODO Fix ie bugg with reversed attributes.
+    //@TODO Fix ie bug with reversed attributes.
   
     var bind = element.attributes.bind
     if (bind) dom.bind.include = bind.value
@@ -496,7 +496,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 62 },
+  version: { major: 1, minor: 0, patch: 0, build: 63 },
   module: {},
   plugin: {},
   var: {},
