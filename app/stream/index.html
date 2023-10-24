@@ -16,10 +16,25 @@
   <title>Stream</title>
 </head>
 
-<body class="dark">
+<body>
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
   <header class="topbar dark h4_5 gap2- pr2 shade1">
-    <h1><a href="./">Stream</a></h1><input class="ml1 mt1 bs1 p1 h3" id="josefinput" type="text" placeholder="Search...">
+    <h1><a href="./">Stream</a></h1>
+    <input class="ml1 bs1 p1 h3 black" id="query" type="text" placeholder="Search for movies, TV shows and people ...">
+    <div 
+    stop="data-src"
+    bind="q:#query;s:^api.themoviedb.search.keyword"
+    data-src="{s}{q}"
+    loader="false"
+    iterate="results"
+    class="box br05 bcblack- white- border-"
+    hide
+    showif="success"
+    >
+      <figure class="p05">
+        <a data-get="title || name" href="moive.html?{title}" class="md_dn"></a>
+      </figure>
+    </div>
     <a href="movies.html?page=2">Movies</a>
     <a href="shows.html">Shows</a>
   </header>

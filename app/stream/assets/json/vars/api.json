@@ -13,6 +13,9 @@
     },
     "shows": {
       "popular": "https://api.themoviedb.org/3/discover/tv?api_key=342c7c6976e9730798bc4bfbb2786cf7&include_adult=false&language=en-US&sort_by=popularity.desc"
+    },
+    "search": {
+      "keyword": "https://api.themoviedb.org/3/search/multi?api_key=342c7c6976e9730798bc4bfbb2786cf7&include_adult=false&language=en-US&query="
     }
   }
 }
