@@ -16,7 +16,7 @@
   <title>Stream</title>
 </head>
 
-<body class="dark">
+<body class="white">
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
   <header class="topbar h4_5 gap2- pr2 shade1">
     <h1><a href="./">Stream</a></h1>
@@ -29,7 +29,6 @@
     iterate="results"
     class="box br05 bcblack- white- border-"
     hide
-    showif="success"
     >
       <figure class="p05">
         <a data-get="title || name" href="moive.html?{title}" class="md_dn"></a>
@@ -42,14 +41,7 @@
   <aside></aside>
   <main>
 
-    <div id="page2" stop="lowercase;set" set="ABCDEFGH" lowercase></div>
-
-    <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif"></div>
-
-    <div id="error" class="red mb2" hide>Something went wrong!</div>
-    <div id="success" class="green mb2" hide>It's working!</div>
-
-    <div
+   <div
       bind="api:^api.themoviedb.trending.all;name:title;extra:Brikti;link:movie"
       include="includes/catalog.html">
     </div>
