@@ -46,11 +46,12 @@ var dom = {
      * @desc Parses a string of HTML and return a DOM node.
     */
     text: function (string, exclude) {
-      var matches = string.match(/<html\s+([^>]*)>/i),
-        el = document.createElement('spot')
-
-      if (matches) {
-        var attributes = matches[1].trim(),
+      var el = document.createElement('spot'),
+        html = string.match(/<html\s+([^>]*)>/i),
+        body = string.match(/<body\s+class="([^"]*)"/i)
+  
+      if (html) {
+        var attributes = html[1].trim(),
           attributePairs = attributes.split(/\s+/)
 
         for (var i = 0; i < attributePairs.length; i++) {
@@ -59,6 +60,10 @@ var dom = {
             value = pair[1].slice(1, -1)
           el.setAttribute(name, value)
         }
+      }
+
+      if (body) {
+        el.className = body[1]
       }
 
       if (exclude) {
@@ -496,7 +501,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 65 },
+  version: { major: 1, minor: 0, patch: 0, build: 66 },
   module: {},
   plugin: {},
   var: {},
@@ -1162,8 +1167,8 @@ var app = {
     render: function () {
       app.log.info()('Rendering templates...')
       var currentPageTitle = document.title,
-        currentPageBody = document.body.innerHTML
-      var page = app.srcTemplate.page,
+        currentPageBodyContent = document.body.innerHTML
+      var isReload = app.srcTemplate.page,
         srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
@@ -1171,14 +1176,15 @@ var app = {
         var cache = app.caches.get('window', 'template', srcDoc)
         var responsePage = dom.parse.text(cache.data, ['title']),
           responsePageScript = dom.find(responsePage, app.script.selector),
-          responsePageContent = responsePage.innerHTML
+          responsePageContent = responsePage.innerHTML,
+          responsePageContentClass = responsePage.className
 
         for (var j = 0; j < this.elements.length; j++) {
           var el = dom.find(responsePage, this.elements[j]).innerHTML
           dom.set(this.elements[j], el ? el : '')
         }
 
-        if (page === false) {
+        if (!isReload) {
           var scriptAttr = responsePageScript.attributes,
             modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
             vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
@@ -1200,7 +1206,7 @@ var app = {
             dom.set('html', responsePageContent)
           }
 
-          dom.set('main', currentPageBody)
+          dom.set('main', currentPageBodyContent)
         }
       }
 
@@ -1221,6 +1227,7 @@ var app = {
         }
       }
 
+      document.body.className = responsePageContentClass
       dom.title(currentPageTitle)
     }
   }
