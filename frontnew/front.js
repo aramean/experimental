@@ -496,7 +496,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 63 },
+  version: { major: 1, minor: 0, patch: 0, build: 64 },
   module: {},
   plugin: {},
   var: {},
@@ -1168,7 +1168,8 @@ var app = {
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
-        var responsePage = dom.parse.text(app.caches['template'][srcDoc].data, ['title']),
+        var cache = app.caches.get('window', 'template', srcDoc)
+        var responsePage = dom.parse.text(cache.data, ['title']),
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML
 
@@ -1205,7 +1206,8 @@ var app = {
 
       if (src) {
         for (var i = 0; i < src.length; i++) {
-          var html = dom.parse.text(app.caches['template'][src[i]].data),
+          var cache = app.caches.get('window', 'template', src[i])
+          var html = dom.parse.text(cache.data),
             template = dom.parse.text(dom.find(html, 'template').innerHTML)
 
           for (var j = 0; j < this.elements.length; j++) {
