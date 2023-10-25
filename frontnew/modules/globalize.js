@@ -65,7 +65,7 @@ app.module.globalize = {
    * @desc Gets the globalized value and set it to the element.
    */
   get: function (element) {
-    var responseData = this.responseData || app.caches['module'][this.storeKey],
+    var responseData = this.responseData || app.caches.get(this.storageMechanism, 'module', this.storeKey),
       value = element.getAttribute(this.module + '-get'),
       isRoot = value[0] == '/' ? true : false,
       setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
