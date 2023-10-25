@@ -77,7 +77,12 @@ app.module.data = {
       if (i % orginalNodeCountAll === 0) j++
 
       if (dataget) {
-        dom.set(elements[i], this._get(iterateObject[j], dataget), false)
+        if (dataget.indexOf(':') !== -1) {
+          var data = dataget.split(':')
+          app.variables.update.attributes(elements[i], elements[i], data[0], this._get(iterateObject[j], data[1]), false)
+        } else {
+          dom.set(elements[i], this._get(iterateObject[j], dataget), false)
+        }
       }
     }
 
@@ -87,8 +92,8 @@ app.module.data = {
   },
 
   _get: function (obj, valueString) {
-    var orPaths = valueString.split('||'),
-      result
+    var result,
+      orPaths = valueString.split('||')
 
     for (var i = 0; i < orPaths.length; i++) {
       var andPaths = orPaths[i].trim().split('&&'),
@@ -96,18 +101,19 @@ app.module.data = {
 
       for (var j = 0; j < andPaths.length; j++) {
         var tempObj = obj,
-          keys = andPaths[j].trim().split('.')
+          keys = andPaths[j].trim().split('.'),
+          valid = true
 
         for (var k = 0; k < keys.length; k++) {
-          if (tempObj[keys[k]] !== undefined) {
+          if (tempObj.hasOwnProperty(keys[k])) {
             tempObj = tempObj[keys[k]]
           } else {
-            tempObj = undefined
+            valid = false
             break
           }
         }
 
-        if (tempObj !== undefined) {
+        if (valid) {
           tempResult.push(tempObj)
         } else {
           break

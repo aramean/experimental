@@ -184,14 +184,14 @@ var dom = {
         switch (type) {
           case 'text':
             app.listeners.add(target, 'input', function () {
-              app.variables.update.attributes(object, clonedObject, regex, replaceVariableNew, this.value, true)
+              app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
               app.variables.update.content(object, regex, replaceVariableNew, this.value)
             })
             break
           case 'select-one':
             app.listeners.add(target, 'change', function () {
               var value = this.options[this.selectedIndex].value
-              app.variables.update.attributes(object, clonedObject, regex, replaceVariableNew, this.value, true)
+              app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
               app.variables.update.content(object, regex, replaceVariableNew, value)
             })
             break
@@ -450,7 +450,7 @@ var dom = {
   include: function (element) {
 
     //@TODO Fix ie bug with reversed attributes.
-  
+
     var bind = element.attributes.bind
     if (bind) dom.bind.include = bind.value
     app.xhr.get({
@@ -1075,7 +1075,7 @@ var app = {
    */
   variables: {
     update: {
-      attributes: function (object, clonedObject, regex, replaceVariable, replaceValue, reset) {
+      attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
         var originalAttributes = []
         var originalContent = clonedObject.innerHTML
 
