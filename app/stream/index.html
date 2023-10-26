@@ -19,7 +19,9 @@
 <body class="white">
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
   <header class="topbar h4_5 gap2- pr2 shade1">
-    <h1><a href="./">Stream</a></h1>
+    <figure class="mh30p pl2 sel">
+      <a class="b0 fwb pr025" href="./" key="0">Stream</a>
+    </figure>
     <input class="ml1 bs1 p1 h3 black" id="query" type="text" placeholder="Search for movies, TV shows and people ...">
     <div 
     stop="data-src"
@@ -38,14 +40,12 @@
     <a href="shows.html">Shows</a>
   </header>
 
-  <aside></aside>
-  <main>
-
-   <div
+  <aside class="dark"></aside>
+  <main class="pauto">
+    <div
       bind="api:^api.themoviedb.trending.all;name:title;extra:Brikti;link:movie"
       include="includes/catalog.html">
     </div>
-
   </main>
   <aside></aside>
   <footer></footer>
