@@ -139,15 +139,22 @@ app.module.data = {
         var values = keys[i].split(':'),
           element = values[1],
           value = values[0]
-
         if (values[0][0] === '^') {
           value = response.headers[value.substring(1)]
         } else if (values[0] === '*length') {
           value = response.data.length
         } else if (values[1][0] === '#' || values[1][0] === '.') {
-          value = response.data[values[0]]
+          value = response.data[value]
         } else {
-          app.log.error(0)(values)
+
+          var pathSegments = element.split('.'),
+            replace = response.data
+          for (var i = 0; i < pathSegments.length; i++) {
+            replace = replace[pathSegments[i]]
+          }
+
+          app.variables.update.attributes(options.element, options.element, value, replace, false)
+          continue
         }
 
         dom.set(element, value)
