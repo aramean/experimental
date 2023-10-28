@@ -9,7 +9,7 @@
   "themoviedb": {
     "headers": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMDc2MTg0NCwiZXhwIjoxOTM2MzM3ODQ0fQ.xEa_GuNypFdHSdQVLCd0beoL_v8jhWKjSTypX6kn-sg;Prefer:count=exact",
     "movie": {
-      "id": "https://api.themoviedb.org/3/movie/"
+      "id": "https://api.themoviedb.org/3/movie/{id}/videos?{api_key}"
     },
     "movies": {
       "popular": "https://api.themoviedb.org/3/discover/movie?api_key=342c7c6976e9730798bc4bfbb2786cf7&include_adult=false&language=en-US&sort_by=popularity.desc"

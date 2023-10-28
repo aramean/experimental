@@ -1,9 +1,12 @@
 <iframe
-  class="w100 h100"
-  src="https://www.youtube-nocookie.com/embed/-Q5gWq4LeUM?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0&autoplay=1&playsinline=1&rel=0"
+  bind="m:^api.themoviedb.movie.id;api_key:^api.stream.api_key;id:?id"
+  data-src="{m}"
+  data-set="youtube:results.0.key"
+  src="https://www.youtube-nocookie.com/embed/{youtube}?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0&autoplay=1&playsinline=1&rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
   allowfullscreen=""
+  class="w100 h100"
 >
 </iframe>
 
