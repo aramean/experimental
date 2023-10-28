@@ -16,25 +16,27 @@
   <title>Stream</title>
 </head>
 
-<body class="white">
+<body class="light">
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
   <header class="topbar h4_5 gap2- pr2 shade1">
     <figure class="mh30p pl2 sel">
       <a class="b0 fwb pr025" href="./" key="0">Stream</a>
     </figure>
-    <input class="ml1 bs1 p1 h3 black" id="query" type="text" placeholder="Search for movies, TV shows and people ...">
-    <div 
-    stop="data-src"
-    bind="q:#query;s:^api.themoviedb.search.keyword"
-    data-src="{s}{q}"
-    loader="false"
-    iterate="results"
-    class="box br05 bcblack- white- border-"
-    hide
-    >
-      <figure class="p05">
-        <a data-get="title || name" href="moive.html?{title}" class="md_dn"></a>
-      </figure>
+    <div class="pr f1">
+      <input class="bs1 p1 h3 br05 dark w100 md_dn" id="query" type="text" placeholder="Search for movies, TV shows and people ...">
+      <div 
+        stop="data-src"
+        bind="q:#query;s:^api.themoviedb.search.keyword"
+        data-src="{s}{q}"
+        loader="false"
+        iterate="results"
+        class="box br05 bcblack- white- border- pa w100"
+        hide
+      >
+        <figure class="p05">
+          <a data-get="title" class="md_dn"></a>
+        </figure>
+      </div>
     </div>
     <a href="movies.html?page=2">Movies</a>
     <a href="shows.html">Shows</a>
