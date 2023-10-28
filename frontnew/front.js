@@ -49,7 +49,7 @@ var dom = {
       var el = document.createElement('spot'),
         html = string.match(/<html\s+([^>]*)>/i),
         body = string.match(/<body\s+class="([^"]*)"/i)
-  
+
       if (html) {
         var attributes = html[1].trim(),
           attributePairs = attributes.split(/\s+/)
@@ -208,15 +208,11 @@ var dom = {
         var attr = attributes[j],
           attrValue = attr.value
 
-        function replacePlaceholder(match, capturedGroup) {
-          return replaceValue === '' ? capturedGroup : replaceValue
-        }
-
         var value = attrValue.replace(/{[^}]*:([^}]+)}/, function (match, capturedGroup) {
           return replaceValue || capturedGroup
         })
 
-        attr.value = value.replace(regex2, replacePlaceholder)
+        attr.value = value.replace(regex2, replaceValue)
       }
 
       innerHTML = innerHTML.replace(regex, function (match) {
@@ -470,6 +466,23 @@ var dom = {
     })
   },
 
+  if: function (element, value) {
+    var value = value.split(';') || [],
+      operator = value[0].split(':') || [],
+      func = value[1]
+    //console.log(operator[0] + operator[1] + value[0])
+    switch (func) {
+      case 'show':
+        break
+      case 'hide':
+        break
+      case 'stop':
+        break
+      case 'call':
+        break
+    }
+  },
+
   stopif: function (element, value) {
     var elementValue = element.innerHTML || '',
       values = value.split(':'),
@@ -501,7 +514,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 66 },
+  version: { major: 1, minor: 0, patch: 0, build: 67 },
   module: {},
   plugin: {},
   var: {},
@@ -535,6 +548,10 @@ var app = {
     app.xhr.start()
     app.config.set()
     app.assets.load()
+
+    document.addEventListener('keyup', function (e) {
+      console.log('key')
+    })
   },
 
   /**
@@ -1233,6 +1250,5 @@ var app = {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  app.start()
-})
+
+document.addEventListener('DOMContentLoaded', app.start)
