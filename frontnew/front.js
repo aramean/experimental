@@ -514,7 +514,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 68 },
+  version: { major: 1, minor: 0, patch: 0, build: 69 },
   module: {},
   plugin: {},
   var: {},
@@ -1197,8 +1197,10 @@ var app = {
           responsePageContentClass = responsePage.className
 
         for (var j = 0; j < this.elements.length; j++) {
-          var el = dom.find(responsePage, this.elements[j]).innerHTML
-          dom.set(this.elements[j], el ? el : '')
+          var el = this.elements[j],
+            parsedEl = dom.find(responsePage, el),
+            content = parsedEl.innerHTML
+          dom.set(el, content ? content : '')
         }
 
         if (!isReload) {
