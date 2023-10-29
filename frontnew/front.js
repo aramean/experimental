@@ -514,7 +514,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 69 },
+  version: { major: 1, minor: 0, patch: 0, build: 70 },
   module: {},
   plugin: {},
   var: {},
@@ -1236,11 +1236,12 @@ var app = {
             template = dom.parse.text(dom.find(html, 'template').innerHTML)
 
           for (var j = 0; j < this.elements.length; j++) {
-            var el = dom.find(template, this.elements[j]).innerHTML
-
-            if (el) {
-              dom.set(this.elements[j], el)
-              if (dom.get('template')) app.attributes.run(this.elements[j] + ' *')
+            var el = this.elements[j],
+              parsedEl = dom.find(template, this.elements[j]),
+              content = parsedEl.innerHTML
+            if (content) {
+              dom.set(el, content)
+              if (dom.get('template')) app.attributes.run(el + ' *')
             }
           }
         }
