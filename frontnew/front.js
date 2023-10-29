@@ -514,7 +514,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 71 },
+  version: { major: 1, minor: 0, patch: 0, build: 72 },
   module: {},
   plugin: {},
   var: {},
@@ -1179,7 +1179,7 @@ var app = {
   templates: {
     loaded: 0,
     total: 0,
-    elements: ['header', 'aside:nth-of-type(1)', 'aside:nth-of-type(2)', 'footer'],
+    elements: ['header', 'aside:nth-of-type(1)', 'main', 'aside:nth-of-type(2)', 'footer'],
 
     render: function () {
       app.log.info()('Rendering templates...')
@@ -1200,7 +1200,7 @@ var app = {
           var el = this.elements[j],
             parsedEl = dom.find(responsePage, el),
             content = parsedEl.innerHTML
-          dom.set(el, content ? content : '')
+          if (el !== 'main') dom.set(el, content ? content : '')
         }
 
         if (!isReload) {
