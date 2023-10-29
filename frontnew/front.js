@@ -514,7 +514,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 70 },
+  version: { major: 1, minor: 0, patch: 0, build: 71 },
   module: {},
   plugin: {},
   var: {},
@@ -1237,7 +1237,7 @@ var app = {
 
           for (var j = 0; j < this.elements.length; j++) {
             var el = this.elements[j],
-              parsedEl = dom.find(template, this.elements[j]),
+              parsedEl = dom.find(template, el),
               content = parsedEl.innerHTML
             if (content) {
               dom.set(el, content)
