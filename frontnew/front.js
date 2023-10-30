@@ -514,7 +514,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 72 },
+  version: { major: 1, minor: 0, patch: 0, build: 73 },
   module: {},
   plugin: {},
   var: {},
@@ -1179,7 +1179,7 @@ var app = {
   templates: {
     loaded: 0,
     total: 0,
-    elements: ['header', 'aside:nth-of-type(1)', 'main', 'aside:nth-of-type(2)', 'footer'],
+    elements: { 'header': '', 'aside:nth-of-type(1)': '', 'main': '', 'aside:nth-of-type(2)': '', 'footer': '' },
 
     render: function () {
       app.log.info()('Rendering templates...')
@@ -1196,10 +1196,10 @@ var app = {
           responsePageContent = responsePage.innerHTML,
           responsePageContentClass = responsePage.className
 
-        for (var j = 0; j < this.elements.length; j++) {
-          var el = this.elements[j],
-            parsedEl = dom.find(responsePage, el),
+        for (var el in this.elements) {
+          var parsedEl = dom.find(responsePage, el),
             content = parsedEl.innerHTML
+          this.elements[el] = 'test'
           if (el !== 'main') dom.set(el, content ? content : '')
         }
 
@@ -1235,9 +1235,8 @@ var app = {
           var html = dom.parse.text(cache.data),
             template = dom.parse.text(dom.find(html, 'template').innerHTML)
 
-          for (var j = 0; j < this.elements.length; j++) {
-            var el = this.elements[j],
-              parsedEl = dom.find(template, el),
+          for (var el in this.elements) {
+            var parsedEl = dom.find(template, el),
               content = parsedEl.innerHTML
             if (content) {
               dom.set(el, content)
