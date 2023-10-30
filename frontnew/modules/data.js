@@ -20,14 +20,14 @@ app.module.data = {
       options = {
         loader: attr.loader && attr.loader.value,
         iterate: attr.iterate && attr.iterate.value,
-        element: element
+        element: element,
+        storageKey: this.module + this._generateId(attr['data-src'].value)
       }
 
     this._open(attr, options)
   },
 
   _open: function (attr, options) {
-    options.storageKey = this.module + this._generateId(attr['data-src'].value)
     app.xhr.get({
       url: attr['data-src'].value,
       headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
