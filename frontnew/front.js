@@ -514,7 +514,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 73 },
+  version: { major: 1, minor: 0, patch: 0, build: 74 },
   module: {},
   plugin: {},
   var: {},
@@ -1199,7 +1199,8 @@ var app = {
         for (var el in this.elements) {
           var parsedEl = dom.find(responsePage, el),
             content = parsedEl.innerHTML
-          this.elements[el] = 'test'
+
+          this.elements[el] = parsedEl.classList
           if (el !== 'main') dom.set(el, content ? content : '')
         }
 
@@ -1237,7 +1238,11 @@ var app = {
 
           for (var el in this.elements) {
             var parsedEl = dom.find(template, el),
-              content = parsedEl.innerHTML
+              content = parsedEl.innerHTML,
+              classList = parsedEl.classList
+
+            dom.get(el).classList = classList && classList.length > 0 ? classList : this.elements[el]
+
             if (content) {
               dom.set(el, content)
               if (dom.get('template')) app.attributes.run(el + ' *')
