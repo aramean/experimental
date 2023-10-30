@@ -53,9 +53,16 @@ app.module.data = {
   },
 
   _run: function (options) {
-    var responseData = app.caches.get(this.storageMechanism, this.storageType, options.storageKey),
-      element = options.element,
-      iterate = options.iterate,
+
+    var responseData = app.caches.get(this.storageMechanism, this.storageType, options.storageKey)
+    var element = options.element,
+      datafilteritem = element.getAttribute('data-filteritem')
+    if (datafilteritem) {
+      var datafilterkey = element.getAttribute('data-filterkey')
+      responseData = this._filter(responseData.data, datafilteritem, datafilterkey)
+    }
+
+    var iterate = options.iterate,
       iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
       total = iterate && iterateObject.length - 1 || 0
 
@@ -91,9 +98,9 @@ app.module.data = {
     this._finish(options)
   },
 
-  _get: function (obj, valueString) {
+  _get: function (obj, value) {
     var result,
-      orPaths = valueString.split('||')
+      orPaths = value.split('||')
 
     for (var i = 0; i < orPaths.length; i++) {
       var andPaths = orPaths[i].trim().split('&&'),
@@ -161,6 +168,42 @@ app.module.data = {
         //app.attributes.run(element)
       }
     }
+  },
+
+  _filter: function (response, item, key) {
+
+    var parts = item.split(';') || []
+
+    var filterConditions = parts.map(function (part) {
+      var parts2 = part.split(':') || []
+      var key = parts2[0].trim()
+      var value = parts2[1].trim()
+
+      // Remove single quotes only from the first and last characters of the value
+      if (value.startsWith("'") && value.endsWith("'")) {
+        value = value.slice(1, -1)
+      }
+
+      // Create a dynamic filter condition based on the key and value
+      return function (item) {
+        return item[key] === value
+      }
+    })
+
+    var filtered = response[key].filter(function (item) {
+      return filterConditions.every(function (condition) {
+        return condition(item)
+      })
+    })
+
+    var filteredData2 = {}
+    filteredData2.data = {}
+    filteredData2.headers = {}
+    filteredData2.data[key] = filtered
+
+    console.log(filteredData2)
+
+    return filteredData2
   },
 
   _generateId: function (str) {
