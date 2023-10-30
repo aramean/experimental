@@ -514,7 +514,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 74 },
+  version: { major: 1, minor: 0, patch: 0, build: 75 },
   module: {},
   plugin: {},
   var: {},
@@ -1157,8 +1157,8 @@ var app = {
     get: function (url, param) {
       var parser = document.createElement('a')
       parser.href = url || window.location.href
-      var query = parser.search.substring(1)
-      var vars = query.split('&')
+      var query = parser.search.substring(1),
+        vars = query.split('&')
 
       for (var i = 0, len = vars.length; i < len; i++) {
         var pair = vars[i].split('='),
@@ -1184,14 +1184,14 @@ var app = {
     render: function () {
       app.log.info()('Rendering templates...')
       var currentPageTitle = document.title,
-        currentPageBodyContent = document.body.innerHTML
-      var isReload = app.srcTemplate.page,
+        currentPageBodyContent = document.body.innerHTML,
+        isReload = app.srcTemplate.page,
         srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
       if (srcDoc) {
-        var cache = app.caches.get('window', 'template', srcDoc)
-        var responsePage = dom.parse.text(cache.data, ['title']),
+        var cache = app.caches.get('window', 'template', srcDoc),
+          responsePage = dom.parse.text(cache.data, ['title']),
           responsePageScript = dom.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML,
           responsePageContentClass = responsePage.className
@@ -1232,8 +1232,8 @@ var app = {
 
       if (src) {
         for (var i = 0; i < src.length; i++) {
-          var cache = app.caches.get('window', 'template', src[i])
-          var html = dom.parse.text(cache.data),
+          var cache = app.caches.get('window', 'template', src[i]),
+            html = dom.parse.text(cache.data),
             template = dom.parse.text(dom.find(html, 'template').innerHTML)
 
           for (var el in this.elements) {
