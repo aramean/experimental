@@ -157,7 +157,7 @@ app.module.data = {
           var pathSegments = element.split('.'),
             replace = response.data
           for (var i = 0; i < pathSegments.length; i++) {
-            replace = replace[pathSegments[i]]
+            replace = replace[pathSegments[i]] || ''
           }
 
           app.variables.update.attributes(options.element, options.element, value, replace, false)
