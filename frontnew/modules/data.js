@@ -168,42 +168,41 @@ app.module.data = {
         //app.attributes.run(element)
       }
     }
-  },
+  },  
 
   _filter: function (response, item, key) {
-
-    var parts = item.split(';') || []
-
+    var parts = (item || '').split(';')
+    var filteredResponse = response // Create a deep copy of the response
+  
     var filterConditions = parts.map(function (part) {
-      var parts2 = part.split(':') || []
-      var key = parts2[0].trim()
-      var value = parts2[1].trim()
-
-      // Remove single quotes only from the first and last characters of the value
-      if (value.startsWith("'") && value.endsWith("'")) {
-        value = value.slice(1, -1)
-      }
-
-      // Create a dynamic filter condition based on the key and value
-      return function (item) {
-        return item[key] === value
-      }
-    })
-
-    var filtered = response[key].filter(function (item) {
-      return filterConditions.every(function (condition) {
-        return condition(item)
+      var subParts = (part || '').split(':')
+      var keyValuePair = subParts.map(function (part) {
+        return part.trim()
       })
+      var filterKey = keyValuePair[0],
+      filterValue = keyValuePair[1]
+
+      if (filterValue[0] === "'" && filterValue[filterValue.length - 1] === "'") {
+        filterValue = filterValue.slice(1, -1)
+      }
+
+      return function (item) {
+        return item[filterKey] === filterValue
+      }
     })
 
-    var filteredData2 = {}
-    filteredData2.data = {}
-    filteredData2.headers = {}
-    filteredData2.data[key] = filtered
+    if (filteredResponse[key] && Array.isArray(filteredResponse[key])) {
+      var filtered = filteredResponse[key].filter(function (item) {
+        return filterConditions.every(function (condition) {
+          return condition(item)
+        })
+      })
 
-    console.log(filteredData2)
+      // Update the key with the filtered data
+      filteredResponse[key] = filtered
+    }
 
-    return filteredData2
+    return { data: filteredResponse }
   },
 
   _generateId: function (str) {
