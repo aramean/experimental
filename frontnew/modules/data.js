@@ -53,7 +53,6 @@ app.module.data = {
   },
 
   _run: function (options) {
-
     var responseData = app.caches.get(this.storageMechanism, this.storageType, options.storageKey)
     var element = options.element,
       datafilteritem = element.getAttribute('data-filteritem')
@@ -79,7 +78,8 @@ app.module.data = {
     var elements = dom.find(element, '*')
     for (var i = 0, j = -1; i < elements.length; i++) {
 
-      var dataget = elements[i].getAttribute('data-get')
+      var dataget = elements[i].getAttribute('data-get') || false
+      var dataset = elements[i].getAttribute('data-set') || false
 
       if (i % orginalNodeCountAll === 0) j++
 
@@ -91,9 +91,17 @@ app.module.data = {
           dom.set(elements[i], this._get(iterateObject[j], dataget), false)
         }
       }
+
+      if (dataset) {
+        if (dataset.indexOf(':') !== -1) {
+          var data = dataset.split(':'),
+            replaceValue = responseData.data[iterate][i][data[1]]
+          app.variables.update.attributes(elements[i], elements[i], data[0], replaceValue, false)
+        }
+      }
     }
 
-    app.attributes.run(elements, ['data-get'])
+    app.attributes.run(elements, ['data-get', 'data-set'])
     this._set(responseData, options)
     this._finish(options)
   },
@@ -138,7 +146,6 @@ app.module.data = {
 
   _set: function (response, options) {
     var set = options.element.getAttribute('data-set')
-
     if (set) {
       var keys = set.split(';')
 
@@ -168,19 +175,19 @@ app.module.data = {
         //app.attributes.run(element)
       }
     }
-  },  
+  },
 
   _filter: function (response, item, key) {
     var parts = (item || '').split(';')
     var filteredResponse = response // Create a deep copy of the response
-  
+
     var filterConditions = parts.map(function (part) {
       var subParts = (part || '').split(':')
       var keyValuePair = subParts.map(function (part) {
         return part.trim()
       })
       var filterKey = keyValuePair[0],
-      filterValue = keyValuePair[1]
+        filterValue = keyValuePair[1]
 
       if (filterValue[0] === "'" && filterValue[filterValue.length - 1] === "'") {
         filterValue = filterValue.slice(1, -1)
