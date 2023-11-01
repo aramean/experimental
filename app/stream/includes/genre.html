@@ -1,3 +1,8 @@
-<nav class="sidebar w10 white-" data-src="assets/json/categories.json" iterate="categories">
-  <a data-get="name" data-bind="page:?page" data-set="mjao:name" test="{mjao}" href="?genres=37&page={page:1}"></a>
+<nav
+  class="sidebar w10 white-" 
+  bind="genre:^api.themoviedb.genre.movie;name:title;extra:Brikti;link:movie"
+  data-src="{genre}"
+  iterate="genres"
+>
+  <a data-get="name" data-bind="p:?page" data-set="i:id" id="{i}" href="?genres={i}&page={p:1}"></a>
 </nav>
