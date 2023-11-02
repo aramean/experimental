@@ -204,6 +204,8 @@ var dom = {
         continue
       }
 
+      //app.variables.update.attributes(object, object, replaceVariable, replaceValue, false)
+
       for (var j = 0; j < attributes.length; j++) {
         var attr = attributes[j],
           attrValue = attr.value
@@ -514,7 +516,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 83 },
+  version: { major: 1, minor: 0, patch: 0, build: 84 },
   module: {},
   plugin: {},
   var: {},
@@ -1111,7 +1113,7 @@ var app = {
           })
 
           if (attr.name == 'bind') continue
-          var regex = new RegExp('\\{' + replaceVariable + '\\}', 'g')
+          var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*\\}', 'g')
           object.setAttribute(attr.name, attr.value.replace(regex, replaceValue))
         }
 
