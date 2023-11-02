@@ -24,7 +24,8 @@
       "all": "https://api.themoviedb.org/3/trending/all/day?api_key=342c7c6976e9730798bc4bfbb2786cf7&include_adult=false&language=en-US"
     },
     "genre": {
-      "movie": "https://api.themoviedb.org/3/genre/movie/list?api_key=342c7c6976e9730798bc4bfbb2786cf7&language=en-US"
+      "movie": "https://api.themoviedb.org/3/genre/movie/list?api_key=342c7c6976e9730798bc4bfbb2786cf7&language=en-US",
+      "tv": "https://api.themoviedb.org/3/genre/tv/list?api_key=342c7c6976e9730798bc4bfbb2786cf7&language=en-US"
     }
   }
 }
