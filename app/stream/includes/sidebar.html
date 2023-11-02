@@ -1,8 +1,12 @@
-<nav
-  class="sidebar w10 white-" 
+<nav class="sidebar w15 white-">
+<details open>
+  <summary globalize-get="genre">Genre</summary>
+  <span
   bind="genre:^api.themoviedb.genre.movie;name:title;extra:Brikti;link:movie"
   data-src="{genre}"
   iterate="genres"
 >
   <a data-get="name" data-bind="p:?page" data-set="i:id" id="{i}" href="?genres={i}&page={p:1}"></a>
+</span>
+</details>
 </nav>
