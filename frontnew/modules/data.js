@@ -94,9 +94,8 @@ app.module.data = {
 
       if (dataset) {
         if (dataset.indexOf(':') !== -1) {
-          var data = dataset.split(':'),
-            replaceValue = responseData.data[iterate][i][data[1]]
-          app.variables.update.attributes(elements[i], elements[i], data[0], replaceValue, false)
+          var data = dataset.split(':')
+          app.variables.update.attributes(elements[i], elements[i], data[0], this._get(iterateObject[j], data[1]), false)
         }
       }
     }
