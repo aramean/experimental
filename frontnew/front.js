@@ -132,12 +132,9 @@ var dom = {
   },
 
   bind: function (object, value, attr) {
-    var attributes = object.attributes,
-      innerHTML = object.innerHTML,
-      type = object.tagName.toLowerCase(),
+    var type = object.tagName.toLowerCase(),
       bindInclude = this.bind.include ? ';' + this.bind.include : '',
-      binding = ((object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var')) || '') + bindInclude,
-      clonedObject = object.cloneNode(true)
+      binding = ((object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var')) || '') + bindInclude
 
     // Set variable if colon is presented or update innerhtml.
     var bindings = binding ? binding.split(';') : []
@@ -147,8 +144,7 @@ var dom = {
         replaceVariable = bindingParts[0].trim(),
         replaceValue = bindingParts[1].trim(),
         target = replaceValue.substr(1),
-        regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g'),
-        regex2 = new RegExp('{' + replaceVariable + '}', 'g')
+        regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
 
       // Bind query
       if (replaceValue[0] === '?') {
@@ -184,7 +180,8 @@ var dom = {
           name = target.id || target.name
 
         var match = binding.match(new RegExp("([^:]+):[#.]" + name)),
-          replaceVariableNew = match ? match[1] : ''
+          replaceVariableNew = match ? match[1] : '',
+          clonedObject = object.cloneNode(true)
 
         switch (type) {
           case 'text':
@@ -204,29 +201,8 @@ var dom = {
         continue
       }
 
-      //app.variables.update.attributes(object, object, replaceVariable, replaceValue, false)
-
-      for (var j = 0; j < attributes.length; j++) {
-        var attr = attributes[j],
-          attrValue = attr.value
-
-        var value = attrValue.replace(/{[^}]*:([^}]+)}/, function (match, capturedGroup) {
-          return replaceValue || capturedGroup
-        })
-
-        attr.value = value.replace(regex2, replaceValue)
-      }
-
-      innerHTML = innerHTML.replace(regex, function (match) {
-        if (match === '{' + replaceVariable + '}') {
-          return replaceValue
-        }
-        return match
-      })
+      app.variables.update.attributes(object, object, replaceVariable, replaceValue, false)
     }
-
-    //object.innerHTML = innerHTML
-    dom.set(object, innerHTML)
   },
 
   loader: function (object, value) {
@@ -516,7 +492,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 84 },
+  version: { major: 1, minor: 0, patch: 0, build: 85 },
   module: {},
   plugin: {},
   var: {},
@@ -1114,7 +1090,10 @@ var app = {
 
           if (attr.name == 'bind') continue
           var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*\\}', 'g')
-          object.setAttribute(attr.name, attr.value.replace(regex, replaceValue))
+          object.setAttribute(attr.name, attr.value
+            .replace(/{[^}]*:\s*([^}]+)?}/, replaceValue || '$1')
+            .replace(regex, replaceValue)
+          )
         }
 
         if (reset) {
