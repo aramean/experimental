@@ -6,7 +6,7 @@
 <div id="success" class="green mb2" hide>It's working!</div>
 <div
   bind="page:?page;genres:?genres"
-  data-src="{api}&page={page:1}&with_genres={genres: }"
+  data-src="{api}&page={page:1}&with_genres={genres:}"
   data-set="page:#page;total_pages:#pages;total_results:#results"
   data-header=""
   iterate="results"
@@ -15,7 +15,7 @@
   filter="true"
   class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
 >
-  <a data-get="id:id" href="{link}.html?id={id}" class="p025">
+  <a data-get="id:id" bind=":" href="{link}.html?id={id}" class="p025">
     <figure class="pr">
       <img class="br05" width="100%" data-get="poster_path" insert="beforebegin:https://image.tmdb.org/t/p/w220_and_h330_face">
       <figcaption class="z1 pa md_dn b0 fs08 white ts05 bcblack02 w100" data-get="title || name"></figcaption>
