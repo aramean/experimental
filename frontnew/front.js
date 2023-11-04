@@ -256,7 +256,18 @@ var dom = {
     element.id = 'id' + dom.uniqueId
   },
 
-  title: function (value) {
+  doctitle: function (value) {
+    if (value instanceof Object) {
+    
+      console.log(value.attributes.doctitle.value)
+      console.log(value.attributes.doctitle.nodeValue)
+      console.log(value.attributes.doctitle.textContent)
+
+    var test =  value.cloneNode(true)
+  }
+
+    var value = value instanceof Object ? value.attributes.doctitle.value : value
+
     app.title = value
     document.title = value
   },
@@ -289,6 +300,10 @@ var dom = {
         break
       case 'select':
         target.setAttribute('select', value)
+        break
+      case 'title':
+        target.innerHTML = value
+        console.dir('weee')
         break
       default:
         target.innerHTML = value
@@ -492,7 +507,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 85 },
+  version: { major: 1, minor: 0, patch: 0, build: 86 },
   module: {},
   plugin: {},
   var: {},
@@ -528,7 +543,7 @@ var app = {
     app.assets.load()
 
     document.addEventListener('keyup', function (e) {
-      console.log('key')
+      //console.log('key')
     })
   },
 
@@ -867,7 +882,7 @@ var app = {
                     page: true,
                     total: templateSrc.length + (templateSrcDoc ? 1 : 0)
                   }
-                  dom.title(responsePageTitle)
+                  dom.doctitle(responsePageTitle)
                   dom.bind.include = ''
                   app.assets.get.templates()
                   break
@@ -1233,7 +1248,7 @@ var app = {
       }
 
       document.body.className = responsePageContentClass
-      dom.title(currentPageTitle)
+      dom.doctitle(currentPageTitle)
     }
   }
 }

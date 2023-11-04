@@ -162,8 +162,8 @@ app.module.data = {
 
           var pathSegments = element.split('.'),
             replace = response.data
-          for (var i = 0; i < pathSegments.length; i++) {
-            replace = replace[pathSegments[i]] || ''
+          for (var j = 0; j < pathSegments.length; j++) {
+            replace = replace[pathSegments[j]] || ''
           }
 
           app.variables.update.attributes(options.element, options.element, value, replace, false)
@@ -190,6 +190,12 @@ app.module.data = {
 
       if (filterValue[0] === "'" && filterValue[filterValue.length - 1] === "'") {
         filterValue = filterValue.slice(1, -1)
+      }
+
+      // Check if the filterValue is a boolean condition
+      if (filterValue === 'true' || filterValue === 'false') {
+        // Convert the filterValue to a boolean
+        filterValue = filterValue === 'true'
       }
 
       return function (item) {
