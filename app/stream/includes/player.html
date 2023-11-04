@@ -1,18 +1,21 @@
 <div id="error" class="red mb2" hide>Something went wrong!</div>
 <div style="margin-top: -58px; overflow: hidden" class="h100 w100">
 <iframe
+  id="{discover}"
   bind="m:^api.themoviedb.movie.id;api_key:^api.stream.api_key;id:?id"
   data-src="{m}"
-  data-replace=""
+  data-replace1="this to; results.name:'Official Trailer\d+'"
   data-filterkey="results"
-  data-filteritem="type:'Trailer';name:'Official Trailer'"
-  data-set="youtube:results.0.key"
+  data-filteritem="type:'Trailer';site:'YouTube';official:'true'"
+  data-sort="i have to fix this"
+  data-set="youtube:results.0.key;name:results.0.name"
   error="#error"
   src="https://www.youtube-nocookie.com/embed/{youtube}?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0&autoplay=1&playsinline=1&rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
   allowfullscreen=""
   style="height: calc(100% + 60px); width: 100%"
+  doctitle="{name}"
 >
 </iframe>
 </div>
