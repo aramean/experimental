@@ -143,7 +143,7 @@ var dom = {
       var bindingParts = bindings[i].split(':') || [],
         replaceVariable = bindingParts[0].trim(),
         replaceValue = bindingParts[1].trim(),
-        target = replaceValue.substr(1),
+        target = replaceValue.substring(1),
         regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
 
       // Bind query
@@ -1103,7 +1103,7 @@ var app = {
             value: attr.value
           })
 
-          if (attr.name == 'bind') continue
+          if (attr.name === 'bind') continue
           var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*\\}', 'g')
           object.setAttribute(attr.name, attr.value
             .replace(/{[^}]*:\s*([^}]+)?}/, replaceValue || '$1')
