@@ -497,7 +497,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 86 },
+  version: { major: 1, minor: 0, patch: 0, build: 87 },
   module: {},
   plugin: {},
   var: {},
@@ -837,10 +837,7 @@ var app = {
             this.statusType = statusType
 
             var options = this.options,
-              mechanism = options.mechanism,
               type = options.type,
-              name = options.name,
-              extra = options.extra,
               cache = options.cache
 
             if (cache && (statusType.success || statusType.redirect)) {
@@ -886,6 +883,8 @@ var app = {
                     app.assets.get.modules()
                   }
                   break
+                default:
+                  return
               }
 
               if (app.vars.loaded === (app.vars.total + app.vars.totalStore) && app.modules.loaded === app.modules.total && type !== 'template') {
