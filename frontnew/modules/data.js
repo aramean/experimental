@@ -161,12 +161,16 @@ app.module.data = {
         } else {
 
           var pathSegments = element.split('.'),
+            countSegments = pathSegments.length,
             replace = response.data
-          for (var j = 0; j < pathSegments.length; j++) {
-            replace = replace[pathSegments[j]] || ''
+
+          for (var j = 0; j < countSegments; j++) {
+            replace = (countSegments === 1 ? replace.data[pathSegments[j]] || '' : replace[pathSegments[j]]) || ''
           }
 
           app.variables.update.attributes(options.element, options.element, value, replace, false)
+          var doctitle = options.element.attributes.doctitle || ''
+          if (doctitle.value) dom.doctitle(doctitle.value)
           continue
         }
 

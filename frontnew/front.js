@@ -257,17 +257,7 @@ var dom = {
   },
 
   doctitle: function (value) {
-    if (value instanceof Object) {
-    
-      console.log(value.attributes.doctitle.value)
-      console.log(value.attributes.doctitle.nodeValue)
-      console.log(value.attributes.doctitle.textContent)
-
-    var test =  value.cloneNode(true)
-  }
-
     var value = value instanceof Object ? value.attributes.doctitle.value : value
-
     app.title = value
     document.title = value
   },
