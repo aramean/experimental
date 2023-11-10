@@ -538,6 +538,7 @@ var app = {
   },
 
   call: function (run, runarg) {
+    app.log.info()('Calling: ' + run + ' ' + runarg)
     if (run.length === 4)
       window[run[0]][run[1]][run[2]][run[3]](runarg)
     else if (run.length === 3)
@@ -992,10 +993,7 @@ var app = {
             }
 
             if (onload) {
-              if (run) {
-                app.log.info()('Calling: ' + run + ' ' + runarg)
-                app.call(run, runarg)
-              }
+              if (run) app.call(run, runarg)
             }
 
           } else if (status.clientError || status.serverError) {
