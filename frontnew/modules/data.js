@@ -71,15 +71,14 @@ app.module.data = {
       datamerge = element.getAttribute('data-merge'),
       datafilteritem = element.getAttribute('data-filteritem')
     
+      if (datamerge) {
+        var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
+        responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
+      }
+
     if (datafilteritem) {
       var datafilterkey = element.getAttribute('data-filterkey')
       responseData = this._filter(responseData.data, datafilteritem, datafilterkey)
-    }
-
-    if (datamerge) {
-      var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
-      console.dir(responseDataJoin)
-      responseData = this._merge(responseData.data, responseDataJoin)
     }
 
     var iterate = options.iterate,
@@ -200,10 +199,12 @@ app.module.data = {
     }
   },
 
-  _merge: function(response, responseJoin) {
-    console.dir(response)
-    console.dir(responseJoin)
+  _merge: function(response, responseJoin, merge) {
+    console.error(responseJoin)
+    response[merge] = responseJoin[merge]
     var filteredResponse = response
+    console.dir(filteredResponse)
+
     return { data: filteredResponse }
   },
 
