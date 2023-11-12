@@ -497,7 +497,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 87 },
+  version: { major: 1, minor: 0, patch: 0, build: 88 },
   module: {},
   plugin: {},
   var: {},
@@ -539,6 +539,7 @@ var app = {
 
   call: function (run, runarg) {
     app.log.info()('Calling: ' + run + ' ' + runarg)
+    console.log('Calling: ' + run + ' ' + runarg)
     if (run.length === 4)
       window[run[0]][run[1]][run[2]][run[3]](runarg)
     else if (run.length === 3)
@@ -827,6 +828,7 @@ var app = {
   xhr: {
 
     currentRequest: null,
+    currentAsset: { loaded: 1, total: 1 },
 
     start: function () {
 
@@ -893,6 +895,25 @@ var app = {
                     app.assets.get.modules()
                   }
                   break
+                case 'data':
+                  var total = app.xhr.currentAsset.total
+
+                  if (total === 1) {
+                    app.xhr.currentAsset.loaded = 1
+                  }else {
+                    app.xhr.currentAsset.loaded++
+                  }
+
+                  var loaded = app.xhr.currentAsset.loaded
+
+                  if (loaded === total) {
+                    var run = this.options.onload2.run
+                    app.module[type]._run(run.arg)
+                    //app.call(run.func, run.arg)
+                  }
+                  
+                  console.log(loaded + '/' + total)
+
                 default:
                   return
               }
@@ -1032,7 +1053,7 @@ var app = {
     run: function (selector, exclude) {
       var selector = selector || 'html *',
         node = typeof selector === 'string' ? dom.get(selector, true) : selector,
-        excludes = exclude ? exclude.concat(this.defaultExclude) : this.defaultExclude
+        excludes = (exclude || []).concat(this.defaultExclude)
 
       app.log.info()('Running attributes (' + selector + ') ...')
       for (var i = 0; i < node.length; i++) {

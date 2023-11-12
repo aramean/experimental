@@ -16,23 +16,34 @@ app.module.data = {
   },
 
   src: function (element) {
-    var attr = element.attributes,
-      options = {
-        loader: attr.loader && attr.loader.value,
-        iterate: attr.iterate && attr.iterate.value,
-        element: element,
-        storageKey: this.module + this._generateId(attr['data-src'].value)
-      }
+    app.xhr.currentAsset.total = 1
+    this._handle(element)
+  },
 
+  srcjoin: function (element) {
+    app.xhr.currentAsset.total = 2
+    this._handle(element, 'join')
+  },
+
+  _handle: function (element, join) {
+    var attr = element.attributes,
+    options = {
+      loader: attr.loader && attr.loader.value,
+      iterate: attr.iterate && attr.iterate.value,
+      element: element,
+      attribute: join ? 'data-srcjoin' : 'data-src',
+      storageKey: this.module + this._generateId(attr['data-src'].value) + (join ? 'join' : '')
+    }
     this._open(attr, options)
   },
 
   _open: function (attr, options) {
     app.xhr.get({
-      url: attr['data-src'].value,
+      url: attr[options.attribute].value,
+      type: 'data',
       headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
       target: attr.target ? attr.target.value : false,
-      onload: {
+      onload2: {
         run: {
           func: 'app.module.data._run',
           arg: options
@@ -164,7 +175,7 @@ app.module.data = {
             replace = response.data
 
           for (var j = 0; j < pathSegments.length; j++) {
-            replace = replace[pathSegments[j]]
+            replace = replace[pathSegments[j]] || ''
           }
 
           app.variables.update.attributes(options.element, options.element, value, replace, false)
