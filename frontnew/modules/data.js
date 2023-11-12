@@ -200,11 +200,8 @@ app.module.data = {
   },
 
   _merge: function(response, responseJoin, merge) {
-    console.error(responseJoin)
     response[merge] = responseJoin[merge]
     var filteredResponse = response
-    console.dir(filteredResponse)
-
     return { data: filteredResponse }
   },
 
