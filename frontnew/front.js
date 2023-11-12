@@ -497,7 +497,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 90 },
+  version: { major: 1, minor: 0, patch: 0, build: 91 },
   module: {},
   plugin: {},
   var: {},
@@ -828,7 +828,7 @@ var app = {
   xhr: {
 
     currentRequest: null,
-    currentAsset: { loaded: 1, total: 1 },
+    currentAsset: { loaded: 0, total: 1 },
 
     start: function () {
 
@@ -872,6 +872,7 @@ var app = {
                   app.templates.total = 0
                   app.templates.loaded = 0
                   app.vars.total = 0
+                  app.xhr.currentAsset.loaded = 0
 
                   app.srcTemplate = {
                     url: {
@@ -896,17 +897,15 @@ var app = {
                   }
                   break
                 case 'data':
-                  app.xhr.currentAsset.loaded++
-                  var total = app.xhr.currentAsset.total
-
-                  if (total < app.xhr.currentAsset.loaded) {
-                    app.xhr.currentAsset.loaded = 1
+                  if (app.xhr.currentAsset.total === 1) {
+                    app.xhr.currentAsset.loaded = 0
                   }
-
-                  if (app.xhr.currentAsset.loaded === total) {
+                  app.xhr.currentAsset.loaded++
+                  if (app.xhr.currentAsset.loaded === app.xhr.currentAsset.total) {
                     var run = this.options.onload2.run
                     app.module[type]._run(run.arg)
                     //app.call(run.func, run.arg)
+                    console.error('run' + app.xhr.currentAsset.loaded + '/' + app.xhr.currentAsset.total)
                   }
                   break
                 default:
