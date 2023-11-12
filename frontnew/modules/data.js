@@ -65,7 +65,6 @@ app.module.data = {
   },
 
   _run: function (options) {
-    console.warn('run')
     var responseData = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', ''))
     var element = options.element,
       datamerge = element.getAttribute('data-merge'),

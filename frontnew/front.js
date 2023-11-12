@@ -497,7 +497,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 93 },
+  version: { major: 1, minor: 0, patch: 0, build: 94 },
   module: {},
   plugin: {},
   var: {},
@@ -539,7 +539,7 @@ var app = {
 
   call: function (run, runarg) {
     app.log.info()('Calling: ' + run + ' ' + runarg)
-    console.log('Calling: ' + run + ' ' + runarg)
+    //console.log('Calling: ' + run + ' ' + runarg)
     if (run.length === 4)
       window[run[0]][run[1]][run[2]][run[3]](runarg)
     else if (run.length === 3)
@@ -905,7 +905,7 @@ var app = {
                     var run = this.options.onload2.run
                     app.module[type]._run(run.arg)
                     //app.call(run.func, run.arg)
-                    console.error('run' + app.xhr.currentAsset.loaded + '/' + app.xhr.currentAsset.total)
+                    //console.error('run' + app.xhr.currentAsset.loaded + '/' + app.xhr.currentAsset.total)
                   }
                   break
                 default:
