@@ -2,8 +2,9 @@
 <div style="margin-top: -58px; overflow: hidden" class="h100 w100">
 <iframe
   id="{discover}"
-  bind="m:^api.themoviedb.movie.id;api_key:^api.stream.api_key;id:?id"
+  bind="m:^api.themoviedb.movie.videos;n:^api.themoviedb.movie.id;api_key:^api.stream.api_key;id:?id"
   data-src="{m}"
+  data-srcjoin="{n}"
   data-replace1="this to; results.name:'Official Trailer\d+'"
   data-filterkey="results"
   data-filteritem="type:'Trailer';site:'YouTube';official:'true'"
