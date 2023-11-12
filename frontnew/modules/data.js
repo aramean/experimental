@@ -71,8 +71,8 @@ app.module.data = {
       datafilteritem = element.getAttribute('data-filteritem')
     
     if (datamerge) {
-      var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
-      responseData = this._merge(responseData.data, responseDataJoin)
+      //var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
+      //responseData = this._merge(responseData.data, responseDataJoin)
     }
     
     if (datafilteritem) {

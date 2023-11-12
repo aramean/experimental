@@ -497,7 +497,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 89 },
+  version: { major: 1, minor: 0, patch: 0, build: 90 },
   module: {},
   plugin: {},
   var: {},
@@ -828,7 +828,7 @@ var app = {
   xhr: {
 
     currentRequest: null,
-    currentAsset: { loaded: 0, total: 1 },
+    currentAsset: { loaded: 1, total: 1 },
 
     start: function () {
 
@@ -900,7 +900,7 @@ var app = {
                   var total = app.xhr.currentAsset.total
 
                   if (total < app.xhr.currentAsset.loaded) {
-                    app.xhr.currentAsset.loaded = 0
+                    app.xhr.currentAsset.loaded = 1
                   }
 
                   if (app.xhr.currentAsset.loaded === total) {
