@@ -22,17 +22,18 @@ app.module.data = {
 
   srcjoin: function (element) {
     app.xhr.currentAsset.total = 2
-    this._handle(element, 'join')
+    this._handle(element, true)
   },
 
   _handle: function (element, join) {
     var attr = element.attributes,
+    joinSuffix = join ? 'join' : '',
     options = {
       loader: attr.loader && attr.loader.value,
       iterate: attr.iterate && attr.iterate.value,
       element: element,
       attribute: join ? 'data-srcjoin' : 'data-src',
-      storageKey: this.module + this._generateId(attr['data-src'].value) + (join ? 'join' : '')
+      storageKey: this.module + this._generateId(attr['data-src'].value) + joinSuffix
     }
     this._open(attr, options)
   },
@@ -64,9 +65,16 @@ app.module.data = {
   },
 
   _run: function (options) {
-    var responseData = app.caches.get(this.storageMechanism, this.storageType, options.storageKey)
+    var responseData = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', ''))
     var element = options.element,
+      datamerge = element.getAttribute('data-merge'),
       datafilteritem = element.getAttribute('data-filteritem')
+    
+    if (datamerge) {
+      var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
+      responseData = this._merge(responseData.data, responseDataJoin)
+    }
+    
     if (datafilteritem) {
       var datafilterkey = element.getAttribute('data-filterkey')
       responseData = this._filter(responseData.data, datafilteritem, datafilterkey)
@@ -188,6 +196,11 @@ app.module.data = {
         //app.attributes.run(element)
       }
     }
+  },
+
+  _merge: function(response, responseJoin) {
+    var filteredResponse = response
+    return { data: filteredResponse }
   },
 
   _filter: function (response, item, key) {

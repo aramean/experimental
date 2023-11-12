@@ -497,7 +497,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 88 },
+  version: { major: 1, minor: 0, patch: 0, build: 89 },
   module: {},
   plugin: {},
   var: {},
@@ -828,7 +828,7 @@ var app = {
   xhr: {
 
     currentRequest: null,
-    currentAsset: { loaded: 1, total: 1 },
+    currentAsset: { loaded: 0, total: 1 },
 
     start: function () {
 
@@ -896,29 +896,26 @@ var app = {
                   }
                   break
                 case 'data':
+                  app.xhr.currentAsset.loaded++
                   var total = app.xhr.currentAsset.total
 
-                  if (total === 1) {
-                    app.xhr.currentAsset.loaded = 1
-                  }else {
-                    app.xhr.currentAsset.loaded++
+                  if (total < app.xhr.currentAsset.loaded) {
+                    app.xhr.currentAsset.loaded = 0
                   }
 
-                  var loaded = app.xhr.currentAsset.loaded
-
-                  if (loaded === total) {
+                  if (app.xhr.currentAsset.loaded === total) {
                     var run = this.options.onload2.run
                     app.module[type]._run(run.arg)
                     //app.call(run.func, run.arg)
                   }
-                  
-                  console.log(loaded + '/' + total)
-
+                  break
                 default:
                   return
               }
 
-              if (app.vars.loaded === (app.vars.total + app.vars.totalStore) && app.modules.loaded === app.modules.total && type !== 'template') {
+              if (app.vars.loaded === (app.vars.total + app.vars.totalStore)
+                && app.modules.loaded === app.modules.total
+                && type !== 'template' && type !== 'data') {
                 /*
                 console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                 console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
