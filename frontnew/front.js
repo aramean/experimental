@@ -497,7 +497,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 94 },
+  version: { major: 1, minor: 0, patch: 0, build: 95 },
   module: {},
   plugin: {},
   var: {},
@@ -1111,7 +1111,7 @@ var app = {
             value: attr.value
           })
 
-          if (attr.name === 'bind') continue
+          //if (attr.name === 'bind') continue
           var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*\\}', 'g')
           object.setAttribute(attr.name, attr.value
             .replace(/{[^}]*:\s*([^}]+)?}/, replaceValue || '$1')

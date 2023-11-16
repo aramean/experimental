@@ -20,6 +20,8 @@ app.module.navigate = {
       app.listeners.add(window, 'popstate', this._pop.bind(this))
       app.listeners.add(document, 'click', this._click.bind(this))
     }
+
+    app.listeners.add(window, 'hashchange', this._hash.bind())
   },
 
   /**
@@ -28,9 +30,11 @@ app.module.navigate = {
    * @private
    */
   _click: function (event) {
-    var link = dom.getTagLink(event.target)
-    if (link && link.target !== '_blank') {
-      event.preventDefault()
+    var link = dom.getTagLink(event.target),
+      hash = link && link.hash
+    if (hash) {
+      this._hash(link)
+    } else if (link && link.target !== '_blank') {
       if (link.href !== window.location.href) {
         history.pushState({
           'href': link.pathname,
@@ -40,6 +44,8 @@ app.module.navigate = {
       }
       this._load(history.state)
     }
+
+    return event.preventDefault()
   },
 
   /**
@@ -50,11 +56,14 @@ app.module.navigate = {
   _pop: function (event) {
     var state = (event.state) ? event.state : {
       'href': window.location.pathname,
+      'hash': window.location.hash,
       'target': !event.state ? false : 'html',
       'extension': false,
       'arg': { disableSrcdoc: true, runAttributes: true }
     }
     this._load(state)
+
+    if (state.hash) this._hash(state)
   },
 
   /**
@@ -90,6 +99,20 @@ app.module.navigate = {
 
     this._preloader.set(this.config.preloader)
     this._preloader.reset()
+  },
+
+  _hash: function (link) {
+    var hash = link && link.hash
+    if (hash) {
+      var targetElement = dom.get(hash)
+      if (targetElement) {
+        var test = dom.get('main')
+        if (test) test.scrollTop = targetElement.offsetTop
+      }
+      return true
+    }
+
+    return false
   },
 
   /**
