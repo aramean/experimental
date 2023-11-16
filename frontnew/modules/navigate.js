@@ -30,11 +30,10 @@ app.module.navigate = {
    * @private
    */
   _click: function (event) {
-    var link = dom.getTagLink(event.target),
-      hash = link && link.hash
-    if (hash) {
+    var link = dom.getTagLink(event.target)
+    if (link && link.hash) {
       this._hash(link)
-    } else if (link && link.target !== '_blank') {
+    } else if (link && link.href && link.target !== '_blank') {
       if (link.href !== window.location.href) {
         history.pushState({
           'href': link.pathname,
@@ -43,6 +42,8 @@ app.module.navigate = {
         }, '', link.href)
       }
       this._load(history.state)
+    } else {
+      return
     }
 
     return event.preventDefault()
@@ -109,10 +110,7 @@ app.module.navigate = {
         var test = dom.get('main')
         if (test) test.scrollTop = targetElement.offsetTop
       }
-      return true
     }
-
-    return false
   },
 
   /**
