@@ -104,8 +104,40 @@ var dom = {
    * @desc Retrieves elements from the document by selector.
    */
   get: function (selector, list) {
-    var element = document.querySelectorAll(selector)
-    return element.length == 0 ? '' : element.length == 1 && !list ? element[0] : element
+    var regex = /\[(\d+)\]/,
+      match = selector.match(regex)
+
+    if (match) {
+      var index = match[1],
+        selector = selector.replace(regex, '')
+    }
+
+    var elements = document.querySelectorAll(selector)
+
+    if (elements.length === 0)
+      return ''
+    else if (match)
+      return elements[index]
+    else
+      return list ? elements : (elements.length === 1 ? elements[0] : elements)
+  },
+
+  /**
+   * @function toggle
+   * @memberof dom
+   */
+  toggle: function (selector) {
+    var el = dom.get(selector),
+      pattern = /(\S+)\s*_dn\b/,
+      newClass = '_dn',
+      match = el.className.match(pattern)
+
+    if (match)
+      // If "_dn" is present, remove it while preserving other classes
+      el.className = el.className.replace(pattern, '$1')
+    else
+      // If "_dn" is not present, add it to hide the element
+      el.className = (el.className + newClass)
   },
 
   /**
@@ -497,7 +529,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 96 },
+  version: { major: 1, minor: 0, patch: 0, build: 97 },
   module: {},
   plugin: {},
   var: {},
@@ -534,6 +566,14 @@ var app = {
 
     document.addEventListener('keyup', function (e) {
       //console.log('key')
+    })
+
+    app.listeners.add(document, 'click', function (e) {
+      var link = dom.getTagLink(e.target),
+        attr = link && link.attributes.click,
+        val = attr && attr.value.split(':')
+      console.dir(val)
+      if (attr) app.call(['dom', val[0]], val[1])
     })
   },
 
