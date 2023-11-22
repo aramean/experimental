@@ -105,7 +105,7 @@ var dom = {
    */
   get: function (selector, list) {
     var regex = /\[(\d+)\]/,
-      match = selector.match(regex)
+      match = selector && selector.match(regex)
 
     if (match) {
       var index = match[1],
@@ -122,22 +122,45 @@ var dom = {
       return list ? elements : (elements.length === 1 ? elements[0] : elements)
   },
 
+  add: {
+    style: function (options) {
+      var el = dom.get(options.selector),
+        action = options.val.split(':')
+      el.style[action[0]] = action[1]
+    },
+
+    class: function (options) {
+      var el = dom.get(options.selector),
+        action = options.val.split(':')
+      el.classList.add(action[0])
+    }
+  },
+
   /**
    * @function toggle
    * @memberof dom
    */
   toggle: function (selector) {
     var el = dom.get(selector),
+      ontoggle = el.attributes.ontoggle && el.attributes.ontoggle.value,
       pattern = /(\S+)\s*_dn\b/,
       newClass = '_dn',
       match = el.className.match(pattern)
 
-    if (match)
+    if (match) {
       // If "_dn" is present, remove it while preserving other classes
       el.className = el.className.replace(pattern, '$1')
-    else
+      if (ontoggle) {
+        var normalize = ontoggle.replace(']', '').split('['),
+          func = ('dom.' + normalize[0]).split('.'),
+          arg = { selector: selector, val: normalize[1] }
+        app.call(func, arg)
+      }
+
+    } else {
       // If "_dn" is not present, add it to hide the element
       el.className = (el.className + newClass)
+    }
   },
 
   /**
@@ -529,7 +552,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 97 },
+  version: { major: 1, minor: 0, patch: 0, build: 98 },
   module: {},
   plugin: {},
   var: {},
@@ -572,7 +595,6 @@ var app = {
       var link = dom.getTagLink(e.target),
         attr = link && link.attributes.click,
         val = attr && attr.value.split(':')
-      console.dir(val)
       if (attr) app.call(['dom', val[0]], val[1])
     })
   },
