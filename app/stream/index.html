@@ -10,7 +10,11 @@
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <style>
     [hide] {
-    display: none
+      display: none
+    }
+
+    .h100p{
+      height: 100%
     }
   </style>
   <title>Stream</title>
@@ -43,7 +47,7 @@
     <a href="shows.html">Shows</a>
   </header>
 
-  <aside ontoggle="add.class[pf]" class="dark xl_dn zi10" resize></aside>
+  <aside ontoggle="toggle.class[pf h100p]" class="dark xl_dn zi10" resize></aside>
   <main class="pauto">
     <div
       bind="api:^api.themoviedb.trending.all;name:title;extra:Brikti;link:movie"
