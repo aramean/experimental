@@ -457,7 +457,8 @@ var dom = {
    */
   getTagLink: function (element) {
     for (var current = element; current; current = current.parentNode) {
-      if (current.localName === 'a') return current
+      var type = current.localName
+      if (type === 'a' || type === 'button') return current
     }
     return null
   },
@@ -534,7 +535,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 99 },
+  version: { major: 1, minor: 0, patch: 0, build: 100 },
   module: {},
   plugin: {},
   var: {},
@@ -574,6 +575,7 @@ var app = {
     })
 
     app.listeners.add(document, 'click', function (e) {
+      console.dir(e)
       var link = dom.getTagLink(e.target),
         attr = link && link.attributes.click,
         val = attr && attr.value.split(':')
