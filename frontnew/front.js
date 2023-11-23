@@ -122,45 +122,27 @@ var dom = {
       return list ? elements : (elements.length === 1 ? elements[0] : elements)
   },
 
-  add: {
-    style: function (options) {
-      var el = dom.get(options.selector),
-        action = options.val.split(':')
-      el.style[action[0]] = action[1]
-    },
-
-    class: function (options) {
-      var el = dom.get(options.selector),
-        action = options.val.split(':')
-      el.classList.add(action[0])
-    }
-  },
-
   /**
    * @function toggle
    * @memberof dom
    */
   toggle: function (selector) {
     var el = dom.get(selector),
-      ontoggle = el.attributes.ontoggle && el.attributes.ontoggle.value,
-      pattern = /(\S+)\s*_dn\b/,
-      newClass = '_dn',
-      match = el.className.match(pattern)
+      ontoggle = el.attributes.ontoggle && el.attributes.ontoggle.value
 
-    if (match) {
-      // If "_dn" is present, remove it while preserving other classes
-      el.className = el.className.replace(pattern, '$1')
+    if (!el.originalClassList) {
+      el.originalClassList = [].slice.call(el.classList).join(' ')
+
       if (ontoggle) {
         var normalize = ontoggle.replace(']', '').split('['),
-          func = ('dom.' + normalize[0]).split('.'),
+          func = ('app.' + normalize[0]).split('.'),
           arg = { selector: selector, val: normalize[1] }
         app.call(func, arg)
       }
-
-    } else {
-      // If "_dn" is not present, add it to hide the element
-      el.className = (el.className + newClass)
     }
+
+    var match = el.originalClassList.match(/(\S+)\s*_dn\b/)
+    el.classList.toggle(match[0])
   },
 
   /**
@@ -552,7 +534,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 98 },
+  version: { major: 1, minor: 0, patch: 0, build: 99 },
   module: {},
   plugin: {},
   var: {},
@@ -608,6 +590,29 @@ var app = {
       window[run[0]][run[1]][run[2]](runarg)
     else if (run.length === 2)
       window[run[0]][run[1]](runarg)
+  },
+
+  add: {
+    style: function (options) {
+      var _ = this._(options, ':')
+      _.el.style[action[0]] = _.action[1]
+    },
+
+    class: function (options) {
+      var _ = this._(options, ' ')
+      for (var i = 0; i < _.action.length; i++) {
+        _.el.classList.add(_.action[i])
+      }
+    }
+  },
+
+  toggle: {
+    class: function (options) {
+      var _ = app.attributes.parse(options, ' ')
+      for (var i = 0; i < _.action.length; i++) {
+        _.el.classList.toggle(_.action[i])
+      }
+    }
   },
 
   /**
@@ -1150,6 +1155,12 @@ var app = {
           }
         }
       }
+    },
+
+    parse: function (options, delimiter) {
+      var el = dom.get(options.selector),
+        action = options.val.split(delimiter)
+      return { el, action }
     }
   },
 
