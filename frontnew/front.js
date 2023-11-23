@@ -132,17 +132,17 @@ var dom = {
 
     if (!el.originalClassList) {
       el.originalClassList = [].slice.call(el.classList).join(' ')
-
-      if (ontoggle) {
-        var normalize = ontoggle.replace(']', '').split('['),
-          func = ('app.' + normalize[0]).split('.'),
-          arg = { selector: selector, val: normalize[1] }
-        app.call(func, arg)
-      }
     }
 
     var match = el.originalClassList.match(/(\S+)\s*_dn\b/)
-    el.classList.toggle(match[0])
+    if (match) el.classList.toggle(match[0])
+
+    if (ontoggle) {
+      var normalize = ontoggle.replace(']', '').split('['),
+        func = ('app.' + normalize[0]).split('.'),
+        arg = { selector: selector, val: normalize[1] }
+      app.call(func, arg)
+    }
   },
 
   /**
