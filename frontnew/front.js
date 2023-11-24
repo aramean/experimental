@@ -337,6 +337,10 @@ var dom = {
     }
   },
 
+  resize: function (object, value) {
+    object.style.resize = value
+  },
+
   /**
    * @function uppercase
    * @memberof dom
@@ -535,7 +539,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 102 },
+  version: { major: 1, minor: 0, patch: 0, build: 103 },
   module: {},
   plugin: {},
   var: {},
