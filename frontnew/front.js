@@ -535,7 +535,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 100 },
+  version: { major: 1, minor: 0, patch: 0, build: 101 },
   module: {},
   plugin: {},
   var: {},
@@ -575,7 +575,6 @@ var app = {
     })
 
     app.listeners.add(document, 'click', function (e) {
-      console.dir(e)
       var link = dom.getTagLink(e.target),
         attr = link && link.attributes.click,
         val = attr && attr.value.split(':')

@@ -33,15 +33,18 @@ app.module.navigate = {
     var link = dom.getTagLink(event.target)
     if (link && link.hash) {
       this._hash(link)
-    } else if (link && link.href && link.target !== '_blank') {
-      if (link.href !== window.location.href) {
-        history.pushState({
-          'href': link.pathname,
-          'target': link.target,
-          'arg': { disableSrcdoc: true, runAttributes: true }
-        }, '', link.href)
+    } else if (link.href && link.target !== '_blank') {
+      var state = {
+        'href': link.pathname,
+        'target': link.target,
+        'arg': { disableSrcdoc: true, runAttributes: true }
       }
-      this._load(history.state)
+
+      if (link.href !== window.location.href) {
+        history.pushState(state, '', link.href)
+      }
+
+      this._load(history.state || state)
     } else {
       return
     }
@@ -63,7 +66,6 @@ app.module.navigate = {
       'arg': { disableSrcdoc: true, runAttributes: true }
     }
     this._load(state)
-
     if (state.hash) this._hash(state)
   },
 
