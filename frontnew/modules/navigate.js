@@ -33,7 +33,7 @@ app.module.navigate = {
     var link = dom.getTagLink(event.target)
     if (link && link.hash) {
       this._hash(link)
-    } else if (link.href && link.target !== '_blank') {
+    } else if (link && link.href && link.target !== '_blank') {
       var state = {
         'href': link.pathname,
         'target': link.target,
