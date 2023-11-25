@@ -420,14 +420,34 @@ var dom = {
 
   insert: function (object, value) {
     var tag = object.localName,
-      position = value.slice(0, value.indexOf(":")),
-      text = value.slice(value.indexOf(":") + 1),
-      beforebegin = position === 'beforebegin' ? text : '',
-      afterbegin = position === 'afterbegin' ? text : ''
+      pos,
+      text,
+      afterbegin,
+      beforebegin
+
+    // click or not
+    if (!value) {
+      var obj = object.split(';')
+      pos = obj[0]
+      part2 = obj[1]
+      var identifier = part2.match(/([^[]+)\[(\S+)\]/)
+
+      var target = dom.get(identifier[1]),
+      tag = target.localName
+      text = identifier[2]
+      object = target
+
+    } else {
+      pos = value.slice(0, value.indexOf(":"))
+      text = value.slice(value.indexOf(":") + 1)
+    }
+
+    beforebegin = pos === 'beforebegin' ? text : ''
+    afterbegin = pos === 'afterbegin' ? text : ''
 
     switch (tag) {
       case 'input':
-
+        object.value = beforebegin + object.value + afterbegin
         break
       case 'img':
         var src = object.getAttribute('src')
@@ -439,9 +459,16 @@ var dom = {
       case 'select':
         object.setAttribute('select', value)
         break
+      case 'button':
+        object.textContent = beforebegin + object.textContent + afterbegin
+        break
       default:
-        object.insertAdjacentText(position, value)
+        object.insertAdjacentText(pos, value)
     }
+  },
+
+  format: function (object, value) {
+
   },
 
   split: function (object, value) {
@@ -539,7 +566,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 103 },
+  version: { major: 1, minor: 0, patch: 0, build: 104 },
   module: {},
   plugin: {},
   var: {},
@@ -580,9 +607,11 @@ var app = {
 
     app.listeners.add(document, 'click', function (e) {
       var link = dom.getTagLink(e.target),
-        attr = link && link.attributes.click,
-        val = attr && attr.value.split(':')
-      if (attr) app.call(['dom', val[0]], val[1])
+        click = link && link.attributes.click
+      if (click) {
+        var val = click.value.split(':')
+        app.call(['dom', val[0]], val[1])
+      }
     })
   },
 
