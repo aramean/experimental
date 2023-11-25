@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" josef="josef">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="version" content="1.0.0">
+  <script src="../../frontnew/front.js" module="globalize;navigate"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars"
+    globalize-conf="folder:../app/stream/assets/json/locales"
+    navigate-conf="startpage:experimental/app/stream;startpageLocal:app/stream"></script>
+  <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
+  <style>
+    [hide] {
+      display: none
+    }
+
+    .h100p {
+      height: 100%
+    }
+
+    .zi50 {
+      z-index: 50
+    }
+  </style>
+  <title>Calculator</title>
+</head>
+
+<body>
+  <main class="pauto tac">
+    <input id="result" class="p1" type="" value="0" onvaluechange="format:/^0+(?=\d)|^0*$/g">
+    <div class="fdc">
+      <div class="p1-">
+        <button class="button w5r" type="button" click="insert:afterbegin;#result[7]">7</button>
+        <button class="button w5r" type="button" click="insert:afterbegin;#result[8]">8</button>
+        <button class="button w5r" type="button" click="insert:afterbegin;#result[9]">9</button>
+      </div>
+    </div>
+    <div class="fdc">
+      <div class="p1-">
+        <button class="button w5r" type="button" click="insert:afterbegin;#result[4]">4</button>
+        <button class="button w5r" type="button" click="insert:afterbegin;#result[5]">5</button>
+        <button class="button w5r" type="button" click="insert:afterbegin;#result[6]">6</button>
+      </div>
+    </div>
+    <div class="p1-">
+      <button class="button w5r" type="button" click="insert:afterbegin;#result[1]">1</button>
+      <button class="button w5r" type="button" click="insert:afterbegin;#result[2]">2</button>
+      <button class="button w5r" type="button" click="insert:afterbegin;#result[3]">3</button>
+    </div>
+  </main>
+</body>
+
+</html>
