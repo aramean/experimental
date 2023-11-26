@@ -432,7 +432,7 @@ var dom = {
       part2 = obj[1]
       var identifier = part2.match(/([^[]+)\[(\S+)\]/)
 
-      var target = dom.get(identifier[1]),
+      var target = dom.get(identifier[1])
       tag = target.localName
       text = identifier[2]
       object = target
@@ -448,6 +448,7 @@ var dom = {
     switch (tag) {
       case 'input':
         object.value = beforebegin + object.value + afterbegin
+        app.change('input', object, false)
         break
       case 'img':
         var src = object.getAttribute('src')
@@ -467,8 +468,42 @@ var dom = {
     }
   },
 
-  format: function (object, value) {
+  remove: function (object, value) {
 
+  },
+
+  reset: function (object, value) {
+    var tag = object.localName,
+      pos,
+      text,
+      afterbegin,
+      beforebegin
+
+    // click or not
+    if (!value) {
+      var obj = object.split(';')
+      pos = obj[0]
+      part2 = obj[1]
+      var identifier = part2.match(/([^[]+)\[(\S+)\]/)
+
+      var target = dom.get(identifier[1]),
+        tag = target.localName
+      text = identifier[2]
+      object = target
+
+    } else {
+      pos = value.slice(0, value.indexOf(":"))
+      text = value.slice(value.indexOf(":") + 1)
+    }
+
+
+    target.value = 0
+   
+  },
+
+  format: function (object, value) {
+    console.dir(object, value)
+    console.error('fire', object)
   },
 
   split: function (object, value) {
@@ -566,7 +601,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 104 },
+  version: { major: 1, minor: 0, patch: 0, build: 105 },
   module: {},
   plugin: {},
   var: {},
@@ -613,6 +648,11 @@ var app = {
         app.call(['dom', val[0]], val[1])
       }
     })
+
+    app.listeners.add(document, 'input', function (e) {
+      app.change('input', e.target, false)
+    })
+
   },
 
   call: function (run, runarg) {
@@ -637,6 +677,15 @@ var app = {
       for (var i = 0; i < _.action.length; i++) {
         _.el.classList.add(_.action[i])
       }
+    }
+  },
+
+  change: function (event, object) {
+    var change = object.attributes.onvaluechange
+    if (change) {
+      var val = change.value.split(':')
+      app.call(['dom', val[0]], object, val[1])
+      console.dir(object)
     }
   },
 
