@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="version" content="1.0.0">
   <script src="../../frontnew/front.js" module="globalize" var="enum"
-    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars" globalize-conf="folder:../app/calc/assets/json/locales"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars"
+    globalize-conf="folder:../app/calc/assets/json/locales"
     navigate-conf="startpage:experimental/app/calc;startpageLocal:app/calc"></script>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <style>
@@ -13,16 +14,20 @@
       display: none
     }
 
-    .h100p{
+    .h100p {
       height: 100%
     }
-    
+
     .zi50 {
       z-index: 50
     }
 
     .button {
       touch-action: manipulation
+    }
+
+    .w8r {
+      width: 8rem
     }
   </style>
   <title>Calc</title>
@@ -40,9 +45,9 @@
     <div class="fdc">
       <div class="p1- mb05">
         <button class="button w4r" type="button" click="reset:value;#result[0]">AC</button>
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[]">+/-</button>
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[]">%</button>
-        <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]">÷</button>
+        <button class="button w4r" type="button" click="insert:afterbegin;#result[]" disabled>+/-</button>
+        <button class="button w4r" type="button" click="insert:afterbegin;#result[]" disabled>%</button>
+        <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]" disabled>÷</button>
       </div>
     </div>
     <div class="fdc mb05">
@@ -50,7 +55,7 @@
         <button class="button w4r" type="button" click="insert:afterbegin;#result[7]">7</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[8]">8</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[9]">9</button>
-        <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]">*</button>
+        <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]" disabled>*</button>
       </div>
     </div>
     <div class="fdc mb05">
@@ -58,14 +63,19 @@
         <button class="button w4r" type="button" click="insert:afterbegin;#result[4]">4</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[5]">5</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[6]">6</button>
-        <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]">-</button>
+        <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]" disabled>-</button>
       </div>
     </div>
     <div class="p1- mb05">
       <button class="button w4r" type="button" click="insert:afterbegin;#result[1]">1</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[2]">2</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[3]">3</button>
-      <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]">+</button>
+      <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]" disabled>+</button>
+    </div>
+    <div class="p1- mb05">
+      <button class="button w8r" type="button" click="insert:afterbegin;#result[0]">0</button>
+      <button class="button w4r" type="button" click="insert:afterbegin;#result[,]">,</button>
+      <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[]" disabled>=</button>
     </div>
   </main>
 </body>
