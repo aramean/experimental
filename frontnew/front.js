@@ -496,8 +496,11 @@ var dom = {
       text = value.slice(value.indexOf(":") + 1)
     }
 
-
-    target.value = 0
+    switch (tag) {
+      case 'input':
+        object.value = object.defaultValue
+      break
+    }
 
   },
 
@@ -605,7 +608,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 106 },
+  version: { major: 1, minor: 0, patch: 0, build: 107 },
   module: {},
   plugin: {},
   var: {},
