@@ -473,11 +473,7 @@ var dom = {
   },
 
   reset: function (object, value) {
-    var tag = object.localName,
-      pos,
-      text,
-      afterbegin,
-      beforebegin
+    var tag = object.localName
 
     // click or not
     if (!value) {
@@ -486,10 +482,9 @@ var dom = {
       part2 = obj[1]
       var identifier = part2.match(/([^[]+)\[(\S+)\]/)
 
-      var target = dom.get(identifier[1]),
-        tag = target.localName
+      var object = dom.get(identifier[1])
+      tag = object.localName
       text = identifier[2]
-      object = target
 
     } else {
       pos = value.slice(0, value.indexOf(":"))
@@ -499,9 +494,8 @@ var dom = {
     switch (tag) {
       case 'input':
         object.value = object.defaultValue
-      break
+        break
     }
-
   },
 
   format: function (object, value) {
@@ -608,7 +602,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 107 },
+  version: { major: 1, minor: 0, patch: 0, build: 108 },
   module: {},
   plugin: {},
   var: {},
