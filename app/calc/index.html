@@ -4,7 +4,7 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="version" content="1.0.0">
-  <script src="../../frontnew/front.js" module1="globalize" var="enum"
+  <script src="../../frontnew/front.js" module="globalize" var="enum"
     conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars" globalize-conf="folder:../app/calc/assets/json/locales"
     navigate-conf="startpage:experimental/app/calc;startpageLocal:app/calc"></script>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
@@ -35,8 +35,8 @@
     </figure>
   </header>
 
-  <main alert="hej" class="pauto tac">
-    <input id="result" class="p1 mb1" type="" value="0" onvaluechange="format:/^0+(?=\d)|^0*$/g" readonly1>
+  <main class="pauto tac fwb-">
+    <input id="result" class="p1 mb1" type="" value="0" onvaluechange="format:/^0+(?=\d)|^0*$/g" readonly>
     <div class="fdc">
       <div class="p1- mb05">
         <button class="button w4r" type="button" click="reset:value;#result[0]">AC</button>
