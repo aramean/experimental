@@ -498,12 +498,16 @@ var dom = {
 
 
     target.value = 0
-   
+
   },
 
   format: function (object, value) {
-    console.dir(object, value)
-    console.error('fire', object)
+    if (object.object) {
+      var object = object.object,
+        value = object.value
+    }
+
+    object.value = value.replace(/^0+(?=\d)|^0*$/g, '')
   },
 
   split: function (object, value) {
@@ -601,7 +605,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 105 },
+  version: { major: 1, minor: 0, patch: 0, build: 106 },
   module: {},
   plugin: {},
   var: {},
@@ -657,7 +661,8 @@ var app = {
 
   call: function (run, runarg) {
     app.log.info()('Calling: ' + run + ' ' + runarg)
-    //console.log('Calling: ' + run + ' ' + runarg)
+    console.dir(run)
+    console.dir(runarg)
     if (run.length === 4)
       window[run[0]][run[1]][run[2]][run[3]](runarg)
     else if (run.length === 3)
@@ -684,8 +689,10 @@ var app = {
     var change = object.attributes.onvaluechange
     if (change) {
       var val = change.value.split(':')
-      app.call(['dom', val[0]], object, val[1])
-      console.dir(object)
+
+      app.call(['dom', 'format'], { object: object, value: val[1] })
+      //app.call(['dom', val[0]], object, val[1])
+
     }
   },
 
@@ -1062,13 +1069,14 @@ var app = {
                   return
               }
 
+              console.log(app.vars.loaded)
               if (app.vars.loaded === (app.vars.total + app.vars.totalStore)
                 && app.modules.loaded === app.modules.total
                 && type !== 'template' && type !== 'data') {
-                /*
+
                 console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                 console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
-                */
+
                 app.attributes.run()
               }
             }
