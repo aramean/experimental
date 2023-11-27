@@ -468,6 +468,10 @@ var dom = {
     }
   },
 
+  compute: function (object, value) {
+    
+  },
+
   remove: function (object, value) {
 
   },
@@ -499,12 +503,14 @@ var dom = {
   },
 
   format: function (object, value) {
+    var regex
     if (object.object) {
+      regex = object.value
       var object = object.object,
         value = object.value
     }
 
-    object.value = value.replace(/^0+(?=\d)|^0*$/g, '')
+    object.value = value.replace(new RegExp(regex, 'g'), '')
   },
 
   split: function (object, value) {
@@ -602,7 +608,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 108 },
+  version: { major: 1, minor: 0, patch: 0, build: 109 },
   module: {},
   plugin: {},
   var: {},
@@ -686,10 +692,7 @@ var app = {
     var change = object.attributes.onvaluechange
     if (change) {
       var val = change.value.split(':')
-
-      app.call(['dom', 'format'], { object: object, value: val[1] })
-      //app.call(['dom', val[0]], object, val[1])
-
+      app.call(['dom', val[0]], { object: object, value: val[1] })
     }
   },
 
