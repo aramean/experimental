@@ -49,10 +49,9 @@
       statevalue="0"
       onvaluechange="format:\b0+|[^0-9,]|,(?=.*,)"
       onstatevaluechange1="format:([\+\-\*\/,])\1+"
-      readonly1
+      readonly
     >
 
-    <input type="text" id="test">
     <div class="fdc">
       <div class="p1- mb05">
         <button class="button w4r" type="button" click="reset:value;#result[0]" onchangeif="#result:0;set[C]">AC</button>
