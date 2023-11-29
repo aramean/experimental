@@ -41,13 +41,24 @@
   </header>
 
   <main class="pauto tac fwb-">
-    <input id="result" class="p1 mb1" type="" value="0" onvaluechange="format:^0+|,(?=.*?,)" readonly>
+    <input
+      type="text"
+      id="result"
+      class="p1 mb1 bos2 bw1 bclavender"
+      value="0" 
+      statevalue="0"
+      onvaluechange="format:\b0+|[^0-9,]|,(?=.*,)"
+      onstatevaluechange1="format:([\+\-\*\/,])\1+"
+      readonly1
+    >
+
+    <input type="text" id="test">
     <div class="fdc">
       <div class="p1- mb05">
-        <button class="button w4r" type="button" click="reset:value;#result[0]">AC</button>
+        <button class="button w4r" type="button" click="reset:value;#result[0]" onchangeif="#result:0;set[C]">AC</button>
         <button class="button w4r" type="button" click="compute:#result[+/–]" disabled>+/-</button>
         <button class="button w4r" type="button" click="compute:#result[%]" disabled>%</button>
-        <button class="button bcgold w4r" type="button" click="compute:#result[÷]" disabled>÷</button>
+        <button class="button w4r bcgold" type="button" click="insert:afterbegin;#result[÷]" disabled>÷</button>
       </div>
     </div>
     <div class="fdc mb05">
@@ -55,7 +66,7 @@
         <button class="button w4r" type="button" click="insert:afterbegin;#result[7]">7</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[8]">8</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[9]">9</button>
-        <button class="button bcgold w4r" type="button" click="compute:#result[*]" disabled>*</button>
+        <button class="button w4r bcgold" type="button" click="insert:#result[*]" disabled>*</button>
       </div>
     </div>
     <div class="fdc mb05">
@@ -63,19 +74,19 @@
         <button class="button w4r" type="button" click="insert:afterbegin;#result[4]">4</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[5]">5</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[6]">6</button>
-        <button class="button bcgold w4r" type="button" click="compute:#result[-]" disabled>-</button>
+        <button class="button w4r bcgold" type="button" click="compute:#result[-]" disabled>-</button>
       </div>
     </div>
     <div class="p1- mb05">
       <button class="button w4r" type="button" click="insert:afterbegin;#result[1]">1</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[2]">2</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[3]">3</button>
-      <button class="button bcgold w4r" type="button" click="compute:#result[+]" disabled>+</button>
+      <button class="button bcgold w4r" type="button" click="state:add;#result[+]">+</button>
     </div>
     <div class="p1- mb05">
       <button class="button w8r" type="button" click="insert:afterbegin;#result[0]">0</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[,]">,</button>
-      <button class="button bcgold w4r" type="button" click="compute:#result[=]" disabled>=</button>
+      <button class="button w4r bcgold" type="button" click="compute:#result[=]" disabled>=</button>
     </div>
   </main>
 </body>
