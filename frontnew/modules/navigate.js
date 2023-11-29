@@ -123,7 +123,7 @@ app.module.navigate = {
   _preloader: {
     intervalId: null,
     treshold: 10000,
-    increment: 4,
+    increment: 5,
     element: null,
     elementChild: null,
     eventCount: 0,
