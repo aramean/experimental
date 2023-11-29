@@ -104,6 +104,11 @@ var dom = {
    * @desc Retrieves elements from the document by selector.
    */
   get: function (selector, list) {
+    
+    if (selector.object) {
+      selector = selector.object
+    }
+
     var regex = /\[(\d+)\]/,
       match = selector && selector.match(regex)
 
@@ -309,10 +314,17 @@ var dom = {
   */
   set: function (object, value, strip, replace) {
 
-    var target = object instanceof Object ? object : dom.get(object),
-      tag = object.localName,
-      type = object.type,
-      value = strip ? value.replace(/<[^>]+>/g, '') : value || ''
+    // click or not
+    if (object.object) {
+      var value = object.value,
+        target = object.object.ownerElement,
+        tag = target.localName
+    } else {
+      var target = object instanceof Object ? object : dom.get(object),
+        tag = object.localName,
+        type = object.type,
+        value = strip ? value.replace(/<[^>]+>/g, '') : value || ''
+    }
 
     switch (tag) {
       case 'input':
@@ -426,13 +438,14 @@ var dom = {
       beforebegin
 
     // click or not
-    if (!value) {
-      var obj = object.split(';')
+    if (object.object) {
+      var obj = object.object.split(';')
       pos = obj[0]
       part2 = obj[1]
-      var identifier = part2.match(/([^[]+)\[(\S+)\]/)
 
+      var identifier = part2.match(/([^[]+)\[(\S+)\]/)
       var target = dom.get(identifier[1])
+
       tag = target.localName
       text = identifier[2]
       object = target
@@ -447,6 +460,7 @@ var dom = {
 
     switch (tag) {
       case 'input':
+        object.attributes.statevalue.value = object.value
         object.value = beforebegin + object.value + afterbegin
         app.change('input', object, false)
         break
@@ -468,8 +482,38 @@ var dom = {
     }
   },
 
+  state: function (object, value) {
+    var val = object.object.split(':'),
+      parts = val[0].split(';')
+    action = parts[0]
+
+    switch (action) {
+      case 'add':
+        console.log(action)
+        //this.insert(object, value)
+        break
+    }
+  },
+
   compute: function (object, value) {
-    
+    if (!value) {
+      var obj = object.split(':')
+      pos = obj[0]
+      part2 = obj[1]
+
+      var identifier = object.match(/([^[]+)\[(\S+)\]/)
+
+      console.dir(identifier)
+
+      var target = dom.get(identifier[1])
+      tag = target.localName
+      operator = identifier[2]
+      object = target
+    }
+
+    //pos = value.slice(0, value.indexOf(":"))
+    //text = value.slice(value.indexOf(":") + 1)
+    console.log(operator)
   },
 
   remove: function (object, value) {
@@ -481,7 +525,7 @@ var dom = {
 
     // click or not
     if (!value) {
-      var obj = object.split(';')
+      var obj = object.object.split(';')
       pos = obj[0]
       part2 = obj[1]
       var identifier = part2.match(/([^[]+)\[(\S+)\]/)
@@ -577,6 +621,34 @@ var dom = {
     }
   },
 
+  bindif: function (object, options) {
+    var test = object.value,
+      test2 = test.split(';')
+
+    var parts = test2[0].split(':'),
+      target = dom.get(parts[0]),
+      condition = test2[1],
+      type = target.type
+
+    switch (type) {
+      case 'text':
+        if (target.value === parts[1]) {
+          var identifier = condition.match(/([^[]+)\[(\S+)\]/)
+
+          console.dir(identifier)
+          console.log(condition)
+
+          app.call(['dom', identifier[1]], { object: object, value: identifier[2] })
+        }
+        break
+      case 'select-one':
+        app.listeners.add(target, 'change', function () {
+          var value = this.options[this.selectedIndex].value
+        })
+        break
+    }
+  },
+
   stopif: function (element, value) {
     var elementValue = element.innerHTML || '',
       values = value.split(':'),
@@ -608,7 +680,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 109 },
+  version: { major: 1, minor: 0, patch: 0, build: 110 },
   module: {},
   plugin: {},
   var: {},
@@ -643,20 +715,28 @@ var app = {
     app.config.set()
     app.assets.load()
 
-    document.addEventListener('keyup', function (e) {
+    app.listeners.add(document, 'keyup', function (e) {
       //console.log('key')
     })
 
     app.listeners.add(document, 'click', function (e) {
       var link = dom.getTagLink(e.target),
-        click = link && link.attributes.click
+        click = link && link.attributes.click,
+        onchangeif = link && link.attributes.onchangeif
+
       if (click) {
         var val = click.value.split(':')
-        app.call(['dom', val[0]], val[1])
+        app.call(['dom', val[0]], { object: val[1] })
+
+        if (onchangeif) {
+          dom.bindif(onchangeif, { e: link })
+        }
       }
     })
 
+    // Listen for all input fields.
     app.listeners.add(document, 'input', function (e) {
+      console.log('listen for all ')
       app.change('input', e.target, false)
     })
 
@@ -664,8 +744,6 @@ var app = {
 
   call: function (run, runarg) {
     app.log.info()('Calling: ' + run + ' ' + runarg)
-    console.dir(run)
-    console.dir(runarg)
     if (run.length === 4)
       window[run[0]][run[1]][run[2]][run[3]](runarg)
     else if (run.length === 3)
@@ -689,9 +767,16 @@ var app = {
   },
 
   change: function (event, object) {
-    var change = object.attributes.onvaluechange
-    if (change) {
-      var val = change.value.split(':')
+    var changeValue = object.attributes.onvaluechange,
+      changeStateValue = object.attributes.onstatevaluechange
+    if (changeValue) {
+      var val = changeValue.value.split(':')
+      app.call(['dom', val[0]], { object: object, value: val[1] })
+    }
+    if (changeStateValue) {
+      console.log(changeStateValue)
+      var val = changeStateValue.value.split(':')
+      console.dir(val)
       app.call(['dom', val[0]], { object: object, value: val[1] })
     }
   },
@@ -1069,13 +1154,12 @@ var app = {
                   return
               }
 
-              console.log(app.vars.loaded)
               if (app.vars.loaded === (app.vars.total + app.vars.totalStore)
                 && app.modules.loaded === app.modules.total
                 && type !== 'template' && type !== 'data') {
 
-                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
+                //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
 
                 app.attributes.run()
               }
