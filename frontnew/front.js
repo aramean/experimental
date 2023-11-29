@@ -105,8 +105,8 @@ var dom = {
    */
   get: function (selector, list) {
     
-    if (selector.object) {
-      selector = selector.object
+    if (selector.clicked) {
+      selector = selector.clicked
     }
 
     var regex = /\[(\d+)\]/,
@@ -315,9 +315,9 @@ var dom = {
   set: function (object, value, strip, replace) {
 
     // click or not
-    if (object.object) {
+    if (object.clicked) {
       var value = object.value,
-        target = object.object.ownerElement,
+        target = object.clicked.ownerElement,
         tag = target.localName
     } else {
       var target = object instanceof Object ? object : dom.get(object),
@@ -438,8 +438,8 @@ var dom = {
       beforebegin
 
     // click or not
-    if (object.object) {
-      var obj = object.object.split(';')
+    if (object.clicked) {
+      var obj = object.clicked.split(';')
       pos = obj[0]
       part2 = obj[1]
 
@@ -483,7 +483,7 @@ var dom = {
   },
 
   state: function (object, value) {
-    var val = object.object.split(':'),
+    var val = object.clicked.split(':'),
       parts = val[0].split(';')
     action = parts[0]
 
@@ -525,7 +525,7 @@ var dom = {
 
     // click or not
     if (!value) {
-      var obj = object.object.split(';')
+      var obj = object.clicked.split(';')
       pos = obj[0]
       part2 = obj[1]
       var identifier = part2.match(/([^[]+)\[(\S+)\]/)
@@ -548,9 +548,9 @@ var dom = {
 
   format: function (object, value) {
     var regex
-    if (object.object) {
+    if (object.clicked) {
       regex = object.value
-      var object = object.object,
+      var object = object.clicked,
         value = object.value
     }
 
@@ -638,7 +638,7 @@ var dom = {
           console.dir(identifier)
           console.log(condition)
 
-          app.call(['dom', identifier[1]], { object: object, value: identifier[2] })
+          app.call(['dom', identifier[1]], { clicked: object, value: identifier[2] })
         }
         break
       case 'select-one':
@@ -680,7 +680,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 111 },
+  version: { major: 1, minor: 0, patch: 0, build: 112 },
   module: {},
   plugin: {},
   var: {},
@@ -726,7 +726,7 @@ var app = {
 
       if (click) {
         var val = click.value.split(':')
-        app.call(['dom', val[0]], { object: val[1] })
+        app.call(['dom', val[0]], { clicked: val[1] })
 
         if (onchangeif) {
           dom.bindif(onchangeif, { e: link })
@@ -771,13 +771,13 @@ var app = {
       changeStateValue = object.attributes.onstatevaluechange
     if (changeValue) {
       var val = changeValue.value.split(':')
-      app.call(['dom', val[0]], { object: object, value: val[1] })
+      app.call(['dom', val[0]], { clicked: object, value: val[1] })
     }
     if (changeStateValue) {
       console.log(changeStateValue)
       var val = changeStateValue.value.split(':')
       console.dir(val)
-      app.call(['dom', val[0]], { object: object, value: val[1] })
+      app.call(['dom', val[0]], { clicked: object, value: val[1] })
     }
   },
 
