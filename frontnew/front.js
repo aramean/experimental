@@ -443,13 +443,18 @@ var dom = {
       pos = obj[0]
       part2 = obj[1]
 
+  
+
       var identifier = part2.match(/([^[]+)\[(\S+)\]/)
       var target = dom.get(identifier[1])
 
       tag = target.localName
       text = identifier[2]
+
       object = target
 
+      console.log(text)
+      object.attributes.statevalue.value += text
     } else {
       pos = value.slice(0, value.indexOf(":"))
       text = value.slice(value.indexOf(":") + 1)
@@ -460,7 +465,6 @@ var dom = {
 
     switch (tag) {
       case 'input':
-        object.attributes.statevalue.value = object.value
         object.value = beforebegin + object.value + afterbegin
         app.change('input', object, false)
         break
@@ -495,25 +499,18 @@ var dom = {
     }
   },
 
-  compute: function (object, value) {
-    if (!value) {
-      var obj = object.split(':')
-      pos = obj[0]
-      part2 = obj[1]
+  compute: function (object) {
+    var obj = object.clicked.split(';')
+    var element = dom.get(obj[1])
+    
+    var compute = element.attributes.statevalue.value
+     // Remove leading zeros from the compute variable
+     compute = compute.replace(/\b0+(\d+)/, '$1');
 
-      var identifier = object.match(/([^[]+)\[(\S+)\]/)
+    var result = eval(compute)
 
-      console.dir(identifier)
-
-      var target = dom.get(identifier[1])
-      tag = target.localName
-      operator = identifier[2]
-      object = target
-    }
-
-    //pos = value.slice(0, value.indexOf(":"))
-    //text = value.slice(value.indexOf(":") + 1)
-    console.log(operator)
+    element.value = result
+    element.attributes.statevalue.value = result
   },
 
   remove: function (object, value) {
@@ -674,7 +671,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 116 },
+  version: { major: 1, minor: 0, patch: 0, build: 117 },
   module: {},
   plugin: {},
   var: {},
