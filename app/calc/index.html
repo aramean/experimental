@@ -47,14 +47,15 @@
       class="p1 mb1 bos2 bw1 bclavender"
       value="0" 
       statevalue="0"
-      onvaluechange="format:\b0+|[^0-9,]|,(?=.*,)"
+      onvaluechange="format:\b0+(?=\d)|[^0-9,]|,(?=.*,)"
+      onvaluechangeif="0;#reset;set[C]?set[AC]"
       onstatevaluechange1="format:([\+\-\*\/,])\1+"
       readonly
     >
 
     <div class="fdc">
       <div class="p1- mb05">
-        <button class="button w4r" type="button" click="reset:value;#result[0]" onchangeif="#result:0;set[C]">AC</button>
+        <button id="reset" class="button w4r" type="button" click="reset:value;#result[0]">AC</button>
         <button class="button w4r" type="button" click="compute:#result[+/–]" disabled>+/-</button>
         <button class="button w4r" type="button" click="compute:#result[%]" disabled>%</button>
         <button class="button w4r bcgold" type="button" click="insert:afterbegin;#result[÷]" disabled>÷</button>
