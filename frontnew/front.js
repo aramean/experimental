@@ -526,17 +526,10 @@ var dom = {
     // click or not
     if (object.clicked) {
       var obj = object.clicked.split(';'),
-        pos = obj[0],
-        part2 = obj[1]
-      var identifier = part2.match(/([^[]+)\[(\S+)\]/)
-
-      var object = dom.get(identifier[1]),
-        tag = object.localName,
-        text = identifier[2]
-
-    } else {
-      pos = value.slice(0, value.indexOf(":"))
-      text = value.slice(value.indexOf(":") + 1)
+        part2 = obj[1],
+        identifier = part2.match(/([^[]+)\[(\S+)\]/),
+        object = dom.get(identifier[1]),
+        tag = object.localName
     }
 
     switch (tag) {
@@ -681,7 +674,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 113 },
+  version: { major: 1, minor: 0, patch: 0, build: 114 },
   module: {},
   plugin: {},
   var: {},
