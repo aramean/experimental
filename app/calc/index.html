@@ -47,7 +47,7 @@
       class="p1 mb1 bos2 bw1 bclavender"
       value="0" 
       statevalue="0"
-      onvaluechange="format:\b0+(?=\d)|[^0-9,]|,(?=.*,)"
+      onvaluechange="format:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
       onvaluechangeif="0;#reset;set[C]?set[AC]"
       onstatevaluechange1="format:([\+\-\*\/,])\1+"
       readonly
