@@ -674,7 +674,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 115 },
+  version: { major: 1, minor: 0, patch: 0, build: 116 },
   module: {},
   plugin: {},
   var: {},
@@ -1163,6 +1163,7 @@ var app = {
                   app.templates.loaded++
                   if (app.templates.loaded === app.srcTemplate.total) {
                     app.templates.render()
+                    app.config.set()
                     app.assets.get.modules()
                   }
                   break
