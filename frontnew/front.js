@@ -674,7 +674,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 114 },
+  version: { major: 1, minor: 0, patch: 0, build: 115 },
   module: {},
   plugin: {},
   var: {},
@@ -890,7 +890,8 @@ var app = {
       var config = this.get(false, {
         debug: false,
         debugLocalhost: false,
-        varsDir: app.script.path
+        varsDir: app.script.path,
+        storageKey: false,
         //fileExtension: '.html'
       }, scriptElement || app.script.element)
 
@@ -910,6 +911,7 @@ var app = {
 
     get: function (mechanism, type, key) {
       var data
+      if (app.storageKey) key = app.storageKey + '_' + key
       switch (mechanism) {
         case 'local':
           data = JSON.parse(localStorage.getItem(key))
@@ -927,6 +929,7 @@ var app = {
     },
 
     set: function (mechanism, type, key, data, format) {
+      if (app.storageKey) key = app.storageKey + '_' + key
       switch (format) {
         case 'xml':
           data = new DOMParser().parseFromString(data, 'text/xml')
