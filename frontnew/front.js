@@ -104,7 +104,7 @@ var dom = {
    * @desc Retrieves elements from the document by selector.
    */
   get: function (selector, list) {
-    
+
     if (selector.clicked) {
       selector = selector.clicked
     }
@@ -317,7 +317,7 @@ var dom = {
     // click or not
     if (object.clicked) {
       var value = object.value,
-        target = object.clicked.ownerElement,
+        target = object.clicked,
         tag = target.localName
     } else {
       var target = object instanceof Object ? object : dom.get(object),
@@ -524,15 +524,15 @@ var dom = {
     var tag = object.localName
 
     // click or not
-    if (!value) {
-      var obj = object.clicked.split(';')
-      pos = obj[0]
-      part2 = obj[1]
+    if (object.clicked) {
+      var obj = object.clicked.split(';'),
+        pos = obj[0],
+        part2 = obj[1]
       var identifier = part2.match(/([^[]+)\[(\S+)\]/)
 
-      var object = dom.get(identifier[1])
-      tag = object.localName
-      text = identifier[2]
+      var object = dom.get(identifier[1]),
+        tag = object.localName,
+        text = identifier[2]
 
     } else {
       pos = value.slice(0, value.indexOf(":"))
@@ -542,6 +542,7 @@ var dom = {
     switch (tag) {
       case 'input':
         object.value = object.defaultValue
+        app.change('input', object, false)
         break
     }
   },
@@ -680,7 +681,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 112 },
+  version: { major: 1, minor: 0, patch: 0, build: 113 },
   module: {},
   plugin: {},
   var: {},
@@ -722,14 +723,14 @@ var app = {
     app.listeners.add(document, 'click', function (e) {
       var link = dom.getTagLink(e.target),
         click = link && link.attributes.click,
-        onchangeif = link && link.attributes.onchangeif
+        onclickif = link && link.attributes.onclickif
 
       if (click) {
         var val = click.value.split(':')
         app.call(['dom', val[0]], { clicked: val[1] })
 
-        if (onchangeif) {
-          dom.bindif(onchangeif, { e: link })
+        if (onclickif) {
+          dom.bindif(onclickif, { e: link })
         }
       }
     })
@@ -768,13 +769,44 @@ var app = {
 
   change: function (event, object) {
     var changeValue = object.attributes.onvaluechange,
+      changeValueIf = object.attributes.onvaluechangeif,
       changeStateValue = object.attributes.onstatevaluechange
+
     if (changeValue) {
       var val = changeValue.value.split(':')
       app.call(['dom', val[0]], { clicked: object, value: val[1] })
     }
+
+    if (changeValueIf) {
+      var val = changeValueIf.value.split(';'),
+        attr = object.value
+
+      var identifier = val[2].match(/(\w+)\[([^\]]+)\]/g) || []
+
+      var target = dom.get(val[1]),
+        object = target,
+        isNegative = val[0][0] === '!',
+        newVal = isNegative ? val[0].substring(1) : val[0],
+        regex = /(\w+)\[([^\]]+)\]/
+
+      var statement, text, action
+
+      if (attr === newVal && identifier[1]) {
+        statement = identifier[1].match(regex)
+      } else {
+        statement = identifier[0].match(regex)
+      }
+
+      if (!identifier[1] && attr !== newVal) {
+        return
+      } else {
+        text = statement[2]
+        action = statement[1]
+        app.call(['dom', action], { clicked: object, value: text })
+      }
+    }
+
     if (changeStateValue) {
-      console.log(changeStateValue)
       var val = changeStateValue.value.split(':')
       console.dir(val)
       app.call(['dom', val[0]], { clicked: object, value: val[1] })
