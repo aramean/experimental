@@ -532,6 +532,7 @@ var dom = {
     switch (tag) {
       case 'input':
         object.value = object.defaultValue
+        object.attributes.statevalue.value = object.defaultValue
         app.change('input', object, false)
         break
     }
@@ -671,7 +672,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 117 },
+  version: { major: 1, minor: 0, patch: 0, build: 118 },
   module: {},
   plugin: {},
   var: {},
