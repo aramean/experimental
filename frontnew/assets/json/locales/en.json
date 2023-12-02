@@ -149,7 +149,7 @@
     "marketplace_description": "Buy, sell or give away items for free.",
     "cross_platform_description": "At the moment, the platform is undergoing a valuation phase.",
     "open_source_description": "Front is a free and open-source project provided under the MIT license. The source code is also available, which you can explore in detail or fork and modify to suit your needs.",
-    "paradigm_description": "Low-code approach has a minimalistic logic making it easy for developers to understand and maintain. Combining imperative and declarative style creates a new way of coding in abstractive mode.",
+    "paradigm_description": "Low-code development follows a minimalistic logic, simplifying the coding process for developers and enhancing ease of understanding and maintenance. This approach combines elements of imperative and declarative styles, allowing developers to work in a declarative mode where they specify desired outcomes without delving into detailed procedural steps.",
     "add": "Add",
     "animations": "Animations",
     "attribute": "Attribut",

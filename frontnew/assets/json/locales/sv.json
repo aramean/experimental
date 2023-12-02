@@ -147,6 +147,6 @@
     "marketplace_description": "Köp, sälj eller ge bort föremål gratis.",
     "cross_platform_description": "För tillfället genomgår plattformen en värderingsfas.",
     "open_source_description": "Front är ett gratis och öppen källkodsprojekt som tillhandahålls under MIT-licensen. Källkoden är också tillgänglig, som du kan utforska i detalj eller dela och ändra för att passa dina behov.",
-    "paradigm_description": "Lågkodsmetod har en minimalistisk logik som gör det lätt för utvecklare att förstå och underhålla. Att kombinera imperativ och deklarativ stil skapar ett nytt sätt att koda i abstrakt läge."
+    "paradigm_description": "Low-code-utveckling följer en minimalistisk logik som förenklar kodningsprocessen för utvecklare och förbättrar förståelsen och underhållet. Denna metod kombinerar element från imperativ och deklarativ stil och låter utvecklare arbeta i ett deklarativt läge där de specificerar önskade resultat utan att fördjupa sig i detaljerade procedursteget."
   }
 }

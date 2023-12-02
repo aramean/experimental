@@ -443,8 +443,6 @@ var dom = {
       pos = obj[0]
       part2 = obj[1]
 
-  
-
       var identifier = part2.match(/([^[]+)\[(\S+)\]/)
       var target = dom.get(identifier[1])
 
@@ -453,7 +451,6 @@ var dom = {
 
       object = target
 
-      console.log(text)
       object.attributes.statevalue.value += text
     } else {
       pos = value.slice(0, value.indexOf(":"))
@@ -538,14 +535,33 @@ var dom = {
     }
   },
 
-  format: function (object, value) {
-    var regex
+  sanitize: function (object, value) {
     if (object.clicked) {
-      regex = object.value
+      var object = object.clicked,
+        value = object.value
+        var stateValue = object.attributes.statevalue
+        stateValue.value = stateValue.value.replace(/([=+\-*/])\s*([=+\-*/])+/g, '$1')
+
+        console.error(stateValue)
+    }
+  },
+
+  format: function (object, value) {
+    regex = object.value
+    
+    if (object.state) {
+      //var object = object.clicked
+      //console.error('hej')
+      //var stateValue = object.attributes.stateValue
+      //stateValue.value = 'sss'
+    }
+
+    if (object.clicked) {
+      
       var object = object.clicked,
         value = object.value
     }
-
+    
     object.value = value.replace(new RegExp(regex, 'g'), '')
   },
 
@@ -672,7 +688,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 118 },
+  version: { major: 1, minor: 0, patch: 0, build: 119 },
   module: {},
   plugin: {},
   var: {},
@@ -763,6 +779,11 @@ var app = {
       changeValueIf = object.attributes.onvaluechangeif,
       changeStateValue = object.attributes.onstatevaluechange
 
+    if (changeStateValue) {
+      var val = changeStateValue.value.split(':')
+      app.call(['dom', val[0]], { clicked: object, state: true, value: val[1] })
+    }
+
     if (changeValue) {
       var val = changeValue.value.split(':')
       app.call(['dom', val[0]], { clicked: object, value: val[1] })
@@ -795,12 +816,6 @@ var app = {
         action = statement[1]
         app.call(['dom', action], { clicked: object, value: text })
       }
-    }
-
-    if (changeStateValue) {
-      var val = changeStateValue.value.split(':')
-      console.dir(val)
-      app.call(['dom', val[0]], { clicked: object, value: val[1] })
     }
   },
 
