@@ -53,8 +53,7 @@
       statevalue="0"
       onvaluechange="format:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
       onvaluechangeif="0;#reset;set[C]?set[AC]"
-      onstatevaluechange1="format:([\+\-\*\/,])\1+"
-      oncompute="alert:hdd"
+      onstatevaluechange="sanitize:compute"
       readonly
     >
 
