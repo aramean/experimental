@@ -54,6 +54,9 @@
       onvaluechange="format:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
       onvaluechangeif="0;#reset;set[C]?set[AC]"
       onstatevaluechange="sanitize:compute"
+      onstatevaluechangeif="/[0-9]+/;#result;set[0]"
+      onbeforecompute1="alert:before"
+      onaftercompute1="alert:after"
       readonly
     >
 
@@ -69,7 +72,7 @@
       <div class="p1-">
         <button class="button w4r" type="button" click="insert:afterbegin;#result[7]">7</button>
         <button class="button w4r" type="button" click="insert:afterbegin;#result[8]">8</button>
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[9]" clickstate="#result">9</button>
+        <button class="button w4r" type="button" click="insert:afterbegin;#result[9]">9</button>
         <button class="button w4r bcgold" type="button" click="insert:afterbegin;#result[*]">*</button>
       </div>
     </div>
@@ -85,7 +88,7 @@
       <button class="button w4r" type="button" click="insert:afterbegin;#result[1]">1</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[2]">2</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[3]">3</button>
-      <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[+]">+</button>
+      <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[+]" josef="true" onclick="">+</button>
     </div>
     <div class="p1- mb05">
       <button class="button w8r" type="button" click="insert:afterbegin;#result[0]">0</button>
