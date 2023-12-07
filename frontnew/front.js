@@ -431,6 +431,7 @@ var dom = {
   },
 
   insert: function (object, value) {
+    console.dir(object)
     var tag = object.localName,
       pos,
       text,
@@ -483,6 +484,10 @@ var dom = {
     }
   },
 
+  replace: function (object, value) {
+    this.insert(object, value)
+  },
+
   state: function (object, value) {
     var val = object.clicked.split(':'),
       parts = val[0].split(';')
@@ -497,17 +502,32 @@ var dom = {
   },
 
   compute: function (object) {
-    var obj = object.clicked.split(';')
-    var element = dom.get(obj[1])
-    
-    var compute = element.attributes.statevalue.value
-     // Remove leading zeros from the compute variable
-     compute = compute.replace(/\b0+(\d+)/, '$1');
 
-    var result = eval(compute)
+    console.dir(object)
+    var obj = object.clicked.split(';'),
+      element = dom.get(obj[1]),
+      computeValue = element.attributes.statevalue,
+      onBeforeCompute = element.attributes.onbeforecompute,
+      onAfterCompute = element.attributes.onaftercompute
 
-    element.value = result
-    element.attributes.statevalue.value = result
+    if (onBeforeCompute) {
+      var val = onBeforeCompute.value.split(':')
+      console.dir(val)
+      app.call(['dom', val[0]], val[1])
+    }
+
+    if (computeValue) {
+      var compute = computeValue.value.replace(/\b0+(\d+)/, '$1').replace(/,/g, '.')
+      var result = eval(compute)
+      element.value = String(result).replace(/\./g, ',')
+      element.attributes.statevalue.value = result
+    }
+
+    if (onAfterCompute) {
+      var val = onAfterCompute.value.split(':')
+      console.dir(val)
+      app.call(['dom', val[0]], val[1])
+    }
   },
 
   remove: function (object, value) {
@@ -536,19 +556,24 @@ var dom = {
   },
 
   sanitize: function (object, value) {
+
+    // compute (Todo)
     if (object.clicked) {
       var object = object.clicked,
         value = object.value
-        var stateValue = object.attributes.statevalue
-        stateValue.value = stateValue.value.replace(/([=+\-*/])\s*([=+\-*/])+/g, '$1')
+      var stateValue = object.attributes.statevalue
 
-        console.error(stateValue)
+      //stateValue.value = stateValue.value.replace(/([=+\-*/])\s*([=+\-*/])+/g, '$1')
+      // Remove all operators except the last one
+      stateValue.value = stateValue.value.replace(/([=+\-*/])(?=[=+\-*/])/g, '')
+
+      console.error(stateValue)
     }
   },
 
   format: function (object, value) {
     regex = object.value
-    
+
     if (object.state) {
       //var object = object.clicked
       //console.error('hej')
@@ -557,11 +582,11 @@ var dom = {
     }
 
     if (object.clicked) {
-      
+
       var object = object.clicked,
         value = object.value
     }
-    
+
     object.value = value.replace(new RegExp(regex, 'g'), '')
   },
 
@@ -688,7 +713,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 119 },
+  version: { major: 1, minor: 0, patch: 0, build: 120 },
   module: {},
   plugin: {},
   var: {},
@@ -775,13 +800,32 @@ var app = {
   },
 
   change: function (event, object) {
+
+    // Todo
     var changeValue = object.attributes.onvaluechange,
       changeValueIf = object.attributes.onvaluechangeif,
-      changeStateValue = object.attributes.onstatevaluechange
+      changeStateValue = object.attributes.onstatevaluechange,
+      changeStateValueIf = object.attributes.onstatevaluechangeif
 
     if (changeStateValue) {
       var val = changeStateValue.value.split(':')
       app.call(['dom', val[0]], { clicked: object, state: true, value: val[1] })
+    }
+
+    if (changeStateValueIf) {
+      var val = changeStateValueIf.value.split(';'),
+        attr = object.value
+
+      var element = dom.get('#result'),
+        elValue = element.attributes.statevalue.value
+
+      // Check if statevalue contains an operator followed by a number
+      var match = elValue.match(/([\+\-\*\/])(\d+)$/)
+
+      if (match) {
+        // Keep the numeric part following the last operator in the input value
+        element.value = match[2]
+      }
     }
 
     if (changeValue) {
