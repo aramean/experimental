@@ -3,6 +3,7 @@
   "code": "eng",
   "direction": "ltr",
   "translations": {
+    "age": "Age",
     "cache": "13",
     "add": "Add",
     "go_back": "Go back",

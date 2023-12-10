@@ -3,6 +3,7 @@
   "code": "swe",
   "direction": "ltr",
   "translations": {
+    "age": "Ålder",
     "add": "Lägg till",
     "go_back": "Gå tillbaka",
     "animations": "Animationer",

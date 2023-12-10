@@ -559,8 +559,8 @@ var dom = {
   },
 
   format: function (object, value) {
-
-    var tag = object.localName
+    var tag = object.localName,
+    stateValue = object.textContent
 
     if (object.clicked) {
       value = object.value
@@ -573,6 +573,40 @@ var dom = {
       case 'compute':
         regex = /([=+\-*/])(?=[=+\-*/])/
         break
+  
+      case 'age':
+        var input = stateValue
+        var formats = [
+          /(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/,
+          /(\d{2})[\/.-](\d{1,2})[\/.-](\d{1,2})/,
+          /(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})[ T](\d{1,2}):(\d{1,2}):(\d{1,2})/,
+          /(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})[ T](\d{1,2}):(\d{1,2})/,
+          /(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})[ T](\d{1,2})/,
+          /(\d{4})[\/.-](\d{1,2})[\/.-](\d{1,2})/,
+          /(\d{4}) ([a-zA-Z]+) (\d{1,2})/,
+          /(\d{4}) ([a-zA-Z]+)/,
+          /(\d{4}) (\d{1,2}) (\d{1,2})/,
+          /(\d{4})(\d{2})(\d{2})/
+        ]
+  
+        for (var i = 0; i < formats.length; i++) {
+          var match = input.match(formats[i])
+          if (match) {
+            var year = parseInt(match[1], 10)
+            var month = parseInt(match[2], 10) - 1
+            var day = parseInt(match[3], 10)
+            var birthdateObject = new Date(year, month, day)
+  
+            if (birthdateObject) {
+              var age = new Date() - birthdateObject
+              var calculatedAge = new Date(age).getUTCFullYear() - 1970
+              object.textContent = calculatedAge
+            }
+  
+            break
+          }
+        }
+        break
     }
 
     switch (tag) {
@@ -580,7 +614,7 @@ var dom = {
         stateValue.value = stateValue.value.replace(new RegExp(regex, 'g'), '')
         break
     }
-  },
+  },  
 
   sanitize: function (object, value) {
     regex = object.value
@@ -724,7 +758,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 121 },
+  version: { major: 1, minor: 0, patch: 0, build: 122 },
   module: {},
   plugin: {},
   var: {},
