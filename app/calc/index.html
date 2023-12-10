@@ -51,9 +51,10 @@
       class="pl05 pr05 mb1 bos2 bw1 bclavender z14"
       value="0" 
       statevalue="0"
-      onvaluechange="format:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
+      onvaluechange="sanitize:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
+      onvaluechangenew="sanitize:number[-0][0]+symbol[0][,]"
       onvaluechangeif="0;#reset;set[C]?set[AC]"
-      onstatevaluechange="sanitize:compute"
+      onstatevaluechange="format:compute"
       onstatevaluechangeif="/[0-9]+/;#result;set[0]"
       onbeforecompute1="alert:before"
       onaftercompute1="alert:after"
@@ -63,8 +64,8 @@
     <div class="fdc">
       <div class="p1- mb05">
         <button id="reset" class="button w4r" type="button" click="reset:value;#result[0]">AC</button>
-        <button class="button w4r" type="button" click="compute:#result[+/–]" disabled>+/-</button>
-        <button class="button w4r" type="button" click="compute:#result[%]" disabled>%</button>
+        <button class="button w4r" type="button" click="insert:beforebegin;#result[-]">+/-</button>
+        <button class="button w4r" type="button" click="insert:afterbegin;#result[%]">%</button>
         <button class="button w4r bcgold" type="button" click="insert:afterbegin;#result[/]">÷</button>
       </div>
     </div>
