@@ -452,7 +452,10 @@ var dom = {
 
       object = target
 
-      object.attributes.statevalue.value += text
+      object.attributes.statevalue.value =
+        pos === 'beforebegin'
+          ? text + object.attributes.statevalue.value
+          : object.attributes.statevalue.value + text
     } else {
       pos = value.slice(0, value.indexOf(":"))
       text = value.slice(value.indexOf(":") + 1)
@@ -555,23 +558,31 @@ var dom = {
     }
   },
 
-  sanitize: function (object, value) {
+  format: function (object, value) {
 
-    // compute (Todo)
+    var tag = object.localName
+
     if (object.clicked) {
-      var object = object.clicked,
-        value = object.value
-      var stateValue = object.attributes.statevalue
+      value = object.value
+      object = object.clicked
+      tag = object.localName
+      stateValue = object.attributes.statevalue
+    }
 
-      //stateValue.value = stateValue.value.replace(/([=+\-*/])\s*([=+\-*/])+/g, '$1')
-      // Remove all operators except the last one
-      stateValue.value = stateValue.value.replace(/([=+\-*/])(?=[=+\-*/])/g, '')
+    switch (value) {
+      case 'compute':
+        regex = /([=+\-*/])(?=[=+\-*/])/
+        break
+    }
 
-      console.error(stateValue)
+    switch (tag) {
+      case 'input':
+        stateValue.value = stateValue.value.replace(new RegExp(regex, 'g'), '')
+        break
     }
   },
 
-  format: function (object, value) {
+  sanitize: function (object, value) {
     regex = object.value
 
     if (object.state) {
@@ -713,7 +724,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 120 },
+  version: { major: 1, minor: 0, patch: 0, build: 121 },
   module: {},
   plugin: {},
   var: {},
