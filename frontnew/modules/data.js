@@ -19,6 +19,8 @@ app.module.data = {
     app.xhr.currentAsset.total = 1
     this._handle(element)
 
+    element.setAttribute("stop", '*')
+
     if (element.getAttribute('data-srcjoin')) {
       app.xhr.currentAsset.total = 2
       this._handle(element, true)
@@ -27,14 +29,14 @@ app.module.data = {
 
   _handle: function (element, join) {
     var attr = element.attributes,
-    joinSuffix = join ? 'join' : '',
-    options = {
-      loader: attr.loader && attr.loader.value,
-      iterate: attr.iterate && attr.iterate.value,
-      element: element,
-      attribute: join ? 'data-srcjoin' : 'data-src',
-      storageKey: this.module + this._generateId(attr['data-src'].value) + joinSuffix
-    }
+      joinSuffix = join ? 'join' : '',
+      options = {
+        loader: attr.loader && attr.loader.value,
+        iterate: attr.iterate && attr.iterate.value,
+        element: element,
+        attribute: join ? 'data-srcjoin' : 'data-src',
+        storageKey: this.module + this._generateId(attr['data-src'].value) + joinSuffix
+      }
     this._open(attr, options)
   },
 
@@ -69,11 +71,11 @@ app.module.data = {
     var element = options.element,
       datamerge = element.getAttribute('data-merge'),
       datafilteritem = element.getAttribute('data-filteritem')
-    
-      if (datamerge) {
-        var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
-        responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
-      }
+
+    if (datamerge) {
+      var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
+      responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
+    }
 
     if (datafilteritem) {
       var datafilterkey = element.getAttribute('data-filterkey')
@@ -119,9 +121,10 @@ app.module.data = {
       }
     }
 
-    app.attributes.run(elements, ['data-get', 'data-set'])
+    dom.start(element)
     this._set(responseData, options)
     this._finish(options)
+    app.attributes.run(elements, ['data-get', 'data-set'])
   },
 
   _get: function (obj, value) {
@@ -198,7 +201,7 @@ app.module.data = {
     }
   },
 
-  _merge: function(response, responseJoin, merge) {
+  _merge: function (response, responseJoin, merge) {
     response[merge] = responseJoin[merge]
     var filteredResponse = response
     return { data: filteredResponse }

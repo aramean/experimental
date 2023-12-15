@@ -3,13 +3,18 @@
 
 <head>
   <script src="front.js" module="globalize;data;navigate" var="api"
-    conf="debug:true" globalize-conf="folder:assets/json/locales"></script>
+    conf="debug:false" globalize-conf="folder:assets/json/locales"></script>
 </head>
 
-<body data-src="assets/json/format.json" iterate="false">
+<body data-src="assets/json/format.json" data-set="birth:#birth;birth:#birth2">
   <h2>Format</h2>
   <hr>
-  <span globalize-get="age"></span>: <span format="age">19870430</span>
+  <h3>From text content:</h3>
+  <p><span globalize-get="age"></span>: <span format="age">19870430</span></p>
+  <h3>From data source:</h3>
+  <p id="birth" format="age" beforebegin="Age:"></p>
+  <!--<h3>From data source + bind:</h3>
+  <p id="birth2" format="age" bind="test:?page" beforebegin="Age{test:josef}">{i}</p>-->
 </body>
 
 </html>

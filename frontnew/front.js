@@ -431,7 +431,6 @@ var dom = {
   },
 
   insert: function (object, value) {
-    console.dir(object)
     var tag = object.localName,
       pos,
       text,
@@ -560,7 +559,7 @@ var dom = {
 
   format: function (object, value) {
     var tag = object.localName,
-    stateValue = object.textContent
+      stateValue = object.textContent
 
     if (object.clicked) {
       value = object.value
@@ -573,7 +572,6 @@ var dom = {
       case 'compute':
         regex = /([=+\-*/])(?=[=+\-*/])/
         break
-  
       case 'age':
         var input = stateValue
         var formats = [
@@ -588,7 +586,7 @@ var dom = {
           /(\d{4}) (\d{1,2}) (\d{1,2})/,
           /(\d{4})(\d{2})(\d{2})/
         ]
-  
+
         for (var i = 0; i < formats.length; i++) {
           var match = input.match(formats[i])
           if (match) {
@@ -596,13 +594,13 @@ var dom = {
             var month = parseInt(match[2], 10) - 1
             var day = parseInt(match[3], 10)
             var birthdateObject = new Date(year, month, day)
-  
+
             if (birthdateObject) {
               var age = new Date() - birthdateObject
               var calculatedAge = new Date(age).getUTCFullYear() - 1970
               object.textContent = calculatedAge
             }
-  
+
             break
           }
         }
@@ -614,7 +612,7 @@ var dom = {
         stateValue.value = stateValue.value.replace(new RegExp(regex, 'g'), '')
         break
     }
-  },  
+  },
 
   sanitize: function (object, value) {
     regex = object.value
@@ -727,6 +725,43 @@ var dom = {
     }
   },
 
+  stop: function (element) {
+    var children = element.childNodes
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i]
+      if (child.nodeType === 1) { // Check if it's an element node
+        var existingAttributes = child.attributes,
+          stopValue = ''
+
+        // Concatenate existing attribute names to the stopValue, excluding 'stop'
+        for (var j = 0; j < existingAttributes.length; j++) {
+          var attr = existingAttributes[j]
+          if (attr.name !== 'stop') {
+            if (stopValue !== '') {
+              stopValue += ';'
+            }
+            stopValue += attr.name
+          }
+        }
+
+        // Set the 'stop' attribute with the concatenated value
+        child.setAttribute('stop', stopValue)
+      }
+    }
+  },
+
+  start: function (element) {
+    element.removeAttribute('stop');
+    var children = element.childNodes;
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i]
+      if (child.nodeType === 1) { // Check if it's an element node
+        child.removeAttribute('stop')
+        this.start(child) // Recursively remove 'stop' attribute from child's children
+      }
+    }
+  },
+
   stopif: function (element, value) {
     var elementValue = element.innerHTML || '',
       values = value.split(':'),
@@ -758,7 +793,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 122 },
+  version: { major: 1, minor: 0, patch: 0, build: 123 },
   module: {},
   plugin: {},
   var: {},
@@ -1490,12 +1525,10 @@ var app = {
             value: attr.value
           })
 
-          //if (attr.name === 'bind') continue
-          var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*\\}', 'g')
-          object.setAttribute(attr.name, attr.value
-            .replace(/{[^}]*:\s*([^}]+)?}/, replaceValue || '$1')
-            .replace(regex, replaceValue)
-          )
+          var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
+          object.setAttribute(attr.name, attr.value.replace(regex, function (match, defaultValue) {
+            return replaceValue || defaultValue || ''
+          }))
         }
 
         if (reset) {
