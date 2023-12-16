@@ -394,6 +394,8 @@ var dom = {
    * @desc Trims chars from the content of an element.
    */
   trim: function (object, value) {
+    this.alert('yes')
+    console.error(object.getAttribute('trimleft'))
     var regex,
       values = value.split(';'),
       direction = values[0].toLowerCase(),
@@ -790,7 +792,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 124 },
+  version: { major: 1, minor: 0, patch: 0, build: 125 },
   module: {},
   plugin: {},
   var: {},
@@ -1443,6 +1445,10 @@ var app = {
   attributes: {
 
     defaultExclude: ['alt', 'class', 'height', 'id', 'name', 'src', 'style', 'title', 'width'],
+    replacementMap: {
+      'trimleft': 'trim',
+      'trimright': 'trim'
+    },
 
     /**
      * @function run
@@ -1476,9 +1482,15 @@ var app = {
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
-            var attributeName = attributes[j].name,
-              name = attributes[j].name.split('-'),
+            var attributeName = attributes[j].name
+
+            // Replace with mapped value if applicable.
+            attributeName = this.replacementMap[attributeName] || attributeName
+
+            var name = attributeName.split('-'),
               value = attributes[j].value
+
+            console.log(attributeName)
             if (exclude.indexOf(attributeName) === -1) {
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
@@ -1498,7 +1510,7 @@ var app = {
     parse: function (options, delimiter) {
       var el = dom.get(options.selector),
         action = options.val.split(delimiter)
-      return { el, action }
+      return { el: el, action: action }
     }
   },
 
