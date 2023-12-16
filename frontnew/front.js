@@ -394,23 +394,19 @@ var dom = {
    * @desc Trims chars from the content of an element.
    */
   trim: function (object, value) {
-    this.alert('yes')
-    console.error(object.getAttribute('trimleft'))
     var regex,
-      values = value.split(';'),
-      direction = values[0].toLowerCase(),
-      char = values[1] || ' '
+      attr = object.callAttribute
+      char = value || ' '
 
-    switch (direction) {
-      case 'left':
+    switch (attr) {
+      case 'trimleft':
         regex = '^[' + char + '\\t]+'
         break
-      case 'right':
+      case 'trimright':
         regex = '[' + char + '\\t]+$'
         break
       default:
         regex = '^[' + char + '\\t]+|[' + char + '\\t]+$'
-        break
     }
 
     object.innerHTML = object.innerHTML.replace(new RegExp(regex, 'g'), '')
@@ -792,7 +788,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 125 },
+  version: { major: 1, minor: 0, patch: 0, build: 126 },
   module: {},
   plugin: {},
   var: {},
@@ -1483,6 +1479,7 @@ var app = {
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
             var attributeName = attributes[j].name
+            element.callAttribute = attributeName
 
             // Replace with mapped value if applicable.
             attributeName = this.replacementMap[attributeName] || attributeName

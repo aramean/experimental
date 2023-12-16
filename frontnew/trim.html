@@ -10,13 +10,18 @@
 <body>
   <h2>Trim</h2>
   <hr>
-  <span trim="both;#">#//#</span><br> <!-- this will remove # on both sides -->
-  <span trim>		//		</span><br> <!--this will trim spaces on right and left because of no value-->
-  <span trim>     //    </span><br> <!--this will trim spaces on right and left because of no value-->
-  <span trim="left">     /left/      </span><br> <!-- this will trim spaces on left side -->
-  <span trim="right">    /right/     </span><br> <!-- this will trim spaces on right side -->
-  <span trim="left;#">/left/#</span><br><!-- this will remove # on left side -->
-  <span trim="right;#">#/right/#</span><br> <!-- this will remove # on right side -->
+  <h4>This will remove # on right and left</h4>
+  <span trim="#">#//#</span><br>
+  <h4>This will trim spaces on right and left</h4>
+  <span trim=" ">     //    </span><br>
+  <h4>This will only trim spaces on left side</h4>
+  <span trimleft=" ">     /left/      </span><br>
+  <h4>This will only trim spaces on right side</h4>
+  <span trimright=" ">    /right/     </span><br>
+  <h4>This will only remove # on left side</h4>
+  <span trimleft="#">/left/#</span><br>
+  <h4>This will only remove # on right side</h4>
+  <span trimright="#">#/right/#</span><br>
 </body>
 
 </html>
