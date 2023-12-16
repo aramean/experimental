@@ -9,7 +9,7 @@
     <details open>
       <summary globalize-get="genre">Genre</summary>
       <span bind="genre:^api.themoviedb.genre.movie" data-src="{genre}" iterate="genres">
-        <a data-get="name" bind="p:?page" data-set="i:id" href="?genres={i}&page={p:1}"></a>
+        <a data-get="name" data-set="i:id" bind="p:?page" href="?genres={i}&page={p:1}"></a>
       </span>
     </details>
   </form>
