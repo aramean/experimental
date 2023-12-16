@@ -11,10 +11,10 @@
   <hr>
   <h3>From text content:</h3>
   <p><span globalize-get="age"></span>: <span format="age">19870430</span></p>
-  <h3>From data source:</h3>
+  <h3>From data source + beforebegin:</h3>
   <p id="birth" format="age" beforebegin="Age:"></p>
-  <!--<h3>From data source + bind:</h3>
-  <p id="birth2" format="age" bind="test:?page" beforebegin="Age{test:josef}">{i}</p>-->
+  <h3>From data source + bind + insert:</h3>
+  <p id="birth2" format="age" bind="test:?page" insert="afterbegin:Age "></p>
 </body>
 
 </html>

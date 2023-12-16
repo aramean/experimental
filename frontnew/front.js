@@ -478,11 +478,8 @@ var dom = {
       case 'select':
         object.setAttribute('select', value)
         break
-      case 'button':
-        object.textContent = beforebegin + object.textContent + afterbegin
-        break
       default:
-        object.insertAdjacentText(pos, value)
+        object.textContent = beforebegin + object.textContent + afterbegin
     }
   },
 
@@ -793,7 +790,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 123 },
+  version: { major: 1, minor: 0, patch: 0, build: 124 },
   module: {},
   plugin: {},
   var: {},
