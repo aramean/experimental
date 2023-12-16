@@ -788,7 +788,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 126 },
+  version: { major: 1, minor: 0, patch: 0, build: 127 },
   module: {},
   plugin: {},
   var: {},
@@ -1487,7 +1487,6 @@ var app = {
             var name = attributeName.split('-'),
               value = attributes[j].value
 
-            console.log(attributeName)
             if (exclude.indexOf(attributeName) === -1) {
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="front.js" module="globalize" var="api"
+    conf="debug:false" globalize-conf="folder:assets/json/locales"></script>
+</head>
+
+<body>
+  <h2>Slice</h2>
+  <hr>
+  <h3>Slice before insert:</h3>
+  <p slice="0,1" insert="beforebegin:Age: ">test</p>
+  <h3>Slice after insert:</h3>
+  <p insert="beforebegin:Age: " slice="0,1">test</p>
+</body>
+
+</html>
+
