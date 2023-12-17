@@ -5,7 +5,7 @@ app.module.navigate = {
   /**
    * @function _autoload
    * @memberof app.module.navigate
-   * @param {HTMLElement} scriptElement - The script element to load the configuration for.
+   * @param {object} options - The script element to load the configuration for.
    * @private
    */
   __autoload: function (options) {

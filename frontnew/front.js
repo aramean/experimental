@@ -395,7 +395,7 @@ var dom = {
    */
   trim: function (object, value) {
     var regex,
-      attr = object.callAttribute
+      attr = object.callAttribute,
       char = value || ' '
 
     switch (attr) {
@@ -412,20 +412,37 @@ var dom = {
     object.innerHTML = object.innerHTML.replace(new RegExp(regex, 'g'), '')
   },
 
-  afterbegin: function (object, value) {
-    object.insertAdjacentText('afterbegin', value)
-  },
+  insert2: function (object, value) {
+    var attr = object.callAttribute,
+      tag = object.localName,
+      insert = attr.replace('insert', '')
 
-  afterend: function (object, value) {
-    object.insertAdjacentText('afterend', value)
-  },
+    var normal = insert === '2' ? value : '',
+      afterbegin = insert === 'afterbegin' ? value : '',
+      beforeend = insert === 'beforeend' ? value : ''
 
-  beforebegin: function (object, value) {
-    object.insertAdjacentText('beforebegin', value)
-  },
-
-  beforeend: function (object, value) {
-    object.insertAdjacentText('beforeend', value)
+    if (afterbegin || beforeend || normal) {
+      switch (tag) {
+        case 'input':
+          object.value = afterbegin + object.value + beforeend
+          app.change('input', object, false)
+          break
+        case 'img':
+          var src = object.getAttribute('src')
+          if (src) object.src = afterbegin + src + beforeend
+          break
+        case 'a':
+          object.href = afterbegin + object.href + beforeend
+          break
+        case 'select':
+          object.setAttribute('select', value)
+          break
+        default:
+          object.textContent = afterbegin + object.textContent + beforeend
+      }
+    } else {
+      object.insertAdjacentText(insert, value)
+    }
   },
 
   insert: function (object, value) {
@@ -479,6 +496,33 @@ var dom = {
       default:
         object.textContent = beforebegin + object.textContent + afterbegin
     }
+  },
+
+  set2: function (object, value) {
+    var attr = object.callAttribute,
+      tag = object.localName,
+      set = attr.replace('set', '')
+
+      switch (tag) {
+        case 'input':
+        case 'progress':
+          object.value = value
+          app.change('input', object, false)
+          break
+        case 'img':
+        case 'video':
+        case 'track':
+          object.src = value
+          break
+        case 'a':
+          object.href = object.href
+          break
+        case 'select':
+          object.setAttribute('select', value)
+          break
+        default:
+          object.textContent = object.textContent
+      }
   },
 
   replace: function (object, value) {
@@ -788,7 +832,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 127 },
+  version: { major: 1, minor: 0, patch: 0, build: 128 },
   module: {},
   plugin: {},
   var: {},
@@ -1443,7 +1487,13 @@ var app = {
     defaultExclude: ['alt', 'class', 'height', 'id', 'name', 'src', 'style', 'title', 'width'],
     replacementMap: {
       'trimleft': 'trim',
-      'trimright': 'trim'
+      'trimright': 'trim',
+      'insertbeforebegin': 'insert2',
+      'insertafterbegin': 'insert2',
+      'insertbeforeend': 'insert2',
+      'insertafterend': 'insert2',
+      'setvalue': 'set2',
+      'setsrc': 'set2'
     },
 
     /**

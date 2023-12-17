@@ -7,13 +7,13 @@
 </head>
 
 <body data-src="assets/json/format.json" data-set="birth:#birth;birth:#birth2">
-  <h2>Format</h2>
+  <h1>Format</h1>
   <hr>
-  <h3>From text content:</h3>
+  <h4>From text content:</h4>
   <p><span globalize-get="age"></span>: <span format="age">19870430</span></p>
-  <h3>From data source + beforebegin:</h3>
+  <h4>From data source + beforebegin:</h4>
   <p id="birth" format="age" beforebegin="Age:"></p>
-  <h3>From data source + bind + insert:</h3>
+  <h4>From data source + bind + insert:</h4>
   <p id="birth2" format="age" bind="test:?page" insert="afterbegin:Age "></p>
 </body>
 

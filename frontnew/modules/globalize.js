@@ -8,8 +8,7 @@ app.module.globalize = {
   /**
    * @function _autoload
    * @memberof app.module.globalize
-   * @param {HTMLElement} scriptElement - The script element to load the configuration for.
-   * @param {Object} options - The options object with the onload callback.
+   * @param {object} options - The script element to load the configuration for.
    * @desc Autoloads the globalize configuration for a specified script element.
    * @private
    */
