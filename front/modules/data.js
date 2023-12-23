@@ -19,7 +19,9 @@ app.module.data = {
     app.xhr.currentAsset.total = 1
     this._handle(element)
 
-    element.setAttribute("stop", '*')
+    if (!element.getAttribute("stop")) {
+      element.setAttribute("stop", '*')
+    }
 
     if (element.getAttribute('data-srcjoin')) {
       app.xhr.currentAsset.total = 2
@@ -121,7 +123,7 @@ app.module.data = {
       }
     }
 
-    dom.start(element)
+    if (element.getAttribute("stop") === "*") dom.start(element)
     this._set(responseData, options)
     this._finish(options)
     app.attributes.run(elements, ['data-get', 'data-set'])

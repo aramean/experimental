@@ -413,9 +413,10 @@ var dom = {
   },
 
   insert2: function (object, value) {
+
     var attr = object.callAttribute,
       tag = object.localName,
-      insert = attr.replace('insert', '')
+      insert = attr && attr.replace('insert', '')
 
     var normal = insert === '2' ? value : '',
       afterbegin = insert === 'afterbegin' ? value : '',
@@ -451,6 +452,9 @@ var dom = {
       text,
       afterbegin,
       beforebegin
+
+
+    console.log(object)
 
     // click or not
     if (object.clicked) {
@@ -500,29 +504,29 @@ var dom = {
 
   set2: function (object, value) {
     var attr = object.callAttribute,
-      tag = object.localName,
-      set = attr.replace('set', '')
+      tag = object.localName
+    //set = attr.replace('set', '')
 
-      switch (tag) {
-        case 'input':
-        case 'progress':
-          object.value = value
-          app.change('input', object, false)
-          break
-        case 'img':
-        case 'video':
-        case 'track':
-          object.src = value
-          break
-        case 'a':
-          object.href = object.href
-          break
-        case 'select':
-          object.setAttribute('select', value)
-          break
-        default:
-          object.textContent = object.textContent
-      }
+    switch (tag) {
+      case 'input':
+      case 'progress':
+        object.value = value
+        app.change('input', object, false)
+        break
+      case 'img':
+      case 'video':
+      case 'track':
+        object.src = value
+        break
+      case 'a':
+        object.href = value
+        break
+      case 'select':
+        object.setAttribute('select', value)
+        break
+      default:
+        object.textContent = object.textContent
+    }
   },
 
   replace: function (object, value) {
@@ -832,7 +836,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 128 },
+  version: { major: 1, minor: 0, patch: 0, build: 129 },
   module: {},
   plugin: {},
   var: {},
@@ -843,7 +847,16 @@ var app = {
   srcDocTemplate: '',
   srcTemplate: [],
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
-
+  replacementMap: {
+    'trimleft': 'trim',
+    'trimright': 'trim',
+    'insertbeforebegin': 'insert2',
+    'insertafterbegin': 'insert2',
+    'insertbeforeend': 'insert2',
+    'insertafterend': 'insert2',
+    'setvalue': 'set2',
+    'setsrc': 'set2'
+  },
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
@@ -875,11 +888,9 @@ var app = {
       var link = dom.getTagLink(e.target),
         click = link && link.attributes.click,
         onclickif = link && link.attributes.onclickif
-
       if (click) {
         var val = click.value.split(':')
         app.call(['dom', val[0]], { clicked: val[1] })
-
         if (onclickif) {
           dom.bindif(onclickif, { e: link })
         }
@@ -894,14 +905,24 @@ var app = {
 
   },
 
-  call: function (run, runarg) {
-    app.log.info()('Calling: ' + run + ' ' + runarg)
-    if (run.length === 4)
-      window[run[0]][run[1]][run[2]][run[3]](runarg)
-    else if (run.length === 3)
-      window[run[0]][run[1]][run[2]](runarg)
-    else if (run.length === 2)
-      window[run[0]][run[1]](runarg)
+  call: function (run, runargs) {
+    app.log.info()('Calling: ' + run + ' ' + runargs)
+
+    var run1 = app.replacementMap[run[1]] || run[1]
+
+    // Ensure runargs is an array
+    runargs = Array.isArray(runargs) ? runargs : [runargs]
+
+    switch (run.length) {
+      case 4:
+        window[run[0]][run1][run[2]][run[3]].apply(null, runargs)
+        break
+      case 3:
+        window[run[0]][run1][run[2]].apply(null, runargs)
+        break
+      case 2:
+        window[run[0]][run1].apply(null, runargs)
+    }
   },
 
   add: {
@@ -1485,16 +1506,6 @@ var app = {
   attributes: {
 
     defaultExclude: ['alt', 'class', 'height', 'id', 'name', 'src', 'style', 'title', 'width'],
-    replacementMap: {
-      'trimleft': 'trim',
-      'trimright': 'trim',
-      'insertbeforebegin': 'insert2',
-      'insertafterbegin': 'insert2',
-      'insertbeforeend': 'insert2',
-      'insertafterend': 'insert2',
-      'setvalue': 'set2',
-      'setsrc': 'set2'
-    },
 
     /**
      * @function run
@@ -1532,7 +1543,7 @@ var app = {
             element.callAttribute = attributeName
 
             // Replace with mapped value if applicable.
-            attributeName = this.replacementMap[attributeName] || attributeName
+            attributeName = app.replacementMap[attributeName] || attributeName
 
             var name = attributeName.split('-'),
               value = attributes[j].value
