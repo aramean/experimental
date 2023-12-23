@@ -34,7 +34,7 @@ app.module.data = {
       joinSuffix = join ? 'join' : '',
       options = {
         loader: attr.loader && attr.loader.value,
-        iterate: attr.iterate && attr.iterate.value,
+        iterate: attr['data-iterate'] && attr['data-iterate'].value,
         element: element,
         attribute: join ? 'data-srcjoin' : 'data-src',
         storageKey: this.module + this._generateId(attr['data-src'].value) + joinSuffix
