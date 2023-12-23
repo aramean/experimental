@@ -6,7 +6,7 @@
   <meta name="version" content="1.0.0">
   <script
     src="../../front/front.js"
-    module="globalize"
+    module="globalize;keyboard"
     var="enum"
     conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:calc"
     globalize-conf="folder:../app/calc/assets/json/locales"
@@ -86,7 +86,7 @@
       </div>
     </div>
     <div class="p1- mb05">
-      <button class="button w4r" type="button" click="insert:afterbegin;#result[1]">1</button>
+      <button class="button w4r" type="button" keyboard-key="1" keyboard-action="click" click="insert:afterbegin;#result[1]">1</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[2]">2</button>
       <button class="button w4r" type="button" click="insert:afterbegin;#result[3]">3</button>
       <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[+]" josef="true" onclick="">+</button>
