@@ -18,23 +18,22 @@
     <div class="bcblack08"></div>
   </div>
   <header class="topbar h4_5 gap2- pr2 shade1">
-    <button click="toggle:aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
     <figure class="mh30p pl2 sel">
-      <a class="b0 fwb pr025" href="./">Weather</a>
+      <a class="b0 fwb pr025 white" href="./">Weather</a>
     </figure>
     <div class="pr f1">
       <input class="bs1 p1 h3 br05 dark w100 md_dn" id="query" type="text"
-        placeholder="Search movies, TV shows and people ..." autocomplete="off">
+        placeholder=" ..." autocomplete="off">
     </div>
   </header>
   <main class="pauto">
     <div 
       class="tac"
       data-src="https://api.weatherapi.com/v1/current.json?key=d09f575ad0984ccb802135417232412&q=addis ababa&aqi=no"
-      data-iterate="false"
     >
-      <img data-get="current.condition.icon" class="m0a">
-      <h1 class="tac fs200" id="temp" data-get="current.temp_c" insertbeforeend="°C"></h1>
+      <h6 class="mb2" data-get="location.name"></h6>
+      <img class="m0a" data-get="current.condition.icon">
+      <h1 class="tac fs200" data-get="current.temp_c" insertbeforeend="°C"></h1>
     </div>
   </main>
 </body>

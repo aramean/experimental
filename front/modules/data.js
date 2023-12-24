@@ -88,7 +88,7 @@ app.module.data = {
       iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
       total = iterate && iterateObject.length - 1 || 0
 
-    if (iterate === 'false') {
+    if (!iterate) {
       var elements = dom.find(element, '*')
 
       for (var i = 0; i < elements.length; i++) {
@@ -106,7 +106,6 @@ app.module.data = {
           dom.set(elements[i], value, false)
         }
       }
-
 
     } else {
 
