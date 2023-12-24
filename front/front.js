@@ -453,9 +453,6 @@ var dom = {
       afterbegin,
       beforebegin
 
-
-    console.log(object)
-
     // click or not
     if (object.clicked) {
       var obj = object.clicked.split(';')
@@ -685,21 +682,6 @@ var dom = {
   },
 
   /**
-   * @function getTagLink
-   * @memberof dom
-   * @param {Element} element - The element to start the search from.
-   * @return {Element|null} The found anchor element, or `null` if none was found.
-   * @desc Finds the first ancestor of the given element that is an anchor element (`<a>`).
-   */
-  getTagLink: function (element) {
-    for (var current = element; current; current = current.parentNode) {
-      var type = current.localName
-      if (type === 'a' || type === 'button') return current
-    }
-    return null
-  },
-
-  /**
    * @function include
    * @memberof dom
    * @param {Object} element - The element to which the external content will be added.
@@ -828,15 +810,37 @@ var dom = {
     }
   },
 
-  vars: function (element, value) {
+  var: function (element, value) {
     if (element.localName === 'script') return
-    dom.bind(element, value)
-    var value = element.attributes.vars
+  },
+
+  iterate: function (element, value) {
+    var values = value.split(';'),
+      start = parseInt(values[0]),
+      stop = parseInt(values[1]),
+      vari = values[2]
+
+    var originalNode = element.cloneNode(true),
+      content = ''
+    for (var i = start; i <= stop; i++) {
+      content += originalNode.innerHTML
+    }
+
+    element.innerHTML = content
+
+    var elements = dom.find(element, '*')
+    for (var i = 0; i <= stop - start; i++) {
+      if (elements[i]) {
+        app.variables.update.attributes(elements[i], '', 'i', start + i, false);
+      }
+    }
+
+    app.attributes.run(elements, ['iterate'])
   }
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 130 },
+  version: { major: 1, minor: 0, patch: 0, build: 131 },
   module: {},
   plugin: {},
   var: {},
@@ -854,6 +858,7 @@ var app = {
     'insertafterbegin': 'insert2',
     'insertbeforeend': 'insert2',
     'insertafterend': 'insert2',
+    'sethref': 'set2',
     'setvalue': 'set2',
     'setsrc': 'set2'
   },
@@ -885,7 +890,7 @@ var app = {
     })
 
     app.listeners.add(document, 'click', function (e) {
-      var link = dom.getTagLink(e.target),
+      var link = app.getTagLink(e.target),
         click = link && link.attributes.click,
         onclickif = link && link.attributes.onclickif
       if (click) {
@@ -1010,6 +1015,21 @@ var app = {
         _.el.classList.toggle(_.action[i])
       }
     }
+  },
+
+  /**
+   * @function getTagLink
+   * @memberof app
+   * @param {Element} element - The element to start the search from.
+   * @return {Element|null} The found anchor element, or `null` if none was found.
+   * @desc Finds the first ancestor of the given element that is an anchor element (`<a>`).
+   */
+  getTagLink: function (element) {
+    for (var current = element; current; current = current.parentNode) {
+      var type = current.localName
+      if (type === 'a' || type === 'button') return current
+    }
+    return null
   },
 
   /**
@@ -1593,7 +1613,7 @@ var app = {
 
           var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
           object.setAttribute(attr.name, attr.value.replace(regex, function (match, defaultValue) {
-            return replaceValue || defaultValue || ''
+            return replaceValue === 0 ? '0' : replaceValue || defaultValue || ''
           }))
         }
 

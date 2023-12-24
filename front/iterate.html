@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="front.js" module="globalize;data;navigate" var="api" conf="debug:false"
+    globalize-conf="folder:assets/json/locales"></script>
+</head>
+
+<body>
+  <h2>Navigation (Paging):</h2>
+  <section>
+    
+    <nav iterate="0;3;i">
+      <a href="?" set="{i}" sethref="?page={i}"></a>
+    </nav>
+
+    <nav iterate="1;3;i">
+      <a href="?" set="{i}" sethref="?page={i}"></a>
+    </nav>
+
+  </section>
+</body>
+
+</html>
