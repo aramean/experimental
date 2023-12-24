@@ -23,9 +23,11 @@
   </a>
 </div>
 
-<nav class="pagination mt1 p1 p1- bcwhite01 flc" selective="true" iterate="i:0;10;i++">
-  <a class="bcblack m025 br05" bind1="popular-movies.datasource" onclick="set('query', 'page', '{{ page }}')" key="{{ page }}" keyaction="click()"><var>page</var></a>
+<nav class="pagination mt1 p1 p1- bcwhite01 flc" selective="true" iterate="1;9;i">
+  <a class="bcwhite m025 br05" sethref="?page={i}" set="{i}"></a>
 </nav>
+
+<hr>
 
 <hr>
 <div id="down" await="">
