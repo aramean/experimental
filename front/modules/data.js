@@ -88,37 +88,60 @@ app.module.data = {
       iterateObject = iterate === 'true' ? responseData.data : responseData.data[iterate] || responseData.data,
       total = iterate && iterateObject.length - 1 || 0
 
-    var originalNode = element.cloneNode(true),
-      orginalNodeCountAll = dom.find(originalNode, '*').length,
-      content = ''
+    if (iterate === 'false') {
+      var elements = dom.find(element, '*')
 
-    for (var i = 0; i <= total; i++) {
-      content += originalNode.innerHTML
-    }
+      for (var i = 0; i < elements.length; i++) {
+        var dataget = elements[i].getAttribute('data-get')
+        var dataset = elements[i].getAttribute('data-set')
 
-    element.innerHTML = content
+        if (dataget) {
+          var pathSegments = dataget.split('.') || []
+          var value = iterateObject; // Start with the entire object
 
-    var elements = dom.find(element, '*')
-    for (var i = 0, j = -1; i < elements.length; i++) {
+          for (var j = 0; j < pathSegments.length; j++) {
+            value = value[pathSegments[j]] || '' // Update value for each path segment
+          }
 
-      var dataget = elements[i].getAttribute('data-get') || false
-      var dataset = elements[i].getAttribute('data-set') || false
-
-      if (i % orginalNodeCountAll === 0) j++
-
-      if (dataget) {
-        if (dataget.indexOf(':') !== -1) {
-          var data = dataget.split(':')
-          app.variables.update.attributes(elements[i], elements[i], data[0], this._get(iterateObject[j], data[1]), false)
-        } else {
-          dom.set(elements[i], this._get(iterateObject[j], dataget), false)
+          dom.set(elements[i], value, false)
         }
       }
 
-      if (dataset) {
-        if (dataset.indexOf(':') !== -1) {
-          var data = dataset.split(':')
-          app.variables.update.attributes(elements[i], elements[i], data[0], this._get(iterateObject[j], data[1]), false)
+
+    } else {
+
+      var originalNode = element.cloneNode(true),
+        orginalNodeCountAll = dom.find(originalNode, '*').length,
+        content = ''
+
+      for (var i = 0; i <= total; i++) {
+        content += originalNode.innerHTML
+      }
+
+      element.innerHTML = content
+
+      var elements = dom.find(element, '*')
+      for (var i = 0, j = -1; i < elements.length; i++) {
+
+        var dataget = elements[i].getAttribute('data-get') || false
+        var dataset = elements[i].getAttribute('data-set') || false
+
+        if (i % orginalNodeCountAll === 0) j++
+
+        if (dataget) {
+          if (dataget.indexOf(':') !== -1) {
+            var data = dataget.split(':')
+            app.variables.update.attributes(elements[i], elements[i], data[0], this._get(iterateObject[j], data[1]), false)
+          } else {
+            dom.set(elements[i], this._get(iterateObject[j], dataget), false)
+          }
+        }
+
+        if (dataset) {
+          if (dataset.indexOf(':') !== -1) {
+            var data = dataset.split(':')
+            app.variables.update.attributes(elements[i], elements[i], data[0], this._get(iterateObject[j], data[1]), false)
+          }
         }
       }
     }
