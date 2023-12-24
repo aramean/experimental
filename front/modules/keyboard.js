@@ -26,7 +26,13 @@ app.module.keyboard = {
           arg = action[1],
           element = this.keys[i].element
         e.element = element
-        app.call(['dom', run], element.clicked ? [element, arg] : [arg])
+
+        switch (run) {
+          case 'href':
+            element.click()
+          default:
+            app.call(['dom', run], element.clicked ? [element, arg] : [arg])
+        }
       }
     }
   },
@@ -42,5 +48,5 @@ app.module.keyboard = {
     }
 
     this.keys.push({ key: key, action: action, element: element })
-  },
+  }
 }
