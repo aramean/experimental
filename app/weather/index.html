@@ -41,7 +41,10 @@
       data-src="https://api.weatherapi.com/v1/forecast.json?key=d09f575ad0984ccb802135417232412&q=addis ababa&days=7&aqi=no&alerts=no"
       data-iterate="forecast.forecastday"
     >
-      <h5 class="mb05" data-get="date"></h5>
+      <div class="df">
+        <p class="mb05 f1" data-get="date"></p>
+        <img class="h2" data-get="day.condition.icon">
+      </div>
     </div>
   </main>
 </body>
