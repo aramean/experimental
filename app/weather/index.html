@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="version" content="1.0.0">
   <script src="../../front/front.js" module="globalize;geolocalize;data;keyboard" var="api"
-    conf="debug:true;varsDir:assets/json/vars"
+    conf="debug:false;varsDir:assets/json/vars"
     globalize-conf="folder:../app/weather/assets/json/locales">
     </script>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
@@ -33,7 +33,15 @@
       <h5 class="mb05" data-get="location.name"></h5>
       <img class="m0a" data-get="current.condition.icon">
       <h6 class="m0a fs09" data-get="current.condition.text">-</h6>
-      <h1 class="tac mt1 fwb" data-get="current.temp_c" insertbeforeend="°C">0</h1>
+      <h1 class="tac mt1 fwb fl" data-get="current.temp_c" insertbeforeend="°">0</h1>
+    </div>
+
+    <div 
+      class="tac mt2 w15 m0a bcblack03 br05 p2 shade2"
+      data-src="https://api.weatherapi.com/v1/forecast.json?key=d09f575ad0984ccb802135417232412&q=addis ababa&days=7&aqi=no&alerts=no"
+      data-iterate="forecast.forecastday"
+    >
+      <h5 class="mb05" data-get="date"></h5>
     </div>
   </main>
 </body>
