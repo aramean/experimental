@@ -9,6 +9,9 @@ app.module.navigate = {
    * @private
    */
   __autoload: function (options) {
+    // Enable SPA support using navigate module.
+    app.spa = this
+
     this.config = app.config.get('navigate', {
       target: 'main',
       preloader: '#navloader',

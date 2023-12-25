@@ -8,7 +8,18 @@
  */
 
 var dom = {
-  uniqueId: 0,
+  _replacementMap: {
+    'trimleft': 'trim',
+    'trimright': 'trim',
+    'insertbeforebegin': 'insert2',
+    'insertafterbegin': 'insert2',
+    'insertbeforeend': 'insert2',
+    'insertafterend': 'insert2',
+    'sethref': 'set2',
+    'setvalue': 'set2',
+    'setsrc': 'set2'
+  },
+  _uniqueId: 0,
 
   /**
    * @namespace parse
@@ -294,8 +305,8 @@ var dom = {
    * @desc Sets a unique id for the given element.
    */
   setUniqueId: function (element) {
-    dom.uniqueId++
-    element.id = 'id' + dom.uniqueId
+    dom._uniqueId++
+    element.id = 'id' + dom._uniqueId
   },
 
   doctitle: function (value) {
@@ -513,6 +524,7 @@ var dom = {
       case 'img':
       case 'video':
       case 'track':
+      case 'iframe':
         object.src = value
         break
       case 'a':
@@ -840,7 +852,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 136 },
+  version: { major: 1, minor: 0, patch: 0, build: 137 },
   module: {},
   plugin: {},
   var: {},
@@ -851,17 +863,7 @@ var app = {
   srcDocTemplate: '',
   srcTemplate: [],
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
-  replacementMap: {
-    'trimleft': 'trim',
-    'trimright': 'trim',
-    'insertbeforebegin': 'insert2',
-    'insertafterbegin': 'insert2',
-    'insertbeforeend': 'insert2',
-    'insertafterend': 'insert2',
-    'sethref': 'set2',
-    'setvalue': 'set2',
-    'setsrc': 'set2'
-  },
+  spa: false,
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
 
@@ -913,7 +915,7 @@ var app = {
   call: function (run, runargs) {
     app.log.info()('Calling: ' + run + ' ' + runargs)
 
-    var run1 = app.replacementMap[run[1]] || run[1]
+    var run1 = dom._replacementMap[run[1]] || run[1]
 
     // Ensure runargs is an array
     runargs = Array.isArray(runargs) ? runargs : [runargs]
@@ -1450,8 +1452,7 @@ var app = {
       } else {
 
         var xhr = new XMLHttpRequest(),
-          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || '',
-          spa = app.module.navigate || false
+          urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
 
         xhr.options = options
         // Set headers
@@ -1465,11 +1466,11 @@ var app = {
         }
 
         xhr.onabort = function () {
-          if (spa && loader) spa._preloader.reset()
+          if (app.spa && loader) app.spa._preloader.reset()
         }
 
         xhr.onprogress = function (e) {
-          if (spa && type === 'page') spa._preloader.load(e, true)
+          if (app.spa && type === 'page') app.spa._preloader.load(e, true)
         }
 
         xhr.onload = function () {
@@ -1563,7 +1564,7 @@ var app = {
             element.callAttribute = attributeName
 
             // Replace with mapped value if applicable.
-            attributeName = app.replacementMap[attributeName] || attributeName
+            attributeName = dom._replacementMap[attributeName] || attributeName
 
             var name = attributeName.split('-'),
               value = attributes[j].value
