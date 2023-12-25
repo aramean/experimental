@@ -852,7 +852,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 137 },
+  version: { major: 1, minor: 0, patch: 0, build: 138 },
   module: {},
   plugin: {},
   var: {},
@@ -1032,6 +1032,19 @@ var app = {
       if (type === 'a' || type === 'button') return current
     }
     return null
+  },
+
+  getPropertyByPath: function (object, path) {
+    var pathSegments = path && path.split('.') || [],
+      value = object
+
+    if (pathSegments.length > 0) {
+      for (var j = 0; j < pathSegments.length; j++) {
+        value = value[pathSegments[j]] || ''
+      }
+    }
+
+    return value
   },
 
   /**
