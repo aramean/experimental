@@ -140,6 +140,7 @@ app.module.navigate = {
     },
 
     load: function (e, onprogress) {
+      if (!this.element) return
       if (onprogress) this.eventCount++
       if (this.isFastPage) this.eventCount = 0
       this.isFastPage = true
@@ -179,6 +180,7 @@ app.module.navigate = {
     },
 
     reset: function () {
+      if (!this.element) return
       this.progress(0)
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
