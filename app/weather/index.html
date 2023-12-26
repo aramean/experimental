@@ -28,7 +28,8 @@
   <main class="pauto">
     <div 
       class="tac"
-      data-src="https://api.weatherapi.com/v1/current.json?key=d09f575ad0984ccb802135417232412&q=addis ababa&aqi=no"
+      bind="url:^api.weather.url;key:^api.weather.api_key;city:^api.weather.city"
+      data-src="{url}/current.json?key={key}&q={city}&aqi=no"
     >
       <h5 data-get="location.name"></h5>
       <img class="m0a" data-get="current.condition.icon" height="72">
@@ -38,7 +39,8 @@
 
     <div 
       class="tac mt2 m0a bcblack03 br05 p2 shade2"
-      data-src="https://api.weatherapi.com/v1/forecast.json?key=d09f575ad0984ccb802135417232412&q=addis ababa&days=7&aqi=no&alerts=no"
+      bind="url:^api.weather.url;key:^api.weather.api_key;city:^api.weather.city"
+      data-src="{url}/forecast.json?key={key}&q={city}&days=7&aqi=no&alerts=no&{test}"
       data-iterate="forecast.forecastday"
     >
       <div class="df w15 aic">

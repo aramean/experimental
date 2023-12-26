@@ -1,6 +1,7 @@
 {
   "weather": {
-    "endpoint": "http://api.weatherapi.com/v1/current.json",
-    "api_key": "d09f575ad0984ccb802135417232412"
+    "url": "http://api.weatherapi.com/v1",
+    "api_key": "d09f575ad0984ccb802135417232412",
+    "city": "Addis Ababa"
   }
 }

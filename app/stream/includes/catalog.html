@@ -3,6 +3,7 @@
 
 <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif" async></div>
 <div id="error" class="red mb2" hide>Something went wrong!</div>
+<div id="empty" class="mb2 fwb" hide>Not found!</div>
 <div id="success" class="green mb2" hide>It's working!</div>
 <div
   bind="page:?page;genres:?genres"
@@ -10,8 +11,9 @@
   data-set="page:#page;total_pages:#pages;total_results:#results"
   data-header=""
   data-iterate="results"
-  loader="#loader"
-  error="#error"
+  data-loader="#loader"
+  data-error="#error"
+  data-empty="total_results;#empty"
   filter="true"
   class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
 >
