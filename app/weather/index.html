@@ -27,11 +27,11 @@
   </header>
   <main class="pauto">
     <div 
-      class="tac w15 m0a bcblack03 br05 p2 shade2"
+      class="tac w15 m0a"
       data-src="https://api.weatherapi.com/v1/current.json?key=d09f575ad0984ccb802135417232412&q=addis ababa&aqi=no"
     >
       <h5 class="mb05" data-get="location.name"></h5>
-      <img class="m0a" data-get="current.condition.icon">
+      <img class="m0a" data-get="current.condition.icon" height="72">
       <h6 class="m0a fs09" data-get="current.condition.text">-</h6>
       <h1 class="tac mt1 fwb fl" data-get="current.temp_c" math-round insertbeforeend="°">0</h1>
     </div>
