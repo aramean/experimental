@@ -1,4 +1,10 @@
-<div id="error" class="red mb2" hide>Something went wrong!</div>
+<div id="error" class="df aic jcc red fwb mb2 w100 pa tac bcblack h100p" hide>
+  <div class="df fdc">
+    <i class="icon48 jcc pb05" jsonget="html_entity">&#10060;</i>
+    <p>Couldn't load trailer!</p>
+  </div>
+</div>
+
 <div style="margin-top: -58px; overflow: hidden" class="h100 w100">
 <iframe
   id="{discover}"
@@ -13,6 +19,7 @@
   data-sort="i have to fix this"
   data-set="youtube:results.0.key;name:results.0.name;title:title"
   error="#error"
+  empty="#error"
   src="https://www.youtube-nocookie.com/embed/{youtube}?rel=0&modestbranding=1&autohide=1&showinfo=0&controls=0&autoplay=1&playsinline=1&rel=0"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
