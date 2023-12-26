@@ -819,7 +819,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 144 },
+  version: { major: 1, minor: 0, patch: 0, build: 145 },
   module: {},
   plugin: {},
   var: {},
@@ -1418,6 +1418,7 @@ var app = {
 
         onload = options.onload,
         error = options.error,
+        empty = options.empty,
         onprogress = options.onprogress,
 
         loader = onprogress && onprogress.preloader ? onprogress.preloader : false,
@@ -1476,6 +1477,18 @@ var app = {
 
             if (responseError) {
               dom.show(error)
+            }
+
+            if (empty) {
+              var attr = empty.split(';')
+                field = attr[0],
+                target = attr[1],
+                response = dom.parse.json(responseData).value
+
+                console.log(response[field])
+                if (!response[field]) {
+                  dom.show(target)
+                }
             }
 
             if (onload) {

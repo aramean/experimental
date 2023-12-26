@@ -31,29 +31,41 @@ app.module.data = {
 
   _handle: function (element, join) {
     var attr = element.attributes,
+      iterate = attr['data-iterate'],
+      loader = attr['data-loader'],
+      src = attr['data-src'],
       joinSuffix = join ? 'join' : '',
       options = {
-        loader: attr.loader && attr.loader.value,
-        iterate: attr['data-iterate'] && attr['data-iterate'].value,
+        loader: loader && loader.value,
+        iterate: iterate && iterate.value,
         element: element,
         attribute: join ? 'data-srcjoin' : 'data-src',
-        storageKey: this.module + this._generateId(attr['data-src'].value) + joinSuffix
+        storageKey: this.module + this._generateId(src.value) + joinSuffix
       }
     this._open(attr, options)
   },
 
   _open: function (attr, options) {
+    var error = attr['data-error'],
+      empty = attr['data-empty'],
+      header = attr['data-header'],
+      loader = attr['data-loader'],
+      success = attr.success,
+      timeout = attr.timeout,
+      target = attr.target,
+      progresscontent = attr.progresscontent
+
     app.xhr.get({
       url: attr[options.attribute].value,
       type: 'data',
-      headers: attr['data-header'] && dom.parse.attribute(attr['data-header'].value),
-      target: attr.target ? attr.target.value : false,
+      headers: header && dom.parse.attribute(header.value),
+      target: target ? target.value : false,
       onload2: {
         run: {
           func: 'app.module.data._run',
           arg: options
         },
-        timeout: (attr.timeout) ? attr.timeout.value : 0
+        timeout: (timeout) ? timeout.value : 0
       },
       cache: {
         mechanism: this.storageMechanism,
@@ -61,10 +73,11 @@ app.module.data = {
         keyType: this.storageType,
         key: options.storageKey
       },
-      onprogress: { content: (attr.progresscontent) ? attr.progresscontent.value : '' },
-      loader: attr.loader && attr.loader.value,
-      error: attr.error && attr.error.value,
-      success: attr.success && attr.success.value
+      onprogress: { content: (progresscontent) ? progresscontent.value : '' },
+      loader: loader && loader.value,
+      error: error && error.value,
+      empty: empty && empty.value,
+      success: success && success.value
     })
   },
 
@@ -213,8 +226,7 @@ app.module.data = {
 
   _merge: function (response, responseJoin, merge) {
     response[merge] = responseJoin[merge]
-    var filteredResponse = response
-    return { data: filteredResponse }
+    return { data: response }
   },
 
   _filter: function (response, item, key) {
