@@ -739,12 +739,13 @@ var dom = {
 
         // Concatenate existing attribute names to the stopValue, excluding 'stop'
         for (var j = 0; j < existingAttributes.length; j++) {
-          var attr = existingAttributes[j]
+          var attr = existingAttributes[j],
+            name = dom._replacementMap[attr.name] || attr.name
           if (attr.name !== 'stop') {
             if (stopValue !== '') {
               stopValue += ';'
             }
-            stopValue += attr.name
+            stopValue += name
           }
         }
 
@@ -815,11 +816,15 @@ var dom = {
     }
 
     app.attributes.run(elements, ['iterate'])
+  },
+
+  await: function (element, value) {
+    app.await[value] = { element: element, value: value, enable: true }
   }
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 145 },
+  version: { major: 1, minor: 0, patch: 0, build: 146 },
   module: {},
   plugin: {},
   var: {},
@@ -833,6 +838,7 @@ var app = {
   spa: false,
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
+  await: {},
 
   /**
    * @namespace start
@@ -1480,15 +1486,10 @@ var app = {
             }
 
             if (empty) {
-              var attr = empty.split(';')
-                field = attr[0],
-                target = attr[1],
+              var attr = empty.split(';'),
                 response = dom.parse.json(responseData).value
 
-                console.log(response[field])
-                if (!response[field]) {
-                  dom.show(target)
-                }
+              if (!response[attr[0]]) dom.show(attr[1])
             }
 
             if (onload) {

@@ -16,12 +16,15 @@ app.module.data = {
   },
 
   src: function (element) {
-    app.xhr.currentAsset.total = 1
-    this._handle(element)
 
     if (!element.getAttribute("stop")) {
       element.setAttribute("stop", '*')
     }
+
+    if (app.await['geolocalize-get'] && app.await['geolocalize-get'].enable) return
+
+    app.xhr.currentAsset.total = 1
+    this._handle(element)
 
     if (element.getAttribute('data-srcjoin')) {
       app.xhr.currentAsset.total = 2
@@ -133,7 +136,7 @@ app.module.data = {
       }
     }
 
-    if (element.getAttribute("stop") === "*") dom.start(element)
+    if (element.getAttribute('stop') === "*") dom.start(element)
     this._set(responseData, options)
     this._finish(options)
     app.attributes.run(elements, ['data-get', 'data-set'])
