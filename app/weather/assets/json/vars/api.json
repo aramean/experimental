@@ -1,7 +1,9 @@
 {
   "weather": {
-    "url": "http://api.weatherapi.com/v1",
+    "api_url": "https://api.weatherapi.com/v1",
     "api_key": "d09f575ad0984ccb802135417232412",
-    "city": "Addis Ababa"
+    "city": "Addis Ababa",
+    "cordinates": "9.0037099,38.7891503",
+    "lang": "en"
   }
 }
