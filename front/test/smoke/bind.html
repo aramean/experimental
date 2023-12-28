@@ -2,9 +2,14 @@
 <html lang="en">
 
 <head>
-  <script src="front.js" module="globalize;data;navigate" var="api;cdn;enum"
-    conf="debug:false;varsDir:assets/json/vars" globalize-conf="folder:assets/json/locales"
-    navigate-conf="startpage:experimental"></script>
+  <script
+    src="../../front.js"
+    module="globalize;data;navigate"
+    var="api"
+    conf="varsDir:../../assets/json/vars"
+    globalize-conf="folder:assets/json/locales"
+    navigate-conf="startpage:experimental">
+  </script>
 </head>
 
 <body>
@@ -14,7 +19,7 @@
 
   <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif" async></div>
 
-  <div bind="mazeit:^api.tvmaze.people" data-src="{mazeit}" iterate="true" loader="#loader">
+  <div bind="mazeit:^api.tvmaze.people" data-src="{mazeit}" data-iterate="true" data-loader="#loader">
     <figure class="p05">
       <span data-get="name"></span>
     </figure>

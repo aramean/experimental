@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script
+    src="../../front.js"
+    module="globalize;data;chronotize"
+    var="api"
+    conf="varsDir:../../assets/json/vars"
+    globalize-conf="folder:assets/json/locales">
+  </script>
+</head>
+
+<body data-src="../../assets/json/format.json" data-set="birth:#birth;birth:#birth2">
+  <h1>Format</h1>
+  <hr>
+  <h4>From text content:</h4>
+  <p><span globalize-get="age"></span>: <span chronotize-age>19870430</span></p>
+  <h4>From data source + beforebegin:</h4>
+  <p id="birth" chronotize-age beforebegin="Age:"></p>
+  <h4>From data source + bind + insert:</h4>
+  <p id="birth2" chronotize-age bind="test:?page" insert="afterbegin: years old "></p>
+</body>
+
+</html>
