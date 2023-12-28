@@ -1,13 +1,15 @@
 'use strict'
 
 app.module.math = {
-  round: function (element) {
-    dom.set(element, Math.round(element.innerHTML))
+  round: function (element, value) {
+    if (!value) value = element.textContent
+    var value = Math.round(parseFloat(value))
+    dom.set(element, value)
   },
 
   compute: function(element, value) {
-    var regex = /([=+\-*/])(?=[=+\-*/])/,
-    value = value.replace(new RegExp(regex, 'g'), '')
-    dom.set(element, value)
+    if (!value) value = element.textContent
+    value = value.replace(/([=+\-*/])(?=[=+\-*/])/g, '')
+    dom.set(element, eval(value))
   }
 }
