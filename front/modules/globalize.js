@@ -19,7 +19,7 @@ app.module.globalize = {
 
     var config = app.config.get(this.module, {
       store: true,
-      folder: 'assets/json/' + this.module,
+      folder: 'assets/json/locales/' + this.module,
       language: this.locale.get(query),
     }, options.element)
     

@@ -1111,7 +1111,7 @@ var app = {
       var config = this.get(false, {
         debug: false,
         debugLocalhost: false,
-        varsDir: app.script.path,
+        varsDir: 'assets/json/vars',
         storageKey: false,
         //fileExtension: '.html'
       }, scriptElement || app.script.element)
@@ -1237,7 +1237,7 @@ var app = {
           var name = app.vars.name[j]
           app.log.info(1)(name)
           app.xhr.get({
-            url: 'assets/json/vars/' + name + '.json',
+            url: app.varsDir + '/' + name + '.json',
             type: 'var',
             cache: {
               format: 'json',
