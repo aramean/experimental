@@ -20,11 +20,16 @@ app.module.keyboard = {
 
   _keypressed: function (e) {
     for (var i = 0; i < this.keys.length; i++) {
-      if (e.key == this.keys[i].key) {
-        var action = this.keys[i].action.split(':'),
+      var current = this.keys[i]
+      if (e.key.toLowerCase() == current.key) {
+        var action = current.action.split(':'),
+          element = current.element,
+          target = e.target.localName,
+          scope = current.scope === '' ? element.localName : current.scope,
           run = action[0],
-          arg = action[1],
-          element = this.keys[i].element
+          arg = action[1]
+
+        if (scope && target !== scope) continue
         e.element = element
 
         switch (run) {
@@ -38,8 +43,9 @@ app.module.keyboard = {
   },
 
   key: function (element) {
-    var key = element.getAttribute('keyboard-key'),
-      action = element.getAttribute('keyboard-action')
+    var key = element.getAttribute('keyboard-key').toLowerCase(),
+      action = element.getAttribute('keyboard-action'),
+      scope = element.getAttribute('keyboard-scope')
     element = element
 
     if (action === 'click') {
@@ -47,6 +53,6 @@ app.module.keyboard = {
       element.clicked = true
     }
 
-    this.keys.push({ key: key, action: action, element: element })
+    this.keys.push({ key: key, action: action, scope: scope, element: element })
   }
 }

@@ -25,19 +25,22 @@ app.module.geolocalize = {
     //element.setAttribute("stop", '*')
     //}
 
-
     function success(pos) {
-      var crd = pos.coords || []
+      var crd = pos.coords || [],
+        replaceVariable = element.attributes[func].value
+
       self._longitude = crd.longitude
       self._latitude = crd.latitude
 
-      console.error('Success:', new Date(), self._latitude, self._longitude);      /*if (target.latitude === crd.latitude && target.longitude === crd.longitude) {
+      console.error('Success:', new Date(), self._latitude, self._longitude);
+
+      /*if (target.latitude === crd.latitude && target.longitude === crd.longitude) {
         console.log("Congratulations, you reached the target")
         navigator.geolocation.clearWatch(id)
       }*/
 
-      var value = self._latitude + ',' + self._longitude
-      app.variables.update.attributes(element, element, 'cordinates', value, false)
+      var replaceValue = self._latitude + ',' + self._longitude
+      app.variables.update.attributes(element, '', replaceVariable, replaceValue, false)
 
       //if (run) {
 

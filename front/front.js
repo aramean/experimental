@@ -17,7 +17,8 @@ var dom = {
     'insertafterend': 'insert2',
     'sethref': 'set2',
     'setvalue': 'set2',
-    'setsrc': 'set2'
+    'setsrc': 'set2',
+    'bindquery': 'bind2'
   },
   _uniqueId: 0,
 
@@ -182,6 +183,21 @@ var dom = {
    */
   setDisplay: function (action) {
     document.documentElement.style.display = action
+  },
+
+  bind2: function (object, value) {
+    var attr = object.callAttribute,
+      value = value.split(':')
+    switch (attr) {
+      case 'bindquery':
+        var replaceVariable = value[0],
+          replaceValue = app.querystrings.get(false, replaceVariable)
+        if (replaceValue)
+          app.variables.update.attributes(object, '', replaceVariable, replaceValue, false)
+        break
+      case 'bindstorage':
+        break
+    }
   },
 
   bind: function (object, value, attr) {
@@ -824,7 +840,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 146 },
+  version: { major: 1, minor: 0, patch: 0, build: 147 },
   module: {},
   plugin: {},
   var: {},

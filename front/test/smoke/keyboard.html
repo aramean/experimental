@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="../../front.js" module="keyboard" var="api" conf="debug:false"></script>
+</head>
+
+<body>
+  <h1>Keyboard</h1>
+  <hr>
+
+  <h2>No scope:</h2>
+  <section>
+    <a keyboard-key="a" keyboard-action="alert:You pressed A">Press A</a><br>
+    <a keyboard-key="b" keyboard-action="alert:You pressed B">Press B</a><br>
+    <a keyboard-key="c" keyboard-action="click" click="set2://www.microsoft.com" href="//www.google.com" onchangehref="set:Microsoft" target="_blank">Press C</a><br>
+    <span keyboard-key="d" keyboard-action="click" click="set:jkasdjklsajdk">Press D</span><br>
+  </section>
+  <h2>With scope:</h2>
+  <input type="text" statevalue="0" keyboard-key="enter" keyboard-action="alert:hej" keyboard-scope>
+</body>
+
+</html>
