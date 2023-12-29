@@ -92,12 +92,15 @@ app.module.data = {
 
     if (datamerge) {
       var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
-      responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
+      console.log(responseData)
+      if (responseData)
+        responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
     }
 
     if (datafilteritem) {
       var datafilterkey = element.getAttribute('data-filterkey')
-      responseData = this._filter(responseData.data, datafilteritem, datafilterkey)
+      if (responseData)
+        responseData = this._filter(responseData.data, datafilteritem, datafilterkey)
     }
 
     var iterate = options.iterate,

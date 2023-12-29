@@ -48,6 +48,7 @@ app.module.globalize = {
     get: function (query, _this) {
       var storedLanguage = app.caches.get(_this.storageMechanism, _this.storageType, _this.module + '.language'),
         language = (storedLanguage && storedLanguage.data) || query || app.language
+      console.log(language)
       return language
     },
 
@@ -67,6 +68,7 @@ app.module.globalize = {
       value = element.getAttribute(this.module + '-get') || element.textContent,
       isRoot = value[0] == '/' ? true : false,
       setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
+    console.log(element)
     dom.set(element, setValue)
   }
 }

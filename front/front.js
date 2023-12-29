@@ -117,7 +117,7 @@ var dom = {
    */
   get: function (selector, list) {
 
-    if (selector.clicked) {
+    if (selector && selector.clicked) {
       selector = selector.clicked
     }
 
@@ -840,7 +840,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 153 },
+  version: { major: 1, minor: 0, patch: 0, build: 154 },
   module: {},
   plugin: {},
   var: {},

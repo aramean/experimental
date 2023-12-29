@@ -83,7 +83,7 @@ app.module.navigate = {
 
     if (state.target[0] == '#') {
       state.target = state.target
-    }else if (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, '')) {
+    } else if (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, '')) {
       state.target = 'html'
       state.extension = false
     } else if (!state.target || state.target[0] === '_') {
