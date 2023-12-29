@@ -45,14 +45,14 @@ app.module.globalize = {
   },
 
   locale: {
-    get: function (query, self) {
-      var storedLanguage = app.caches.get(self.storageMechanism, self.storageType, this.module + '.language'),
-        language = storedLanguage || query || app.language
+    get: function (query, _this) {
+      var storedLanguage = app.caches.get(_this.storageMechanism, _this.storageType, _this.module + '.language'),
+        language = storedLanguage.data || query || app.language
       return language
     },
 
-    set: function (language, self) {
-      app.caches.set(self.storageMechanism, self.storageType, self.module + '.language', language)
+    set: function (language, _this) {
+      app.caches.set(_this.storageMechanism, _this.storageType, _this.module + '.language', language)
     }
   },
 
@@ -64,7 +64,7 @@ app.module.globalize = {
    */
   get: function (element) {
     var responseData = this.responseData || app.caches.get(this.storageMechanism, this.storageType, this.storeKey),
-      value = element.getAttribute(this.module + '-get'),
+      value = element.getAttribute(this.module + '-get') || element.textContent,
       isRoot = value[0] == '/' ? true : false,
       setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
     dom.set(element, setValue)
