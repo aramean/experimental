@@ -33,7 +33,7 @@ app.module.navigate = {
    * @private
    */
   _click: function (event) {
-    var link = app.getTagLink(event.target)
+    var link = app.element.getTagLink(event.target)
     if (link && link.hash) {
       this._hash(link)
     } else if (link && link.href && link.target !== '_blank') {

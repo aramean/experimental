@@ -156,7 +156,7 @@ var dom = {
 
     if (ontoggle) {
       var normalize = ontoggle.replace(']', '').split('['),
-        func = ('app.' + normalize[0]).split('.'),
+        func = ('app.element.' + normalize[0]).split('.'),
         arg = { selector: selector, val: normalize[1] }
       app.call(func, arg)
     }
@@ -453,7 +453,7 @@ var dom = {
       switch (tag) {
         case 'input':
           object.value = afterbegin + object.value + beforeend
-          app.change('input', object, false)
+          app.element.change('input', object, false)
           break
         case 'img':
           var src = object.getAttribute('src')
@@ -509,7 +509,7 @@ var dom = {
     switch (tag) {
       case 'input':
         object.value = beforebegin + object.value + afterbegin
-        app.change('input', object, false)
+        app.element.change('input', object, false)
         break
       case 'img':
         var src = object.getAttribute('src')
@@ -528,14 +528,14 @@ var dom = {
 
   set2: function (object, value) {
     var attr = object.callAttribute,
-      tag = object.localName
-    //set = attr.replace('set', '')
+      tag = object.localName,
+      value = value ? value : app.call([attr], object, object.value)
 
     switch (tag) {
       case 'input':
       case 'progress':
-        object.value = value
-        app.change('input', object, false)
+        //object.value = value
+        app.element.change('input', object, false)
         break
       case 'img':
       case 'video':
@@ -620,7 +620,7 @@ var dom = {
       case 'input':
         object.value = object.defaultValue
         object.attributes.statevalue.value = object.defaultValue
-        app.change('input', object, false)
+        app.element.change('input', object, false)
         break
     }
   },
@@ -840,7 +840,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 154 },
+  version: { major: 1, minor: 0, patch: 0, build: 155 },
   module: {},
   plugin: {},
   var: {},
@@ -881,7 +881,7 @@ var app = {
     })
 
     app.listeners.add(document, 'click', function (e) {
-      var link = app.getTagLink(e.target),
+      var link = app.element.getTagLink(e.target),
         click = link && link.attributes.click,
         onclickif = link && link.attributes.onclickif
       if (click) {
@@ -896,7 +896,7 @@ var app = {
     // Listen for all input fields.
     app.listeners.add(document, 'input', function (e) {
       console.log('listen for all ')
-      app.change('input', e.target, false)
+      app.element.change('input', e.target, false)
     })
 
   },
@@ -905,6 +905,16 @@ var app = {
     app.log.info()('Calling: ' + run + ' ' + runargs)
 
     var run1 = dom._replacementMap[run[1]] || run[1]
+
+    if (run[0].indexOf('-') !== -1) {
+      newrun = run[0].split('-')
+      newrun.push('module', 'app')
+      newrun.reverse()
+
+      run = newrun
+      run1 = run[1]
+      console.dir(runargs)
+    }
 
     // Ensure runargs is an array
     runargs = Array.isArray(runargs) ? runargs : [runargs]
@@ -921,119 +931,152 @@ var app = {
     }
   },
 
-  add: {
-    style: function (options) {
-      var _ = this._(options, ':')
-      _.el.style[action[0]] = _.action[1]
+  element: {
+    propertyMap: {
+      'input': 'value',
+      'textarea': 'value',
+      'select': 'value',
+      'audio': 'src',
+      'embed': 'src',
+      'img': 'src',
+      'video': 'src',
+      'source': 'src',
+      'script': 'src',
+      'track': 'src',
+      'iframe': 'src',
+      'a': 'href',
+      'area': 'href',
+      'base': 'href',
+      'link': 'href',
+      'object': 'data',
+      'applet': 'code',
+      'meta': 'content',
     },
 
-    class: function (options) {
-      var _ = this._(options, ' ')
-      for (var i = 0; i < _.action.length; i++) {
-        _.el.classList.add(_.action[i])
-      }
-    }
-  },
+    get: function (element) {
+      var property = this.propertyMap[element.localName] || 'textContent'
+      return element[property]
+    },
 
-  change: function (event, object) {
+    set: function (element, newValue) {
+      var property = this.propertyMap[element.localName] || 'textContent'
+      element[property] = newValue
+    },
 
-    // Todo
-    var changeValue = object.attributes.onvaluechange,
-      changeValueIf = object.attributes.onvaluechangeif,
-      changeStateValue = object.attributes.onstatevaluechange,
-      changeStateValueIf = object.attributes.onstatevaluechangeif
+    change: function (event, object) {
 
-    if (changeStateValue) {
-      var val = changeStateValue.value.split(':')
-      app.call(['dom', val[0]], { clicked: object, state: true, value: val[1] })
-    }
+      // Todo
+      var changeValue = object.attributes.onvaluechange,
+        changeValueIf = object.attributes.onvaluechangeif,
+        changeStateValue = object.attributes.onstatevaluechange,
+        changeStateValueIf = object.attributes.onstatevaluechangeif
 
-    if (changeStateValueIf) {
-      var val = changeStateValueIf.value.split(';'),
-        attr = object.value
-
-      var element = dom.get('#result'),
-        elValue = element.attributes.statevalue.value
-
-      // Check if statevalue contains an operator followed by a number
-      var match = elValue.match(/([\+\-\*\/])(\d+)$/)
-
-      if (match) {
-        // Keep the numeric part following the last operator in the input value
-        element.value = match[2]
-      }
-    }
-
-    if (changeValue) {
-      var val = changeValue.value.split(':')
-      app.call(['dom', val[0]], { clicked: object, value: val[1] })
-    }
-
-    if (changeValueIf) {
-      var val = changeValueIf.value.split(';'),
-        attr = object.value
-
-      var identifier = val[2].match(/(\w+)\[([^\]]+)\]/g) || []
-
-      var target = dom.get(val[1]),
-        object = target,
-        isNegative = val[0][0] === '!',
-        newVal = isNegative ? val[0].substring(1) : val[0],
-        regex = /(\w+)\[([^\]]+)\]/
-
-      var statement, text, action
-
-      if (attr === newVal && identifier[1]) {
-        statement = identifier[1].match(regex)
-      } else {
-        statement = identifier[0].match(regex)
+      if (changeStateValue) {
+        var val = changeStateValue.value.split(':')
+        app.call(['dom', val[0]], { clicked: object, state: true, value: val[1] })
       }
 
-      if (!identifier[1] && attr !== newVal) {
-        return
-      } else {
-        text = statement[2]
-        action = statement[1]
-        app.call(['dom', action], { clicked: object, value: text })
-      }
-    }
-  },
+      if (changeStateValueIf) {
+        var val = changeStateValueIf.value.split(';'),
+          attr = object.value
 
-  toggle: {
-    class: function (options) {
-      var _ = app.attributes.parse(options, ' ')
-      for (var i = 0; i < _.action.length; i++) {
-        _.el.classList.toggle(_.action[i])
-      }
-    }
-  },
+        var element = dom.get('#result'),
+          elValue = element.attributes.statevalue.value
 
-  /**
+        // Check if statevalue contains an operator followed by a number
+        var match = elValue.match(/([\+\-\*\/])(\d+)$/)
+
+        if (match) {
+          // Keep the numeric part following the last operator in the input value
+          element.value = match[2]
+        }
+      }
+
+      if (changeValue) {
+        var val = changeValue.value.split(':')
+        app.call(['dom', val[0]], { clicked: object, value: val[1] })
+      }
+
+      if (changeValueIf) {
+        var val = changeValueIf.value.split(';'),
+          attr = object.value
+
+        var identifier = val[2].match(/(\w+)\[([^\]]+)\]/g) || []
+
+        var target = dom.get(val[1]),
+          object = target,
+          isNegative = val[0][0] === '!',
+          newVal = isNegative ? val[0].substring(1) : val[0],
+          regex = /(\w+)\[([^\]]+)\]/
+
+        var statement, text, action
+
+        if (attr === newVal && identifier[1]) {
+          statement = identifier[1].match(regex)
+        } else {
+          statement = identifier[0].match(regex)
+        }
+
+        if (!identifier[1] && attr !== newVal) {
+          return
+        } else {
+          text = statement[2]
+          action = statement[1]
+          app.call(['dom', action], { clicked: object, value: text })
+        }
+      }
+    },
+
+    add: {
+      style: function (options) {
+        var _ = this._(options, ':')
+        _.el.style[action[0]] = _.action[1]
+      },
+
+      class: function (options) {
+        var _ = this._(options, ' ')
+        for (var i = 0; i < _.action.length; i++) {
+          _.el.classList.add(_.action[i])
+        }
+      }
+    },
+
+    toggle: {
+      class: function (options) {
+        var _ = app.attributes.parse(options, ' ')
+        for (var i = 0; i < _.action.length; i++) {
+          _.el.classList.toggle(_.action[i])
+        }
+      }
+    },
+
+    /**
    * @function getTagLink
    * @memberof app
    * @param {Element} element - The element to start the search from.
    * @return {Element|null} The found anchor element, or `null` if none was found.
    * @desc Finds the first ancestor of the given element that is an anchor element (`<a>`).
    */
-  getTagLink: function (element) {
-    for (var current = element; current; current = current.parentNode) {
-      var type = current.localName
-      if (type === 'a' || type === 'button') return current
-    }
-    return null
-  },
-
-  getPropertyByPath: function (object, path) {
-    var pathSegments = path && path.split('.') || [],
-      value = object
-
-    if (pathSegments.length > 0) {
-      for (var j = 0; j < pathSegments.length; j++) {
-        value = value[pathSegments[j]] || ''
+    getTagLink: function (element) {
+      for (var current = element; current; current = current.parentNode) {
+        var type = current.localName
+        if (type === 'a' || type === 'button') return current
       }
-    }
+      return null
+    },
 
-    return value
+    getPropertyByPath: function (object, path) {
+      var pathSegments = path && path.split('.') || [],
+        value = object
+
+      if (pathSegments.length > 0) {
+        for (var j = 0; j < pathSegments.length; j++) {
+          value = value[pathSegments[j]] || ''
+        }
+      }
+
+      return value
+    },
   },
 
   /**

@@ -104,7 +104,7 @@ app.module.data = {
     }
 
     var iterate = options.iterate,
-      responseObject = iterate === 'true' ? responseData.data : app.getPropertyByPath(responseData.data, iterate) || responseData.data,
+      responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || responseData.data,
       total = iterate && responseObject.length - 1 || 0
 
     if (!iterate) {
@@ -113,7 +113,7 @@ app.module.data = {
       for (var i = 0; i < elements.length; i++) {
         var dataget = elements[i].getAttribute('data-get')
         if (dataget) {
-          var value = app.getPropertyByPath(responseObject, dataget)
+          var value = app.element.getPropertyByPath(responseObject, dataget)
           dom.set(elements[i], value, false)
         }
       }
