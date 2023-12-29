@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="../../front.js" module="globalize;data;navigate" var="api" conf="varsDir:../../assets/json/vars"
+    globalize-conf="folder:assets/json/locales" navigate-conf="startpage:experimental">
+    </script>
+</head>
+
+<body>
+  <h1>Bind2</h1>
+  <hr>
+  <a href="?a=1&b=2&c=3">Try abc</a><br>
+  <h4>Attributes:</h4>
+  <section>
+    <span bindquery="a:a;b:b;c:c" test="{a:0}{b}{c}" set="{a:0}{b}{c}">bindquery</span><br>
+    <span bindasset="api:api.themoviedb.popular" test="{api}" set="{api}">bindasset</span><br>
+    <span bindglobal="s:language" test="{s}" set="{s}">bindglobal</span>
+  </section>
+  <h4>Content:</h4>
+  <section>
+    <span bindquery="a:a;b:b;c:c">{a:0}{b}{c}</span><br>
+    <span bindasset="api:api.themoviedb.popular">{api}</span><br>
+    <span bindglobal="s:language">{s}</span><br>
+    <span bindglobal="major:version.major;minor:version.minor;build:version.build;patch:version.patch">{build} - {major}.{minor}.{patch}</span>
+  </section>
+
+</body>
+
+</html>

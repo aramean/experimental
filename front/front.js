@@ -18,7 +18,9 @@ var dom = {
     'sethref': 'set2',
     'setvalue': 'set2',
     'setsrc': 'set2',
-    'bindquery': 'bind2'
+    'bindquery': 'bind2',
+    'bindasset': 'bind2',
+    'bindglobal': 'bind2'
   },
   _uniqueId: 0,
 
@@ -187,16 +189,44 @@ var dom = {
 
   bind2: function (object, value) {
     var attr = object.callAttribute,
-      value = value.split(':')
-    switch (attr) {
-      case 'bindquery':
-        var replaceVariable = value[0],
+      bindings = value.split(';'),
+      regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
+
+    for (var i = 0; i < bindings.length; i++) {
+      var binding = bindings[i].split(':'),
+        replaceVariable = binding[0],
+        replaceValue = binding[1]
+
+      switch (attr) {
+        case 'bindquery':
           replaceValue = app.querystrings.get(false, replaceVariable)
-        if (replaceValue)
-          app.variables.update.attributes(object, '', replaceVariable, replaceValue, false)
-        break
-      case 'bindstorage':
-        break
+          break
+        case 'bindglobal':
+          replaceValue = app.element.getPropertyByPath(app, replaceValue)
+          break
+        case 'bindasset':
+          var keys = replaceValue.split('.'),
+            cache = app.caches.get('window', 'var', keys[0])
+
+          if (cache && cache.data) {
+            var value = cache.data
+            for (var j = 1; j < keys.length; j++) {
+              if (value.hasOwnProperty(keys[j])) {
+                value = value[keys[j]]
+              } else {
+                console.error('Key ' + keys[j] + ' does not exist on the value object')
+                return
+              }
+            }
+
+            replaceValue = value
+          }
+          break
+      }
+
+      //if (replaceValue)
+      app.variables.update.content2(object, regex, replaceVariable, replaceValue)
+      app.variables.update.attributes(object, '', replaceVariable, replaceValue, false)
     }
   },
 
@@ -840,7 +870,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 156 },
+  version: { major: 1, minor: 0, patch: 0, build: 157 },
   module: {},
   plugin: {},
   var: {},
@@ -1015,10 +1045,8 @@ var app = {
       var pathSegments = path && path.split('.') || [],
         value = object
 
-      if (pathSegments.length > 0) {
-        for (var j = 0; j < pathSegments.length; j++) {
-          value = value[pathSegments[j]] || ''
-        }
+      for (var i = 0; i < pathSegments.length; i++) {
+        value = value !== undefined ? value[pathSegments[i]] : ''
       }
 
       return value
@@ -1486,6 +1514,19 @@ var app = {
           }
           return match
         })
+
+        object.innerHTML = innerHTML
+      },
+
+      content2: function (object, regex, replaceVariable, replaceValue) {
+        // Escape special characters in the variable pattern to create a valid regular expression
+        var escapedVariable = replaceVariable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+
+        // Create a regular expression using the escaped variable pattern
+        var variableRegex = new RegExp('{' + escapedVariable + '}', 'g')
+
+        // Replace all occurrences of {variable} with the replacement value
+        var innerHTML = object.innerHTML.replace(variableRegex, replaceValue)
 
         object.innerHTML = innerHTML
       }

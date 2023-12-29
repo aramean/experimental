@@ -48,7 +48,6 @@ app.module.globalize = {
     get: function (query, _this) {
       var storedLanguage = app.caches.get(_this.storageMechanism, _this.storageType, _this.module + '.language'),
         language = (storedLanguage && storedLanguage.data) || query || app.language
-      console.log(language)
       return language
     },
 
