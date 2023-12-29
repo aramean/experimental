@@ -5,8 +5,8 @@
   "translations": {
     "genre": "Genre",
     "movie": "Film",
-    "movies": "Filmer",
+    "Movies": "Filmer",
     "show": "Serie",
-    "shows": "Serier"
+    "Shows": "Serier"
   }
 }
