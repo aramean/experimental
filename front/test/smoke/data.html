@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="../../front.js" module="globalize;data;navigate" var="api" conf="varsDir:../../assets/json/vars"
+    globalize-conf="folder:assets/json/locales" navigate-conf="startpage:experimental">
+    </script>
+</head>
+
+<body>
+  <h1>Data</h1>
+  <hr>
+  <h4>Sort</h4>
+  <select
+    data-src="https://restcountries.com/v3.1/all"
+    data-iterate="true"
+    data-sort="name.common"
+    data-sortorder="asc"
+    >
+    <option data-get="name.common"></option>
+  </select>
+
+
+</body>
+
+</html>

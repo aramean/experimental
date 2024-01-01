@@ -20,7 +20,8 @@ var dom = {
     'setsrc': 'set2',
     'bindquery': 'bind2',
     'bindasset': 'bind2',
-    'bindglobal': 'bind2'
+    'bindglobal': 'bind2',
+    'bindfield': 'bind2'
   },
   _uniqueId: 0,
 
@@ -222,11 +223,96 @@ var dom = {
             replaceValue = value
           }
           break
+        case 'bindfield':
+          var type = object.tagName.toLowerCase(),
+            bindInclude = this.bind.include ? ';' + this.bind.include : '',
+            binding = ((object.getAttribute('data-bind') || object.getAttribute('bindfield') || object.getAttribute('var')) || '') + bindInclude
+
+          // Set variable if colon is presented or update innerhtml.
+          var bindings = binding ? binding.split(';') : []
+
+          for (var i = 0; i < bindings.length; i++) {
+            var bindingParts = bindings[i].split(':') || [],
+              replaceVariable = bindingParts[0].trim(),
+              replaceValue = bindingParts[1].trim(),
+              target = replaceValue.substring(1),
+              regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
+
+            // Bind query
+            var target = dom.get(replaceValue),
+              type = target.type,
+              name = target.id || target.name
+
+            var match = binding.match(new RegExp("([^:]+):[#.]" + name)),
+              replaceVariableNew = match ? match[1] : '',
+              clonedObject = object.cloneNode(true)
+
+            switch (type) {
+              case 'text':
+                app.listeners.add(target, 'input', function () {
+                  app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
+                  app.variables.update.content(object, regex, replaceVariableNew, this.value)
+                })
+                break
+              case 'select-one':
+                app.listeners.add(target, 'change', function () {
+                  var value = this.options[this.selectedIndex].value
+                  app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
+                  app.variables.update.content(object, regex, replaceVariableNew, value)
+                })
+                break
+            }
+
+          }
+
+          continue
       }
 
-      //if (replaceValue)
       app.variables.update.content2(object, regex, replaceVariable, replaceValue)
-      app.variables.update.attributes(object, '', replaceVariable, replaceValue, false)
+      app.variables.update.attributes(object, object, replaceVariable, replaceValue, false)
+    }
+  },
+
+  bindfield2: function (object, value, attr) {
+    var type = object.tagName.toLowerCase(),
+      bindInclude = this.bind.include ? ';' + this.bind.include : '',
+      binding = ((object.getAttribute('data-bind') || object.getAttribute('bindfield') || object.getAttribute('var')) || '') + bindInclude
+
+    // Set variable if colon is presented or update innerhtml.
+    var bindings = binding ? binding.split(';') : []
+
+    for (var i = 0; i < bindings.length; i++) {
+      var bindingParts = bindings[i].split(':') || [],
+        replaceVariable = bindingParts[0].trim(),
+        replaceValue = bindingParts[1].trim(),
+        target = replaceValue.substring(1),
+        regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
+
+      // Bind query
+      var target = dom.get(replaceValue),
+        type = target.type,
+        name = target.id || target.name
+
+      var match = binding.match(new RegExp("([^:]+):[#.]" + name)),
+        replaceVariableNew = match ? match[1] : '',
+        clonedObject = object.cloneNode(true)
+
+      console.dir(match)
+      switch (type) {
+        case 'text':
+          app.listeners.add(target, 'input', function () {
+            app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
+            app.variables.update.content(object, regex, replaceVariableNew, this.value)
+          })
+          break
+        case 'select-one':
+          app.listeners.add(target, 'change', function () {
+            var value = this.options[this.selectedIndex].value
+            app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
+            app.variables.update.content(object, regex, replaceVariableNew, value)
+          })
+          break
+      }
     }
   },
 
@@ -467,6 +553,18 @@ var dom = {
     }
 
     object.innerHTML = object.innerHTML.replace(new RegExp(regex, 'g'), '')
+  },
+
+  escape: function (element) {
+    var escape = element.textContent,
+      code = escape.charCodeAt(0)
+
+    if (0xD800 <= code && code <= 0xDBFF) {
+      low = escape.charCodeAt(1)
+      code = ((code - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000
+    }
+
+    if (code) element.textContent = '&#' + code + ';'
   },
 
   insert2: function (object, value) {
@@ -870,7 +968,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 157 },
+  version: { major: 1, minor: 0, patch: 0, build: 158 },
   module: {},
   plugin: {},
   var: {},
@@ -1482,8 +1580,8 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
-        var originalAttributes = []
-        var originalContent = clonedObject.innerHTML
+        var originalAttributes = [],
+          originalContent = clonedObject.innerHTML
 
         for (var i = 0; i < object.attributes.length; i++) {
 
@@ -1494,6 +1592,7 @@ var app = {
             value: attr.value
           })
 
+          // Update default values.
           var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
           object.setAttribute(attr.name, attr.value.replace(regex, function (match, defaultValue) {
             return replaceValue === 0 ? '0' : replaceValue || defaultValue || ''
@@ -1501,10 +1600,26 @@ var app = {
         }
 
         if (reset) {
-          app.attributes.run([object], ['bind', 'stop'])
+          app.attributes.run([object], ['bind', 'bind2', 'bindfield', 'stop'])
           app.variables.reset.attributes(object, originalAttributes)
           app.variables.reset.content(object, originalContent)
         }
+      },
+
+      content2: function (object, regex, replaceVariable, replaceValue) {
+        // Escape special characters in the variable pattern to create a valid regular expression
+        var escapedVariable = replaceVariable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+
+        // Create a regular expression using the escaped variable pattern
+        var variableRegex = new RegExp('{' + escapedVariable + '(?::([^}]+))?}', 'g')
+
+        // Replace all occurrences of {variable} with the replacement value
+        var originalContent = object.innerHTML
+        var modifiedContent = originalContent.replace(variableRegex, function (match, defaultValue) {
+          return replaceValue === 0 ? '0' : replaceValue || defaultValue || ''
+        })
+
+        object.innerHTML = modifiedContent
       },
 
       content: function (object, regex, replaceVariable, replaceValue) {
@@ -1517,19 +1632,6 @@ var app = {
 
         object.innerHTML = innerHTML
       },
-
-      content2: function (object, regex, replaceVariable, replaceValue) {
-        // Escape special characters in the variable pattern to create a valid regular expression
-        var escapedVariable = replaceVariable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
-
-        // Create a regular expression using the escaped variable pattern
-        var variableRegex = new RegExp('{' + escapedVariable + '}', 'g')
-
-        // Replace all occurrences of {variable} with the replacement value
-        var innerHTML = object.innerHTML.replace(variableRegex, replaceValue)
-
-        object.innerHTML = innerHTML
-      }
     },
 
     reset: {
@@ -1818,7 +1920,6 @@ var app = {
 
         xhr.onload = function () {
           var status = this.statusType
-
           if (status.informational || status.success || status.redirect) {
 
             /*var headers = xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)
@@ -1839,6 +1940,8 @@ var app = {
 
             if (responseError) {
               dom.show(error)
+            } else {
+              dom.hide(error)
             }
 
             if (empty) {

@@ -88,7 +88,8 @@ app.module.data = {
     var responseData = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', ''))
     var element = options.element,
       datamerge = element.getAttribute('data-merge'),
-      datafilteritem = element.getAttribute('data-filteritem')
+      datafilteritem = element.getAttribute('data-filteritem'),
+      datasort = element.getAttribute('data-sort')
 
     if (datamerge) {
       var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
@@ -101,6 +102,13 @@ app.module.data = {
       var datafilterkey = element.getAttribute('data-filterkey')
       if (responseData)
         responseData = this._filter(responseData.data, datafilteritem, datafilterkey)
+    }
+
+    if (datasort) {
+      var datasort = element.getAttribute('data-sort')
+      var datasortorder = element.getAttribute('data-sortorder')
+      //if (responseData)
+      var test = this._sort(responseData.data, datasort, datasortorder)
     }
 
     var iterate = options.iterate,
@@ -274,6 +282,19 @@ app.module.data = {
     }
 
     return { data: filteredResponse }
+  },
+
+  _sort: function (response, sortKey, sortOrder) {
+    if (Array.isArray(response)) {
+      return response.sort(function (a, b) {
+        const valueA = app.element.getPropertyByPath(a, sortKey),
+              valueB = app.element.getPropertyByPath(b, sortKey)
+
+        return (typeof valueA === 'string')
+          ? (sortOrder === 'desc' ? valueB.localeCompare(valueA) : valueA.localeCompare(valueB))
+          : (sortOrder === 'desc' ? valueB - valueA : valueA - valueB)
+      })
+    }
   },
 
   _generateId: function (str) {
