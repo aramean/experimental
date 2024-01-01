@@ -116,7 +116,7 @@ app.module.data = {
       total = iterate && responseObject.length - 1 || 0
 
     if (!iterate) {
-      var elements = dom.find(element, '*')
+      var elements = app.element.find(element, '*')
 
       for (var i = 0; i < elements.length; i++) {
         var dataget = elements[i].getAttribute('data-get')
@@ -129,7 +129,7 @@ app.module.data = {
     } else {
 
       var originalNode = element.cloneNode(true),
-        orginalNodeCountAll = dom.find(originalNode, '*').length,
+        orginalNodeCountAll = app.element.find(originalNode, '*').length,
         content = ''
 
       for (var i = 0; i <= total; i++) {
@@ -138,7 +138,7 @@ app.module.data = {
 
       element.innerHTML = content
 
-      var elements = dom.find(element, '*')
+      var elements = app.element.find(element, '*')
       for (var i = 0, j = -1; i < elements.length; i++) {
         if (i % orginalNodeCountAll === 0) j++
 

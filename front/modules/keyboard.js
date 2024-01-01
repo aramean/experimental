@@ -32,6 +32,7 @@ app.module.keyboard = {
         if (scope && target !== scope) continue
         e.element = element
 
+        console.log(run)
         switch (run) {
           case 'href':
             element.click()

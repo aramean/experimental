@@ -2,28 +2,94 @@
 <html lang="en">
 
 <head>
-  <script
-    src="../../front.js"
-    module="globalize;data;navigate"
-    var="api"
-    conf="varsDir:../../assets/json/vars"
-    globalize-conf="folder:assets/json/locales"
-    navigate-conf="startpage:experimental">
-  </script>
+  <script src="../../front.js" module="globalize;data;navigate" var="api" conf="varsDir:../../assets/json/vars"
+    globalize-conf="folder:assets/json/locales" navigate-conf="startpage:experimental">
+    </script>
 </head>
 
 <body>
   <h1>Bind</h1>
   <hr>
-  <span bind="page:?page;api:^api.themoviedb.popular" test="{api}" set="{api}">...</span>
+  <a href="?a=1&b=2&c=3">Try abc</a><br>
+  <h2>Attributes:</h2>
+  <section>
+    <span bindquery="a:a;b:b;c:c" test="{a:1}{b}{c}" set="{a:0}{b:0}{c:0}">bindquery</span><br>
+    <span bindasset="api:api.themoviedb.popular" bindquery="a:a" test="{api}" set="{api}?p={a:1}">bindasset</span><br>
+    <span bindglobal="s:language" test="{s}" set="{s}">bindglobal</span>
+  </section>
+  <h2>Content:</h2>
+  <section>
+    <h3>Query</h3>
+    <span bindquery="a:a;b:b;c:c">{a:0}{b:0}{c:0}</span><br>
+    <h3>Asset</h3>
+    <span bindasset="api:api.themoviedb.popular" bindquery="a:a">{api}?p={a:0}</span><br>
+    <h3>Global</h3>
+    Language: <span bindglobal="s:language">{s}</span><br>
+    Version: <span bindglobal="major:version.major;minor:version.minor;build:version.build;patch:version.patch">{build} -
+      {major}.{minor}.{patch}</span>
+  </section>
 
-  <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif" async></div>
+  <h4>Select with div:</h4>
+  <select
+    data-src="https://restcountries.com/v3.1/all"
+    data-iterate="true"
+    id="unicountry"
+  >
+    <option data-get="name.common"></option>
+  </select>
 
-  <div bind="mazeit:^api.tvmaze.people" data-src="{mazeit}" data-iterate="true" data-loader="#loader">
+  <div
+    stop="data-src"
+    bindfield="test:#unicountry"
+    data-src="http://universities.hipolabs.com/search?country={test}"
+    preloader="true"
+    data-iterate="true"
+  >
     <figure class="p05">
-      <span data-get="name"></span>
+      <figcaption class="z08 md_dn" data-get="name"></figcaption>
     </figure>
   </div>
+
+ 
+  <h4>Select with Select:</h4>
+  <select
+    data-src="https://restcountries.com/v3.1/all"
+    data-iterate="true"
+    id="selectselect"
+  >
+    <option data-get="name.common"></option>
+  </select>
+
+  <select
+    stop="data-src"
+    bindfield="test:#selectselect"
+    data-src="http://universities.hipolabs.com/search?country={test}"
+    data-iterate="true"
+    preloader="true"
+  >
+    <option data-get="name"></option>
+  </select>
+
+
+  <h4>Input</h4>
+  <input type="text" id="josefinput">
+  <div id="error" hide>ERROR</div>
+  <div
+    bindfield="josef:#josefinput"
+    data-src="../../assets/json/icons-material-{josef}.json"
+    data-iterate="icons"
+    data-loader="false"
+    data-error="#error"
+    data-success="#success"
+    data-empty="icons#error"
+    preloader="true"
+  >
+    <figure class="p05" id="success">
+      <small data-get="title" slice="0,1" class="md_dn"></small><br>
+      <small data-get="html_entity" escape="true"></small><br>
+    </figure>
+  </div>
+
 
 </body>
 

@@ -166,19 +166,6 @@ var dom = {
   },
 
   /**
-   * @function find
-   * @memberof dom
-   * @param {Node} node - The node to search within.
-   * @param {string} selector - The CSS selector used to select the elements.
-   * @return {Element|Element[]} - Returns a single element if there is only one match, or a list of elements if there are multiple elements that match the selector.
-   * @desc Retrieves elements from a given node by selector.
-   */
-  find: function (node, selector) {
-    var element = node.querySelectorAll(selector)
-    return element.length == 1 && selector != '*' ? element[0] : element
-  },
-
-  /**
    * @function setDisplay
    * @memberof dom
    * @param {string} action - The value to set for the display property. Valid values include 'none', 'block', 'inline', and others.
@@ -233,12 +220,11 @@ var dom = {
 
           for (var i = 0; i < bindings.length; i++) {
             var bindingParts = bindings[i].split(':') || [],
-              replaceVariable = bindingParts[0].trim(),
-              replaceValue = bindingParts[1].trim(),
+              replaceVariable = bindingParts[0],
+              replaceValue = bindingParts[1],
               target = replaceValue.substring(1),
               regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
 
-            // Bind query
             var target = dom.get(replaceValue),
               type = target.type,
               name = target.id || target.name
@@ -262,14 +248,13 @@ var dom = {
                 })
                 break
             }
-
           }
 
           continue
       }
 
       app.variables.update.content2(object, regex, replaceVariable, replaceValue)
-      app.variables.update.attributes(object, object, replaceVariable, replaceValue, false)
+      app.variables.update.attributes(object, false, replaceVariable, replaceValue, false)
     }
   },
 
@@ -288,7 +273,6 @@ var dom = {
         target = replaceValue.substring(1),
         regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
 
-      // Bind query
       var target = dom.get(replaceValue),
         type = target.type,
         name = target.id || target.name
@@ -556,7 +540,7 @@ var dom = {
   },
 
   escape: function (element) {
-    var escape = element.textContent,
+    var escape = app.element.get(element),
       code = escape.charCodeAt(0)
 
     if (0xD800 <= code && code <= 0xDBFF) {
@@ -564,7 +548,7 @@ var dom = {
       code = ((code - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000
     }
 
-    if (code) element.textContent = '&#' + code + ';'
+    if (code) app.element.set(element, '&#' + code + ';')
   },
 
   insert2: function (object, value) {
@@ -952,7 +936,7 @@ var dom = {
 
     element.innerHTML = content
 
-    var elements = dom.find(element, '*')
+    var elements = app.element.find(element, '*')
     for (var i = 0; i <= stop - start; i++) {
       if (elements[i]) {
         app.variables.update.attributes(elements[i], '', 'i', start + i, false);
@@ -968,7 +952,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 158 },
+  version: { major: 1, minor: 0, patch: 0, build: 159 },
   module: {},
   plugin: {},
   var: {},
@@ -1122,6 +1106,19 @@ var app = {
           _.el.classList.toggle(_.action[i])
         }
       }
+    },
+
+    /**
+     * @function find
+     * @memberof dom
+     * @param {Node} node - The node to search within.
+     * @param {string} selector - The CSS selector used to select the elements.
+     * @return {Element|Element[]} - Returns a single element if there is only one match, or a list of elements if there are multiple elements that match the selector.
+     * @desc Retrieves elements from a given node by selector.
+     */
+    find: function (node, selector) {
+      var element = node.querySelectorAll(selector)
+      return element.length == 1 && selector != '*' ? element[0] : element
     },
 
     /**
@@ -1692,12 +1689,12 @@ var app = {
       if (srcDoc) {
         var cache = app.caches.get('window', 'template', srcDoc),
           responsePage = dom.parse.text(cache.data, ['title']),
-          responsePageScript = dom.find(responsePage, app.script.selector),
+          responsePageScript = app.element.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML,
           responsePageContentClass = responsePage.className
 
         for (var el in this.elements) {
-          var parsedEl = dom.find(responsePage, el),
+          var parsedEl = app.element.find(responsePage, el),
             content = parsedEl.innerHTML
 
           this.elements[el] = parsedEl.classList
@@ -1734,10 +1731,10 @@ var app = {
         for (var i = 0; i < src.length; i++) {
           var cache = app.caches.get('window', 'template', src[i]),
             html = dom.parse.text(cache.data),
-            template = dom.parse.text(dom.find(html, 'template').innerHTML)
+            template = dom.parse.text(app.element.find(html, 'template').innerHTML)
 
           for (var el in this.elements) {
-            var parsedEl = dom.find(template, el),
+            var parsedEl = app.element.find(template, el),
               content = parsedEl.innerHTML,
               classList = parsedEl.classList
 
@@ -1793,8 +1790,8 @@ var app = {
               switch (type) {
                 case 'page':
                   var responsePage = dom.parse.text(this.responseText),
-                    responsePageTitle = dom.find(responsePage, 'title').textContent,
-                    templateElement = dom.find(responsePage, 'template'),
+                    responsePageTitle = app.element.find(responsePage, 'title').textContent,
+                    templateElement = app.element.find(responsePage, 'template'),
                     templateAttr = templateElement && templateElement.attributes,
                     elementSrcDoc = templateAttr && templateAttr.srcdoc && templateAttr.srcdoc.value,
                     elementSrc = templateAttr && templateAttr.src && templateAttr.src.value,

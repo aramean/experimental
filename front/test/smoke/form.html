@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="../../front.js" module="globalize;data;form" var="api" conf="varsDir:../../assets/json/vars"
+    globalize-conf="folder:assets/json/locales" navigate-conf="startpage:experimental">
+    </script>
+</head>
+
+<body>
+  <h1>Form</h1>
+  <hr>
+  <h4>Sort</h4>
+  <form method="post" action="">
+    <select
+      name="country"
+      data-src="https://restcountries.com/v3.1/all"
+      data-iterate="true"
+      data-sort="name.common"
+      data-sortorder="asc"
+    >
+      <option data-get="name.common" setvalue="0" value="1"></option>
+    </select>
+    <input type="reset" value="Reset">
+    <input type="submit" value="Submit">
+  </form>
+<hr>
+  <form method="post" action="form.html" enctype="multipart/form-data">
+    <select name="selectOption">
+      <option data-get="name.common" setvalue="0" value="1">1</option>
+    </select>
+    <input type="reset" value="Reset">
+    <input type="submit" value="Submit">
+  </form>
+
+
+</body>
+
+</html>
