@@ -952,7 +952,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 160 },
+  version: { major: 1, minor: 0, patch: 0, build: 161 },
   module: {},
   plugin: {},
   var: {},
@@ -1577,16 +1577,9 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
-        var originalAttributes = []
-
         for (var i = 0; i < object.attributes.length; i++) {
 
           var attr = object.attributes[i]
-
-          originalAttributes.push({
-            name: attr.name,
-            value: attr.value
-          })
 
           // Update default values.
           var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
@@ -1596,7 +1589,8 @@ var app = {
         }
 
         if (reset) {
-          var originalContent = clonedObject.innerHTML
+          var originalContent = clonedObject.innerHTML,
+            originalAttributes = clonedObject.attributes
           app.attributes.run([object], ['bind', 'bind2', 'bindfield', 'stop'])
           app.variables.reset.attributes(object, originalAttributes)
           app.variables.reset.content(object, originalContent)
@@ -1633,9 +1627,9 @@ var app = {
 
     reset: {
       attributes: function (object, original) {
-        for (var i = 0; i < object.attributes.length; i++) {
-          var attr = object.attributes[i]
-          object.setAttribute(attr.name, original[i].value)
+        for (var i = 0; i < original.length; i++) {
+          var attr = original[i]
+          object.setAttribute(attr.name, attr.value)
         }
       },
 
