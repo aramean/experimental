@@ -237,14 +237,14 @@ var dom = {
               case 'text':
                 app.listeners.add(target, 'input', function () {
                   app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-                  app.variables.update.content(object, regex, replaceVariableNew, this.value)
+                  app.variables.update.content2(object, regex, replaceVariableNew, this.value)
                 })
                 break
               case 'select-one':
                 app.listeners.add(target, 'change', function () {
                   var value = this.options[this.selectedIndex].value
                   app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-                  app.variables.update.content(object, regex, replaceVariableNew, value)
+                  app.variables.update.content2(object, regex, replaceVariableNew, value)
                 })
                 break
             }
@@ -253,7 +253,7 @@ var dom = {
           continue
       }
 
-      app.variables.update.content2(object, regex, replaceVariable, replaceValue)
+      app.variables.update.content2(object, regex, replaceVariable, replaceValue, false)
       app.variables.update.attributes(object, false, replaceVariable, replaceValue, false)
     }
   },
@@ -952,7 +952,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 162 },
+  version: { major: 1, minor: 0, patch: 0, build: 163 },
   module: {},
   plugin: {},
   var: {},
@@ -1579,12 +1579,10 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
+        var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
         for (var i = 0; i < object.attributes.length; i++) {
-
-          var attr = object.attributes[i]
-
           // Update default values.
-          var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
+          var attr = object.attributes[i]
           object.setAttribute(attr.name, attr.value.replace(regex, function (match, defaultValue) {
             return replaceValue === 0 ? '0' : replaceValue || defaultValue || ''
           }))
