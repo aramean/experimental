@@ -952,7 +952,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 161 },
+  version: { major: 1, minor: 0, patch: 0, build: 162 },
   module: {},
   plugin: {},
   var: {},
@@ -1020,31 +1020,33 @@ var app = {
    */
   call: function (run, runargs) {
     app.log.info()('Calling: ' + run + ' ' + runargs)
+    try {
+      var run1 = dom._replacementMap[run[1]] || run[1],
+        runargs = Array.isArray(runargs) ? runargs : [runargs] // Ensure runargs is an array
 
-    var run1 = dom._replacementMap[run[1]] || run[1]
+      if (run[0].indexOf('-') !== -1) {
+        newrun = run[0].split('-')
+        newrun.push('module', 'app')
+        newrun.reverse()
 
-    if (run[0].indexOf('-') !== -1) {
-      newrun = run[0].split('-')
-      newrun.push('module', 'app')
-      newrun.reverse()
+        run = newrun
+        run1 = run[1]
+        console.dir(runargs)
+      }
 
-      run = newrun
-      run1 = run[1]
-      console.dir(runargs)
-    }
+      switch (run.length) {
+        case 4:
+          window[run[0]][run1][run[2]][run[3]].apply(null, runargs)
+          break
+        case 3:
+          window[run[0]][run1][run[2]].apply(null, runargs)
+          break
+        case 2:
+          window[run[0]][run1].apply(null, runargs)
+      }
 
-    // Ensure runargs is an array
-    runargs = Array.isArray(runargs) ? runargs : [runargs]
-
-    switch (run.length) {
-      case 4:
-        window[run[0]][run1][run[2]][run[3]].apply(null, runargs)
-        break
-      case 3:
-        window[run[0]][run1][run[2]].apply(null, runargs)
-        break
-      case 2:
-        window[run[0]][run1].apply(null, runargs)
+    } catch (error) {
+      app.log.error()('Syntax not found: ' + run1)
     }
   },
 
@@ -1829,7 +1831,7 @@ var app = {
                   if (app.xhr.currentAsset.loaded === app.xhr.currentAsset.total) {
                     var run = this.options.onload2.run
                     app.module[type]._run(run.arg)
-                    //app.call(run.func, run.arg)
+                    //app.call([run.func], run.arg)
                     //console.error('run' + app.xhr.currentAsset.loaded + '/' + app.xhr.currentAsset.total)
                   }
                   break
