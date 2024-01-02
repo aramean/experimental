@@ -44,7 +44,8 @@
       <input class="bs1 p1 h3 br05 dark w100 md_dn" id="query" type="text" placeholder="Search movies, TV shows and people ..." autocomplete="off">
       <div 
         stop="data-src"
-        bind="q:#query;s:^api.themoviedb.search.keyword"
+        bindasset="s:api.themoviedb.search.keyword"
+        bindfield="q:#query"
         data-src="{s}{q}"
         data-iterate="results"
         data-loader="false"
