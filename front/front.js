@@ -560,6 +560,9 @@ var dom = {
       afterbegin = insert === 'afterbegin' ? value : '',
       beforeend = insert === 'beforeend' ? value : ''
 
+
+      object.attributes.statevalue.value += value
+
     if (afterbegin || beforeend || normal) {
       switch (tag) {
         case 'input':
@@ -908,7 +911,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 165 },
+  version: { major: 1, minor: 0, patch: 0, build: 166 },
   module: {},
   plugin: {},
   var: {},
@@ -951,12 +954,13 @@ var app = {
     app.listeners.add(document, 'click', function (e) {
       var link = app.element.getTagLink(e.target),
         click = link && link.attributes.click,
-        clicktargetfield = link && link.getAttribute('clicktargetfield'),
+        clicktargetfield = link && link.getAttribute('clicktargetfield').split(':'),
         onclickif = link && link.attributes.onclickif
       if (click) {
         var val = click.value.split(':'),
-          element = clicktargetfield ? dom.get(clicktargetfield) : e.target
+          element = clicktargetfield ? dom.get(clicktargetfield[0]) : e.target
         element.callAttribute = val[0]
+        element.targetAttribute = clicktargetfield[1] || false
         app.call(['dom', val[0]], [element, val[1]])
         //app.call(['dom', val[0]], { clicked: val[1], element: e.target, value: val[1] })
         if (onclickif) {
@@ -1035,6 +1039,8 @@ var app = {
     },
 
     get: function (element) {
+      var target = element.targetAttribute
+      if (target) return element.getAttribute(target)
       var property = this.propertyMap[element.localName] || 'textContent'
       return element[property]
     },
