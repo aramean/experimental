@@ -3,18 +3,30 @@
 
 <head>
   <script src="../../front.js"
-    module="globalize;data;navigate;math" 
-    var="api" conf="varsDir:../../assets/json/vars"
+    module="globalize;math" 
+    var="api"
+    conf="debug:false;varsDir:../../assets/json/vars"
     globalize-conf="folder:assets/json/locales"
     navigate-conf="startpage:experimental">
     </script>
 </head>
 
 <body>
-  <h1>Bind</h1>
+  <h1>Click</h1>
   <hr>
-  <button click="math-alert">Test</button><br>
-  <button click="trim:T">Test</button>
+  <button click="math-compute">5+5</button><br>
+  <button click="set:hejjjjjjjj">Set</button><br>
+  <button click="trimright:#">#Test#</button>
+  <button click="trimleft:#">#Test#</button>
+  <button click="trim:#">#Test#</button><br>
+  <button click="escape">&#36;</button>
+
+  <h1>Click with target</h1>
+  <button click="math-compute" clicktargetfield="#test">5+5</button><br>
+  <button click="set:hejjjjjjjj" clicktargetfield="#test">Set</button><br>
+  <input id="test" value="">
+  <hr>
+
 </body>
 
 </html>

@@ -6,19 +6,34 @@ app.module.math = {
     app.element.set(element, Math.round(parseFloat(value)))
   },
 
-  alert: function(value) {
-    alert('yes')
-  },
+  compute: function (element, value) {
+    try {
+      var value = app.element.get(element)
 
-  compute: function(element, value) {
-    var value = app.element.get(element).replace(/[^0-9+\-*/.()]/g, '')
-    // Replace instances of digits followed by an opening parenthesis with the multiplication sign
-    value = value.replace(/(\d)\(/g, '$1*(')
+      // Allow characters.
+      value = value.replace(/[^0-9+\-*/.()^%π]/g, '')
 
-    // Replace commas with periods
-    value = value.replace(/,/g, '.')
+      // Remove leading zeros only from numbers.
+      value = value.replace(/\b0+(\d+(\.\d*)?|\.\d+)/g, '$1')
 
-    // Evaluate the expression
-    app.element.set(element, eval(value))
+      // Replace '^' with '**' for exponentiation.
+      value = value.replace(/\^/g, '**')
+
+      // Replace commas with dots.
+      value = value.replace(/,/g, '.')
+
+      // Insert multiplication operator between number and opening parenthesis.
+      value = value.replace(/(\d+)(\()/g, '$1*$2')
+
+      // Replace π with Math.PI.
+      value = value.replace(/π/g, 'Math.PI')
+
+      value = eval(value) || 0
+    } catch (error) {
+      value = 0
+      console.error(error)
+    }
+
+    app.element.set(element, value)
   }
 }

@@ -21,7 +21,8 @@ var dom = {
     'bindquery': 'bind2',
     'bindasset': 'bind2',
     'bindglobal': 'bind2',
-    'bindfield': 'bind2'
+    'bindfield': 'bind2',
+    'resetvalue': 'reset'
   },
   _uniqueId: 0,
 
@@ -146,9 +147,8 @@ var dom = {
    * @function toggle
    * @memberof dom
    */
-  toggle: function (selector) {
-    var el = dom.get(selector),
-      ontoggle = el.attributes.ontoggle && el.attributes.ontoggle.value
+  toggle: function (el) {
+    var ontoggle = el.attributes.ontoggle && el.attributes.ontoggle.value
 
     if (!el.originalClassList) {
       el.originalClassList = [].slice.call(el.classList).join(' ')
@@ -159,8 +159,8 @@ var dom = {
 
     if (ontoggle) {
       var normalize = ontoggle.replace(']', '').split('['),
-        func = ('app.element.' + normalize[0]).split('.'),
-        arg = { selector: selector, val: normalize[1] }
+        func = ('app.element.' + normalize[0]).split('.')
+        arg = [el, normalize[1]]
       app.call(func, arg)
     }
   },
@@ -520,9 +520,9 @@ var dom = {
    * @param {string} value - A string representing the type of trim operation to perform ('left', 'right', or undefined).
    * @desc Trims chars from the content of an element.
    */
-  trim: function (object, value) {
+  trim: function (element, value) {
     var regex,
-      attr = object.callAttribute,
+      attr = element.callAttribute,
       char = value || ' '
 
     switch (attr) {
@@ -536,7 +536,7 @@ var dom = {
         regex = '^[' + char + '\\t]+|[' + char + '\\t]+$'
     }
 
-    object.innerHTML = object.innerHTML.replace(new RegExp(regex, 'g'), '')
+    element.innerHTML = element.innerHTML.replace(new RegExp(regex, 'g'), '')
   },
 
   escape: function (element) {
@@ -552,7 +552,6 @@ var dom = {
   },
 
   insert2: function (object, value) {
-
     var attr = object.callAttribute,
       tag = object.localName,
       insert = attr && attr.replace('insert', '')
@@ -683,51 +682,8 @@ var dom = {
     }
   },
 
-  compute: function (object) {
-
-    console.dir(object)
-    var obj = object.clicked.split(';'),
-      element = dom.get(obj[1]),
-      computeValue = element.attributes.statevalue,
-      onBeforeCompute = element.attributes.onbeforecompute,
-      onAfterCompute = element.attributes.onaftercompute
-
-    if (onBeforeCompute) {
-      var val = onBeforeCompute.value.split(':')
-      console.dir(val)
-      app.call(['dom', val[0]], val[1])
-    }
-
-    if (computeValue) {
-      var compute = computeValue.value.replace(/\b0+(\d+)/, '$1').replace(/,/g, '.')
-      var result = eval(compute)
-      element.value = String(result).replace(/\./g, ',')
-      element.attributes.statevalue.value = result
-    }
-
-    if (onAfterCompute) {
-      var val = onAfterCompute.value.split(':')
-      console.dir(val)
-      app.call(['dom', val[0]], val[1])
-    }
-  },
-
-  remove: function (object, value) {
-
-  },
-
   reset: function (object, value) {
     var tag = object.localName
-
-    // click or not
-    if (object.clicked) {
-      var obj = object.clicked.split(';'),
-        part2 = obj[1],
-        identifier = part2.match(/([^[]+)\[(\S+)\]/),
-        object = dom.get(identifier[1]),
-        tag = object.localName
-    }
-
     switch (tag) {
       case 'input':
         object.value = object.defaultValue
@@ -952,7 +908,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 163 },
+  version: { major: 1, minor: 0, patch: 0, build: 164 },
   module: {},
   plugin: {},
   var: {},
@@ -995,10 +951,14 @@ var app = {
     app.listeners.add(document, 'click', function (e) {
       var link = app.element.getTagLink(e.target),
         click = link && link.attributes.click,
+        clicktargetfield = link && link.getAttribute('clicktargetfield'),
         onclickif = link && link.attributes.onclickif
       if (click) {
-        var val = click.value.split(':')
-        app.call(['dom', val[0]], { clicked: val[1] })
+        var val = click.value.split(':'),
+          element = clicktargetfield ? dom.get(clicktargetfield) : e.target
+        element.callAttribute = val[0]
+        app.call(['dom', val[0]], [element, val[1]])
+        //app.call(['dom', val[0]], { clicked: val[1], element: e.target, value: val[1] })
         if (onclickif) {
           dom.bindif(onclickif, { e: link })
         }
@@ -1024,14 +984,11 @@ var app = {
       var run1 = dom._replacementMap[run[1]] || run[1],
         runargs = Array.isArray(runargs) ? runargs : [runargs] // Ensure runargs is an array
 
-      if (run[0].indexOf('-') !== -1) {
-        newrun = run[0].split('-')
-        newrun.push('module', 'app')
-        newrun.reverse()
-
-        run = newrun
-        run1 = run[1]
-        console.dir(runargs)
+      // Check if it's a module.
+      if (run[1].indexOf('-') !== -1) {
+        run = run[1].split('-')
+        run.unshift('app', 'module')
+        run1 = 'module'
       }
 
       switch (run.length) {
@@ -1102,10 +1059,10 @@ var app = {
     },
 
     toggle: {
-      class: function (options) {
-        var _ = app.attributes.parse(options, ' ')
-        for (var i = 0; i < _.action.length; i++) {
-          _.el.classList.toggle(_.action[i])
+      class: function (options, value) {
+        var classes = value.split(' ')
+        for (var i = 0; i < classes.length; i++) {
+          options.classList.toggle(classes[i])
         }
       }
     },
@@ -1562,12 +1519,6 @@ var app = {
           }
         }
       }
-    },
-
-    parse: function (options, delimiter) {
-      var el = dom.get(options.selector),
-        action = options.val.split(delimiter)
-      return { el: el, action: action }
     }
   },
 

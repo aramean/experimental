@@ -4,7 +4,7 @@
 <head>
   <script
     src="../../front.js"
-    module="globalize;data;chronotize"
+    module="navigate;chronotize"
     var="api"
     conf="varsDir:../../assets/json/vars"
     globalize-conf="folder:assets/json/locales">
@@ -17,9 +17,9 @@
   <h4>From text content:</h4>
   <p><span globalize-get="age"></span>: <span chronotize-age>19870430</span></p>
   <h4>From data source + beforebegin:</h4>
-  <p id="birth" chronotize-age beforebegin="Age:"></p>
+  <p id="birth" chronotize-age insertafterbegin="Age: ">19870430</p>
   <h4>From data source + bind + insert:</h4>
-  <p id="birth2" chronotize-age bind="test:?page" insert="afterbegin: years old "></p>
+  <p id="birth2" chronotize-age bind="test:?page" insertbeforeend=" years old">{test}</p>
 </body>
 
 </html>
