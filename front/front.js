@@ -554,14 +554,14 @@ var dom = {
   insert2: function (object, value) {
     var attr = object.callAttribute,
       tag = object.localName,
+      state = object.attributes.statevalue,
       insert = attr && attr.replace('insert', '')
 
     var normal = insert === '2' ? value : '',
       afterbegin = insert === 'afterbegin' ? value : '',
       beforeend = insert === 'beforeend' ? value : ''
 
-
-      object.attributes.statevalue.value += value
+    if (state) state.value += value
 
     if (afterbegin || beforeend || normal) {
       switch (tag) {
@@ -911,7 +911,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 167 },
+  version: { major: 1, minor: 0, patch: 0, build: 168 },
   module: {},
   plugin: {},
   var: {},
