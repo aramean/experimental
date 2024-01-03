@@ -51,11 +51,11 @@
       class="pl05 pr05 mb1 bos2 bw1 bclavender z14"
       value="0" 
       statevalue="0"
-      onvaluechange-disable="sanitize:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
+      onvaluechange="sanitize:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
       onvaluechangenew="sanitize:number[-0][0]+symbol[0][,]"
       onvaluechangeif="0;#reset;set[C]?set[AC]"
-      onstatevaluechange-disable="format:compute"
-      onstatevaluechangeif-disab="/[0-9]+/;#result;set[0]"
+      onstatevaluechange="format:compute"
+      onstatevaluechangeif="/[0-9]+/;#result;set[0]"
       onbeforecompute1="alert:before"
       onaftercompute1="alert:after"
       readonly
@@ -94,7 +94,7 @@
     <div class="p1- mb05">
       <button class="button w8r" type="button" click="insertbeforeend:0" clicktargetfield="#result">0</button>
       <button class="button w4r" type="button" click="insertbeforeend:," clicktargetfield="#result">,</button>
-      <button class="button w4r bcgold" type="button" click="math-compute" clicktargetfield="#result">=</button>
+      <button class="button w4r bcgold" type="button" click="math-compute" clicktargetfield="#result:statevalue">=</button>
     </div>
   </main>
 </body>
