@@ -6,9 +6,9 @@
   <meta name="version" content="1.0.0">
   <script
     src="../../front/front.js"
-    module="globalize;keyboard"
+    module="globalize;keyboard;math"
     var="enum"
-    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:calc"
+    conf="debug:false;varsDir:assets/json/vars;storageKey:calc"
     globalize-conf="folder:../app/calc/assets/json/locales"
     navigate-conf="startpage:experimental/app/calc;startpageLocal:app/calc">
   </script>
@@ -51,11 +51,11 @@
       class="pl05 pr05 mb1 bos2 bw1 bclavender z14"
       value="0" 
       statevalue="0"
-      onvaluechange="sanitize:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
+      onvaluechange-disable="sanitize:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
       onvaluechangenew="sanitize:number[-0][0]+symbol[0][,]"
       onvaluechangeif="0;#reset;set[C]?set[AC]"
-      onstatevaluechange="format:compute"
-      onstatevaluechangeif="/[0-9]+/;#result;set[0]"
+      onstatevaluechange-disable="format:compute"
+      onstatevaluechangeif-disab="/[0-9]+/;#result;set[0]"
       onbeforecompute1="alert:before"
       onaftercompute1="alert:after"
       readonly
@@ -63,38 +63,38 @@
 
     <div class="fdc">
       <div class="p1- mb05">
-        <button id="reset" class="button w4r" type="button" click="reset:value;#result[0]">AC</button>
-        <button class="button w4r" type="button" click="insert:beforebegin;#result[-]">+/-</button>
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[%]">%</button>
-        <button class="button w4r bcgold" type="button" click="insert:afterbegin;#result[/]">÷</button>
+        <button id="reset" class="button w4r" type="button" click="resetvalue" clicktargetfield="#result">AC</button>
+        <button class="button w4r" type="button" click="insertafterbegin:-" clicktargetfield="#result">+/-</button>
+        <button class="button w4r" type="button" click="insertbeforeend:%" clicktargetfield="#result">%</button>
+        <button class="button w4r bcgold" type="button" click="insertbeforeend:/" clicktargetfield="#result">÷</button>
       </div>
     </div>
     <div class="fdc mb05">
       <div class="p1-">
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[7]">7</button>
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[8]">8</button>
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[9]">9</button>
-        <button class="button w4r bcgold" type="button" click="insert:afterbegin;#result[*]">*</button>
+        <button class="button w4r" type="button" click="insertbeforeend:7" clicktargetfield="#result">7</button>
+        <button class="button w4r" type="button" click="insertbeforeend:8" clicktargetfield="#result">8</button>
+        <button class="button w4r" type="button" click="insertbeforeend:9" clicktargetfield="#result">9</button>
+        <button class="button w4r bcgold" type="button" click="insertbeforeend:*" clicktargetfield="#result">*</button>
       </div>
     </div>
     <div class="fdc mb05">
       <div class="p1-">
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[4]">4</button>
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[5]">5</button>
-        <button class="button w4r" type="button" click="insert:afterbegin;#result[6]">6</button>
-        <button class="button w4r bcgold" type="button" click="insert:afterbegin;#result[-]">-</button>
+        <button class="button w4r" type="button" click="insertbeforeend:4" clicktargetfield="#result">4</button>
+        <button class="button w4r" type="button" click="insertbeforeend:5" clicktargetfield="#result">5</button>
+        <button class="button w4r" type="button" click="insertbeforeend:6" clicktargetfield="#result">6</button>
+        <button class="button w4r bcgold" type="button" click="insertbeforeend:-" clicktargetfield="#result">-</button>
       </div>
     </div>
     <div class="p1- mb05">
-      <button class="button w4r" type="button" keyboard-key="1" keyboard-action="click" click="insert:afterbegin;#result[1]">1</button>
-      <button class="button w4r" type="button" click="insert:afterbegin;#result[2]">2</button>
-      <button class="button w4r" type="button" click="insert:afterbegin;#result[3]">3</button>
-      <button class="button bcgold w4r" type="button" click="insert:afterbegin;#result[+]" josef="true" onclick="">+</button>
+      <button class="button w4r" type="button" keyboard-key="1" keyboard-action="click" click="insertbeforeend:1" clicktargetfield="#result">1</button>
+      <button class="button w4r" type="button" click="insertbeforeend:2" clicktargetfield="#result">2</button>
+      <button class="button w4r" type="button" click="insertbeforeend:3" clicktargetfield="#result">3</button>
+      <button class="button bcgold w4r" type="button" click="insertbeforeend:+" clicktargetfield="#result" josef="true">+</button>
     </div>
     <div class="p1- mb05">
-      <button class="button w8r" type="button" click="insert:afterbegin;#result[0]">0</button>
-      <button class="button w4r" type="button" click="insert:afterbegin;#result[,]">,</button>
-      <button class="button w4r bcgold" type="button" click="compute:statevalue;#result">=</button>
+      <button class="button w8r" type="button" click="insertbeforeend:0" clicktargetfield="#result">0</button>
+      <button class="button w4r" type="button" click="insertbeforeend:," clicktargetfield="#result">,</button>
+      <button class="button w4r bcgold" type="button" click="math-compute" clicktargetfield="#result">=</button>
     </div>
   </main>
 </body>
