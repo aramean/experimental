@@ -286,14 +286,14 @@ var dom = {
         case 'text':
           app.listeners.add(target, 'input', function () {
             app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-            app.variables.update.content(object, regex, replaceVariableNew, this.value)
+            app.variables.update.content2(object, regex, replaceVariableNew, this.value)
           })
           break
         case 'select-one':
           app.listeners.add(target, 'change', function () {
             var value = this.options[this.selectedIndex].value
             app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-            app.variables.update.content(object, regex, replaceVariableNew, value)
+            app.variables.update.content2(object, regex, replaceVariableNew, value)
           })
           break
       }
@@ -908,7 +908,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 164 },
+  version: { major: 1, minor: 0, patch: 0, build: 165 },
   module: {},
   plugin: {},
   var: {},
