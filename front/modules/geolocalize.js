@@ -22,7 +22,7 @@ app.module.geolocalize = {
       options
 
     if (!element.getAttribute("stop")) {
-      element.setAttribute("stop", '*')
+      //element.setAttribute("stop", '*')
     }
 
     function success(pos) {
@@ -43,12 +43,16 @@ app.module.geolocalize = {
       }
 
       console.log(func)
+      newFunction()
+
+      navigator.geolocation.clearWatch(id)
+    }
+
+    function newFunction() {
       var elAwait = app.await[func].element
       console.log(elAwait)
       app.await[func].enable = false
       app.attributes.run([elAwait], [func, 'await'])
-
-      navigator.geolocation.clearWatch(id)
     }
 
     function error(error) {
@@ -74,6 +78,8 @@ app.module.geolocalize = {
 
       error.textContent = message
       error.style = "color: red"
+
+      newFunction()
     }
 
     target = {

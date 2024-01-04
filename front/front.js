@@ -853,12 +853,12 @@ var dom = {
   },
 
   await: function (element, value) {
-    app.await[value] = { element: element, value: value, enable: true }
+    if (value) app.await[value] = { element: element, value: value, enable: true }
   }
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 174 },
+  version: { major: 1, minor: 0, patch: 0, build: 175 },
   module: {},
   plugin: {},
   var: {},
@@ -1452,7 +1452,6 @@ var app = {
           for (var j = 0; j < attributes.length; j++) {
             var attributeName = attributes[j].name
             element.callAttribute = attributeName
-            attributes[j].originalAttributes = attributes
 
             // Replace with mapped value if applicable.
             attributeName = dom._replacementMap[attributeName] || attributeName
@@ -1485,7 +1484,7 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
-        var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
+        var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::((?:{[^{}]*}|[^}])+))?\\}', 'g')
         for (var i = 0; i < object.attributes.length; i++) {
           // Update default values.
           var attr = object.attributes[i]
@@ -1641,6 +1640,7 @@ var app = {
             dom.get(el).classList = classList && classList.length > 0 ? classList : this.elements[el]
 
             if (content) {
+              console.log(el)
               dom.set(el, content)
               if (dom.get('template')) app.attributes.run(el + ' *')
             }
