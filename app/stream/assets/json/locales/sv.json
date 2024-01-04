@@ -7,6 +7,11 @@
     "movie": "Film",
     "Movies": "Filmer",
     "show": "Serie",
-    "Shows": "Serier"
+    "Shows": "Serier",
+    "Adventure": "Äventyr",
+    "Comedy": "Komedi",
+    "Fantasy": "Fantasi",
+    "History": "Historia",
+    "Music": "Musik"
   }
 }
