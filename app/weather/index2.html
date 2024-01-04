@@ -15,10 +15,10 @@
     <div id="geoerror" hide></div>
     <div
       await="geolocalize-get"
-      bindquery="q:q"
-      bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang"
       geolocalize-get="q"
       geolocalize-error="#geoerror"
+      bindquery="q:q"
+      bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang"
       data-src="{url}/current.json?key={key}&q={q:{q}}&aqi=no&lang={lang}"
     >
       <h5 data-get="location.name"></h5>
