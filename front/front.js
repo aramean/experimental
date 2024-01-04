@@ -253,48 +253,6 @@ var dom = {
     }
   },
 
-  bindfield2: function (object, value, attr) {
-    var type = object.tagName.toLowerCase(),
-      bindInclude = this.bind.include ? ';' + this.bind.include : '',
-      binding = ((object.getAttribute('data-bind') || object.getAttribute('bindfield') || object.getAttribute('var')) || '') + bindInclude
-
-    // Set variable if colon is presented or update innerhtml.
-    var bindings = binding ? binding.split(';') : []
-
-    for (var i = 0; i < bindings.length; i++) {
-      var bindingParts = bindings[i].split(':') || [],
-        replaceVariable = bindingParts[0].trim(),
-        replaceValue = bindingParts[1].trim(),
-        target = replaceValue.substring(1),
-        regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
-
-      var target = dom.get(replaceValue),
-        type = target.type,
-        name = target.id || target.name
-
-      var match = binding.match(new RegExp("([^:]+):[#.]" + name)),
-        replaceVariableNew = match ? match[1] : '',
-        clonedObject = object.cloneNode(true)
-
-      console.dir(match)
-      switch (type) {
-        case 'text':
-          app.listeners.add(target, 'input', function () {
-            app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-            app.variables.update.content2(object, regex, replaceVariableNew, this.value)
-          })
-          break
-        case 'select-one':
-          app.listeners.add(target, 'change', function () {
-            var value = this.options[this.selectedIndex].value
-            app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-            app.variables.update.content2(object, regex, replaceVariableNew, value)
-          })
-          break
-      }
-    }
-  },
-
   bind: function (object, value, attr) {
     var type = object.tagName.toLowerCase(),
       bindInclude = this.bind.include ? ';' + this.bind.include : '',
@@ -853,7 +811,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 176 },
+  version: { major: 1, minor: 0, patch: 0, build: 177 },
   module: {},
   plugin: {},
   var: {},
@@ -1592,7 +1550,10 @@ var app = {
             content = parsedEl.innerHTML
 
           this.elements[el] = parsedEl.classList
-          if (el !== 'main') dom.set(el, content ? content : '')
+          if (el !== 'main') {
+            dom.set(el, content ? content : '')
+            //app.attributes.run(el + ' *')
+          }
         }
 
         if (!isReload) {
