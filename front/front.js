@@ -911,7 +911,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 168 },
+  version: { major: 1, minor: 0, patch: 0, build: 169 },
   module: {},
   plugin: {},
   var: {},
@@ -954,13 +954,14 @@ var app = {
     app.listeners.add(document, 'click', function (e) {
       var link = app.element.getTagLink(e.target),
         click = link && link.attributes.click,
-        clicktargetfield = link && link.getAttribute('clicktargetfield').split(':'),
+        clicktargetfield = link && link.attributes.clicktargetfield,
         onclickif = link && link.attributes.onclickif
       if (click) {
         var val = click.value.split(':'),
-          element = clicktargetfield ? dom.get(clicktargetfield[0]) : e.target
+          target = clicktargetfield.value.split(':')
+          element = target ? dom.get(target[0]) : e.target
         element.callAttribute = val[0]
-        element.targetAttribute = clicktargetfield[1] || false
+        element.targetAttribute = target[1] || false
         app.call(['dom', val[0]], [element, val[1]])
         //app.call(['dom', val[0]], { clicked: val[1], element: e.target, value: val[1] })
         if (onclickif) {
@@ -984,6 +985,7 @@ var app = {
    */
   call: function (run, runargs) {
     app.log.info()('Calling: ' + run + ' ' + runargs)
+    //console.log('Calling: ' + run + ' ' + runargs)
     try {
       var run1 = dom._replacementMap[run[1]] || run[1],
         runargs = Array.isArray(runargs) ? runargs : [runargs] // Ensure runargs is an array
