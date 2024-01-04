@@ -22,20 +22,13 @@ app.module.keyboard = {
     for (var i = 0; i < this.keys.length; i++) {
       var current = this.keys[i]
       if (e.key.toLowerCase() == current.key) {
-        var action = current.action.split(':'),
-          element = current.element,
+        var element = current.element,
           target = e.target.localName,
-          scope = current.scope === '' ? element.localName : current.scope,
-          run = action[0],
-          arg = action[1]
+          scope = current.scope === '' ? element.localName : current.scope
 
         if (scope && target !== scope) continue
-        e.element = element
 
-        if (element.clicked)
-          element.click()
-        else
-          app.call(['dom', run], [arg])
+        element.click()
       }
     }
   },
@@ -44,12 +37,6 @@ app.module.keyboard = {
     var key = element.getAttribute('keyboard-key').toLowerCase(),
       action = element.getAttribute('keyboard-action'),
       scope = element.getAttribute('keyboard-scope')
-    element = element
-
-    if (action === 'click') {
-      action = element.getAttribute('click')
-      element.clicked = true
-    }
 
     this.keys.push({ key: key, action: action, scope: scope, element: element })
   }

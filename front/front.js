@@ -160,7 +160,7 @@ var dom = {
     if (ontoggle) {
       var normalize = ontoggle.replace(']', '').split('['),
         func = ('app.element.' + normalize[0]).split('.')
-        arg = [el, normalize[1]]
+      arg = [el, normalize[1]]
       app.call(func, arg)
     }
   },
@@ -384,7 +384,7 @@ var dom = {
    *
    * @param {string} value - The message to display in the dialog box.
    */
-  alert: function (value) {
+  alert: function (element, value) {
     alert(value)
   },
 
@@ -584,59 +584,6 @@ var dom = {
       }
     } else {
       object.insertAdjacentText(insert, value)
-    }
-  },
-
-  insert: function (object, value) {
-    var tag = object.localName,
-      pos,
-      text,
-      afterbegin,
-      beforebegin
-
-    // click or not
-    if (object.clicked) {
-      var obj = object.clicked.split(';')
-      pos = obj[0]
-      part2 = obj[1]
-
-      var identifier = part2.match(/([^[]+)\[(\S+)\]/)
-      var target = dom.get(identifier[1])
-
-      tag = target.localName
-      text = identifier[2]
-
-      object = target
-
-      object.attributes.statevalue.value =
-        pos === 'beforebegin'
-          ? text + object.attributes.statevalue.value
-          : object.attributes.statevalue.value + text
-    } else {
-      pos = value.slice(0, value.indexOf(":"))
-      text = value.slice(value.indexOf(":") + 1)
-    }
-
-    beforebegin = pos === 'beforebegin' ? text : ''
-    afterbegin = pos === 'afterbegin' ? text : ''
-
-    switch (tag) {
-      case 'input':
-        object.value = beforebegin + object.value + afterbegin
-        app.listeners.change('input', object, false)
-        break
-      case 'img':
-        var src = object.getAttribute('src')
-        if (src) object.src = beforebegin + src + afterbegin
-        break
-      case 'a':
-        object.href = beforebegin + object.href + afterbegin
-        break
-      case 'select':
-        object.setAttribute('select', value)
-        break
-      default:
-        object.textContent = beforebegin + object.textContent + afterbegin
     }
   },
 
@@ -911,7 +858,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 169 },
+  version: { major: 1, minor: 0, patch: 0, build: 170 },
   module: {},
   plugin: {},
   var: {},
@@ -958,12 +905,11 @@ var app = {
         onclickif = link && link.attributes.onclickif
       if (click) {
         var val = click.value.split(':'),
-          target = clicktargetfield.value.split(':')
+          target = clicktargetfield && clicktargetfield.value.split(':'),
           element = target ? dom.get(target[0]) : e.target
         element.callAttribute = val[0]
-        element.targetAttribute = target[1] || false
+        element.targetAttribute = target ? target[1] : false
         app.call(['dom', val[0]], [element, val[1]])
-        //app.call(['dom', val[0]], { clicked: val[1], element: e.target, value: val[1] })
         if (onclickif) {
           dom.bindif(onclickif, { e: link })
         }

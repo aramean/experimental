@@ -67,7 +67,6 @@ app.module.globalize = {
       value = element.getAttribute(this.module + '-get') || element.textContent,
       isRoot = value[0] == '/' ? true : false,
       setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
-    console.log(element)
     dom.set(element, setValue)
   }
 }
