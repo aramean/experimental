@@ -858,7 +858,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 173 },
+  version: { major: 1, minor: 0, patch: 0, build: 174 },
   module: {},
   plugin: {},
   var: {},
@@ -1452,6 +1452,7 @@ var app = {
           for (var j = 0; j < attributes.length; j++) {
             var attributeName = attributes[j].name
             element.callAttribute = attributeName
+            attributes[j].originalAttributes = attributes
 
             // Replace with mapped value if applicable.
             attributeName = dom._replacementMap[attributeName] || attributeName
@@ -1484,7 +1485,7 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
-        var regex = new RegExp('\\{' + replaceVariable + '(?::((?:{[^{}]*})+))?\\}', 'g')
+        var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
         for (var i = 0; i < object.attributes.length; i++) {
           // Update default values.
           var attr = object.attributes[i]

@@ -21,7 +21,11 @@ app.module.data = {
       element.setAttribute("stop", '*')
     }
 
-    if (app.await['geolocalize-get'] && app.await['geolocalize-get'].enable) return
+    for (var key in app.await) {
+      if (app.await[key].enable === true) return
+    }
+
+    //if (app.await['geolocalize-get'] && app.await['geolocalize-get'].enable) return
 
     app.xhr.currentAsset.total = 1
     this._handle(element)
@@ -107,8 +111,8 @@ app.module.data = {
     if (datasort) {
       var datasort = element.getAttribute('data-sort')
       var datasortorder = element.getAttribute('data-sortorder')
-      //if (responseData)
-      var test = this._sort(responseData.data, datasort, datasortorder)
+      if (responseData)
+        this._sort(responseData.data, datasort, datasortorder)
     }
 
     var iterate = options.iterate,
@@ -288,7 +292,7 @@ app.module.data = {
     if (Array.isArray(response)) {
       return response.sort(function (a, b) {
         const valueA = app.element.getPropertyByPath(a, sortKey),
-              valueB = app.element.getPropertyByPath(b, sortKey)
+          valueB = app.element.getPropertyByPath(b, sortKey)
 
         return (typeof valueA === 'string')
           ? (sortOrder === 'desc' ? valueB.localeCompare(valueA) : valueA.localeCompare(valueB))

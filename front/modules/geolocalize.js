@@ -21,31 +21,32 @@ app.module.geolocalize = {
       target,
       options
 
-    //if (!element.getAttribute("stop")) {
-    //element.setAttribute("stop", '*')
-    //}
+    if (!element.getAttribute("stop")) {
+      element.setAttribute("stop", '*')
+    }
 
     function success(pos) {
-      var crd = pos.coords || [],
-        replaceVariable = element.attributes[func].value
-
-      self._longitude = crd.longitude
-      self._latitude = crd.latitude
-
-      console.error('Success:', new Date(), self._latitude, self._longitude);
+      var crd = pos.coords || []
+      self._longitude = crd.longitude || 0
+      self._latitude = crd.latitude || 0
 
       /*if (target.latitude === crd.latitude && target.longitude === crd.longitude) {
         console.log("Congratulations, you reached the target")
         navigator.geolocation.clearWatch(id)
       }*/
 
-      var replaceValue = self._latitude + ',' + self._longitude
-      app.variables.update.attributes(element, '', replaceVariable, replaceValue, false)
+      if (self._longitude && self._latitude) {
+        console.error('Success:', new Date(), self._latitude, self._longitude);
+        var replaceVariable = element.attributes[func].value,
+          replaceValue = self._latitude + ',' + self._longitude
+        app.variables.update.attributes(element, '', replaceVariable, replaceValue, false)
+      }
 
+      console.log(func)
       var elAwait = app.await[func].element
+      console.log(elAwait)
       app.await[func].enable = false
       app.attributes.run([elAwait], [func, 'await'])
-      //}
 
       navigator.geolocation.clearWatch(id)
     }
