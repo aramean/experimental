@@ -97,7 +97,6 @@ app.module.data = {
 
     if (datamerge) {
       var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
-      console.log(responseData)
       if (responseData)
         responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
     }

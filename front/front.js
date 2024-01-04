@@ -120,11 +120,6 @@ var dom = {
    * @desc Retrieves elements from the document by selector.
    */
   get: function (selector, list) {
-
-    if (selector && selector.clicked) {
-      selector = selector.clicked
-    }
-
     var regex = /\[(\d+)\]/,
       match = selector && selector.match(regex)
 
@@ -858,7 +853,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 175 },
+  version: { major: 1, minor: 0, patch: 0, build: 176 },
   module: {},
   plugin: {},
   var: {},
@@ -1640,7 +1635,6 @@ var app = {
             dom.get(el).classList = classList && classList.length > 0 ? classList : this.elements[el]
 
             if (content) {
-              console.log(el)
               dom.set(el, content)
               if (dom.get('template')) app.attributes.run(el + ' *')
             }
