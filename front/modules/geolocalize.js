@@ -42,10 +42,6 @@ app.module.geolocalize = {
       var replaceValue = self._latitude + ',' + self._longitude
       app.variables.update.attributes(element, '', replaceVariable, replaceValue, false)
 
-      //if (run) {
-
-      //dom.start(element)
-
       var elAwait = app.await[func].element
       app.await[func].enable = false
       app.attributes.run([elAwait], [func, 'await'])

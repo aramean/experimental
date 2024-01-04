@@ -858,7 +858,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 172 },
+  version: { major: 1, minor: 0, patch: 0, build: 173 },
   module: {},
   plugin: {},
   var: {},
@@ -1484,7 +1484,7 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
-        var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::([^}]+))?\\}', 'g')
+        var regex = new RegExp('\\{' + replaceVariable + '(?::((?:{[^{}]*})+))?\\}', 'g')
         for (var i = 0; i < object.attributes.length; i++) {
           // Update default values.
           var attr = object.attributes[i]
