@@ -11,10 +11,10 @@ var dom = {
   _replacementMap: {
     'trimleft': 'trim',
     'trimright': 'trim',
-    'insertbeforebegin': 'insert2',
-    'insertafterbegin': 'insert2',
-    'insertbeforeend': 'insert2',
-    'insertafterend': 'insert2',
+    'insertbeforebegin': 'insert',
+    'insertafterbegin': 'insert',
+    'insertbeforeend': 'insert',
+    'insertafterend': 'insert',
     'sethref': 'set2',
     'setvalue': 'set2',
     'setsrc': 'set2',
@@ -551,7 +551,7 @@ var dom = {
     if (code) app.element.set(element, '&#' + code + ';')
   },
 
-  insert2: function (object, value) {
+  insert: function (object, value) {
     var attr = object.callAttribute,
       tag = object.localName,
       state = object.attributes.statevalue,
@@ -858,7 +858,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 171 },
+  version: { major: 1, minor: 0, patch: 0, build: 172 },
   module: {},
   plugin: {},
   var: {},
