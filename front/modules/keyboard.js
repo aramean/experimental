@@ -21,35 +21,31 @@ app.module.keyboard = {
   _keypressed: function (e) {
     for (var i = 0; i < this.keys.length; i++) {
       var current = this.keys[i]
-      if (e.key.toLowerCase() == current.key) {
-        var action = current.action.split(':'),
+      if (e.key == current.key) {
+        var action = current.action,
           element = current.element,
           target = e.target.localName,
-          scope = current.scope === '' ? element.localName : current.scope,
-          run = action[0],
-          arg = action[1]
+          scope = current.scope === '' ? element.localName : current.scope
 
         if (scope && target !== scope) continue
 
-        switch (run) {
-          case 'href':
+        switch (action) {
+          case 'click':
             element.click()
+            break
           default:
-            app.call(['dom', run], [element, arg])
+            var action = action.split(':')
+            app.call(['dom', action[0]], [element, action[1]])
         }
+
       }
     }
   },
 
   key: function (element) {
-    var key = element.getAttribute('keyboard-key').toLowerCase(),
+    var key = element.getAttribute('keyboard-key'),
       action = element.getAttribute('keyboard-action'),
       scope = element.getAttribute('keyboard-scope')
-
-    if (action === 'click') {
-      action = element.getAttribute('click')
-      element.clicked = true
-    }
 
     this.keys.push({ key: key, action: action, scope: scope, element: element })
   }
