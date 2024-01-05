@@ -2,11 +2,7 @@
 <html lang="en">
 
 <head>
-  <script
-    src="../../front.js"
-    module="keyboard"
-    var="api"
-    conf="varsDir:../../assets/json/vars">
+  <script src="../../front.js" module="keyboard" var="api" conf="varsDir:../../assets/json/vars">
   </script>
 </head>
 
@@ -21,11 +17,13 @@
   <h2>With scope:</h2>
   <h3>Body</h3>
   <a keyboard-key="b" keyboard-action="alert:You pressed B" keyboard-scope="body">Press B</a><br>
-  <a keyboard-key="c" keyboard-action="click" click="sethref://www.microsoft.com" keyboard-scope="body" href="//www.google.com" onchangehref="set:Microsoft" target="_blank">Press C</a><br>
-  <span keyboard-key="d" keyboard-action="click" keyboard-scope="body" value="" click="setvalue:jkasdjklsajdk">Press D</span><br>
-  
-    <div keyboard-key="e" keyboard-action="click" click="set2:Pressed" keyboard-scope="body">Press E</div><br>
-  
+  <a keyboard-key="c" keyboard-action="click" click="sethref://www.microsoft.com" keyboard-scope="body"
+    href="//www.google.com" onchangehref="set:Microsoft" target="_blank">Press C</a><br>
+  <span keyboard-key="d" keyboard-action="click" keyboard-scope="body" value="" click="setvalue:jkasdjklsajdk">Press
+    D</span><br>
+
+  <div keyboard-key="e" keyboard-action="set:ss" keyboard-scope="body">Press E</div><br>
+
   <h3>Enter</h3>
   <input type="text" statevalue="0" keyboard-key="enter" keyboard-action="alert:hej" keyboard-scope>
 </body>

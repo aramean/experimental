@@ -27,13 +27,16 @@ app.module.keyboard = {
           target = e.target.localName,
           scope = current.scope === '' ? element.localName : current.scope,
           run = action[0],
-          value = action[1]
+          arg = action[1]
 
         if (scope && target !== scope) continue
-        if (element.clicked)
-          element.click()
-        else
-          app.call(['dom', run], [element, value])
+
+        switch (run) {
+          case 'href':
+            element.click()
+          default:
+            app.call(['dom', run], [element, arg])
+        }
       }
     }
   },
