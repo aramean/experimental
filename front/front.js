@@ -15,6 +15,7 @@ var dom = {
     'insertafterbegin': 'insert',
     'insertbeforeend': 'insert',
     'insertafterend': 'insert',
+    'settext': 'set2',
     'sethref': 'set2',
     'setvalue': 'set2',
     'setsrc': 'set2',
@@ -795,7 +796,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 182 },
+  version: { major: 1, minor: 0, patch: 0, build: 183 },
   module: {},
   plugin: {},
   var: {},
