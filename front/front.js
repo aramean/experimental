@@ -560,11 +560,7 @@ var dom = {
         break
       case 'a':
         object.href = value
-        var onchangehref = object.getAttribute('onchangehref')
-        if (onchangehref) {
-          onchange = onchangehref.split(':')
-          app.call(['dom', onchange[0]], [object, onchange[1]])
-        }
+        app.element.onchange(object, 'href')
         break
       case 'select':
         object.setAttribute('select', value)
@@ -729,7 +725,7 @@ var dom = {
 
   start: function (element) {
     element.removeAttribute('stop');
-    var children = element.childNodes;
+    var children = element.childNodes
     for (var i = 0; i < children.length; i++) {
       var child = children[i]
       if (child.nodeType === 1) { // Check if it's an element node
@@ -796,7 +792,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 183 },
+  version: { major: 1, minor: 0, patch: 0, build: 184 },
   module: {},
   plugin: {},
   var: {},
@@ -997,6 +993,11 @@ var app = {
 
       return value
     },
+
+    onchange(object, value) {
+      var onchange = object.getAttribute('onchange' + value).split(':')
+      if (onchange) app.call(['dom', onchange[0]], [object, onchange[1]])
+    }
   },
 
   /**
