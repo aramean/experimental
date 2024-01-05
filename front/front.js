@@ -792,7 +792,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 184 },
+  version: { major: 1, minor: 0, patch: 0, build: 185 },
   module: {},
   plugin: {},
   var: {},
@@ -995,8 +995,11 @@ var app = {
     },
 
     onchange(object, value) {
-      var onchange = object.getAttribute('onchange' + value).split(':')
-      if (onchange) app.call(['dom', onchange[0]], [object, onchange[1]])
+      var onchange = object.getAttribute('onchange' + value)
+      if (onchange) {
+        onchange = onchange.split(':')
+        app.call(['dom', onchange[0]], [object, onchange[1]])
+      }
     }
   },
 
