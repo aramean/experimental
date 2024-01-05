@@ -559,6 +559,11 @@ var dom = {
         break
       case 'a':
         object.href = value
+        var onchangehref = object.getAttribute('onchangehref')
+        if (onchangehref) {
+          onchange = onchangehref.split(':')
+          app.call(['dom', onchange[0]], [object, onchange[1]])
+        }
         break
       case 'select':
         object.setAttribute('select', value)
@@ -790,7 +795,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 181 },
+  version: { major: 1, minor: 0, patch: 0, build: 182 },
   module: {},
   plugin: {},
   var: {},
