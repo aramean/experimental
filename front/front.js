@@ -572,19 +572,6 @@ var dom = {
     this.insert(object, value)
   },
 
-  state: function (object, value) {
-    var val = object.clicked.split(':'),
-      parts = val[0].split(';')
-    action = parts[0]
-
-    switch (action) {
-      case 'add':
-        console.log(action)
-        //this.insert(object, value)
-        break
-    }
-  },
-
   reset: function (object, value) {
     var tag = object.localName
     switch (tag) {
@@ -623,15 +610,7 @@ var dom = {
   sanitize: function (object, value) {
     regex = object.value
 
-    if (object.state) {
-      //var object = object.clicked
-      //console.error('hej')
-      //var stateValue = object.attributes.stateValue
-      //stateValue.value = 'sss'
-    }
-
     if (object.clicked) {
-
       var object = object.clicked,
         value = object.value
     }
