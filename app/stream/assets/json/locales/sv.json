@@ -10,8 +10,11 @@
     "Shows": "Serier",
     "Adventure": "Äventyr",
     "Comedy": "Komedi",
+    "Documentary": "Dokumentär",
     "Fantasy": "Fantasi",
     "History": "Historia",
-    "Music": "Musik"
+    "Horror": "Skräck",
+    "Music": "Musik",
+    "Romance": "Romantik"
   }
 }
