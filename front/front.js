@@ -776,7 +776,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 186 },
+  version: { major: 1, minor: 0, patch: 0, build: 187 },
   module: {},
   plugin: {},
   var: {},
@@ -823,14 +823,11 @@ var app = {
         onclickif = link && link.attributes.onclickif
 
       if (click) {
-        console.log(click)
         var val = click.value.split(':'),
           target = clicktargetfield && clicktargetfield.value.split(':'),
           element = target ? dom.get(target[0]) : e.target
         element.callAttribute = val[0]
         element.targetAttribute = target ? target[1] : false
-        console.log(click)
-        console.log(val[0])
         app.call(['dom', val[0]], [element, val[1]])
         if (onclickif) {
           dom.bindif(onclickif, { e: link })
