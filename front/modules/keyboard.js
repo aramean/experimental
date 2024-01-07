@@ -33,6 +33,9 @@ app.module.keyboard = {
           case 'click':
             element.click()
             break
+          case 'dblclick':
+            element.dblclick()
+            break
           default:
             var action = action.split(':')
             element.callAttribute = action[0]
