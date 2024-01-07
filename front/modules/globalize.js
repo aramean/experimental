@@ -22,7 +22,8 @@ app.module.globalize = {
       folder: 'assets/json/locales/' + this.module,
       language: this.locale.get(query, this),
     }, options.element)
-    console.log(config.language)
+    document.documentElement.setAttribute("lang", config.language)
+    app.language = config.language
     this.storeKey = this.module + '.' + config.language
     var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
     if (cache) {
