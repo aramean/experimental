@@ -542,52 +542,16 @@ var dom = {
   },
 
   set2: function (object, value) {
-    var attr = object.callAttribute
-
-
-    // if (!object.josef) app.element.set(object, value)
-
-    //object.callAttribute = attr
-
-    console.warn(attr)
+    var tag = object.localName
+    attr = object.callAttribute
     app.element.set(object, value, attr)
     app.element.onchange(object, attr)
-    /*    switch (attr) {
-          case 'sethref':xz
-            object.josef = attr
-            app.element.onchange(object, 'href')
-            break
-          case 'settext':
-            object.josef = attr
-            app.element.onchange(object, 'text')
-            break  
-        }
-    */
 
-
-    // 
-    /*    switch (tag) {
-          case 'input':
-          case 'progress':
-            object.value = value
-            app.listeners.change('input', object, false)
-            break
-          case 'img':
-          case 'video':
-          case 'track':
-          case 'iframe':
-            object.src = value
-            break
-          case 'a':
-            object.href = value
-            app.element.onchange(object, 'href')
-            break
-          case 'select':
-            object.setAttribute('select', value)
-            break
-          default:
-            object.textContent = object.textContent
-        }*/
+    switch (tag) {
+      case 'input':
+        app.listeners.change('input', object, false)
+        break
+    }
   },
 
   replace: function (object, value) {
@@ -964,7 +928,6 @@ var app = {
 
         var property = this.propertyMap[element.localName] || 'textContent'
         element[property] = value
-      
     },
 
     add: {
