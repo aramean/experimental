@@ -273,10 +273,6 @@ var dom = {
       if (replaceValue[0] === '?') {
         replaceValue = app.querystrings.get(false, target)
       }
-      // Bind global variable
-      else if (replaceValue[0] === '*') {
-        replaceValue = app[target] || ''
-      }
       // Bind asset variable
       else if (replaceValue[0] === '^') {
         var keys = target.split('.'),
@@ -776,7 +772,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 189 },
+  version: { major: 1, minor: 0, patch: 0, build: 190 },
   module: {},
   plugin: {},
   var: {},
