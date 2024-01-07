@@ -776,7 +776,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 188 },
+  version: { major: 1, minor: 0, patch: 0, build: 189 },
   module: {},
   plugin: {},
   var: {},
@@ -1534,7 +1534,7 @@ var app = {
           this.elements[el] = parsedEl.classList
           if (el !== 'main') {
             dom.set(el, content ? content : '')
-            //app.attributes.run(el + ' *')
+            app.attributes.run(el + ' *')
           }
         }
 
