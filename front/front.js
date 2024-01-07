@@ -478,7 +478,7 @@ var dom = {
     var regex,
       attr = element.callAttribute,
       char = value || ' '
-
+    console.log(attr)
     switch (attr) {
       case 'trimleft':
         regex = '^[' + char + '\\t]+'
@@ -542,32 +542,52 @@ var dom = {
   },
 
   set2: function (object, value) {
-    var attr = object.callAttribute,
-      tag = object.localName,
-      value = value ? value : app.call([attr], object, object.value)
+    var attr = object.callAttribute
 
-    switch (tag) {
-      case 'input':
-      case 'progress':
-        object.value = value
-        app.listeners.change('input', object, false)
-        break
-      case 'img':
-      case 'video':
-      case 'track':
-      case 'iframe':
-        object.src = value
-        break
-      case 'a':
-        object.href = value
-        app.element.onchange(object, 'href')
-        break
-      case 'select':
-        object.setAttribute('select', value)
-        break
-      default:
-        object.textContent = object.textContent
-    }
+
+    // if (!object.josef) app.element.set(object, value)
+
+    //object.callAttribute = attr
+
+    console.warn(attr)
+    app.element.set(object, value, attr)
+    app.element.onchange(object, attr)
+    /*    switch (attr) {
+          case 'sethref':xz
+            object.josef = attr
+            app.element.onchange(object, 'href')
+            break
+          case 'settext':
+            object.josef = attr
+            app.element.onchange(object, 'text')
+            break  
+        }
+    */
+
+
+    // 
+    /*    switch (tag) {
+          case 'input':
+          case 'progress':
+            object.value = value
+            app.listeners.change('input', object, false)
+            break
+          case 'img':
+          case 'video':
+          case 'track':
+          case 'iframe':
+            object.src = value
+            break
+          case 'a':
+            object.href = value
+            app.element.onchange(object, 'href')
+            break
+          case 'select':
+            object.setAttribute('select', value)
+            break
+          default:
+            object.textContent = object.textContent
+        }*/
   },
 
   replace: function (object, value) {
@@ -792,7 +812,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 185 },
+  version: { major: 1, minor: 0, patch: 0, build: 186 },
   module: {},
   plugin: {},
   var: {},
@@ -833,16 +853,20 @@ var app = {
     })
 
     app.listeners.add(document, 'click', function (e) {
-      var link = app.element.getTagLink(e.target),
+      var link = app.element.getTagLink(e.target) || e.target,
         click = link && link.attributes.click,
         clicktargetfield = link && link.attributes.clicktargetfield,
         onclickif = link && link.attributes.onclickif
+
       if (click) {
+        console.log(click)
         var val = click.value.split(':'),
           target = clicktargetfield && clicktargetfield.value.split(':'),
           element = target ? dom.get(target[0]) : e.target
         element.callAttribute = val[0]
         element.targetAttribute = target ? target[1] : false
+        console.log(click)
+        console.log(val[0])
         app.call(['dom', val[0]], [element, val[1]])
         if (onclickif) {
           dom.bindif(onclickif, { e: link })
@@ -902,6 +926,7 @@ var app = {
     propertyMap: {
       'input': 'value',
       'textarea': 'value',
+      'progress': 'value',
       'select': 'value',
       'audio': 'src',
       'embed': 'src',
@@ -927,9 +952,19 @@ var app = {
       return element[property]
     },
 
-    set: function (element, value) {
-      var property = this.propertyMap[element.localName] || 'textContent'
-      element[property] = value
+    set: function (element, value, attr) {
+
+      if (attr) {
+        attr = attr.replace('set', '')
+        if (attr === 'text')
+          return element.textContent = value
+        else
+          return element.setAttribute(attr, value)
+      }
+
+        var property = this.propertyMap[element.localName] || 'textContent'
+        element[property] = value
+      
     },
 
     add: {
@@ -995,9 +1030,11 @@ var app = {
     },
 
     onchange(object, value) {
-      var onchange = object.getAttribute('onchange' + value)
+      var onchange = object.getAttribute('onchange' + value.replace('set', ''))
       if (onchange) {
         onchange = onchange.split(':')
+        console.log(onchange[0])
+        object.callAttribute = onchange[0]
         app.call(['dom', onchange[0]], [object, onchange[1]])
       }
     }
@@ -1358,7 +1395,7 @@ var app = {
    */
   attributes: {
 
-    defaultExclude: ['alt', 'class', 'height', 'id', 'name', 'src', 'style', 'title', 'width'],
+    defaultExclude: ['alt', 'class', 'height', 'id', 'name', 'src', 'style', 'title', 'width', 'target'],
 
     /**
      * @function run
@@ -1392,16 +1429,12 @@ var app = {
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
-            var attributeName = attributes[j].name
-            element.callAttribute = attributeName
-
-            // Replace with mapped value if applicable.
-            attributeName = dom._replacementMap[attributeName] || attributeName
-
-            var name = attributeName.split('-'),
+            var attributeName = dom._replacementMap[attributes[j].name] || attributes[j].name,
+              name = attributeName.split('-'),
               value = attributes[j].value
 
             if (exclude.indexOf(attributeName) === -1) {
+              element.callAttribute = attributes[j].name
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
                 app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
