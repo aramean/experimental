@@ -22,7 +22,7 @@ app.module.globalize = {
       folder: 'assets/json/locales/' + this.module,
       language: this.locale.get(query, this),
     }, options.element)
-    
+    console.log(config.language)
     this.storeKey = this.module + '.' + config.language
     var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
     if (cache) {
@@ -65,8 +65,9 @@ app.module.globalize = {
   get: function (element) {
     var responseData = this.responseData || app.caches.get(this.storageMechanism, this.storageType, this.storeKey),
       value = element.getAttribute(this.module + '-get') || element.textContent,
+      target = element.getAttribute(this.module + '-target'),
       isRoot = value[0] == '/' ? true : false,
       setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
-      if (setValue) dom.set(element, setValue)
+      if (setValue) app.element.set(element, setValue, target ? target : 'settext')
   }
 }

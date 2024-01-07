@@ -7,6 +7,7 @@
     "movie": "Movie",
     "Movies": "Movies",
     "show": "Show",
-    "Shows": "Shows"
+    "Shows": "Shows",
+    "input_search": "Search movies, TV shows and people..."
   }
 }

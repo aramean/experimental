@@ -3,7 +3,7 @@
   "code": "swe",
   "direction": "ltr",
   "translations": {
-    "genre": "Genre (sv)",
+    "genre": "Genre",
     "movie": "Film",
     "Movies": "Filmer",
     "show": "Serie",
@@ -15,6 +15,7 @@
     "History": "Historia",
     "Horror": "Skräck",
     "Music": "Musik",
-    "Romance": "Romantik"
+    "Romance": "Romantik",
+    "input_search": "Sök filmer, serier eller personer..."
   }
 }
