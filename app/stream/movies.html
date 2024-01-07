@@ -2,6 +2,6 @@
 <title>Movies</title>
 <template srcdoc="../app/stream/index" src="../app/stream/templates/movies"></template>
 <div
-  bind="api:^api.themoviedb.movies.popular;name:title;link:movie"
+  bind="name:title;link:movie;endpoint:movies;endpoint2:popular"
   include="includes/catalog.html">
 </div>
