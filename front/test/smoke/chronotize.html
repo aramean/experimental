@@ -4,14 +4,14 @@
 <head>
   <script
     src="../../front.js"
-    module="navigate;chronotize"
-    var="api;data"
+    module="navigate;chronotize;data;globalize"
+    var="api"
     conf="varsDir:assets/json/vars"
   >
   </script>
 </head>
 
-<body data2-src="assets/json/vars/chronotize.json" data-set="birth:#birth;birth:#birth2">
+<body data-src="assets/json/vars/chronotize.json" data-set="birth:#birth;birth:#birth2">
   <h1>Chronotize</h1>
   <hr>
   <h4>From text content:</h4>
@@ -19,7 +19,7 @@
   <h4>From data source + beforebegin:</h4>
   <p id="birth" chronotize-age insertafterbegin="Age: ">19870430</p>
   <h4>From data source + bind + insert:</h4>
-  <p id="birth2" chronotize-age bind="test:?page" insertbeforeend=" years old">{test}</p>
+  <p id="birth2" chronotize-age insertbeforeend=" years old"></p>
 </body>
 
 </html>
