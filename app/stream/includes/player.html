@@ -9,7 +9,9 @@
 <iframe
   id="{discover}"
   test="{discover}"
-  bind="m:^api.themoviedb.movie.videos;n:^api.themoviedb.movie.id;api_key:^api.stream.api_key;id:?id"
+  bind=":"
+  bindasset="m:api.themoviedb.{endpoint}.videos;n:api.themoviedb.movie.id;api_key:api.stream.api_key"
+  bindquery="id:id"
   data-src="{m}"
   data-srcjoin="{n}"
   data-merge="title"
