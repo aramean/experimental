@@ -160,8 +160,11 @@ app.module.data = {
     var value = element.getAttribute(accessor) || false
     if (value) {
       if (value.indexOf(':') !== -1) {
-        var data = value.split(':')
-        app.variables.update.attributes(element, element, data[0], this._get(responseObject, data[1]), false)
+        var keys = value.split(';')
+        for (var i = 0; i < keys.length; i++) {
+          var values = keys[i].split(':')
+          app.variables.update.attributes(element, false, values[0], this._get(responseObject, values[1]), false)
+        }
       } else {
         dom.set(element, this._get(responseObject, value), false)
       }
