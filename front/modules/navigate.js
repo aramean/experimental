@@ -100,7 +100,7 @@ app.module.navigate = {
       onload: {
         run: {
           func: 'app.attributes.run',
-          arg: 'main *'
+          arg: state.target + ' *'
         }
       }
     })
