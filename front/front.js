@@ -338,6 +338,11 @@ var dom = {
     alert(value)
   },
 
+  focus: function (element, value) {
+    if (value) element = dom.get(value)
+    element.focus()
+  },
+
   /**
    * Retrieves metadata from a meta tag with the specified name and sets it as the inner HTML of the specified object.
    *
@@ -772,7 +777,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 191 },
+  version: { major: 1, minor: 0, patch: 0, build: 192 },
   module: {},
   plugin: {},
   var: {},
@@ -809,14 +814,23 @@ var app = {
     app.assets.load()
 
     app.listeners.add(document, 'keyup', function (e) {
-      //console.log('key')
+      var link = app.element.getTagLink(e.target) || e.target,
+        click = link.attributes.click
+      if (e.key === 'Tab') {
+        var tab = link.attributes.onchangetab
+        if (tab) {
+          var val = !click ? tab : click
+          val = val.value.split(':')
+          app.call(['dom', val[0]], [element, val[1]])
+        }
+      }
     })
 
     app.listeners.add(document, 'click', function (e) {
       var link = app.element.getTagLink(e.target) || e.target,
-        click = link && link.attributes.click,
-        clicktargetfield = link && link.attributes.clicktargetfield,
-        onclickif = link && link.attributes.onclickif
+        click = link.attributes.click,
+        clicktargetfield = link.attributes.clicktargetfield,
+        onclickif = link.attributes.onclickif
 
       if (click) {
         var val = click.value.split(':'),
@@ -833,10 +847,9 @@ var app = {
 
     // Listen for all input fields.
     app.listeners.add(document, 'input', function (e) {
-      console.log('listen for all ')
+      console.log('listen for all')
       app.listeners.change('input', e.target, false)
     })
-
   },
 
   /**
@@ -919,8 +932,8 @@ var app = {
           return element.setAttribute(attr, value)
       }
 
-        var property = this.propertyMap[element.localName] || 'textContent'
-        element[property] = value
+      var property = this.propertyMap[element.localName] || 'textContent'
+      element[property] = value
     },
 
     add: {
