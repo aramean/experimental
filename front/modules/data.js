@@ -128,7 +128,7 @@ app.module.data = {
           var dataget = elements[i].getAttribute('data-get')
           if (dataget) {
             var value = app.element.getPropertyByPath(responseObject, dataget)
-            dom.set(elements[i], value, false)
+            app.element.set(elements[i], value, false)
           }
         }
 
@@ -162,6 +162,7 @@ app.module.data = {
 
   _process(accessor, element, responseObject) {
     var value = element.getAttribute(accessor) || false
+    
     if (value) {
       if (value.indexOf(':') !== -1) {
         var keys = value.split(';')

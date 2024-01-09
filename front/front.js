@@ -19,6 +19,7 @@ var dom = {
     'sethref': 'set2',
     'setvalue': 'set2',
     'setsrc': 'set2',
+    'bindvar': 'bind',
     'bindquery': 'bind2',
     'bindasset': 'bind2',
     'bindglobal': 'bind2',
@@ -182,6 +183,9 @@ var dom = {
         replaceValue = binding[1]
 
       switch (attr) {
+        case 'bindvar':
+          replaceValue = value
+          break
         case 'bindquery':
           replaceValue = app.querystrings.get(false, replaceVariable)
           break
@@ -255,8 +259,7 @@ var dom = {
   },
 
   bind: function (object, value, attr) {
-    var type = object.tagName.toLowerCase(),
-      bindInclude = this.bind.include ? ';' + this.bind.include : '',
+    var bindInclude = this.bind.include ? ';' + this.bind.include : '',
       binding = ((object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var')) || '') + bindInclude
 
     // Set variable if colon is presented or update innerhtml.
@@ -266,8 +269,7 @@ var dom = {
       var bindingParts = bindings[i].split(':') || [],
         replaceVariable = bindingParts[0].trim(),
         replaceValue = bindingParts[1].trim(),
-        target = replaceValue.substring(1),
-        regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
+        target = replaceValue.substring(1)
 
       // Bind query
       if (replaceValue[0] === '?') {
@@ -291,33 +293,6 @@ var dom = {
 
           replaceValue = value
         }
-      }
-      // Bind element
-      else if (replaceValue[0] === '#') {
-        var target = dom.get(replaceValue),
-          type = target.type,
-          name = target.id || target.name
-
-        var match = binding.match(new RegExp("([^:]+):[#.]" + name)),
-          replaceVariableNew = match ? match[1] : '',
-          clonedObject = object.cloneNode(true)
-
-        switch (type) {
-          case 'text':
-            app.listeners.add(target, 'input', function () {
-              app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-              app.variables.update.content(object, regex, replaceVariableNew, this.value)
-            })
-            break
-          case 'select-one':
-            app.listeners.add(target, 'change', function () {
-              var value = this.options[this.selectedIndex].value
-              app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-              app.variables.update.content(object, regex, replaceVariableNew, value)
-            })
-            break
-        }
-        continue
       }
 
       app.variables.update.attributes(object, object, replaceVariable, replaceValue, false)
@@ -777,7 +752,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 194 },
+  version: { major: 1, minor: 0, patch: 0, build: 195 },
   module: {},
   plugin: {},
   var: {},
