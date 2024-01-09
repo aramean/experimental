@@ -6,7 +6,7 @@
   <meta name="version" content="1.0.0">
   <script src="../../front/front.js" module="chronotize;globalize;geolocalize;data;keyboard;math" var="api"
     conf="debug:false;varsDir:assets/json/vars"
-    globalize-conf="folder:../app/weather/assets/json/locales">
+    globalize-conf="folder:../weather/assets/json/locales">
     </script>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link rel="icon" href="data:,">
@@ -19,11 +19,19 @@
   </div>
   <header class="topbar h4_5 gap2- pr2 shade1">
     <figure class="mh30p pl2 sel">
-      <a class="b0 fwb pr025 white" href="./">Weather</a>
+      <a class="b0 fwb pr025 white" href="./" globalize-get>Weather</a>
     </figure>
     <div class="pr f1">
-      <input class="bs1 p1 h3 br05 dark w100 md_dn" id="query" type="text"
-        placeholder=" ..." autocomplete="off">
+      <input
+        type="text"
+        globalize-get="input_search"
+        globalize-target="placeholder"
+        keyboard-key="Enter"
+        keyboard-action=""
+        keyboard-scope
+        class="bs1 p1 h3 br05 bcblack w100 md_dn"
+        id="query"
+        autocomplete="off">
     </div>
   </header>
   <main class="pauto">
@@ -45,7 +53,7 @@
       data-iterate="forecast.forecastday"
     >
       <div class="df w15 aic">
-        <p class="f1 tal" data-get="date" chronotize-weekday></p>
+        <p class="f1 tal" data-get="date" chronotize-weekday globalize-get></p>
         <img class="h2" data-get="day.condition.icon">
         <small class="ml05" data-get="day.maxtemp_c" math-round insertbeforeend="°"></small>
       </div>

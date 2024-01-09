@@ -1,0 +1,9 @@
+{
+  "name": "English",
+  "code": "eng",
+  "direction": "ltr",
+  "translations": {
+    "Weather": "Weather",
+    "input_search": "Search for location..."
+  }
+}
