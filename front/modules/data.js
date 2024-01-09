@@ -93,67 +93,71 @@ app.module.data = {
     var element = options.element,
       datamerge = element.getAttribute('data-merge'),
       datafilteritem = element.getAttribute('data-filteritem'),
+      datareplace = element.getAttribute('data-replace'),
       datasort = element.getAttribute('data-sort')
 
-    if (datamerge) {
-      var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
-      if (responseData)
-        responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
-    }
+    if (responseData) {
+      if (datamerge) {
+        var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
+        if (responseDataJoin)
+          responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
+      }
 
-    if (datafilteritem) {
-      var datafilterkey = element.getAttribute('data-filterkey')
-      if (responseData)
+      if (datafilteritem) {
+        var datafilterkey = element.getAttribute('data-filterkey')
         responseData = this._filter(responseData.data, datafilteritem, datafilterkey)
-    }
+      }
 
-    if (datasort) {
-      var datasort = element.getAttribute('data-sort')
-      var datasortorder = element.getAttribute('data-sortorder')
-      if (responseData)
+      if (datareplace) {
+        this._replace(responseData.data, datareplace)
+      }
+
+      if (datasort) {
+        var datasortorder = element.getAttribute('data-sortorder')
         this._sort(responseData.data, datasort, datasortorder)
-    }
+      }
 
-    var iterate = options.iterate,
-      responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || responseData.data,
-      total = iterate && responseObject.length - 1 || 0
+      var iterate = options.iterate,
+        responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || responseData.data,
+        total = iterate && responseObject.length - 1 || 0
 
-    if (!iterate) {
-      var elements = app.element.find(element, '*')
+      if (!iterate) {
+        var elements = app.element.find(element, '*')
 
-      for (var i = 0; i < elements.length; i++) {
-        var dataget = elements[i].getAttribute('data-get')
-        if (dataget) {
-          var value = app.element.getPropertyByPath(responseObject, dataget)
-          dom.set(elements[i], value, false)
+        for (var i = 0; i < elements.length; i++) {
+          var dataget = elements[i].getAttribute('data-get')
+          if (dataget) {
+            var value = app.element.getPropertyByPath(responseObject, dataget)
+            dom.set(elements[i], value, false)
+          }
+        }
+
+      } else {
+
+        var originalNode = element.cloneNode(true),
+          orginalNodeCountAll = app.element.find(originalNode, '*').length,
+          content = ''
+
+        for (var i = 0; i <= total; i++) {
+          content += originalNode.innerHTML
+        }
+
+        element.innerHTML = content
+
+        var elements = app.element.find(element, '*')
+        for (var i = 0, j = -1; i < elements.length; i++) {
+          if (i % orginalNodeCountAll === 0) j++
+
+          this._process('data-get', elements[i], responseObject[j])
+          this._process('data-set', elements[i], responseObject[j])
         }
       }
 
-    } else {
-
-      var originalNode = element.cloneNode(true),
-        orginalNodeCountAll = app.element.find(originalNode, '*').length,
-        content = ''
-
-      for (var i = 0; i <= total; i++) {
-        content += originalNode.innerHTML
-      }
-
-      element.innerHTML = content
-
-      var elements = app.element.find(element, '*')
-      for (var i = 0, j = -1; i < elements.length; i++) {
-        if (i % orginalNodeCountAll === 0) j++
-
-        this._process('data-get', elements[i], responseObject[j])
-        this._process('data-set', elements[i], responseObject[j])
-      }
+      if (element.getAttribute('stop') === "*") dom.start(element)
+      this._set(responseData, options)
+      this._finish(options)
+      app.attributes.run(elements, ['data-get', 'data-set'])
     }
-
-    if (element.getAttribute('stop') === "*") dom.start(element)
-    this._set(responseData, options)
-    this._finish(options)
-    app.attributes.run(elements, ['data-get', 'data-set'])
   },
 
   _process(accessor, element, responseObject) {
@@ -288,6 +292,19 @@ app.module.data = {
     }
 
     return { data: filteredResponse }
+  },
+
+  _replace: function (response) {
+    // TODO: Hardcode to Softcode
+    if (response.results && response.results.length) {
+      response.results.forEach(function (result) {
+        if (result.media_type === 'tv') {
+          result.media_type = 'show'
+        }
+      })
+    }
+
+    return { data: response }
   },
 
   _sort: function (response, sortKey, sortOrder) {
