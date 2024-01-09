@@ -8,14 +8,14 @@
     "Movies": "Filmer",
     "show": "Serie",
     "Shows": "Serier",
-    "Adventure": "Äventyr",
+    "Action & Adventure": "Action & Äventyr",
     "Comedy": "Komedi",
-    "Documentary": "Dokumentär",
-    "Fantasy": "Fantasi",
-    "History": "Historia",
-    "Horror": "Skräck",
-    "Music": "Musik",
-    "Romance": "Romantik",
+    "Family": "Familj",
+    "Kids": "Barn",
+    "News": "Nyheter",
+    "Sci-Fi & Fantasy": "Sci-Fi & Fantasi",
+    "Soap": "Såpa",
+    "War & Politics": "Krig & Politik",
     "input_search": "Sök filmer, serier eller personer..."
   }
 }
