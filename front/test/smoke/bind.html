@@ -77,7 +77,19 @@
 
 
   <h4>Input</h4>
-  <input type="text" id="josefinput">
+  <!--<input type="text" id="josefinput">-->
+  <input
+          type="text"
+          globalize-get="input_search"
+          globalize-target="placeholder"
+          keyboard-key="Enter"
+          keyboard-action
+          keyboard-scope
+          class="bs1 p1 h3 br05 bcblack w100"
+          id="josefinput"
+          bindfieldifs="lastPressedKey:Enter"
+          autocomplete="off">
+
   <div id="error" hide>ERROR</div>
   <div
     stop="data-src"

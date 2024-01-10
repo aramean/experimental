@@ -41,7 +41,6 @@ app.module.keyboard = {
             element.callAttribute = action[0]
             app.call(['dom', action[0]], [element, action[1]])
         }
-
       }
     }
   },
@@ -52,5 +51,5 @@ app.module.keyboard = {
       scope = element.getAttribute('keyboard-scope')
 
     this.keys.push({ key: key, action: action, scope: scope, element: element })
-  }
+  },
 }

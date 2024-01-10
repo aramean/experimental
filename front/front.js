@@ -227,17 +227,27 @@ var dom = {
 
             var target = dom.get(replaceValue),
               type = target.type,
-              name = target.id || target.name
+              name = target.id || target.name,
+              bindfieldif = target.attributes && target.attributes.bindfieldif
 
             var match = binding.match(new RegExp("([^:]+):[#.]" + name)),
               replaceVariableNew = match ? match[1] : '',
-              clonedObject = object.cloneNode(true)
-
+              clonedObject = object.cloneNode(true),
+              fieldif = bindfieldif && bindfieldif.value.split(':')
+                  
             switch (type) {
               case 'text':
-                app.listeners.add(target, 'input', function () {
-                  app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-                  app.variables.update.content2(object, regex, replaceVariableNew, this.value)
+                app.listeners.add(target, 'keyup', function (e) {
+                  if ([37, 38, 39, 40].includes(e.keyCode)) return
+                  target.startBind = true
+                  if (fieldif && fieldif[1] !== target.lastPressedKey) {
+                    target.startBind = false
+                    target.lastPressedKey = false
+                  }
+                  if (target.startBind) {
+                    app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
+                    app.variables.update.content2(object, regex, replaceVariableNew, this.value)
+                  }
                 })
                 break
               case 'select-one':
@@ -482,10 +492,9 @@ var dom = {
   },
 
   insert: function (object, value) {
-    var attr = object.callAttribute,
-      tag = object.localName,
+    var tag = object.localName,
       state = object.attributes.statevalue,
-      insert = attr && attr.replace('insert', '')
+      insert = object.callAttribute.replace('insert', '')
 
     var normal = insert === '2' ? value : '',
       afterbegin = insert === 'afterbegin' ? value : '',
@@ -752,7 +761,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 195 },
+  version: { major: 1, minor: 0, patch: 0, build: 196 },
   module: {},
   plugin: {},
   var: {},
@@ -788,10 +797,10 @@ var app = {
     app.config.set()
     app.assets.load()
 
-    app.listeners.add(document, 'keyup', function (e) {
+    app.listeners.add(document, 'keydown', function (e) {
       var link = app.element.getTagLink(e.target) || e.target,
         click = link.attributes.click
-      if (e.key === 'Tab') {
+        if (e.key === 'Tab') {
         var tab = link.attributes.onchangetab
         if (tab) {
           var val = !click ? tab : click
@@ -799,6 +808,7 @@ var app = {
           app.call(['dom', val[0]], [element, val[1]])
         }
       }
+      link.lastPressedKey = e.key
     })
 
     app.listeners.add(document, 'click', function (e) {
@@ -821,10 +831,9 @@ var app = {
     })
 
     // Listen for all input fields.
-    app.listeners.add(document, 'input', function (e) {
-      console.log('listen for all')
+    /*app.listeners.add(document, 'input', function (e) {
       app.listeners.change('input', e.target, false)
-    })
+    })*/
   },
 
   /**
@@ -848,13 +857,11 @@ var app = {
 
       switch (run.length) {
         case 4:
-          window[run[0]][run1][run[2]][run[3]].apply(null, runargs)
-          break
+          return window[run[0]][run1][run[2]][run[3]].apply(null, runargs)
         case 3:
-          window[run[0]][run1][run[2]].apply(null, runargs)
-          break
+          return window[run[0]][run1][run[2]].apply(null, runargs)
         case 2:
-          window[run[0]][run1].apply(null, runargs)
+          return window[run[0]][run1].apply(null, runargs)
       }
 
     } catch (error) {
@@ -1403,6 +1410,14 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
+        
+        if (reset) {
+          var originalContent = clonedObject.innerHTML,
+            originalAttributes = clonedObject.attributes
+          app.variables.reset.attributes(object, originalAttributes)
+          app.variables.reset.content(object, originalContent)
+        }
+
         var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::((?:{[^{}]*}|[^}])+))?\\}', 'g')
         for (var i = 0; i < object.attributes.length; i++) {
           // Update default values.
@@ -1412,13 +1427,7 @@ var app = {
           }))
         }
 
-        if (reset) {
-          var originalContent = clonedObject.innerHTML,
-            originalAttributes = clonedObject.attributes
-          app.attributes.run([object], ['bind', 'bind2', 'bindfield', 'stop'])
-          app.variables.reset.attributes(object, originalAttributes)
-          app.variables.reset.content(object, originalContent)
-        }
+        if (reset) app.attributes.run([object], ['bind', 'bind2', 'stop'])
       },
 
       content2: function (object, regex, replaceVariable, replaceValue) {
