@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="version" content="1.0.0">
   <script src="../../front/front.js" module="chronotize;globalize;geolocalize;data;keyboard;math" var="api"
-    conf="debug:false;varsDir:assets/json/vars"
+    conf="debug:false;varsDir:assets/json/vars;storageKey:weather"
     globalize-conf="folder:../weather/assets/json/locales">
     </script>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
@@ -19,20 +19,20 @@
   </div>
   <header class="topbar h4_5 gap2- pr2 shade1">
     <figure class="mh30p pl2 sel">
-      <a class="b0 fwb pr025 white" href="./" globalize-get>Weather</a>
+      <a class="b0 fwb white" href="./" globalize-get>Weather</a>
     </figure>
     <div class="pr f1">
-      <input
-        type="text"
-        globalize-get="input_search"
-        globalize-target="placeholder"
-        keyboard-key="Enter"
-        keyboard-action="alert:hej"
-        keyboard-scope
-        class="bs1 p1 h3 br05 bcblack w100 md_dn"
-        id="query"
-        onbindfield=""
-        autocomplete="off">
+        <input
+          id="query"
+          type="text"
+          class="bs1 p1 h3 br05 bcblack w100"
+          globalize-get="input_search"
+          globalize-target="placeholder"
+          keyboard-key="Enter"
+          keyboard-action
+          keyboard-scope
+          bindfieldif="lastPressedKey:Enter"
+          autocomplete="off">
     </div>
   </header>
   <main class="pauto">
@@ -50,14 +50,19 @@
 
     <div 
       class="tac mt2 m0a bcblack03 br05 p2 shade2"
-      bindasset="url:api.weather.api_url;key:api.weather.api_key;city:api.weather.city;lang:api.weather.lang"
-      data-src="{url}/forecast.json?key={key}&q={city}&days=7&aqi=no&alerts=no&lang={lang}"
+      bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang"
+      bindfield="q:#query"
+      bindquery="q:q"
+      data-src="{url}/forecast.json?key={key}&q={q:{q}}&days=7&aqi=no&alerts=no&lang={lang}"
       data-iterate="forecast.forecastday"
     >
       <div class="df w15 aic">
-        <p class="f1 tal" data-get="date" chronotize-weekday globalize-get></p>
-        <img class="h2" data-get="day.condition.icon">
-        <small class="ml05" data-get="day.maxtemp_c" math-round insertbeforeend="°"></small>
+        <p class="f3 tal" data-get="date" chronotize-weekday globalize-get></p>
+        <span>
+          <small class="ml05" data-get="day.mintemp_c" math-round insertbeforeend="°"></small>
+          <small class="ml05" data-get="day.maxtemp_c" math-round insertbeforeend="°"></small>
+        </span>
+        <img class="ml05 h1" data-get="day.condition.icon">
       </div>
     </div>
   </main>
