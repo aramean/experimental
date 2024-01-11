@@ -1,6 +1,7 @@
 /**
  * @license
  * Copyright © 2020 Aleptra.
+ * Josef Gabrielsson
  *
  * This source code is licensed under the MIT-style license found in the 
  * LICENSE file in the root directory of this source tree.
@@ -744,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 202 },
+  version: { major: 1, minor: 0, patch: 0, build: 203 },
   module: {},
   plugin: {},
   var: {},
