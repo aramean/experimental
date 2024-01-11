@@ -238,7 +238,7 @@ var dom = {
             switch (type) {
               case 'text':
                 app.listeners.add(target, 'keyup', function (e) {
-                  if ([37, 38, 39, 40].includes(e.keyCode)) return
+                  if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) return
                   target.startBind = true
                   if (fieldif && fieldif[1] !== target.lastPressedKey) {
                     target.startBind = false
@@ -744,7 +744,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 199 },
+  version: { major: 1, minor: 0, patch: 0, build: 200 },
   module: {},
   plugin: {},
   var: {},
