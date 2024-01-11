@@ -2,8 +2,8 @@
 <title>People</title>
 <template srcdoc="../app/stream/index"></template>
 <h2 bindglobal="title:title" set="{title}" if="0:{title};hide" globalize-get="{title}"></h2>
+<hr class="bcblack01">
 <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif"></div>
-
 <div data-src="https://api.tvmaze.com/people" data-iterate="true" data-loader="#loader">
   <figure class="p05">
     <span data-get="name"></span>
