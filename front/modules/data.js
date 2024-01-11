@@ -311,7 +311,7 @@ app.module.data = {
   _sort: function (response, sortKey, sortOrder) {
     if (Array.isArray(response)) {
       return response.sort(function (a, b) {
-        const valueA = app.element.getPropertyByPath(a, sortKey),
+        var valueA = app.element.getPropertyByPath(a, sortKey),
           valueB = app.element.getPropertyByPath(b, sortKey)
 
         return (typeof valueA === 'string')
