@@ -160,7 +160,7 @@ app.module.data = {
     }
   },
 
-  _process(accessor, element, responseObject) {
+  _process: function (accessor, element, responseObject) {
     var value = element.getAttribute(accessor) || false
     
     if (value) {

@@ -234,7 +234,7 @@ var dom = {
               replaceVariableNew = match ? match[1] : '',
               clonedObject = object.cloneNode(true),
               fieldif = bindfieldif && bindfieldif.value.split(':')
-                  
+
             switch (type) {
               case 'text':
                 app.listeners.add(target, 'keyup', function (e) {
@@ -366,6 +366,7 @@ var dom = {
   },
 
   doctitle: function (value) {
+    if (!value) return
     var value = value instanceof Object ? value.attributes.doctitle.value : value
     app.title = value
     document.title = value
@@ -744,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 200 },
+  version: { major: 1, minor: 0, patch: 0, build: 201 },
   module: {},
   plugin: {},
   var: {},
@@ -783,7 +784,7 @@ var app = {
     app.listeners.add(document, 'keydown', function (e) {
       var link = app.element.getTagLink(e.target) || e.target,
         click = link.attributes.click
-        if (e.key === 'Tab') {
+      if (e.key === 'Tab') {
         var tab = link.attributes.onchangetab
         if (tab) {
           var val = !click ? tab : click
@@ -1393,7 +1394,7 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
-        
+
         if (reset) {
           var originalContent = clonedObject.innerHTML,
             originalAttributes = clonedObject.attributes
@@ -1496,6 +1497,7 @@ var app = {
         srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
+      console.dir(document)
       if (srcDoc) {
         var cache = app.caches.get('window', 'template', srcDoc),
           responsePage = dom.parse.text(cache.data, ['title']),
@@ -1561,7 +1563,7 @@ var app = {
         }
       }
 
-      document.body.className = responsePageContentClass
+      if (responsePageContentClass) document.body.className = responsePageContentClass
       dom.doctitle(currentPageTitle)
     }
   },
@@ -1576,7 +1578,8 @@ var app = {
     currentAsset: { loaded: 0, total: 1 },
 
     start: function () {
-      var open = XMLHttpRequest.prototype.open,
+      var self = this,
+        open = XMLHttpRequest.prototype.open,
         send = XMLHttpRequest.prototype.send
       XMLHttpRequest.prototype.open = function () {
         this.onreadystatechange = function () {
@@ -1609,15 +1612,15 @@ var app = {
                     templateAttr = templateElement && templateElement.attributes,
                     elementSrcDoc = templateAttr && templateAttr.srcdoc && templateAttr.srcdoc.value,
                     elementSrc = templateAttr && templateAttr.src && templateAttr.src.value,
+                    //templateSrcDoc = target !== 'main' ? (elementSrcDoc || false) : false,
                     templateSrcDoc = elementSrcDoc || false,
                     templateSrc = elementSrc && elementSrc.split(';') || []
-console.log(target)
 
                   app.modules.total = 0
                   app.templates.total = 0
                   app.templates.loaded = 0
                   app.vars.total = 0
-                  app.xhr.currentAsset.loaded = 0
+                  self.currentAsset.loaded = 0
 
                   app.srcTemplate = {
                     url: {
@@ -1643,15 +1646,15 @@ console.log(target)
                   }
                   break
                 case 'data':
-                  if (app.xhr.currentAsset.total === 1) {
-                    app.xhr.currentAsset.loaded = 0
+                  if (self.currentAsset.total === 1) {
+                    self.currentAsset.loaded = 0
                   }
-                  app.xhr.currentAsset.loaded++
-                  if (app.xhr.currentAsset.loaded === app.xhr.currentAsset.total) {
+                  self.currentAsset.loaded++
+                  if (self.currentAsset.loaded === self.currentAsset.total) {
                     var run = this.options.onload2.run
                     app.module[type]._run(run.arg)
                     //app.call([run.func], run.arg)
-                    //console.error('run' + app.xhr.currentAsset.loaded + '/' + app.xhr.currentAsset.total)
+                    //console.error('run' + self.currentAsset.loaded + '/' + self.currentAsset.total)
                   }
                   break
                 default:
