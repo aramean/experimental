@@ -761,7 +761,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 197 },
+  version: { major: 1, minor: 0, patch: 0, build: 198 },
   module: {},
   plugin: {},
   var: {},
@@ -1286,7 +1286,6 @@ var app = {
         app.log.info()('Loading modules...')
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
-          script.type = 'module'
           script.name = app.modules.name[i]
           script.src = app.script.path + 'modules/' + script.name + '.js'
           script.async = true
