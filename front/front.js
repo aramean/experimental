@@ -761,7 +761,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 196 },
+  version: { major: 1, minor: 0, patch: 0, build: 197 },
   module: {},
   plugin: {},
   var: {},
@@ -980,7 +980,7 @@ var app = {
       return value
     },
 
-    onchange(object, value) {
+    onchange: function (object, value) {
       var onchange = object.getAttribute('onchange' + value.replace('set', ''))
       if (onchange) {
         onchange = onchange.split(':')
@@ -1286,6 +1286,7 @@ var app = {
         app.log.info()('Loading modules...')
         for (var i = 0; i < app.modules.total; i++) {
           var script = document.createElement('script')
+          script.type = 'module'
           script.name = app.modules.name[i]
           script.src = app.script.path + 'modules/' + script.name + '.js'
           script.async = true
@@ -1610,7 +1611,8 @@ var app = {
 
             var options = this.options,
               type = options.type,
-              cache = options.cache
+              cache = options.cache,
+              target = options.target
 
             if (cache && (statusType.success || statusType.redirect)) {
               app.caches.set(cache.type, cache.keyType, cache.key, this.responseText, cache.format)
@@ -1627,6 +1629,7 @@ var app = {
                     elementSrc = templateAttr && templateAttr.src && templateAttr.src.value,
                     templateSrcDoc = elementSrcDoc || false,
                     templateSrc = elementSrc && elementSrc.split(';') || []
+console.log(target)
 
                   app.modules.total = 0
                   app.templates.total = 0
