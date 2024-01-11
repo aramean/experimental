@@ -621,23 +621,6 @@ var dom = {
     })
   },
 
-  if: function (element, value) {
-    var value = value.split(';') || [],
-      operator = value[0].split(':') || [],
-      func = value[1]
-    //console.log(operator[0] + operator[1] + value[0])
-    switch (func) {
-      case 'show':
-        break
-      case 'hide':
-        break
-      case 'stop':
-        break
-      case 'call':
-        break
-    }
-  },
-
   bindif: function (object, options) {
     var test = object.value,
       test2 = test.split(';')
@@ -761,7 +744,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 198 },
+  version: { major: 1, minor: 0, patch: 0, build: 199 },
   module: {},
   plugin: {},
   var: {},
