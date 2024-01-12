@@ -162,7 +162,7 @@ app.module.data = {
 
   _process: function (accessor, element, responseObject) {
     var value = element.getAttribute(accessor) || false
-    
+
     if (value) {
       if (value.indexOf(':') !== -1) {
         var keys = value.split(';')
@@ -190,7 +190,7 @@ app.module.data = {
           valid = true
 
         for (var k = 0; k < keys.length; k++) {
-          if (tempObj.hasOwnProperty(keys[k])) {
+          if (tempObj !== null && tempObj !== undefined && tempObj.hasOwnProperty(keys[k])) {
             tempObj = tempObj[keys[k]]
           } else {
             valid = false

@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 204 },
+  version: { major: 1, minor: 0, patch: 0, build: 205 },
   module: {},
   plugin: {},
   var: {},
@@ -1220,25 +1220,19 @@ var app = {
           { name: 'main', selector: 'main[class]' },
           { name: 'aside:nth-of-type(2)', selector: 'aside:nth-of-type(2)[class]' },
           { name: 'footer', selector: 'footer[class]' }
-        ];
+        ]
 
         // Create an object to store the class lists
-        var classLists = {};
+        var classLists = {}
 
         // Loop through the elementSelectors array
         elementSelectors.forEach(function (item) {
-          var element = document.querySelector(item.selector);
+          var element = document.querySelector(item.selector)
+          classLists[item.name] = element ? Array.from(element.classList).join(' ') : []
+        })
 
-          // Store the classList in the object
-          classLists[item.name] = element ? Array.from(element.classList).join(' ') : [];
-        });
-
-        console.log(classLists);
         app.templates.elements = classLists
 
-        //app.templates.startElements = dom.get(app.templates.elements2.toString())
-        //console.log(app.templates.elements2.join('[class],'))
-        //console.dir(dom.get(app.templates.elements2.toString()))
         app.modules.name = modules
         app.modules.total = modules.length
 
@@ -1535,7 +1529,6 @@ var app = {
             content = parsedEl.innerHTML
 
           this.elements[el] = parsedEl.classList
-          console.log(parsedEl.classList)
           if (el !== 'main') {
             dom.set(el, content ? content : '')
             app.attributes.run(el + ' *')
@@ -1579,7 +1572,6 @@ var app = {
               content = parsedEl.innerHTML,
               templateClassList = parsedEl.classList
 
-            console.warn(el)
             dom.get(el).setAttribute('class', this.elements[el])
 
             if (content !== undefined && el !== 'main') {
@@ -1646,7 +1638,6 @@ var app = {
                     elementSrcDoc = templateAttr && templateAttr.srcdoc && templateAttr.srcdoc.value,
                     elementSrc = templateAttr && templateAttr.src && templateAttr.src.value,
                     templateSrcDoc = target !== 'main' ? elementSrcDoc || false : false,
-                    //templateSrcDoc = elementSrcDoc || false,
                     templateSrc = elementSrc && elementSrc.split(';') || []
 
                   app.modules.total = 0
