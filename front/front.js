@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 208 },
+  version: { major: 1, minor: 0, patch: 0, build: 209 },
   module: {},
   plugin: {},
   var: {},
@@ -1490,11 +1490,11 @@ var app = {
     loaded: 0,
     total: 0,
     elementSelectors: [
-      { name: 'header', selector: 'header' },
-      { name: 'aside:nth-of-type(1)', selector: 'aside:nth-of-type(1)' },
-      { name: 'main', selector: 'main' },
-      { name: 'aside:nth-of-type(2)', selector: 'aside:nth-of-type(2)' },
-      { name: 'footer', selector: 'footer' }
+      { name: 'header', class: '' },
+      { name: 'aside:nth-of-type(1)', class: '' },
+      { name: 'main', class: '' },
+      { name: 'aside:nth-of-type(2)', class: '' },
+      { name: 'footer', class: '' }
     ],
     elements: { 'header': '', 'aside:nth-of-type(1)': '', 'main': '', 'aside:nth-of-type(2)': '', 'footer': '' },
     originalClassList: [],
@@ -1585,7 +1585,7 @@ var app = {
     reset: function () {
       var classLists = {}
       this.elementSelectors.forEach(function (item) {
-        var element = dom.get(item.selector + '[class]')
+        var element = dom.get(item.name + '[class]')
         classLists[item.name] = element ? Array.from(element.classList).join(' ') : []
       })
       return classLists
