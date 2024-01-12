@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 207 },
+  version: { major: 1, minor: 0, patch: 0, build: 208 },
   module: {},
   plugin: {},
   var: {},
@@ -1490,16 +1490,15 @@ var app = {
     loaded: 0,
     total: 0,
     elementSelectors: [
-      { name: 'header', selector: 'header[class]' },
-      { name: 'aside:nth-of-type(1)', selector: 'aside:nth-of-type(1)[class]' },
-      { name: 'main', selector: 'main[class]' },
-      { name: 'aside:nth-of-type(2)', selector: 'aside:nth-of-type(2)[class]' },
-      { name: 'footer', selector: 'footer[class]' }
+      { name: 'header', selector: 'header' },
+      { name: 'aside:nth-of-type(1)', selector: 'aside:nth-of-type(1)' },
+      { name: 'main', selector: 'main' },
+      { name: 'aside:nth-of-type(2)', selector: 'aside:nth-of-type(2)' },
+      { name: 'footer', selector: 'footer' }
     ],
-
     elements: { 'header': '', 'aside:nth-of-type(1)': '', 'main': '', 'aside:nth-of-type(2)': '', 'footer': '' },
-    elements2: ['header', 'aside:nth-of-type(1)', 'main', 'aside:nth-of-type(2)', 'footer'],
     originalClassList: [],
+
     render: function () {
       app.log.info()('Rendering templates...')
       var currentPageTitle = document.title,
@@ -1586,7 +1585,7 @@ var app = {
     reset: function () {
       var classLists = {}
       this.elementSelectors.forEach(function (item) {
-        var element = dom.get(item.selector)
+        var element = dom.get(item.selector + '[class]')
         classLists[item.name] = element ? Array.from(element.classList).join(' ') : []
       })
       return classLists
