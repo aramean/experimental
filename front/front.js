@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 203 },
+  version: { major: 1, minor: 0, patch: 0, build: 204 },
   module: {},
   plugin: {},
   var: {},
@@ -1214,6 +1214,31 @@ var app = {
           modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
           vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
+        var elementSelectors = [
+          { name: 'header', selector: 'header[class]' },
+          { name: 'aside:nth-of-type(1)', selector: 'aside:nth-of-type(1)[class]' },
+          { name: 'main', selector: 'main[class]' },
+          { name: 'aside:nth-of-type(2)', selector: 'aside:nth-of-type(2)[class]' },
+          { name: 'footer', selector: 'footer[class]' }
+        ];
+
+        // Create an object to store the class lists
+        var classLists = {};
+
+        // Loop through the elementSelectors array
+        elementSelectors.forEach(function (item) {
+          var element = document.querySelector(item.selector);
+
+          // Store the classList in the object
+          classLists[item.name] = element ? Array.from(element.classList).join(' ') : [];
+        });
+
+        console.log(classLists);
+        app.templates.elements = classLists
+
+        //app.templates.startElements = dom.get(app.templates.elements2.toString())
+        //console.log(app.templates.elements2.join('[class],'))
+        //console.dir(dom.get(app.templates.elements2.toString()))
         app.modules.name = modules
         app.modules.total = modules.length
 
@@ -1488,7 +1513,8 @@ var app = {
     loaded: 0,
     total: 0,
     elements: { 'header': '', 'aside:nth-of-type(1)': '', 'main': '', 'aside:nth-of-type(2)': '', 'footer': '' },
-
+    elements2: ['header', 'aside:nth-of-type(1)', 'main', 'aside:nth-of-type(2)', 'footer'],
+    originalClassList: [],
     render: function () {
       app.log.info()('Rendering templates...')
       var currentPageTitle = document.title,
@@ -1497,7 +1523,6 @@ var app = {
         srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
-      console.dir(document)
       if (srcDoc) {
         var cache = app.caches.get('window', 'template', srcDoc),
           responsePage = dom.parse.text(cache.data, ['title']),
@@ -1510,6 +1535,7 @@ var app = {
             content = parsedEl.innerHTML
 
           this.elements[el] = parsedEl.classList
+          console.log(parsedEl.classList)
           if (el !== 'main') {
             dom.set(el, content ? content : '')
             app.attributes.run(el + ' *')
@@ -1551,13 +1577,20 @@ var app = {
           for (var el in this.elements) {
             var parsedEl = app.element.find(template, el),
               content = parsedEl.innerHTML,
-              classList = parsedEl.classList
+              templateClassList = parsedEl.classList
 
-            dom.get(el).classList = classList && classList.length > 0 ? classList : this.elements[el]
+            console.warn(el)
+            dom.get(el).setAttribute('class', this.elements[el])
 
-            if (content) {
+            if (content !== undefined && el !== 'main') {
               dom.set(el, content)
               if (dom.get('template')) app.attributes.run(el + ' *')
+            }
+
+            this.originalClassList[el] = templateClassList && content ? undefined : templateClassList
+
+            if (this.originalClassList[el] !== undefined) {
+              dom.get(el).classList = this.originalClassList[el]
             }
           }
         }
@@ -1612,8 +1645,8 @@ var app = {
                     templateAttr = templateElement && templateElement.attributes,
                     elementSrcDoc = templateAttr && templateAttr.srcdoc && templateAttr.srcdoc.value,
                     elementSrc = templateAttr && templateAttr.src && templateAttr.src.value,
-                    //templateSrcDoc = target !== 'main' ? (elementSrcDoc || false) : false,
-                    templateSrcDoc = elementSrcDoc || false,
+                    templateSrcDoc = target !== 'main' ? elementSrcDoc || false : false,
+                    //templateSrcDoc = elementSrcDoc || false,
                     templateSrc = elementSrc && elementSrc.split(';') || []
 
                   app.modules.total = 0
