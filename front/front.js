@@ -745,12 +745,11 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 205 },
+  version: { major: 1, minor: 0, patch: 0, build: 206 },
   module: {},
   plugin: {},
   var: {},
   language: document.documentElement.lang || 'en',
-  title: document.title,
   docMode: document.documentMode || 0,
   isFrontpage: document.doctype ? true : false,
   srcDocTemplate: '',
@@ -1227,10 +1226,11 @@ var app = {
 
         // Loop through the elementSelectors array
         elementSelectors.forEach(function (item) {
-          var element = document.querySelector(item.selector)
+          var element = dom.get(item.selector)
           classLists[item.name] = element ? Array.from(element.classList).join(' ') : []
         })
 
+        dom.doctitle(document.title)
         app.templates.elements = classLists
 
         app.modules.name = modules
