@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 206 },
+  version: { major: 1, minor: 0, patch: 0, build: 207 },
   module: {},
   plugin: {},
   var: {},
@@ -1213,25 +1213,8 @@ var app = {
           modules = scriptAttr.module && scriptAttr.module.value.split(';') || [],
           vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
-        var elementSelectors = [
-          { name: 'header', selector: 'header[class]' },
-          { name: 'aside:nth-of-type(1)', selector: 'aside:nth-of-type(1)[class]' },
-          { name: 'main', selector: 'main[class]' },
-          { name: 'aside:nth-of-type(2)', selector: 'aside:nth-of-type(2)[class]' },
-          { name: 'footer', selector: 'footer[class]' }
-        ]
-
-        // Create an object to store the class lists
-        var classLists = {}
-
-        // Loop through the elementSelectors array
-        elementSelectors.forEach(function (item) {
-          var element = dom.get(item.selector)
-          classLists[item.name] = element ? Array.from(element.classList).join(' ') : []
-        })
-
         dom.doctitle(document.title)
-        app.templates.elements = classLists
+        app.templates.elements = app.templates.reset()
 
         app.modules.name = modules
         app.modules.total = modules.length
@@ -1506,6 +1489,14 @@ var app = {
   templates: {
     loaded: 0,
     total: 0,
+    elementSelectors: [
+      { name: 'header', selector: 'header[class]' },
+      { name: 'aside:nth-of-type(1)', selector: 'aside:nth-of-type(1)[class]' },
+      { name: 'main', selector: 'main[class]' },
+      { name: 'aside:nth-of-type(2)', selector: 'aside:nth-of-type(2)[class]' },
+      { name: 'footer', selector: 'footer[class]' }
+    ],
+
     elements: { 'header': '', 'aside:nth-of-type(1)': '', 'main': '', 'aside:nth-of-type(2)': '', 'footer': '' },
     elements2: ['header', 'aside:nth-of-type(1)', 'main', 'aside:nth-of-type(2)', 'footer'],
     originalClassList: [],
@@ -1590,6 +1581,15 @@ var app = {
 
       if (responsePageContentClass) document.body.className = responsePageContentClass
       dom.doctitle(currentPageTitle)
+    },
+
+    reset: function () {
+      var classLists = {}
+      this.elementSelectors.forEach(function (item) {
+        var element = dom.get(item.selector)
+        classLists[item.name] = element ? Array.from(element.classList).join(' ') : []
+      })
+      return classLists
     }
   },
 
