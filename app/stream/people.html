@@ -1,11 +1,18 @@
 <script src="../../front/front.js"></script>
 <title>People</title>
-<template srcdoc="../app/stream/index"></template>
+<template srcdoc="../app/stream/index" src="../app/stream/templates/people"></template>
 <h2 bindglobal="title:title" set="{title}" if="0:{title};hide" globalize-get="{title}"></h2>
 <hr class="bcblack01">
 <div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif"></div>
-<div data-src="https://api.tvmaze.com/people" data-iterate="true" data-loader="#loader">
-  <figure class="p05">
-    <span data-get="name"></span>
-  </figure>
+<div
+  bindquery="page:page"
+  data-src="https://api.tvmaze.com/people?page={page:1}"
+  data-iterate="true"
+  data-loader="#loader">
+  <a class="p025">
+    <figure class="pr">
+      <img class="br50" width="110px" height="110px" data-get="image.medium">
+      <figcaption class="z1 pa md_dn b0 fs08 white ts05 bcblack02 w100" data-get="title || name"></figcaption>
+    </figure>
+  </a>
 </div>
