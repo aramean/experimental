@@ -15,7 +15,7 @@
         data-src="{genre}&language={language}"
         data-iterate="genres"
       >
-        <a data-get="name" globalize-get data-set="i:id" bind="p:?page" href="?genres={i}&page={p:1}"></a>
+        <a data-get="name" globalize-get data-set="i:id" bindquery="page:page" href="?genres={i}&page={page:1}"></a>
       </span>
     </details>
   </form>
