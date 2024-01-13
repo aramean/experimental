@@ -268,9 +268,10 @@ var dom = {
     }
   },
 
-  bind: function (object, value, attr) {
+  // TODO: Remove this and move functionality to bind function.
+  bind: function (object, value) {
     var bindInclude = this.bind.include ? ';' + this.bind.include : '',
-      binding = ((object.getAttribute('data-bind') || object.getAttribute('bind') || object.getAttribute('var')) || '') + bindInclude
+      binding = ((object.getAttribute('bind') || object.getAttribute('var')) || '') + bindInclude
 
     // Set variable if colon is presented or update innerhtml.
     var bindings = binding ? binding.split(';') : []
@@ -278,32 +279,7 @@ var dom = {
     for (var i = 0; i < bindings.length; i++) {
       var bindingParts = bindings[i].split(':') || [],
         replaceVariable = bindingParts[0].trim(),
-        replaceValue = bindingParts[1].trim(),
-        target = replaceValue.substring(1)
-
-      // Bind query
-      if (replaceValue[0] === '?') {
-        replaceValue = app.querystrings.get(false, target)
-      }
-      // Bind asset variable
-      else if (replaceValue[0] === '^') {
-        var keys = target.split('.'),
-          cache = app.caches.get('window', 'var', keys[0])
-
-        if (cache && cache.data) {
-          var value = cache.data
-          for (var j = 1; j < keys.length; j++) {
-            if (value.hasOwnProperty(keys[j])) {
-              value = value[keys[j]]
-            } else {
-              console.error('Key ' + keys[j] + ' does not exist on the value object')
-              return
-            }
-          }
-
-          replaceValue = value
-        }
-      }
+        replaceValue = bindingParts[1].trim()
 
       app.variables.update.attributes(object, object, replaceVariable, replaceValue, false)
     }
@@ -745,7 +721,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 209 },
+  version: { major: 1, minor: 0, patch: 0, build: 210 },
   module: {},
   plugin: {},
   var: {},
