@@ -3,7 +3,7 @@
 <template srcdoc="../app/stream/index" src="../app/stream/templates/people"></template>
 <h2 bindglobal="title:title" set="{title}" if="0:{title};hide" globalize-get="{title}"></h2>
 <hr class="bcblack01">
-<div id="loader"><img width="30" src="https://media.tenor.com/K2UGDd4acJUAAAAM/load-loading.gif"></div>
+<div id="loader" class="loader" style="display: block"></div>
 <div
   bindquery="page:page"
   data-src="https://api.tvmaze.com/people?page={page:1}"
