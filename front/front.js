@@ -187,7 +187,7 @@ var dom = {
           replaceValue = value
           break
         case 'bindquery':
-          replaceValue = app.querystrings.get(false, replaceVariable)
+          replaceValue = app.querystrings.get(false, replaceValue)
           break
         case 'bindglobal':
           replaceValue = app.element.getPropertyByPath(app, replaceValue)
@@ -721,7 +721,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 210 },
+  version: { major: 1, minor: 0, patch: 0, build: 211 },
   module: {},
   plugin: {},
   var: {},
