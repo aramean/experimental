@@ -9,7 +9,8 @@
   <div id="error" class="red mb2" hide>Something went wrong!</div>
   <div id="success" class="green mb2" hide>It's working!</div>
 <div
-  bind="page:?page;api:^api.themoviedb.popular"
+  bindquery="page:page"
+  bindasset="api:api.themoviedb.popular"
   data-src="{api}&page={page:1}"
   data-set="page:#page;total_pages:#pages;total_results:#results"
   data-header=""
