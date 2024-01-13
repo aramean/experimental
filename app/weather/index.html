@@ -41,11 +41,13 @@
       bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang"
       bindfield="q:#query"
       bindquery="q:q"
-      data-src="{url}/current.json?key={key}&q={q:{q}}&aqi=no&lang={lang}">
+      data-src="{url}/current.json?key={key}&q={q:{q}}&aqi=no&lang={lang}"
+      data-loader="#loader">
       <h5 data-get="location.name"></h5>
+      <div id="loader" class="m0a loader" style="display: block"></div>
       <img class="m0a" data-get="current.condition.icon" height="72">
       <h6 class="fs09" data-get="current.condition.text" globalize-get></h6>
-      <h1 class="mt05 fwb fl" data-get="current.temp_c" math-round insertbeforeend="°">0</h1>
+      <h1 class="mt05 fwb fl" data-get="current.temp_c" math-round insertbeforeend="°"></h1>
     </div>
 
     <div 
