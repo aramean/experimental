@@ -38,8 +38,8 @@ app.module.globalize = {
   },
 
   locale: {
-    load: function (config, _this) {
-      var test = app.xhr.get({
+    load: function (config, _this, run) {
+      var options = {
         url: config.folder + '/' + config.language + '.json',
         response: _this.module,
         type: 'var',
@@ -49,8 +49,18 @@ app.module.globalize = {
           type: _this.storageMechanism,
           key: _this.storeKey,
           ttl: 300
+        },
+        onload: {}
+      }
+
+      if (run) {
+        options.onload.run = {
+          func: 'app.attributes.run',
+          arg: 'html *'
         }
-      })
+      }
+
+      app.xhr.get(options)
     },
 
     get: function (query, _this) {
@@ -88,17 +98,16 @@ app.module.globalize = {
       folder: this.defaultFolder,
       language: optionValue,
     }
-    
+
     app.language = config.language
     this.storeKey = this.module + '.' + config.language
 
-    this.locale.set(config.language, this)
-    this.locale.load(config, this)
-
     var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
     if (cache) {
+      console.log(cache)
       this.responseData = cache
     }
-    app.attributes.run('html *')
+    this.locale.set(config.language, this)
+    this.locale.load(config, this, true)
   }
 }

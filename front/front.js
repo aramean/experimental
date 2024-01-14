@@ -721,7 +721,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 212 },
+  version: { major: 1, minor: 0, patch: 0, build: 213 },
   module: {},
   plugin: {},
   var: {},
@@ -1351,6 +1351,8 @@ var app = {
 
             if (exclude.indexOf(attributeName) === -1) {
               element.callAttribute = attributes[j].name
+              if (!element.originalText) element.originalText = element.textContent
+              if (!element.originalHtml) element.originalHtml = element.innerHTML
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
                 app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
