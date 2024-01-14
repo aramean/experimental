@@ -4,6 +4,7 @@
   "direction": "ltr",
   "translations": {
     "age": "Age",
+    "name": "Name",
     "cache": "13",
     "add": "Add",
     "go_back": "Go back",

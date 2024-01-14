@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-  <script
-    src="../../front.js"
+  <script src="../../front.js"
     module="globalize"
     var="api"
     conf="varsDir:assets/json/vars"
@@ -17,8 +16,16 @@
   <span globalize-get="page" slice="1,2" lowercase uppercase>...</span><br>
   <span globalize-get="Man" uppercase>...</span><br>
   <span globalize-get="views" uppercase>...</span><br>
-  <span globalize-get="cache" slice="0,1">...</span>
+  <span globalize-get="cache" slice="0,1">...</span><br>
+  <span globalize-get="age"></span><br>
+  <span globalize-get="name"></span>
 
+  <br><br>
+  <select onvaluechange="globalize-set">
+    <option value="sv">Svenska</option>
+    <option value="en">English</option>
+    <option value="arc">ܐܪܡܝܐ</option>
+  </select>
 </body>
 
 </html>

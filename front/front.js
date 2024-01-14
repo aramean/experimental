@@ -721,7 +721,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 211 },
+  version: { major: 1, minor: 0, patch: 0, build: 212 },
   module: {},
   plugin: {},
   var: {},
@@ -790,9 +790,9 @@ var app = {
     })
 
     // Listen for all input fields.
-    /*app.listeners.add(document, 'input', function (e) {
-      app.listeners.change('input', e.target, false)
-    })*/
+    app.listeners.add(document, 'input', function (e) {
+      app.listeners.change('input', e.target, false, e)
+    })
   },
 
   /**
@@ -805,22 +805,24 @@ var app = {
     //console.log('Calling: ' + run + ' ' + runargs)
     try {
       var run1 = dom._replacementMap[run[1]] || run[1],
-        runargs = Array.isArray(runargs) ? runargs : [runargs] // Ensure runargs is an array
+        runargs = Array.isArray(runargs) ? runargs : [runargs], // Ensure runargs is an array
+        context = null
 
       // Check if it's a module.
       if (run[1].indexOf('-') !== -1) {
         run = run[1].split('-')
         run.unshift('app', 'module')
         run1 = 'module'
+        context = window[run[0]][run1][run[2]]
       }
 
       switch (run.length) {
         case 4:
-          return window[run[0]][run1][run[2]][run[3]].apply(null, runargs)
+          return window[run[0]][run1][run[2]][run[3]].apply(context, runargs)
         case 3:
-          return window[run[0]][run1][run[2]].apply(null, runargs)
+          return window[run[0]][run1][run[2]].apply(context, runargs)
         case 2:
-          return window[run[0]][run1].apply(null, runargs)
+          return window[run[0]][run1].apply(context, runargs)
       }
 
     } catch (error) {
@@ -1113,7 +1115,8 @@ var app = {
       element.addEventListener(eventType, callback)
     },
 
-    change: function (event, object) {
+    change: function (type, object, test) {
+      
       // Todo
       var changeValue = object.attributes.onvaluechange,
         changeValueIf = object.attributes.onvaluechangeif,

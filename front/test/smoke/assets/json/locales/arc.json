@@ -3,6 +3,8 @@
   "code": "arc",
   "direction": "rtl",
   "translations": {
+    "age": "ܫܢܝܢ",
+    "name": "ܫܡ",
     "api": "API",
     "button": "ܙܕܦܬܐ",
     "buttons": "ܙܕܦܬܐ",
