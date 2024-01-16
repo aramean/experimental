@@ -30,7 +30,7 @@ app.module.globalize = {
 
     var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
     if (cache) {
-      this.responseData = cache
+      this.cachedData = cache
     } else {
       app.vars.totalStore++
       this.locale.load(config, this)
@@ -41,8 +41,9 @@ app.module.globalize = {
     load: function (config, _this, run) {
       var options = {
         url: config.folder + '/' + config.language + '.json',
-        response: _this.module,
         type: 'var',
+        module: _this.module,
+        format: 'json',
         cache: {
           format: 'json',
           keyType: _this.storageType,
@@ -54,6 +55,7 @@ app.module.globalize = {
       }
 
       if (run) {
+        options.type = 'fetch'
         options.onload.run = {
           func: 'app.attributes.run',
           arg: 'html *'
@@ -81,11 +83,20 @@ app.module.globalize = {
    * @desc Gets the globalized value and set it to the element.
    */
   get: function (element) {
-    var responseData = this.responseData || app.caches.get(this.storageMechanism, this.storageType, this.storeKey),
-      value = element.getAttribute(this.module + '-get') || element.textContent,
-      target = element.getAttribute(this.module + '-target'),
+    element.textContent = element.originalText
+
+    var value = element.getAttribute(this.module + '-get') || element.textContent,
       isRoot = value[0] == '/' ? true : false,
-      setValue = isRoot ? responseData.data[value.substring(1)] : responseData.data.translations[value]
+      target = element.getAttribute(this.module + '-target')
+
+    if (this.fetchedData) {
+      var fetchedData = this.fetchedData,
+        setValue = fetchedData.translations[value]
+    } else {
+      var cachedData = this.cachedData || app.caches.get(this.storageMechanism, this.storageType, this.storeKey),
+        setValue = isRoot ? cachedData.data[value.substring(1)] : cachedData.data.translations[value]
+    }
+
     if (setValue) app.element.set(element, setValue, target ? target : 'settext')
   },
 
@@ -102,11 +113,6 @@ app.module.globalize = {
     app.language = config.language
     this.storeKey = this.module + '.' + config.language
 
-    var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
-    if (cache) {
-      console.log(cache)
-      this.responseData = cache
-    }
     this.locale.set(config.language, this)
     this.locale.load(config, this, true)
   }

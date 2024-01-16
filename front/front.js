@@ -721,7 +721,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 213 },
+  version: { major: 1, minor: 0, patch: 0, build: 214 },
   module: {},
   plugin: {},
   var: {},
@@ -1602,7 +1602,9 @@ var app = {
             var options = this.options,
               type = options.type,
               cache = options.cache,
-              target = options.target
+              target = options.target,
+              module = options.module,
+              format = options.format
 
             if (cache && (statusType.success || statusType.redirect)) {
               app.caches.set(cache.type, cache.keyType, cache.key, this.responseText, cache.format)
@@ -1661,6 +1663,9 @@ var app = {
                     //console.error('run' + self.currentAsset.loaded + '/' + self.currentAsset.total)
                   }
                   break
+                case 'fetch':
+                  // TODO: Make a function of format
+                  app.module[module].fetchedData = format === 'json' ? dom.parse.json(this.responseText).value : this.responseText
                 default:
                   return
               }
