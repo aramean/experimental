@@ -23,10 +23,10 @@ app.module.globalize = {
       language: this.locale.get(query, this),
     }, options.element)
 
-    document.documentElement.setAttribute("lang", config.language)
-    app.language = config.language
     this.defaultFolder = config.folder
     this.storeKey = this.module + '.' + config.language
+    
+    this.locale.update(config)
 
     var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
     if (cache) {
@@ -73,6 +73,12 @@ app.module.globalize = {
 
     set: function (language, _this) {
       app.caches.set(_this.storageMechanism, _this.storageType, _this.module + '.language', language)
+    },
+
+    update: function (config) {
+      document.documentElement.setAttribute('lang', config.language)
+      document.documentElement.setAttribute('dir', 'ltr')
+      app.language = config.language
     }
   },
 
@@ -113,6 +119,7 @@ app.module.globalize = {
     app.language = config.language
     this.storeKey = this.module + '.' + config.language
 
+    this.locale.update(config)
     this.locale.set(config.language, this)
     this.locale.load(config, this, true)
   }
