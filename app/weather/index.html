@@ -36,12 +36,12 @@
     </div>
   </header>
   <main class="pauto">
-    <div 
+    <div
       class="tac"
-      bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang"
+      bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang;city:api.weather.city"
       bindfield="q:#query"
       bindquery="q:q"
-      data-src="{url}/current.json?key={key}&q={q:{q}}&aqi=no&lang={lang}"
+      data-src="{url}/current.json?key={key}&q={q:{city}}&aqi=no&lang={lang}"
       data-loader="#loader">
       <h5 data-get="location.name"></h5>
       <div id="loader" class="m0a loader" style="display: block"></div>
@@ -50,22 +50,29 @@
       <h1 class="mt05 fwb fl" data-get="current.temp_c" math-round insertbeforeend="°"></h1>
     </div>
 
-    <div 
-      class="tac mt2 m0a bcblack03 br05 p2 shade2"
+    <div class="tac mt2 m0a bcblack03 br05 p2 shade2"
       bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang"
       bindfield="q:#query"
       bindquery="q:q"
       data-src="{url}/forecast.json?key={key}&q={q:{q}}&days=7&aqi=no&alerts=no&lang={lang}"
-      data-iterate="forecast.forecastday"
-    >
+      data-iterate="forecast.forecastday">
       <div class="df w15 aic">
-        <p class="f3 tal" data-get="date" globalize-get chronotize-weekday></p>
+        <p class="f3 tal" data-get="date" chronotize-weekday globalize-get></p>
         <span>
           <small class="ml05" data-get="day.mintemp_c" math-round insertbeforeend="°"></small>
           <small class="ml05" data-get="day.maxtemp_c" math-round insertbeforeend="°"></small>
         </span>
         <img class="ml05 h1" data-get="day.condition.icon">
       </div>
+    </div>
+    <hr>
+    <div class="m0a">
+      <select class="h1 fs08 dark" onvaluechange="globalize-set">
+        <option selected globalize-get>Change language</option>
+        <option value="sv">Svenska</option>
+        <option value="en">English</option>
+        <option value="arc">ܐܪܡܝܐ</option>
+      </select>
     </div>
   </main>
 </body>

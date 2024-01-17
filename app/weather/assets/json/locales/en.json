@@ -4,6 +4,7 @@
   "direction": "ltr",
   "translations": {
     "Weather": "Weather",
+    "Change language": "Change language",
     "input_search": "Search for location..."
   }
 }

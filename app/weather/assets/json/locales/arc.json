@@ -1,0 +1,11 @@
+{
+  "name": "ܐܪܡܝܐ",
+  "code": "arc",
+  "direction": "rtl",
+  "translations": {
+    "Weather": "ܡܘܙܓܐ",
+    "Change language": "ܫܘܚܠܦ ܠܫܢܐ",
+    "Monday": "ܬܪܝܢܒܫܒܐ",
+    "Tuesday": "ܬܠܬܒܫܒܐ"
+  }
+}
