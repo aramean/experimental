@@ -315,10 +315,11 @@ var dom = {
     object.innerHTML = value.content
   },
 
-  hide: function (object) {
+  hide: function (object, prop) {
     var el = object instanceof Object ? object : dom.get(object)
     if (el) {
-      el.style.cssText = 'display: none !important'
+      value = prop ? 'visibility: hidden' : 'display: none'
+      el.style.cssText = value + ' !important'
     }
   },
 
@@ -724,7 +725,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 216 },
+  version: { major: 1, minor: 0, patch: 0, build: 217 },
   module: {},
   plugin: {},
   var: {},

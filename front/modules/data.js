@@ -2,9 +2,11 @@
 
 app.module.data = {
 
+  _throttleTimers: {},
   storageMechanism: 'window',
   storageType: 'module',
   storageKey: '',
+  throttleTime: 500,
 
   __autoload: function (options) {
     this.module = options.name
@@ -15,11 +17,11 @@ app.module.data = {
     dom.bind(element, value, 'data-bind')
   },
 
-  _throttleTimers: {},
   src: function (element) {
     self = this
     dom.setUniqueId(element, true)
-    if (!element.getAttribute("stop")) element.setAttribute("stop", '*')
+    var throttle = element.getAttribute('data-throttle')
+    if (!element.getAttribute('stop')) element.setAttribute('stop', '*')
 
     if (!self._throttleTimers[element.uniqueId]) {
       this._throttleTimer = setTimeout(function () {
@@ -38,7 +40,7 @@ app.module.data = {
           app.xhr.currentAsset.total = 2
           self._handle(element, true)
         }
-      }, 500) // Default throttle duration.
+      }, throttle || self.throttleTime) // Default throttle duration.
     }
   },
 
