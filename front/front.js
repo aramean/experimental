@@ -336,9 +336,12 @@ var dom = {
    * @param {HTMLElement} element - The element to set the unique id on.
    * @desc Sets a unique id for the given element.
    */
-  setUniqueId: function (element) {
+  setUniqueId: function (element, internal) {
     dom._uniqueId++
-    element.id = 'id' + dom._uniqueId
+    if (!internal)
+      element.id = 'id' + dom._uniqueId
+    else
+      element.uniqueId = dom._uniqueId
   },
 
   doctitle: function (value) {
@@ -721,7 +724,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 215 },
+  version: { major: 1, minor: 0, patch: 0, build: 216 },
   module: {},
   plugin: {},
   var: {},

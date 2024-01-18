@@ -15,24 +15,30 @@ app.module.data = {
     dom.bind(element, value, 'data-bind')
   },
 
+  _throttleTimers: {},
   src: function (element) {
+    self = this
+    dom.setUniqueId(element, true)
+    if (!element.getAttribute("stop")) element.setAttribute("stop", '*')
 
-    if (!element.getAttribute("stop")) {
-      element.setAttribute("stop", '*')
-    }
+    if (!self._throttleTimers[element.uniqueId]) {
+      this._throttleTimer = setTimeout(function () {
+        delete self._throttleTimers[element.uniqueId]
 
-    for (var key in app.await) {
-      if (app.await[key].enable === true) return
-    }
+        for (var key in app.await) {
+          if (app.await[key].enable === true) return
+        }
 
-    //if (app.await['geolocalize-get'] && app.await['geolocalize-get'].enable) return
+        //if (app.await['geolocalize-get'] && app.await['geolocalize-get'].enable) return
 
-    app.xhr.currentAsset.total = 1
-    this._handle(element)
+        app.xhr.currentAsset.total = 1
+        self._handle(element)
 
-    if (element.getAttribute('data-srcjoin')) {
-      app.xhr.currentAsset.total = 2
-      this._handle(element, true)
+        if (element.getAttribute('data-srcjoin')) {
+          app.xhr.currentAsset.total = 2
+          self._handle(element, true)
+        }
+      }, 500) // Default throttle duration.
     }
   },
 
