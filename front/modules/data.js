@@ -2,11 +2,11 @@
 
 app.module.data = {
 
-  _throttleTimers: {},
+  _intervalTimers: {},
   storageMechanism: 'window',
   storageType: 'module',
   storageKey: '',
-  throttleTime: 500,
+  defaultInterval: 500,
 
   __autoload: function (options) {
     this.module = options.name
@@ -20,12 +20,12 @@ app.module.data = {
   src: function (element) {
     self = this
     dom.setUniqueId(element, true)
-    var throttle = element.getAttribute('data-throttle')
+    var interval = element.getAttribute('data-interval')
     if (!element.getAttribute('stop')) element.setAttribute('stop', '*')
 
-    if (!self._throttleTimers[element.uniqueId]) {
-      this._throttleTimer = setTimeout(function () {
-        delete self._throttleTimers[element.uniqueId]
+    if (!self._intervalTimers[element.uniqueId]) {
+      self._intervalTimers[element.uniqueId] = setTimeout(function () {
+        delete self._intervalTimers[element.uniqueId]
 
         for (var key in app.await) {
           if (app.await[key].enable === true) return
@@ -40,7 +40,7 @@ app.module.data = {
           app.xhr.currentAsset.total = 2
           self._handle(element, true)
         }
-      }, throttle || self.throttleTime) // Default throttle duration.
+      }, interval || self.defaultInterval) // Default throttle duration.
     }
   },
 
@@ -339,8 +339,8 @@ app.module.data = {
 
   _finish: function (options) {
     if (options.loader) {
-      dom.show(options.element)
       dom.hide(options.loader)
+      dom.show(options.element)
     }
   }
 }
