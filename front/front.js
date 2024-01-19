@@ -168,7 +168,6 @@ var dom = {
   },
 
   hide: function (object, prop) {
-    console.dir(object)
     var el = object instanceof Object ? object : dom.get(object)
     if (el) {
       value = prop ? 'visibility: hidden' : 'display: none'
@@ -739,7 +738,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 220 },
+  version: { major: 1, minor: 0, patch: 0, build: 221 },
   module: {},
   plugin: {},
   var: {},
@@ -1134,7 +1133,6 @@ var app = {
     },
 
     change: function (type, object, test) {
-      console.dir(object)
       // Todo
       var changeValue = object.attributes.onvaluechange,
         changeValueIf = object.attributes.onvaluechangeif,

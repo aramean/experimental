@@ -21,7 +21,8 @@ app.module.data = {
     self = this
     dom.setUniqueId(element, true)
     var interval = element.getAttribute('data-interval'),
-      loader = element.getAttribute('data-loader')
+      loader = element.getAttribute('data-loader'),
+      error = element.getAttribute('data-error')
 
     dom.hide(error)
 
