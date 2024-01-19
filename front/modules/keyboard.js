@@ -29,6 +29,9 @@ app.module.keyboard = {
 
         if (scope && target !== scope) continue
 
+        // Prevent reload.
+        element.setAttribute('onclick', 'return false')
+
         switch (action) {
           case 'click':
             element.click()
