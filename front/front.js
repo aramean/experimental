@@ -27,6 +27,8 @@ var dom = {
     'resetvalue': 'reset',
     'margintop': 'apply',
     'marginbottom': 'apply',
+    'marginleft': 'apply',
+    'marginright': 'apply',
     'height': 'apply',
     'width' : 'apply',
     'padding': 'apply'
@@ -738,7 +740,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 222 },
+  version: { major: 1, minor: 0, patch: 0, build: 223 },
   module: {},
   plugin: {},
   var: {},
