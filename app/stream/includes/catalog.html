@@ -1,7 +1,7 @@
 <a href="#down"><h2 bindglobal="title:title" set="{title}" if="0:{title};hide" globalize-get="{title}"></h2></a>
 <hr class="bcblack01" bind=":">
-
-<div id="loader" class="loader" style="display: block"></div>
+<style>.loader{display: inherit}</style>
+<div id="loader" class="loader"></div>
 <div id="error" class="red mb2" hide>Something went wrong!</div>
 <div id="empty" class="mb2 fwb" hide>Not found!</div>
 <div id="success" class="green mb2" hide>It's working!</div>
@@ -17,7 +17,6 @@
   data-loader="#loader"
   data-error="#error"
   data-empty="total_results;#empty"
-  data-throttle="500"
   filter="true"
   class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
 >

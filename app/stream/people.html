@@ -1,9 +1,10 @@
 <script src="../../front/front.js"></script>
 <title>People</title>
+<style>.loader{display: inherit}</style>
 <template srcdoc="../app/stream/index" src="../app/stream/templates/people"></template>
 <h2 bindglobal="title:title" set="{title}" if="0:{title};hide" globalize-get="{title}"></h2>
 <hr class="bcblack01">
-<div id="loader" class="loader" style="display: block"></div>
+<div id="loader" class="loader"></div>
 <div
   bindquery="page:page"
   data-src="https://api.tvmaze.com/people?page={page:1}"
