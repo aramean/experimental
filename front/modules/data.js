@@ -23,9 +23,11 @@ app.module.data = {
     var interval = element.getAttribute('data-interval'),
       loader = element.getAttribute('data-loader')
 
+    dom.hide(error)
+
     if (loader) {
-      app.element.hide(element)
-      app.element.show(loader)
+      dom.show(loader)
+      dom.hide(element)
     }
 
     if (!element.getAttribute('stop')) element.setAttribute('stop', '*')
@@ -346,8 +348,8 @@ app.module.data = {
 
   _finish: function (options) {
     if (options.loader) {
-      app.element.hide(options.loader)
-      app.element.show(options.element)
+      dom.hide(options.loader)
+      dom.show(options.element)
     }
   }
 }

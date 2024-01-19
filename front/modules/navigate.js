@@ -184,13 +184,13 @@ app.module.navigate = {
       this.progress(0)
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
-      app.element.show(this.element)
+      dom.show(this.element)
     },
 
     finish: function () {
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
-      app.element.hide(this.element)
+      dom.hide(this.element)
     },
   },
 }

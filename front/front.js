@@ -167,6 +167,23 @@ var dom = {
     }
   },
 
+  hide: function (object, prop) {
+    console.dir(object)
+    var el = object instanceof Object ? object : dom.get(object)
+    if (el) {
+      value = prop ? 'visibility: hidden' : 'display: none'
+      el.style.cssText = value + ' !important'
+    }
+  },
+
+  show: function (object) {
+    var el = object instanceof Object ? object : dom.get(object)
+    if (el) {
+      el.style.cssText = el.style.cssText.replace(/display\s*:\s*[^;]+;/gi, '')
+      el.removeAttribute('hide')
+    }
+  },
+
   /**
    * @function setDisplay
    * @memberof dom
@@ -291,8 +308,8 @@ var dom = {
   },
 
   loader: function (object, value) {
-    app.element.hide(object)
-    if (value) app.element.show(value)
+    dom.hide(object)
+    if (value) dom.show(value)
   },
 
   /**
@@ -722,7 +739,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 219 },
+  version: { major: 1, minor: 0, patch: 0, build: 220 },
   module: {},
   plugin: {},
   var: {},
@@ -891,22 +908,6 @@ var app = {
         for (var i = 0; i < _.action.length; i++) {
           _.el.classList.add(_.action[i])
         }
-      }
-    },
-
-    hide: function (object, prop) {
-      var el = object instanceof Object ? object : dom.get(object)
-      if (el) {
-        value = prop ? 'visibility: hidden' : 'display: none'
-        el.style.cssText = value + ' !important'
-      }
-    },
-  
-    show: function (object) {
-      var el = object instanceof Object ? object : dom.get(object)
-      if (el) {
-        el.style.cssText = el.style.cssText.replace(/display\s*:\s*[^;]+;/gi, '')
-        el.removeAttribute('hide')
       }
     },
 
@@ -1133,7 +1134,7 @@ var app = {
     },
 
     change: function (type, object, test) {
-      
+      console.dir(object)
       // Todo
       var changeValue = object.attributes.onvaluechange,
         changeValueIf = object.attributes.onvaluechangeif,
@@ -1724,11 +1725,8 @@ var app = {
         onload = options.onload,
         error = options.error,
         empty = options.empty,
-        onprogress = options.onprogress,
-
-        loader = onprogress && onprogress.preloader ? onprogress.preloader : false,
+        loader = options.loader,
         type = options.type,
-        timeout = onload ? options.onload.timeout || 0 : 0,
         run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
         runarg = onload && onload.run && onload.run.arg
 
@@ -1780,16 +1778,18 @@ var app = {
             }
 
             if (responseError) {
-              app.element.show(error)
+              dom.show(error)
             } else {
-              app.element.hide(error, true)
+              dom.hide(error)
             }
 
             if (empty) {
               var attr = empty.split(';'),
                 response = dom.parse.json(responseData).value
 
-              if (!response[attr[0]]) app.element.show(attr[1])
+              if (!response[attr[0]]) {
+                dom.show(attr[1])
+              }
             }
 
             if (onload) {
@@ -1797,14 +1797,15 @@ var app = {
             }
 
           } else if (status.clientError || status.serverError) {
-            if (loader) dom.loader(loader)
-            if (error) app.element.show(error)
+              dom.show(error)
+              dom.hide(loader)
+            if (error) dom.show(error)
           }
         }
 
         xhr.onerror = function () {
           if (loader) dom.loader(loader)
-          if (error) app.element.show(error)
+          if (error) dom.show(error)
         }
 
         xhr.open('GET', url + urlExtension, true)
