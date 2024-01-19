@@ -152,8 +152,9 @@ app.module.data = {
 
       } else {
 
-        var originalNode = element.cloneNode(true),
-          orginalNodeCountAll = app.element.find(originalNode, '*').length,
+        var originalNode = element
+        originalNode.innerHTML = element.originalHtml
+        var orginalNodeCountAll = app.element.find(originalNode, '*').length,
           content = ''
 
         for (var i = 0; i <= total; i++) {
