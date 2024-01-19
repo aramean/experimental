@@ -37,7 +37,8 @@
     </div>
   </header>
   <main class="pauto">
-    <div id="loader" class="m0a loader" margintop="50" marginbottom="50"></div>
+    <div id="loader" class="m0a loader" hide></div>
+    <div id="error" class="m0a" hide>Current error!</div>
     <div
       class="tac"
       bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang;city:api.weather.city"
@@ -45,6 +46,7 @@
       bindquery="q:q"
       data-src="{url}/current.json?key={key}&q={q:{city}}&aqi=no&lang={lang}"
       data-loader="#loader"
+      data-error="#error"
       data-interval="500">
       <h5 data-get="location.name"></h5>
       <img class="m0a" data-get="current.condition.icon" height="72">
@@ -52,7 +54,8 @@
       <h1 class="mt05 fwb fl" data-get="current.temp_c" math-round insertbeforeend="°"></h1>
     </div>
 
-    <div id="loader2" class="m0a loader"></div>
+    <div id="error2" class="m0a" hide>Forecast error!</div>
+    <div id="loader2" class="m0a loader" hide></div>
     <div
       class="tac mt2 m0a bcblack03 br05 p2 shade2"
       bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang"
@@ -61,6 +64,7 @@
       data-src="{url}/forecast.json?key={key}&q={q:{q}}&days=7&aqi=no&alerts=no&lang={lang}"
       data-iterate="forecast.forecastday"
       data-loader="#loader2"
+      data-error="#error2"
       data-interval="500">
       <div class="df w15 aic">
         <p class="f3 tal" data-get="date" chronotize-weekday globalize-get></p>
