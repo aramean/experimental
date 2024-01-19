@@ -24,7 +24,12 @@ var dom = {
     'bindasset': 'bind2',
     'bindglobal': 'bind2',
     'bindfield': 'bind2',
-    'resetvalue': 'reset'
+    'resetvalue': 'reset',
+    'margintop': 'apply',
+    'marginbottom': 'apply',
+    'height': 'apply',
+    'width' : 'apply',
+    'padding': 'apply'
   },
   _uniqueId: 0,
 
@@ -286,8 +291,8 @@ var dom = {
   },
 
   loader: function (object, value) {
-    dom.hide(object)
-    if (value) dom.show(value)
+    app.element.hide(object)
+    if (value) app.element.show(value)
   },
 
   /**
@@ -304,6 +309,14 @@ var dom = {
     element.focus()
   },
 
+  apply: function (element, value) {
+    var attr = element.callAttribute.replace(/(top|bottom|left|right)$/g, function(match) {
+      return match.charAt(0).toUpperCase() + match.slice(1)
+    })
+
+    element.style[attr] = value + 'px'
+  },
+
   /**
    * Retrieves metadata from a meta tag with the specified name and sets it as the inner HTML of the specified object.
    *
@@ -313,22 +326,6 @@ var dom = {
   metadata: function (object, name) {
     var value = dom.get('meta[name=' + name + ']')
     object.innerHTML = value.content
-  },
-
-  hide: function (object, prop) {
-    var el = object instanceof Object ? object : dom.get(object)
-    if (el) {
-      value = prop ? 'visibility: hidden' : 'display: none'
-      el.style.cssText = value + ' !important'
-    }
-  },
-
-  show: function (object) {
-    var el = object instanceof Object ? object : dom.get(object)
-    if (el) {
-      el.style.cssText = el.style.cssText.replace(/display\s*:\s*[^;]+;/gi, '')
-      el.removeAttribute('hide')
-    }
   },
 
   /**
@@ -725,7 +722,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 218 },
+  version: { major: 1, minor: 0, patch: 0, build: 219 },
   module: {},
   plugin: {},
   var: {},
@@ -894,6 +891,22 @@ var app = {
         for (var i = 0; i < _.action.length; i++) {
           _.el.classList.add(_.action[i])
         }
+      }
+    },
+
+    hide: function (object, prop) {
+      var el = object instanceof Object ? object : dom.get(object)
+      if (el) {
+        value = prop ? 'visibility: hidden' : 'display: none'
+        el.style.cssText = value + ' !important'
+      }
+    },
+  
+    show: function (object) {
+      var el = object instanceof Object ? object : dom.get(object)
+      if (el) {
+        el.style.cssText = el.style.cssText.replace(/display\s*:\s*[^;]+;/gi, '')
+        el.removeAttribute('hide')
       }
     },
 
@@ -1767,16 +1780,16 @@ var app = {
             }
 
             if (responseError) {
-              dom.show(error)
+              app.element.show(error)
             } else {
-              dom.hide(error)
+              app.element.hide(error, true)
             }
 
             if (empty) {
               var attr = empty.split(';'),
                 response = dom.parse.json(responseData).value
 
-              if (!response[attr[0]]) dom.show(attr[1])
+              if (!response[attr[0]]) app.element.show(attr[1])
             }
 
             if (onload) {
@@ -1785,13 +1798,13 @@ var app = {
 
           } else if (status.clientError || status.serverError) {
             if (loader) dom.loader(loader)
-            if (error) dom.show(error)
+            if (error) app.element.show(error)
           }
         }
 
         xhr.onerror = function () {
           if (loader) dom.loader(loader)
-          if (error) dom.show(error)
+          if (error) app.element.show(error)
         }
 
         xhr.open('GET', url + urlExtension, true)

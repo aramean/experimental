@@ -56,7 +56,7 @@ app.module.geolocalize = {
     }
 
     function error(error) {
-      dom.show('#geoerror')
+      app.element.show('#geoerror')
       var error = dom.get('#geoerror'),
         message = ''
 

@@ -20,7 +20,14 @@ app.module.data = {
   src: function (element) {
     self = this
     dom.setUniqueId(element, true)
-    var interval = element.getAttribute('data-interval')
+    var interval = element.getAttribute('data-interval'),
+      loader = element.getAttribute('data-loader')
+
+    if (loader) {
+      app.element.hide(element)
+      app.element.show(loader)
+    }
+
     if (!element.getAttribute('stop')) element.setAttribute('stop', '*')
 
     if (!self._intervalTimers[element.uniqueId]) {
@@ -40,7 +47,7 @@ app.module.data = {
           app.xhr.currentAsset.total = 2
           self._handle(element, true)
         }
-      }, interval || self.defaultInterval) // Default throttle duration.
+      }, interval || self.defaultInterval)
     }
   },
 
@@ -339,8 +346,8 @@ app.module.data = {
 
   _finish: function (options) {
     if (options.loader) {
-      dom.hide(options.loader)
-      dom.show(options.element)
+      app.element.hide(options.loader)
+      app.element.show(options.element)
     }
   }
 }
