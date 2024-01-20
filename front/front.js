@@ -30,7 +30,7 @@ var dom = {
     'marginleft': 'apply',
     'marginright': 'apply',
     'height': 'apply',
-    'width' : 'apply',
+    'width': 'apply',
     'padding': 'apply'
   },
   _uniqueId: 0,
@@ -328,7 +328,7 @@ var dom = {
   },
 
   apply: function (element, value) {
-    var attr = element.callAttribute.replace(/(top|bottom|left|right)$/g, function(match) {
+    var attr = element.callAttribute.replace(/(top|bottom|left|right)$/g, function (match) {
       return match.charAt(0).toUpperCase() + match.slice(1)
     })
 
@@ -740,7 +740,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 224 },
+  version: { major: 1, minor: 0, patch: 0, build: 225 },
   module: {},
   plugin: {},
   var: {},
@@ -954,7 +954,7 @@ var app = {
         value = object
 
       for (var i = 0; i < pathSegments.length; i++) {
-        value = value !== undefined ? value[pathSegments[i]] : ''
+        value = value === null || value === undefined ? '' : value[pathSegments[i]]
       }
 
       return value
@@ -1797,8 +1797,8 @@ var app = {
             }
 
           } else if (status.clientError || status.serverError) {
-              dom.show(error)
-              dom.hide(loader)
+            dom.show(error)
+            dom.hide(loader)
             if (error) dom.show(error)
           }
         }
