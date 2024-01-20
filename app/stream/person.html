@@ -6,14 +6,15 @@
 <hr class="bcblack01">
 <div id="loader" class="loader"></div>
 <div
-  bindquery="page:page"
-  data-src="https://api.tvmaze.com/people?page={page:1}"
-  data-iterate="true"
+  bindquery="id:id"
+  data-src="https://api.tvmaze.com/people/{id}"
   data-loader="#loader">
-  <a class="p025" data-get="id:id" href="person.html?id={id}">
+  <span class="p025">
     <figure class="pr">
-      <img class="br50" width="110px" height="110px" data-get="image.medium">
-      <figcaption class="z1 pa md_dn b0 fs08 white ts05 bcblack02 w100" data-get="title || name"></figcaption>
+      <img width="132px" data-get="image.medium">
+      <figcaption data-get="name"></figcaption>
+      <p data-get="birthday"></p>
+      <p data-get="country.name"></p>
     </figure>
-  </a>
+  </span>
 </div>
