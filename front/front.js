@@ -269,7 +269,7 @@ var dom = {
                   }
                   if (target.startBind) {
                     app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-                    app.variables.update.content2(object, regex, replaceVariableNew, this.value)
+                    app.variables.update.content(object, regex, replaceVariableNew, this.value)
                   }
                 })
                 break
@@ -277,7 +277,7 @@ var dom = {
                 app.listeners.add(target, 'change', function () {
                   var value = this.options[this.selectedIndex].value
                   app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-                  app.variables.update.content2(object, regex, replaceVariableNew, value)
+                  app.variables.update.content(object, regex, replaceVariableNew, value)
                 })
                 break
             }
@@ -286,7 +286,7 @@ var dom = {
           continue
       }
 
-      app.variables.update.content2(object, regex, replaceVariable, replaceValue, false)
+      app.variables.update.content(object, regex, replaceVariable, replaceValue, false)
       app.variables.update.attributes(object, false, replaceVariable, replaceValue, false)
     }
   },
@@ -740,7 +740,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 225 },
+  version: { major: 1, minor: 0, patch: 0, build: 226 },
   module: {},
   plugin: {},
   var: {},
@@ -1397,10 +1397,10 @@ var app = {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
 
         if (reset) {
-          var originalContent = clonedObject.innerHTML,
-            originalAttributes = clonedObject.attributes
+          var originalAttributes = clonedObject.attributes
+          object.innerHTML = object.originalHtml
           app.variables.reset.attributes(object, originalAttributes)
-          app.variables.reset.content(object, originalContent)
+          app.variables.reset.content(object, object.innerHTML)
         }
 
         var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::((?:{[^{}]*}|[^}])+))?\\}', 'g')
@@ -1415,7 +1415,7 @@ var app = {
         if (reset) app.attributes.run([object], ['bind', 'bind2', 'stop'])
       },
 
-      content2: function (object, regex, replaceVariable, replaceValue) {
+      content: function (object, regex, replaceVariable, replaceValue) {
         // Escape special characters in the variable pattern to create a valid regular expression
         var escapedVariable = replaceVariable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
@@ -1429,18 +1429,7 @@ var app = {
         })
 
         object.innerHTML = modifiedContent
-      },
-
-      content: function (object, regex, replaceVariable, replaceValue) {
-        var innerHTML = object.innerHTML.replace(regex, function (match) {
-          if (match === '{' + replaceVariable + '}') {
-            return replaceValue
-          }
-          return match
-        })
-
-        object.innerHTML = innerHTML
-      },
+      }
     },
 
     reset: {
