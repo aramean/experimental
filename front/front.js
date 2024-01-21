@@ -243,8 +243,7 @@ var dom = {
             var bindingParts = bindings[i].split(':') || [],
               replaceVariable = bindingParts[0],
               replaceValue = bindingParts[1],
-              target = replaceValue.substring(1),
-              regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
+              target = replaceValue.substring(1)
 
             var target = dom.get(replaceValue),
               type = target.type,
@@ -267,7 +266,7 @@ var dom = {
                     }
                     if (target.startBind) {
                       app.variables.update.attributes(object, false, replaceVariableNew, this.value, true)
-                      app.variables.update.content(object, regex, replaceVariableNew, this.value)
+                      app.variables.update.content(object, replaceVariableNew, this.value)
                     }
                   })
 
@@ -278,7 +277,7 @@ var dom = {
                 app.listeners.add(target, 'change', function changeCallback() {
                   var value = this.options[this.selectedIndex].value
                   app.variables.update.attributes(object, false, replaceVariableNew, this.value, true)
-                  app.variables.update.content(object, regex, replaceVariableNew, value)
+                  app.variables.update.content(object, replaceVariableNew, value)
                 })
                 break
             }
@@ -287,7 +286,7 @@ var dom = {
       }
 
       app.variables.update.attributes(object, false, replaceVariable, replaceValue, false)
-      app.variables.update.content(object, regex, replaceVariable, replaceValue, false)
+      app.variables.update.content(object, replaceVariable, replaceValue, false)
     }
   },
 
@@ -740,7 +739,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 229 },
+  version: { major: 1, minor: 0, patch: 0, build: 230 },
   module: {},
   plugin: {},
   var: {},
@@ -1420,7 +1419,7 @@ var app = {
         if (reset) app.attributes.run([object], ['stop'])
       },
 
-      content: function (object, regex, replaceVariable, replaceValue) {
+      content: function (object, replaceVariable, replaceValue) {
         // Escape special characters in the variable pattern to create a valid regular expression
         var escapedVariable = replaceVariable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
