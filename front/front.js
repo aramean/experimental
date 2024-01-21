@@ -459,7 +459,6 @@ var dom = {
     var regex,
       attr = element.callAttribute,
       char = value || ' '
-    console.log(attr)
     switch (attr) {
       case 'trimleft':
         regex = '^[' + char + '\\t]+'
@@ -739,7 +738,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 232 },
+  version: { major: 1, minor: 0, patch: 0, build: 233 },
   module: {},
   plugin: {},
   var: {},

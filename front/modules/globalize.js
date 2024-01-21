@@ -23,10 +23,7 @@ app.module.globalize = {
       language: this.locale.get(query, this),
     }, options.element)
 
-    this.defaultFolder = config.folder
-    this.storeKey = this.module + '.' + config.language
-    
-    this.locale.update(config)
+    this.locale.update(config, this)
 
     var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
     if (cache) {
@@ -66,19 +63,23 @@ app.module.globalize = {
     },
 
     get: function (query, _this) {
+      console.log(_this.module + '.language')
       var storedLanguage = app.caches.get(_this.storageMechanism, _this.storageType, _this.module + '.language'),
         language = (storedLanguage && storedLanguage.data) || query || app.language
       return language
     },
 
-    set: function (language, _this) {
-      app.caches.set(_this.storageMechanism, _this.storageType, _this.module + '.language', language)
+    set: function (config, _this) {
+      console.log(_this.module + '.language')
+
+      app.caches.set(_this.storageMechanism, _this.storageType, _this.module + '.language', config.language)
     },
 
-    update: function (config) {
+    update: function (config, _this) {
+      _this.storeKey = _this.module + '.' + config.language
+      app.language = config.language
       document.documentElement.setAttribute('lang', config.language)
       document.documentElement.setAttribute('dir', 'ltr')
-      app.language = config.language
     }
   },
 
@@ -116,11 +117,8 @@ app.module.globalize = {
       language: optionValue,
     }
 
-    app.language = config.language
-    this.storeKey = this.module + '.' + config.language
-
-    this.locale.update(config)
-    this.locale.set(config.language, this)
+    this.locale.update(config, this)
+    this.locale.set(config, this)
     this.locale.load(config, this, true)
   }
 }
