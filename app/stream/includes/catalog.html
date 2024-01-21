@@ -1,12 +1,12 @@
 <a href="#down"><h2 bindglobal="title:title" set="{title}" if="0:{title};hide" globalize-get="{title}"></h2></a>
-<hr class="bcblack01" bind=":">
+<hr class="bcblack01">
 <style>.loader{display: inherit}</style>
 <div id="loader" class="loader"></div>
 <div id="error" class="red mb2" hide>Something went wrong!</div>
 <div id="empty" class="mb2 fwb" hide>Not found!</div>
 <div id="success" class="green mb2" hide>It's working!</div>
 <div
-  bind=":"
+  bindvar=":"
   bindasset="api:api.themoviedb.{endpoint}.{endpoint2}"
   bindquery="page:page;genres:genres"
   data-src="{api}&page={page:1}&with_genres={genres}"
@@ -20,7 +20,7 @@
   filter="true"
   class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
 >
-  <a data-get="id:id;link:media_type" bind=":" href="{link:{link}}.html?id={id}" class="p025">
+  <a bindvar=":" data-get="id:id;link:media_type" href="{link:{link}}.html?id={id}" class="p025">
     <figure class="pr">
       <img class="br05" width="100%" data-get="poster_path" insertafterbegin="https://image.tmdb.org/t/p/w220_and_h330_face">
       <figcaption class="z1 pa md_dn b0 fs08 white ts05 bcblack02 w100" data-get="title || name"></figcaption>
