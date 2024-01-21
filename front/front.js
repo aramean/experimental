@@ -20,10 +20,10 @@ var dom = {
     'setvalue': 'set2',
     'setsrc': 'set2',
     'bindvar': 'bind',
-    'bindquery': 'bind2',
-    'bindasset': 'bind2',
-    'bindglobal': 'bind2',
-    'bindfield': 'bind2',
+    'bindquery': 'bind',
+    'bindasset': 'bind',
+    'bindglobal': 'bind',
+    'bindfield': 'bind',
     'resetvalue': 'reset',
     'margintop': 'apply',
     'marginbottom': 'apply',
@@ -195,10 +195,9 @@ var dom = {
     document.documentElement.style.display = action
   },
 
-  bind2: function (object, value) {
+  bind: function (object, value) {
     var attr = object.callAttribute,
-      bindings = value.split(';'),
-      regex = new RegExp('{' + replaceVariable + '}|\\b' + replaceVariable + '\\b', 'g')
+      bindings = value.split(';')
 
     for (var i = 0; i < bindings.length; i++) {
       var binding = bindings[i].split(':'),
@@ -207,8 +206,20 @@ var dom = {
 
       switch (attr) {
         case 'bindvar':
-          replaceValue = value
-          break
+          var bindInclude = this.bind.include ? ';' + this.bind.include : '',
+            binding = ((object.getAttribute('bindvar') || object.getAttribute('var')) || '') + bindInclude
+
+          // Set variable if colon is presented or update innerhtml.
+          var bindings = binding ? binding.split(';') : []
+
+          for (var i = 0; i < bindings.length; i++) {
+            var bindingParts = bindings[i].split(':') || [],
+              replaceVariable = bindingParts[0].trim(),
+              replaceValue = bindingParts[1].trim()
+
+            app.variables.update.attributes(object, replaceVariable, replaceValue, false)
+          }
+          return
         case 'bindquery':
           replaceValue = app.querystrings.get(false, replaceValue)
           break
@@ -287,23 +298,6 @@ var dom = {
 
       app.variables.update.attributes(object, replaceVariable, replaceValue, false)
       app.variables.update.content(object, replaceVariable, replaceValue, false)
-    }
-  },
-
-  // TODO: Remove this and move functionality to bind function.
-  bind: function (object, value) {
-    var bindInclude = this.bind.include ? ';' + this.bind.include : '',
-      binding = ((object.getAttribute('bind') || object.getAttribute('var')) || '') + bindInclude
-
-    // Set variable if colon is presented or update innerhtml.
-    var bindings = binding ? binding.split(';') : []
-
-    for (var i = 0; i < bindings.length; i++) {
-      var bindingParts = bindings[i].split(':') || [],
-        replaceVariable = bindingParts[0].trim(),
-        replaceValue = bindingParts[1].trim()
-
-      app.variables.update.attributes(object, replaceVariable, replaceValue, false)
     }
   },
 
@@ -600,9 +594,8 @@ var dom = {
   include: function (element) {
 
     //@TODO Fix ie bug with reversed attributes.
-
-    var bind = element.attributes.bind
-    if (bind) dom.bind.include = bind.value
+    var bindvar = element.attributes.bindvar
+    if (bindvar) dom.bind.include = bindvar.value
     app.xhr.get({
       element: element,
       url: element.attributes.include.value,
@@ -715,7 +708,7 @@ var dom = {
       vari = values[2]
 
     var originalNode = element,
-    content = ''
+      content = ''
     originalNode.innerHTML = element.originalHtml
 
     for (var i = start; i <= stop; i++) {
@@ -740,7 +733,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 236 },
+  version: { major: 1, minor: 0, patch: 0, build: 237 },
   module: {},
   plugin: {},
   var: {},
