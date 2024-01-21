@@ -187,7 +187,7 @@ app.module.data = {
         var keys = value.split(';')
         for (var i = 0; i < keys.length; i++) {
           var values = keys[i].split(':')
-          app.variables.update.attributes(element, false, values[0], this._get(responseObject, values[1]), false)
+          app.variables.update.attributes(element, values[0], this._get(responseObject, values[1]), false)
         }
       } else {
         dom.set(element, this._get(responseObject, value), false)
@@ -257,7 +257,7 @@ app.module.data = {
             replace = replace[pathSegments[j]] || ''
           }
 
-          app.variables.update.attributes(options.element, options.element, value, replace, false)
+          app.variables.update.attributes(options.element, value, replace, false)
           var doctitle = options.element.attributes.doctitle || ''
           if (doctitle.value) dom.doctitle(doctitle.value)
           continue

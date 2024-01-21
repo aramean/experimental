@@ -265,7 +265,7 @@ var dom = {
                       target.lastPressedKey = false
                     }
                     if (target.startBind) {
-                      app.variables.update.attributes(object, false, replaceVariableNew, this.value, true)
+                      app.variables.update.attributes(object, replaceVariableNew, this.value, true)
                       app.variables.update.content(object, replaceVariableNew, this.value)
                     }
                   })
@@ -276,7 +276,7 @@ var dom = {
               case 'select-one':
                 app.listeners.add(target, 'change', function changeCallback() {
                   var value = this.options[this.selectedIndex].value
-                  app.variables.update.attributes(object, false, replaceVariableNew, this.value, true)
+                  app.variables.update.attributes(object, replaceVariableNew, this.value, true)
                   app.variables.update.content(object, replaceVariableNew, value)
                 })
                 break
@@ -285,7 +285,7 @@ var dom = {
           continue
       }
 
-      app.variables.update.attributes(object, false, replaceVariable, replaceValue, false)
+      app.variables.update.attributes(object, replaceVariable, replaceValue, false)
       app.variables.update.content(object, replaceVariable, replaceValue, false)
     }
   },
@@ -303,7 +303,7 @@ var dom = {
         replaceVariable = bindingParts[0].trim(),
         replaceValue = bindingParts[1].trim()
 
-      app.variables.update.attributes(object, object, replaceVariable, replaceValue, false)
+      app.variables.update.attributes(object, replaceVariable, replaceValue, false)
     }
   },
 
@@ -726,7 +726,7 @@ var dom = {
     var elements = app.element.find(element, '*')
     for (var i = 0; i <= stop - start; i++) {
       if (elements[i]) {
-        app.variables.update.attributes(elements[i], '', 'i', start + i, false);
+        app.variables.update.attributes(elements[i], 'i', start + i, false);
       }
     }
 
@@ -739,7 +739,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 230 },
+  version: { major: 1, minor: 0, patch: 0, build: 231 },
   module: {},
   plugin: {},
   var: {},
@@ -1399,7 +1399,7 @@ var app = {
    */
   variables: {
     update: {
-      attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
+      attributes: function (object, replaceVariable, replaceValue, reset) {
         if (reset) {
           var originalAttributes = dom.parse.text(object.originalOuterHtml).children[0].attributes
           object.innerHTML = object.originalHtml
