@@ -714,8 +714,10 @@ var dom = {
       stop = parseInt(values[1]),
       vari = values[2]
 
-    var originalNode = element.cloneNode(true),
-      content = ''
+    var originalNode = element,
+    content = ''
+    originalNode.innerHTML = element.originalHtml
+
     for (var i = start; i <= stop; i++) {
       content += originalNode.innerHTML
     }
@@ -738,7 +740,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 235 },
+  version: { major: 1, minor: 0, patch: 0, build: 236 },
   module: {},
   plugin: {},
   var: {},

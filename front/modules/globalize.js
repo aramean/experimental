@@ -55,7 +55,7 @@ app.module.globalize = {
         options.type = 'fetch'
         options.onload.run = {
           func: 'app.attributes.run',
-          arg: 'html *'
+          arg: 'html *:not([include]'
         }
       }
 
