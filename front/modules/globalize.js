@@ -63,15 +63,12 @@ app.module.globalize = {
     },
 
     get: function (query, _this) {
-      console.log(_this.module + '.language')
       var storedLanguage = app.caches.get(_this.storageMechanism, _this.storageType, _this.module + '.language'),
         language = (storedLanguage && storedLanguage.data) || query || app.language
       return language
     },
 
     set: function (config, _this) {
-      console.log(_this.module + '.language')
-
       app.caches.set(_this.storageMechanism, _this.storageType, _this.module + '.language', config.language)
     },
 
