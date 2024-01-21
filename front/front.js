@@ -287,8 +287,8 @@ var dom = {
           continue
       }
 
-      app.variables.update.content(object, regex, replaceVariable, replaceValue, false)
       app.variables.update.attributes(object, false, replaceVariable, replaceValue, false)
+      app.variables.update.content(object, regex, replaceVariable, replaceValue, false)
     }
   },
 
@@ -741,7 +741,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 227 },
+  version: { major: 1, minor: 0, patch: 0, build: 228 },
   module: {},
   plugin: {},
   var: {},
