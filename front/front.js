@@ -739,7 +739,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 231 },
+  version: { major: 1, minor: 0, patch: 0, build: 232 },
   module: {},
   plugin: {},
   var: {},
@@ -1401,10 +1401,10 @@ var app = {
     update: {
       attributes: function (object, replaceVariable, replaceValue, reset) {
         if (reset) {
-          var originalAttributes = dom.parse.text(object.originalOuterHtml).children[0].attributes
-          object.innerHTML = object.originalHtml
+          var originalAttributes = dom.parse.text(object.originalOuterHtml).children[0].attributes,
+            originalHtml = object.originalHtml
           app.variables.reset.attributes(object, originalAttributes)
-          app.variables.reset.content(object, object.innerHTML)
+          app.variables.reset.content(object, originalHtml)
         }
 
         var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::((?:{[^{}]*}|[^}])+))?\\}', 'g')
