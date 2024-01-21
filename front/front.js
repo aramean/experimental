@@ -237,8 +237,7 @@ var dom = {
           var type = object.tagName.toLowerCase(),
             bindInclude = this.bind.include ? ';' + this.bind.include : '',
             binding = ((object.getAttribute('data-bind') || object.getAttribute('bindfield') || object.getAttribute('var')) || '') + bindInclude,
-            bindings = binding ? binding.split(';') : [],  // Set variable if colon is presented or update innerhtml.
-            clonedObject = ''
+            bindings = binding ? binding.split(';') : []  // Set variable if colon is presented or update innerhtml.
 
           for (var i = 0; i < bindings.length; i++) {
             var bindingParts = bindings[i].split(':') || [],
@@ -267,7 +266,7 @@ var dom = {
                       target.lastPressedKey = false
                     }
                     if (target.startBind) {
-                      app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
+                      app.variables.update.attributes(object, false, replaceVariableNew, this.value, true)
                       app.variables.update.content(object, regex, replaceVariableNew, this.value)
                     }
                   })
@@ -278,7 +277,7 @@ var dom = {
               case 'select-one':
                 app.listeners.add(target, 'change', function changeCallback() {
                   var value = this.options[this.selectedIndex].value
-                  app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
+                  app.variables.update.attributes(object, false, replaceVariableNew, this.value, true)
                   app.variables.update.content(object, regex, replaceVariableNew, value)
                 })
                 break
@@ -741,7 +740,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 228 },
+  version: { major: 1, minor: 0, patch: 0, build: 229 },
   module: {},
   plugin: {},
   var: {},
