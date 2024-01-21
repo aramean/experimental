@@ -6,6 +6,11 @@
     "Movies": "ܦܝܠܡ",
     "People": "ܦܪܨܘܦܐ",
     "Shows": "ܬܚܪܙܝܬܐ",
-    "input_search": "ܒܘܕܩܐ"
+    "input_search": "ܒܘܕܩܐ",
+    "Comedy": "ܡܝܡܣܘܬܐ",
+    "Family": "ܐܝܩܪܬܐ",
+    "Horror": "ܕܘܚܠܐ",
+    "History": "ܡܟܬܒܐ",
+    "Music": "ܙܡܪܐ"
   }
 }
