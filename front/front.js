@@ -236,10 +236,9 @@ var dom = {
         case 'bindfield':
           var type = object.tagName.toLowerCase(),
             bindInclude = this.bind.include ? ';' + this.bind.include : '',
-            binding = ((object.getAttribute('data-bind') || object.getAttribute('bindfield') || object.getAttribute('var')) || '') + bindInclude
-
-          // Set variable if colon is presented or update innerhtml.
-          var bindings = binding ? binding.split(';') : []
+            binding = ((object.getAttribute('data-bind') || object.getAttribute('bindfield') || object.getAttribute('var')) || '') + bindInclude,
+            bindings = binding ? binding.split(';') : [],  // Set variable if colon is presented or update innerhtml.
+            clonedObject = ''
 
           for (var i = 0; i < bindings.length; i++) {
             var bindingParts = bindings[i].split(':') || [],
@@ -255,26 +254,29 @@ var dom = {
 
             var match = binding.match(new RegExp("([^:]+):[#.]" + name)),
               replaceVariableNew = match ? match[1] : '',
-              clonedObject = object.cloneNode(true),
               fieldif = bindfieldif && bindfieldif.value.split(':')
 
             switch (type) {
               case 'text':
-                app.listeners.add(target, 'keyup', function (e) {
-                  if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) return
-                  target.startBind = true
-                  if (fieldif && fieldif[1] !== target.lastPressedKey) {
-                    target.startBind = false
-                    target.lastPressedKey = false
-                  }
-                  if (target.startBind) {
-                    app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
-                    app.variables.update.content(object, regex, replaceVariableNew, this.value)
-                  }
-                })
+                if (object.listener !== object) {
+                  app.listeners.add(target, 'keyup', function keyupCallback(e) {
+                    if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) return
+                    target.startBind = true
+                    if (fieldif && fieldif[1] !== target.lastPressedKey) {
+                      target.startBind = false
+                      target.lastPressedKey = false
+                    }
+                    if (target.startBind) {
+                      app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
+                      app.variables.update.content(object, regex, replaceVariableNew, this.value)
+                    }
+                  })
+
+                  object.listener = object
+                }
                 break
               case 'select-one':
-                app.listeners.add(target, 'change', function () {
+                app.listeners.add(target, 'change', function changeCallback() {
                   var value = this.options[this.selectedIndex].value
                   app.variables.update.attributes(object, clonedObject, replaceVariableNew, this.value, true)
                   app.variables.update.content(object, regex, replaceVariableNew, value)
@@ -282,7 +284,6 @@ var dom = {
                 break
             }
           }
-
           continue
       }
 
@@ -740,7 +741,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 226 },
+  version: { major: 1, minor: 0, patch: 0, build: 227 },
   module: {},
   plugin: {},
   var: {},
@@ -809,7 +810,7 @@ var app = {
     })
 
     // Listen for all input fields.
-    app.listeners.add(document, 'input', function (e) {
+    app.listeners.add(document, 'input', function test(e) {
       app.listeners.change('input', e.target, false, e)
     })
   },
@@ -1130,8 +1131,12 @@ var app = {
    */
   listeners: {
     add: function (element, eventType, callback) {
-      element.removeEventListener(eventType, callback)
+      this.remove(element, eventType, callback)
       element.addEventListener(eventType, callback)
+    },
+
+    remove: function (element, eventType, callback) {
+      element.removeEventListener(eventType, callback)
     },
 
     change: function (type, object, test) {
@@ -1371,6 +1376,8 @@ var app = {
               element.callAttribute = attributes[j].name
               if (!element.originalText) element.originalText = element.textContent
               if (!element.originalHtml) element.originalHtml = element.innerHTML
+              if (!element.originalOuterHtml) element.originalOuterHtml = element.outerHTML
+
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
                 app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
@@ -1395,9 +1402,8 @@ var app = {
   variables: {
     update: {
       attributes: function (object, clonedObject, replaceVariable, replaceValue, reset) {
-
         if (reset) {
-          var originalAttributes = clonedObject.attributes
+          var originalAttributes = dom.parse.text(object.originalOuterHtml).children[0].attributes
           object.innerHTML = object.originalHtml
           app.variables.reset.attributes(object, originalAttributes)
           app.variables.reset.content(object, object.innerHTML)
@@ -1412,7 +1418,7 @@ var app = {
           }))
         }
 
-        if (reset) app.attributes.run([object], ['bind', 'bind2', 'stop'])
+        if (reset) app.attributes.run([object], ['stop'])
       },
 
       content: function (object, regex, replaceVariable, replaceValue) {
