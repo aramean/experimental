@@ -4,9 +4,12 @@ app.module.chronotize = {
   _weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 
   weekday: function (element) {
-    var date = new Date(element.innerHTML)
-    var dayIndex = date.getDay()
-    dom.set(element, this._weekdays[dayIndex])
+    var date = new Date(element.innerHTML),
+      dayIndex = date.getDay(),
+      setValue = this._weekdays[dayIndex]
+
+    element.renderedText = setValue
+    app.element.set(element, setValue)
   },
 
   age: function (element) {

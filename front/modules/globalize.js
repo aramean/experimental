@@ -88,6 +88,7 @@ app.module.globalize = {
    */
   get: function (element) {
     element.textContent = element.originalText
+    if (element.renderedText) element.textContent = element.renderedText
 
     var value = element.getAttribute(this.module + '-get') || element.textContent,
       isRoot = value[0] == '/' ? true : false,
