@@ -3,7 +3,7 @@
 app.module.globalize = {
   storageMechanism: 'local',
   storageType: 'module',
-  defaultFolder: 'assets/json/locales/',
+  defaultFolder: 'assets/json/locales',
 
   /**
    * @function _autoload

@@ -268,8 +268,8 @@ var dom = {
             switch (type) {
               case 'text':
                 if (object.listener !== object) {
-                  app.listeners.add(target, 'keyup', function keyupCallback(e) {
-                    if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) return
+                  app.listeners.add(target, 'keyup', function (e) {
+                    if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) return // Ignore keys (left, up, right, down).
                     target.startBind = true
                     if (fieldif && fieldif[1] !== target.lastPressedKey) {
                       target.startBind = false
@@ -285,7 +285,7 @@ var dom = {
                 }
                 break
               case 'select-one':
-                app.listeners.add(target, 'change', function changeCallback() {
+                app.listeners.add(target, 'change', function () {
                   var value = this.options[this.selectedIndex].value
                   app.variables.update.attributes(object, replaceVariableNew, this.value, true)
                   app.variables.update.content(object, replaceVariableNew, value)
@@ -733,7 +733,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 237 },
+  version: { major: 1, minor: 0, patch: 0, build: 238 },
   module: {},
   plugin: {},
   var: {},
