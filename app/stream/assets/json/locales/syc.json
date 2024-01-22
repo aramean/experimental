@@ -1,10 +1,10 @@
 {
-  "name": "𐡀𐡓𐡌𐡉𐡀",
-  "code": "syc",
+  "name": "ܐܪܡܝܐ",
+  "code": "arc",
   "direction": "rtl",
   "translations": {
     "Movies": "ܦܝܠܡ",
-    "People": "𐡐𐡅𐡉𐡈𐡀",
+    "People": "ܦܪܨܘܦܐ",
     "Shows": "ܬܚܪܙܝܬܐ",
     "input_search": "ܒܘܕܩܐ",
     "Comedy": "ܡܝܡܣܘܬܐ",
@@ -12,6 +12,6 @@
     "Horror": "ܕܘܚܠܐ",
     "History": "ܡܟܬܒܐ",
     "Music": "ܙܡܪܐ",
-    "Mystery": "𐡀𐡓𐡆𐡀"
+    "Mystery": "ܪܙܐ"
   }
 }
