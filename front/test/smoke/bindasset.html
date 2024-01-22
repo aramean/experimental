@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script
+    src="../../front.js"
+    module="globalize;data;navigate"
+    var="api"
+    conf="varsDir:assets/json/vars"
+    globalize-conf="folder:assets/json/locales"
+    navigate-conf="startpage:experimental">
+  </script>
+</head>
+
+<body>
+  <h1>Bind</h1>
+  <hr>
+    <h3>Asset</h3>
+    <span bindasset="api:api.themoviedb.popular;page:api.page.page">{api}?page={page:0}</span><br>
+  </section>
+</body>
+
+</html>
