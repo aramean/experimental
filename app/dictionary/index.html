@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="version" content="1.0.0">
+  <script
+    src="../../front/front.js"
+    module="globalize;data;navigate;form;keyboard"
+    var="api"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:stream"
+    globalize-conf="folder:assets/json/locales"
+    navigate-conf="startpage:experimental/app/stream;startpageLocal:app/stream">
+  </script>
+  <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
+  <link rel="icon" href="data:,">
+  <style>
+    [hide] {
+      display: none
+    }
+
+    .h100p{
+      height: 100%
+    }
+    
+    .zi50 {
+      z-index: 50
+    }
+
+    .jcc {
+      justify-content: center
+    }
+
+    .box *, .cards{
+      box-sizing: border-box;
+      width: 100%
+    }
+  </style>
+  <title>Dictionary</title>
+</head>
+
+<body class="light">
+  <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
+  <header class="topbar h4_5 gap2- pr2 shade1">
+    <button click="toggle" clicktargetfield="aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
+    <figure class="mh30p pl2 sel">
+      <a class="b0 fwb pr025" href="./" key="0">Stream</a>
+    </figure>
+    <div class="pr f1">
+      <input
+        id="query"
+        type="text"
+        class="bs1 p1 h3 br05 dark white w100 md_dn"
+        globalize-get="input_search"
+        globalize-target="placeholder"
+        autocomplete="off"
+        focus>
+      <div 
+        stop="data-src"
+        bindasset="s:api.themoviedb.search.keyword"
+        bindfield="q:#query"
+        data-src="{s}{q}"
+        data-iterate="results"
+        data-loader="false"
+        class="box br05 bcblack- white- border- pa w100"
+        hide>
+        <figure class="p05">
+          <a data-get="title || name" class="md_dn"></a>
+        </figure>
+      </div>
+    </div>
+    <a href="movies.html?page=2" globalize-get>Movies</a>
+    <a href="shows.html" globalize-get>Shows</a>
+    <a href="people.html" globalize-get>People</a>
+  </header>
+
+  <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn" resize="horizontal"></aside>
+  <main class="flc">
+    <div
+      bindvar="name:title;link:movie;endpoint:trending;endpoint2:all"
+      include="includes/search.html">
+    </div>
+  </main>
+  <aside></aside>
+  <footer class="m0a">
+    <select name="language" class="h1 fs08" onvaluechange="globalize-set">
+      <option selected></option>
+      <option value="sv">Svenska</option>
+      <option value="en">English</option>
+      <option value="arc">𐡀𐡓𐡌𐡉𐡀</option>
+      <option value="syc">ܐܪܡܝܐ</option>
+    </select>
+  </footer>
+</body>
+
+</html>
