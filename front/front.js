@@ -733,7 +733,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 239 },
+  version: { major: 1, minor: 0, patch: 0, build: 240 },
   module: {},
   plugin: {},
   var: {},
@@ -776,14 +776,14 @@ var app = {
         if (tab) {
           var val = !click ? tab : click
           val = val.value.split(':')
-          app.call(['dom', val[0]], [element, val[1]])
+          app.call(['dom', val[0]], [link, val[1]])
         }
       }
       if (e.key === 'Enter') {
         var submit = link.attributes.onsubmit
         if (submit) {
           var val = submit.value.split(':')
-          app.call(['dom', val[0]], [e.target, val[1]])
+          app.call(['dom', val[0]], [link, val[1]])
         }
       }
       link.lastPressedKey = e.key
