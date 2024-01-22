@@ -279,6 +279,10 @@ var dom = {
                       app.variables.update.attributes(object, replaceVariableNew, this.value, true)
                       app.variables.update.content(object, replaceVariableNew, this.value)
                     }
+                    if (target.startSubmit) {
+                      app.call(['dom', target.startSubmit], [target])
+                      target.startSubmit = false
+                    }
                   })
 
                   object.listener = object
@@ -532,11 +536,12 @@ var dom = {
   },
 
   reset: function (object, value) {
-    var tag = object.localName
+    var tag = object.localName,
+      stateValue = object.attributes.statevalue
     switch (tag) {
       case 'input':
         object.value = object.defaultValue
-        object.attributes.statevalue.value = object.defaultValue
+        stateValue ? stateValue.value = object.defaultValue : false
         app.listeners.change('input', object, false)
         break
     }
@@ -733,7 +738,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 240 },
+  version: { major: 1, minor: 0, patch: 0, build: 241 },
   module: {},
   plugin: {},
   var: {},
@@ -783,7 +788,7 @@ var app = {
         var submit = link.attributes.onsubmit
         if (submit) {
           var val = submit.value.split(':')
-          app.call(['dom', val[0]], [link, val[1]])
+          link.startSubmit = val[0]
         }
       }
       link.lastPressedKey = e.key
