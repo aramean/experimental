@@ -34,6 +34,7 @@ var dom = {
     'padding': 'apply'
   },
   _uniqueId: 0,
+  _bindfieldPos: 0,
 
   /**
    * @namespace parse
@@ -268,6 +269,8 @@ var dom = {
             switch (type) {
               case 'text':
                 if (object.listener !== object) {
+                  this._bindfieldPos++
+                  object.bindfieldPos = this._bindfieldPos
                   app.listeners.add(target, 'keyup', function (e) {
                     if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) return // Ignore keys (left, up, right, down).
                     target.startBind = true
@@ -280,8 +283,11 @@ var dom = {
                       app.variables.update.content(object, replaceVariableNew, this.value)
                     }
                     if (target.startSubmit) {
-                      app.call(['dom', target.startSubmit], [target])
-                      target.startSubmit = false
+                      var length = target.listeners['keyup'].length
+                      if (object.bindfieldPos === length) {
+                        app.call(['dom', target.startSubmit], [target])
+                        target.startSubmit = false
+                      }
                     }
                   })
 
@@ -350,11 +356,12 @@ var dom = {
    * @desc Sets a unique id for the given element.
    */
   setUniqueId: function (element, internal) {
-    dom._uniqueId++
+    this._uniqueId++
+    var id = this._uniqueId
     if (!internal)
-      element.id = 'id' + dom._uniqueId
+      element.id = 'id' + id
     else
-      element.uniqueId = dom._uniqueId
+      element.uniqueId = id
   },
 
   doctitle: function (value) {
@@ -738,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 241 },
+  version: { major: 1, minor: 0, patch: 0, build: 242 },
   module: {},
   plugin: {},
   var: {},
@@ -1135,8 +1142,12 @@ var app = {
    */
   listeners: {
     add: function (element, eventType, callback) {
-      this.remove(element, eventType, callback)
+      element.removeEventListener(eventType, callback)
       element.addEventListener(eventType, callback)
+
+      // Track the listener
+      element.listeners = element.listeners || {}
+      element.listeners[eventType] = (element.listeners[eventType] || []).concat(callback)
     },
 
     remove: function (element, eventType, callback) {
