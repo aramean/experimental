@@ -1,0 +1,17 @@
+{
+  "name": "ܐܪܡܝܐ",
+  "code": "syc",
+  "direction": "rtl",
+  "translations": {
+    "Weather": "ܡܘܙܓܐ",
+    "Change language": "ܫܘܚܠܦ ܠܫܢܐ",
+    "Monday": "ܬܪܝܢܒܫܒܐ",
+    "Tuesday": "ܬܠܬܒܫܒܐ",
+    "Wednesday": "ܐܪܒܥܒܫܒܐ",
+    "Thursday": "ܚܡܫܒܫܒܐ",
+    "Friday": "ܥܪܘܒܬܐ",
+    "Saturday": "ܫܒܬܐ",
+    "Sunday": "ܚܕܒܫܒܐ",
+    "input_search": "ܒܘܕܩܐ"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Svenska",
+  "code": "swe",
+  "direction": "ltr",
+  "translations": {
+    "Weather": "Väder",
+    "Change language": "Byt språk",
+    "Monday": "Måndag",
+    "Tuesday": "Tisdag",
+    "Wednesday": "Onsdag",
+    "Thursday": "Torsdag",
+    "Friday": "Fredag",
+    "Saturday": "Lördag",
+    "Sunday": "Söndag",
+    "input_search": "Sök efter plats..."
+  }
+}

@@ -4,9 +4,9 @@
       <h1 class="z08 dimgray">Aramaic Dictionary</h1>
   </div>
 
-  <form method="get" action="search.html" class="mt1 mb5" reset="false">
-      <input type="text" name="q" class="bs1 p1 h3 br05 dark white w100 md_dn w100 bs0" focus placeholder="Sök" globalize="search" bind="main:inputWord" bindinclude="list.html" bindcache="300" focus="true">
-          <select class="text z07 mt1 fr br2">
+  <form method="get" action="search.html" class="mt1 mb5" onsubmit="reset">
+      <input type="text" name="q" class="bs1 p1 h3 br05 dark white w100 w100 bs0" focus placeholder="Sök" globalize="search" bind="main:inputWord" bindinclude="list.html" bindcache="300" focus autocomplete="off">
+          <select class="text tac z07 mt1 fr br2">
           <option value="arc" globalize="all_dialects">Alla dialekter</option>
               <optgroup label="Arameiska (Modern)" globalize="aramaic_modern"><option value="syr">Suryoyo (Standard)</option>
                   <option value="syt">Surayt (Standard West)</option>

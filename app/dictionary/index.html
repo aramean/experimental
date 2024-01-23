@@ -8,9 +8,9 @@
     src="../../front/front.js"
     module="globalize;data;navigate;form;keyboard"
     var="api"
-    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:stream"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:dictionary"
     globalize-conf="folder:assets/json/locales"
-    navigate-conf="startpage:experimental/app/stream;startpageLocal:app/stream">
+    navigate-conf="startpage:experimental/app/dictionary;startpageLocal:app/dictionary">
   </script>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link rel="icon" href="data:,">
@@ -41,41 +41,9 @@
 
 <body class="light">
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
-  <header class="topbar h4_5 gap2- pr2 shade1">
-    <button click="toggle" clicktargetfield="aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
-    <figure class="mh30p pl2 sel">
-      <a class="b0 fwb pr025" href="./" key="0">Stream</a>
-    </figure>
-    <div class="pr f1">
-      <input
-        id="query"
-        type="text"
-        class="bs1 p1 h3 br05 dark white w100 md_dn"
-        globalize-get="input_search"
-        globalize-target="placeholder"
-        autocomplete="off"
-        focus>
-      <div 
-        stop="data-src"
-        bindasset="s:api.themoviedb.search.keyword"
-        bindfield="q:#query"
-        data-src="{s}{q}"
-        data-iterate="results"
-        data-loader="false"
-        class="box br05 bcblack- white- border- pa w100"
-        hide>
-        <figure class="p05">
-          <a data-get="title || name" class="md_dn"></a>
-        </figure>
-      </div>
-    </div>
-    <a href="movies.html?page=2" globalize-get>Movies</a>
-    <a href="shows.html" globalize-get>Shows</a>
-    <a href="people.html" globalize-get>People</a>
-  </header>
-
+  <header></header>
   <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn" resize="horizontal"></aside>
-  <main class="flc">
+  <main class="bcwhite flc">
     <div
       bindvar="name:title;link:movie;endpoint:trending;endpoint2:all"
       include="includes/search.html">

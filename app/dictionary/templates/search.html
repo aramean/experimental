@@ -1,0 +1,35 @@
+<template>
+  <header class="topbar h4_5 gap2- pr2 shade1">
+    <button click="toggle" clicktargetfield="aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
+    <figure class="sel">
+      <a href="./" key="0"><img class="br50 bos5 red bw5 shade1 hue-rotate" src="https://www.aramean.institute/favicon.ico"></a>
+    </figure>
+    <div class="pr f1">
+      <input
+        id="query"
+        type="text"
+        class="bs1 p1 h3 br05 dark white w100 md_dn"
+        globalize-get="input_search"
+        globalize-target="placeholder"
+        autocomplete="off"
+        focus>
+      <div 
+        stop="data-src"
+        bindasset="s:api.themoviedb.search.keyword"
+        bindfield="q:#query"
+        data-src="{s}{q}"
+        data-iterate="results"
+        data-loader="false"
+        class="box br05 bcblack- white- border- pa w100"
+        hide>
+        <figure class="p05">
+          <a data-get="title || name" class="md_dn"></a>
+        </figure>
+      </div>
+    </div>
+    <a href="movies.html?page=2" globalize-get>Movies</a>
+  </header>
+  <aside></aside>
+  <main class="pauto"></main>
+  <aside class="testar"></aside>
+</template>
