@@ -1,0 +1,43 @@
+<script src="../../front/front.js"></script>
+<title>Word</title>
+<style>.loader{display: inherit}</style>
+<template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
+<article class="wc_xl pauto">
+    <section
+      data-header="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaGhibnBiZnFna3l5Z2d2a2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI0Nzk4ODUsImV4cCI6MTk3ODA1NTg4NX0.GSpPsOgT3fPqapeBW1EdVLqRgHk-mxYJAfdA6hsGbZ0;Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
+      bindquery="i:i"
+      data-src="https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words?select=word&or=(id.eq.{i})">
+        <h1 data-get="word.eng">.</h1>
+        <nav class="crumbs pointer p05 bos6 bocblack01 bw1 bcsnow mt05 br05 gray w0">
+            <ol class="pl05">
+                <li><a href="./" globalize="dictionary">Dictionary</a></li>
+                <li><a data-set="i:id" href="word.html?i={i}" globalize="word">Word</a></li>
+                <li data-get="word.eng"></li>
+            </ol>
+        </nav>
+       <div class="box cards list mt1 br0- flc-">
+
+            <h6 class="p1 bcwhitesmoke black08 fwb" if="{{ jsonget:word.syc }};undefined;hide">Aramaic (Suryaya)</h6>
+            <figure class="p1 fs11 bcwhite" if="{{ jsonget:word.syc }};undefined;hide">
+              <p data-get="word.syc"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true" onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
+            </figure>
+
+            <h6 class="p1 bcwhitesmoke black08 fwb">Aramaic (Suryoyo)</h6>
+            <figure class="p1 fs11 bcwhite">
+              <p data-get="word.syr"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true" onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
+            </figure>
+            
+            <h6 class="p1 bcwhitesmoke black08 fwb">Aramaic (Surayt)</h6>
+            
+            <figure class="p1 fs11 bcwhite">
+              <p data-get="word.syt"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true" onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
+            </figure>
+
+            <h6 class="p1 bcwhitesmoke black08 fwb">Aramaic (Sureth)</h6>
+            
+            <figure class="p1 fs11 bcwhite">
+              <p data-get="word.syh"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true" onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
+            </figure>
+        </div>
+    </section>
+</article>
