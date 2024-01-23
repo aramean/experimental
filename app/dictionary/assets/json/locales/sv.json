@@ -12,6 +12,8 @@
     "Friday": "Fredag",
     "Saturday": "Lördag",
     "Sunday": "Söndag",
-    "input_search": "Sök efter plats..."
+    "title": "Arameisk ordbok",
+    "input_search": "Sök efter ord...",
+    "select_change": "Byt språk"
   }
 }

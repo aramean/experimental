@@ -5,6 +5,8 @@
   "translations": {
     "Weather": "Weather",
     "Change language": "Change language",
-    "input_search": "Search for location..."
+    "title": "Aramaic Dictionary",
+    "input_search": "Search for words...",
+    "select_change": "Change language"
   }
 }
