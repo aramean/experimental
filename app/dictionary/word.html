@@ -15,7 +15,7 @@
     data-header="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaGhibnBiZnFna3l5Z2d2a2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI0Nzk4ODUsImV4cCI6MTk3ODA1NTg4NX0.GSpPsOgT3fPqapeBW1EdVLqRgHk-mxYJAfdA6hsGbZ0;Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
     bindquery="i:i" data-src="https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words?select=word&or=(id.eq.{i})">
     <h1 data-get="word.eng">.</h1>
-    <nav class="crumbs pointer p05 bos6 bocblack01 bw1 bcsnow mt05 br05 gray w0">
+    <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
       <ol class="pl05">
         <li><a href="./" globalize="dictionary">Dictionary</a></li>
         <li><a data-set="i:id" href="word.html?i={i}" globalize="word">Word</a></li>
@@ -24,50 +24,50 @@
     </nav>
     <div class="box cards list mt1 br0- flc-">
 
-      <h6 class="p05 pl1 bcwhitesmoke black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Alamaya</h6>
-      <figure class="p1 fs11 bcwhite" if="{{ jsonget:word.syc }};undefined;hide">
+      <h6 class="p05 pl1 black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Alamaya</h6>
+      <figure class="p1 fs11 bcwhite mb1" if="{{ jsonget:word.syc }};undefined;hide">
         <p data-get="word.oar"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true"
           onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
       </figure>
 
-      <h6 class="p05 pl1 bcwhitesmoke black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Aramaya</h6>
-      <figure class="p1 fs11 bcwhite" if="{{ jsonget:word.syc }};undefined;hide">
+      <h6 class="p05 pl1 black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Aramaya</h6>
+      <figure class="p1 fs11 bcwhite mb1" if="{{ jsonget:word.syc }};undefined;hide">
         <p data-get="word.arc"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true"
           onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
       </figure>
 
-      <h6 class="p05 pl1 bcwhitesmoke black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Aramit</h6>
-      <figure class="p1 fs11 bcwhite" if="{{ jsonget:word.syc }};undefined;hide">
+      <h6 class="p05 pl1 black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Aramit</h6>
+      <figure class="p1 fs11 bcwhite mb1" if="{{ jsonget:word.syc }};undefined;hide">
         <p data-get="word.sam"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true"
           onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
       </figure>
 
-      <h6 class="p05 pl1 bcwhitesmoke black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Aromay</h6>
-      <figure class="p1 fs11 bcwhite" if="{{ jsonget:word.syc }};undefined;hide">
+      <h6 class="p05 pl1 bcwhite01 black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Aromay</h6>
+      <figure class="p1 fs11 bcwhite mb1" if="{{ jsonget:word.syc }};undefined;hide">
         <p data-get="word.amw"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true"
           onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 bcwhitesmoke black08 fs08" if="{{ jsonget:word.syc }};undefined;hide">Suryaya</h6>
-      <figure class="p1 fs11 bcwhite" if="{{ jsonget:word.syc }};undefined;hide">
+      <figure class="p1 fs11 bcwhite mb1" if="{{ jsonget:word.syc }};undefined;hide">
         <p data-get="word.syc"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true"
           onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 bcwhitesmoke black08 fs08">Suryoyo</h6>
-      <figure class="p1 fs11 bcwhite">
+      <figure class="p1 fs11 bcwhite mb1">
         <p data-get="word.syr"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true"
           onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 bcwhitesmoke black08 fs08">Surayt</h6>
-      <figure class="p1 fs11 bcwhite">
+      <figure class="p1 fs11 bcwhite mb1">
         <p data-get="word.syt"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true"
           onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 bcwhitesmoke black08 fs08">Sureth</h6>
-      <figure class="p1 fs11 bcwhite">
+      <figure class="p1 fs11 bcwhite mb1">
         <p data-get="word.syh"></p><a class="icon f0" if="{{ jsonget:speech.syc }};;hide:true"
           onclick="responsiveVoice.speak('{{ jsonget:speech.syc.txt }}', 'Arabic Female', {rate: .8})">&#128264;</a>
       </figure>
