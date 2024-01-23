@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 243 },
+  version: { major: 1, minor: 0, patch: 0, build: 244 },
   module: {},
   plugin: {},
   var: {},
@@ -1749,10 +1749,6 @@ var app = {
           urlExtension = url.indexOf('.') !== -1 || url == '/' || options.urlExtension === false ? '' : app.fileExtension || ''
 
         xhr.options = options
-        // Set headers
-        /*for (var header in headers) {
-          if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
-        }*/
 
         if (single) {
           if (this.currentRequest) this.currentRequest.abort()
@@ -1819,6 +1815,12 @@ var app = {
         }
 
         xhr.open('GET', url + urlExtension, true)
+
+        // Set headers
+        for (var header in headers) {
+          if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
+        }
+
         xhr.send(null)
       }
     }
