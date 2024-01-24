@@ -31,7 +31,7 @@ app.module.data = {
       dom.hide(element)
     }
 
-    if (!element.getAttribute('stop')) element.setAttribute('stop', '*')
+    //if (!element.getAttribute('stop')) element.setAttribute('stop', '*')
 
     if (!self._intervalTimers[element.uniqueId]) {
       self._intervalTimers[element.uniqueId] = setTimeout(function () {
@@ -172,7 +172,7 @@ app.module.data = {
         }
       }
 
-      if (element.getAttribute('stop') === "*") dom.start(element)
+      //if (element.getAttribute('stop') === "*") dom.start(element)
       this._set(responseData, options)
       this._finish(options)
       app.attributes.run(elements, ['data-get', 'data-set'])

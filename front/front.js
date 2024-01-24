@@ -247,15 +247,13 @@ var dom = {
           break
         case 'bindfield':
           var type = object.tagName.toLowerCase(),
-            bindInclude = this.bind.include ? ';' + this.bind.include : '',
-            binding = ((object.getAttribute('data-bind') || object.getAttribute('bindfield') || object.getAttribute('var')) || '') + bindInclude,
-            bindings = binding ? binding.split(';') : []  // Set variable if colon is presented or update innerhtml.
+          binding = object.getAttribute('bindfield')
+          bindings = binding ? binding.split(';') : []
 
           for (var i = 0; i < bindings.length; i++) {
             var bindingParts = bindings[i].split(':') || [],
               replaceVariable = bindingParts[0],
-              replaceValue = bindingParts[1],
-              target = replaceValue.substring(1)
+              replaceValue = bindingParts[1]
 
             var target = dom.get(replaceValue),
               type = target.type,
@@ -745,14 +743,14 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 245 },
+  version: { major: 1, minor: 0, patch: 0, build: 246 },
   module: {},
   plugin: {},
   var: {},
   language: document.documentElement.lang || 'en',
   docMode: document.documentMode || 0,
   isFrontpage: document.doctype ? true : false,
-  srcDocTemplate: document,
+  srcDocTemplate: '',
   srcTemplate: [],
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
   spa: false,
@@ -1142,6 +1140,7 @@ var app = {
    */
   listeners: {
     add: function (element, eventType, callback) {
+
       element.removeEventListener(eventType, callback)
       element.addEventListener(eventType, callback)
 
@@ -1231,6 +1230,8 @@ var app = {
           vars = scriptAttr.var && scriptAttr.var.value.split(';') || []
 
         dom.doctitle(document.title)
+
+        app.srcDocTemplate = document.body.innerHTML
         app.templates.elements = app.templates.reset()
 
         app.modules.name = modules
@@ -1516,6 +1517,8 @@ var app = {
         srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
+      if (!app.srcDocTemplate) app.srcDocTemplate = app.caches.get('window', 'template', srcDoc).data
+
       if (srcDoc) {
         var cache = app.caches.get('window', 'template', srcDoc),
           responsePage = dom.parse.text(cache.data, ['title']),
@@ -1564,17 +1567,32 @@ var app = {
         for (var i = 0; i < src.length; i++) {
           var cache = app.caches.get('window', 'template', src[i]),
             html = dom.parse.text(cache.data),
-            template = dom.parse.text(app.element.find(html, 'template').innerHTML)
-
+            template = dom.parse.text(app.element.find(html, 'template').innerHTML),
+            srcDoc = dom.parse.text(app.srcDocTemplate)
+          //console.error(app.srcDocTemplate)
           for (var el in this.elements) {
             var parsedEl = app.element.find(template, el),
               content = parsedEl.innerHTML,
               templateClassList = parsedEl.classList
 
-            dom.get(el).setAttribute('class', this.elements[el])
 
-            if (content !== undefined && el !== 'main') {
-              dom.set(el, content)
+            var templateEl = dom.get(el)
+            templateEl.setAttribute('class', this.elements[el])
+
+
+            if (el !== 'main') {
+
+
+
+              if (parsedEl.nodeType === 1) {
+                dom.set(el, content)
+                //console.error('exist: ' + el)
+              } else {
+                var test = app.element.find(srcDoc, el)
+                dom.set(el, test.innerHTML)
+                //console.warn('original: ' + el)
+              }
+
               if (dom.get('template')) app.attributes.run(el + ' *')
             }
 
