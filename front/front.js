@@ -247,8 +247,8 @@ var dom = {
           break
         case 'bindfield':
           var type = object.tagName.toLowerCase(),
-          binding = object.getAttribute('bindfield')
-          bindings = binding ? binding.split(';') : []
+            binding = object.getAttribute('bindfield'),
+            bindings = binding ? binding.split(';') : []
 
           for (var i = 0; i < bindings.length; i++) {
             var bindingParts = bindings[i].split(':') || [],
@@ -743,7 +743,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 246 },
+  version: { major: 1, minor: 0, patch: 0, build: 247 },
   module: {},
   plugin: {},
   var: {},
@@ -1232,7 +1232,6 @@ var app = {
         dom.doctitle(document.title)
 
         app.srcDocTemplate = document.body.innerHTML
-        app.templates.elements = app.templates.reset()
 
         app.modules.name = modules
         app.modules.total = modules.length
@@ -1530,7 +1529,6 @@ var app = {
           var parsedEl = app.element.find(responsePage, el),
             content = parsedEl.innerHTML
 
-          this.elements[el] = parsedEl.classList
           if (el !== 'main') {
             dom.set(el, content ? content : '')
             app.attributes.run(el + ' *')
@@ -1569,53 +1567,26 @@ var app = {
             html = dom.parse.text(cache.data),
             template = dom.parse.text(app.element.find(html, 'template').innerHTML),
             srcDoc = dom.parse.text(app.srcDocTemplate)
-          //console.error(app.srcDocTemplate)
+
           for (var el in this.elements) {
             var parsedEl = app.element.find(template, el),
               content = parsedEl.innerHTML,
-              templateClassList = parsedEl.classList
-
-
-            var templateEl = dom.get(el)
-            templateEl.setAttribute('class', this.elements[el])
-
+              classAttr = parsedEl.attributes && parsedEl.attributes.class ? true : false,
+              className = parsedEl.className,
+              templateEl = dom.get(el)
 
             if (el !== 'main') {
-
-
-
-              if (parsedEl.nodeType === 1) {
-                dom.set(el, content)
-                //console.error('exist: ' + el)
-              } else {
-                var test = app.element.find(srcDoc, el)
-                dom.set(el, test.innerHTML)
-                //console.warn('original: ' + el)
-              }
-
+              dom.set(el, parsedEl.nodeType === 1 ? content : app.element.find(srcDoc, el).innerHTML)
               if (dom.get('template')) app.attributes.run(el + ' *')
             }
 
-            this.originalClassList[el] = templateClassList && content ? undefined : templateClassList
-
-            if (this.originalClassList[el] !== undefined) {
-              dom.get(el).classList = this.originalClassList[el]
-            }
+            templateEl.className = classAttr ? className : app.element.find(srcDoc, el).className
           }
         }
       }
 
       if (responsePageContentClass) document.body.className = responsePageContentClass
       dom.doctitle(currentPageTitle)
-    },
-
-    reset: function () {
-      var classLists = {}
-      this.elementSelectors.forEach(function (item) {
-        var element = dom.get(item.name + '[class]')
-        classLists[item.name] = element ? Array.from(element.classList).join(' ') : []
-      })
-      return classLists
     }
   },
 
