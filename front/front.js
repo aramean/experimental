@@ -745,14 +745,14 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 244 },
+  version: { major: 1, minor: 0, patch: 0, build: 245 },
   module: {},
   plugin: {},
   var: {},
   language: document.documentElement.lang || 'en',
   docMode: document.documentMode || 0,
   isFrontpage: document.doctype ? true : false,
-  srcDocTemplate: '',
+  srcDocTemplate: document,
   srcTemplate: [],
   isLocalNetwork: /localhost|127\.0\.0\.1|::1|\.local|^$/i.test(location.hostname),
   spa: false,
@@ -1674,6 +1674,7 @@ var app = {
                 case 'template':
                   app.templates.loaded++
                   if (app.templates.loaded === app.srcTemplate.total) {
+                    app.isFrontpage = false
                     app.templates.render()
                     app.config.set()
                     app.assets.get.modules()

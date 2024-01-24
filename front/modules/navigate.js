@@ -81,11 +81,12 @@ app.module.navigate = {
     var regex = /^\/+|\/+$/g,
       startpage = app.isLocalNetwork ? this.config.startpageLocal : this.config.startpage
 
-    if (state.target[0] == '#') {
-      state.target = state.target
-    } else if (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, '')) {
+    if (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, '')) {
+      app.isFrontpage = true
       state.target = 'html'
       state.extension = false
+    } else if (state.target[0] == '#') {
+      state.target = state.target
     } else if (!state.target || state.target[0] === '_') {
       state.target = this.config.target
     }
