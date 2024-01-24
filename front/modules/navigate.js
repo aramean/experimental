@@ -47,6 +47,7 @@ app.module.navigate = {
         history.pushState(state, '', link.href)
       }
 
+      this._scroll()
       this._load(history.state || state)
     } else {
       return
@@ -114,10 +115,19 @@ app.module.navigate = {
     var hash = link && link.hash
     if (hash) {
       var targetElement = dom.get(hash)
-      if (targetElement) {
-        var test = dom.get('main')
-        if (test) test.scrollTop = targetElement.offsetTop
-      }
+      if (targetElement) this._scroll('smooth', targetElement.offsetTop)
+    }
+  },
+
+  _scroll: function (behavior, top) {
+    var test = dom.get('main')
+    if (test.scrollTo) {
+      test.scrollTo({
+        top: top ? top : 0,
+        behavior: behavior ? behavior : 'instant'
+      })
+    } else {
+      test.scrollTop = top ? top : 0
     }
   },
 
