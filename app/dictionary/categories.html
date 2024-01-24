@@ -1,0 +1,21 @@
+<script src="../../front/front.js"></script>
+<template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
+<title>Categories</title>
+<section class="wc_xl pauto" json="categories" storage="api">
+  <h1 class="z08">Categories</h1>
+  <div
+    id="categories"
+    class="box cards mt05 mb1 gut2- br05- xs_gtc2 xm_gtc2 md_gtc3 lg_gtc4 xl_gtc5 xxl_gtc6 xxxl_gtc7 br0- flc-"
+    bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
+    data-src="{endpoint}?select=id,word&and=(taxonomy.is.null)"
+    data-header="apikey:{apikey};Prefer:count=exact"
+    data-iterate="true"
+    >
+    <a class="bcwhite" href="./category.html?id={{ jsonget:id }}">
+      <figure class="p1 tac">
+        <i class="icon icon48">&#9733;</i>
+        <small class="f2" data-get="word.eng" uppercase></small>
+      </figure>
+    </a>
+  </div>
+</section>

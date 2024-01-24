@@ -10,8 +10,9 @@ Found
 <div
   class="box cards shade1 list br0- bcwhite-"
   bindquery="q:q"
-  data-src="https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words?select=*&word->>swe=ilike.{q:*}"
-  data-header="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaGhibnBiZnFna3l5Z2d2a2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI0Nzk4ODUsImV4cCI6MTk3ODA1NTg4NX0.GSpPsOgT3fPqapeBW1EdVLqRgHk-mxYJAfdA6hsGbZ0;Prefer:count=exact"
+  bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
+  data-src="{endpoint}?select=*&word->>swe=ilike.{q:*}"
+  data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader"
   data-iterate="true">
   <a data-set="i:id" href="word.html?i={i}" class="p1">

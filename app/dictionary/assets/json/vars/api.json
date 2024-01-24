@@ -1,9 +1,6 @@
 {
-  "weather": {
-    "api_url": "https://api.weatherapi.com/v1",
-    "api_key": "d09f575ad0984ccb802135417232412",
-    "city": "Addis Ababa",
-    "cordinates": "9.0037099,38.7891503",
-    "lang": "en"
+  "api_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaGhibnBiZnFna3l5Z2d2a2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI0Nzk4ODUsImV4cCI6MTk3ODA1NTg4NX0.GSpPsOgT3fPqapeBW1EdVLqRgHk-mxYJAfdA6hsGbZ0",
+  "words": {
+    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words"
   }
 }
