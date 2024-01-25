@@ -3,18 +3,16 @@
   "code": "swe",
   "direction": "ltr",
   "translations": {
+    "Change language": "Byt språk",
+    "All dialects": "Alla dialekter",
+    "aramaic_modern": "Arameiska (Modern)",
+    "aramaic_middle": "Arameiska (Medel)",
+    "aramaic_late": "Arameiska (Sen)",
+    "aramaic_old": "Arameiska (Forn)",
+    "aramaic_imperial": "Arameiska (Imperialistisk)",
     "Browse": "Bläddra",
     "Categories": "Kategorier",
-    "Change language": "Byt språk",
-    "Monday": "Måndag",
-    "Tuesday": "Tisdag",
-    "Wednesday": "Onsdag",
-    "Thursday": "Torsdag",
-    "Friday": "Fredag",
-    "Saturday": "Lördag",
-    "Sunday": "Söndag",
     "title": "Arameisk Ordbok",
-    "input_search": "Sök efter ord...",
-    "select_change": "Byt språk"
+    "input_search": "Sök efter ord..."
   }
 }

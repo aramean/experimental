@@ -5,6 +5,12 @@
   "translations": {
     "Categories": "ܩܛܓܘܪܝܰܐ",
     "Change language": "ܫܘܚܠܦ ܠܫܢܐ",
+    "aramaic_modern": "ܐܪܡܝܐ ܚܕܬܐ",
+    "aramaic_middle": "ܐܪܡܝܐ ܡܨܥܝܐ",
+    "aramaic_late": "ܐܪܡܝܐ ܐܝܛܐ",
+    "aramaic_imperial": "ܐܪܡܝܐ ܕܘܣܦܘܛܝܩܐ",
+    "aramaic_old": "ܐܪܡܝܐ ܩܕܡܝܐ",
+    "All dialects": "ܟܠܐ ܠܥܙܐ",
     "Monday": "ܬܪܝܢܒܫܒܐ",
     "Tuesday": "ܬܠܬܒܫܒܐ",
     "Wednesday": "ܐܪܒܥܒܫܒܐ",
