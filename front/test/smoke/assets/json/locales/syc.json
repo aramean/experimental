@@ -1,8 +1,10 @@
 {
   "name": "ܐܪܡܝܐ",
-  "code": "arc",
+  "code": "syc",
   "direction": "rtl",
   "translations": {
+    "All dialects": "ܫܘܚܠܦ ܠܫܢܐ",
+    "aramaic_modern": "ܐܪܡܝܐ ܚܕܬܐ",
     "age": "ܫܢܝܢ",
     "name": "ܫܡ",
     "api": "API",

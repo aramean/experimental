@@ -743,7 +743,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 248 },
+  version: { major: 1, minor: 0, patch: 0, build: 249 },
   module: {},
   plugin: {},
   var: {},
@@ -885,6 +885,7 @@ var app = {
       'object': 'data',
       'applet': 'code',
       'meta': 'content',
+      'optgroup': 'label'
     },
 
     get: function (element) {
@@ -899,9 +900,10 @@ var app = {
       if (attr) {
         attr = attr.replace('set', '')
         if (attr === 'text')
-          return element.textContent = value
+          element.textContent = value
         else
-          return element.setAttribute(attr, value)
+          element.setAttribute(attr, value)
+        return
       }
 
       var property = this.propertyMap[element.localName] || 'textContent'
@@ -1392,6 +1394,7 @@ var app = {
               if (!element.originalText) element.originalText = element.textContent
               if (!element.originalHtml) element.originalHtml = element.innerHTML
               if (!element.originalOuterHtml) element.originalOuterHtml = element.outerHTML
+              if (!element.originalLabel) element.originalLabel = element.label
 
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])

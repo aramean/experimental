@@ -87,12 +87,18 @@ app.module.globalize = {
    * @desc Gets the globalized value and set it to the element.
    */
   get: function (element) {
-    element.textContent = element.originalText
+    var tag = element.localName,
+      target = element.getAttribute(this.module + '-target')
+
+    if (tag === 'optgroup') {
+      element.label = element.originalLabel
+    } else {
+      element.textContent = element.originalText
+    }
     if (element.renderedText) element.textContent = element.renderedText
 
     var value = element.getAttribute(this.module + '-get') || element.textContent,
-      isRoot = value[0] == '/' ? true : false,
-      target = element.getAttribute(this.module + '-target')
+      isRoot = value[0] == '/' ? true : false
 
     if (this.fetchedData) {
       var fetchedData = this.fetchedData,
