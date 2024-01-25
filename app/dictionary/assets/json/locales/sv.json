@@ -3,7 +3,8 @@
   "code": "swe",
   "direction": "ltr",
   "translations": {
-    "Weather": "Väder",
+    "Browse": "Bläddra",
+    "Categories": "Kategorier",
     "Change language": "Byt språk",
     "Monday": "Måndag",
     "Tuesday": "Tisdag",

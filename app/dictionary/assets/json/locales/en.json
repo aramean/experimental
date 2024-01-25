@@ -3,7 +3,8 @@
   "code": "eng",
   "direction": "ltr",
   "translations": {
-    "Weather": "Weather",
+    "Browse": "Browse",
+    "Categories": "Categories",
     "Change language": "Change language",
     "title": "Aramaic Dictionary",
     "input_search": "Search for words...",
