@@ -4,9 +4,8 @@
   .loader{display: inherit}
 </style>
 <template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
-Found
-<hr class="bcblack01">
 <div id="loader" class="loader"></div>
+<h1 id="empty" hide bindquery="q:q">No results found for <b>{q}</b></h1>
 <div
   class="box cards shade1 list br0- bcwhite-"
   bindquery="q:q"
@@ -14,6 +13,7 @@ Found
   data-src="{endpoint}?select=*&word->>swe=ilike.{q:*}"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader"
+  data-empty="0;#empty"
   data-iterate="true">
   <a data-set="i:id" href="word.html?i={i}" class="p1">
     <figure class="pr">
