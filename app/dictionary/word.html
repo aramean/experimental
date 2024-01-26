@@ -7,15 +7,42 @@
 
   .box.list * {
     width: auto
-    }
+  }
+
+  @font-face {
+    font-family: adiabene;
+    src: url('assets/fonts/adiabene.ttf')
+  }
+
+  @font-face {
+    font-family: edessa;
+    src: url('assets/fonts/edessa.otf')
+  }
+
+  @font-face {
+    font-family: midyat;
+    src: url('assets/fonts/midyat.otf')
+  }
+
+  .ffadiabene{
+    font-family: adiabene;
+    zoom: 1.7
+  }
+
+  .ffedessa{
+    font-family: edessa;
+    zoom: 1.6
+  }
+
+  .ffmidyat{
+    font-family: midyat;
+    zoom: 1.3
+  }
 </style>
 <template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
 <article class="wc_xl">
-  <section
-    bindquery="i:i"
-    data-src="https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words?select=word&or=(id.eq.{i})"
-    data-header="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaGhibnBiZnFna3l5Z2d2a2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI0Nzk4ODUsImV4cCI6MTk3ODA1NTg4NX0.GSpPsOgT3fPqapeBW1EdVLqRgHk-mxYJAfdA6hsGbZ0;Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
-    >
+  <section bindquery="i:i" data-src="https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words?select=word&or=(id.eq.{i})"
+    data-header="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaGhibnBiZnFna3l5Z2d2a2ljIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI0Nzk4ODUsImV4cCI6MTk3ODA1NTg4NX0.GSpPsOgT3fPqapeBW1EdVLqRgHk-mxYJAfdA6hsGbZ0;Prefer:count=exact;Accept:application/vnd.pgrst.object+json">
     <h1 data-get="word.eng">&nbsp;</h1>
     <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
       <ol class="pl05">
@@ -27,65 +54,72 @@
     <div class="box cards list mt1 br0- flc- bcwhite-">
 
 
-      <!-- Samalian Aramaic (Northwest) -->
+      <!-- Samalian (Northwest) -->
       <h6 class="p05 pl1 black08 fs08">Aramaya</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.oar"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.oar"></p><a class="icon f0">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 black08 fs08">Armaya</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.arc"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.arc"></p><a class="icon f0">&#128264;</a>
       </figure>
-
 
       <h6 class="p05 pl1 black08 fs08">Aramya</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.arc"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.arc"></p><a class="icon f0">&#128264;</a>
       </figure>
 
-      <!-- Babylonian Aramaic (Southeast) -->
+      <!-- Babylonian (Southeast) -->
       <h6 class="p05 pl1 black08 fs08">Aramita</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.sam"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.sam"></p><a class="icon f0">&#128264;</a>
       </figure>
 
-      <!-- Samaritan Aramaic (West) -->
+      <!-- Samaritan (West) -->
       <h6 class="p05 pl1 black08 fs08">Aramit</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.sam"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.sam"></p><a class="icon f0">&#128264;</a>
       </figure>
 
-      <!-- Syrian Neo-Aramaic (West) -->
+      <!-- Syrian (West) (Middle Aramaic) (Square) -->
       <h6 class="p05 pl1 black08 fs08">Aromay</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.amw"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.amw"></p><a class="icon f0">&#128264;</a>
       </figure>
 
-      <!-- Palestinian Aramaic (West) -->
+      <!-- Syrian (West) (Modern Aramaic) (Cursive) -->
+      <h6 class="p05 pl1 black08 fs08">Siryon</h6>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.amw"></p><a class="icon f0">&#128264;</a>
+      </figure>
+
+      <!-- Palestinian (West) (Old Aramaic) (Cursive) -->
       <h6 class="p05 pl1 black08 fs08">Sursi</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.jpa"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.jpa"></p><a class="icon f0">&#128264;</a>
       </figure>
 
+      <!-- Syrian (West) (Modern Aramaic) (Cursive) -->
       <h6 class="p05 pl1 black08 fs08">Suryaya</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.syc"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="ffedessa fs12" data-get="word.syc"></p><a class="icon f0">&#128264;</a>
       </figure>
 
+      <!-- Syrian (East) (Modern Aramaic) (Cursive) -->
       <h6 class="p05 pl1 black08 fs08">Suryoyo</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.syr"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="ffmidyat fs13" data-get="word.syr"></p><a class="icon f0">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 black08 fs08">Surayt</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.syt"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="fs13" data-get="word.syt"></p><a class="icon f0">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 black08 fs08">Suret</h6>
-      <figure class="p1 fs13 mb1">
-        <p data-get="word.syh"></p><a class="icon f0">&#128264;</a>
+      <figure class="p1 mb1">
+        <p class="ffadiabene fs13" data-get="word.syh"></p><a class="icon f0">&#128264;</a>
       </figure>
     </div>
   </section>
