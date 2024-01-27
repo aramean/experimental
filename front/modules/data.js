@@ -20,7 +20,7 @@ app.module.data = {
   src: function (element) {
     self = this
     dom.setUniqueId(element, true)
-    var interval = element.getAttribute('data-interval'),
+    var interval = element.getAttribute('data-interval') || this.interval,
       loader = element.getAttribute('data-loader'),
       error = element.getAttribute('data-error')
 
@@ -35,22 +35,17 @@ app.module.data = {
 
     if (!self._intervalTimers[element.uniqueId]) {
       self._intervalTimers[element.uniqueId] = setTimeout(function () {
-        delete self._intervalTimers[element.uniqueId]
-
-        for (var key in app.await) {
-          if (app.await[key].enable === true) return
+        try {
+          app.xhr.currentAsset.total = 1
+          self._handle(element)
+          if (element.getAttribute('data-srcjoin')) {
+            app.xhr.currentAsset.total = 2
+            self._handle(element, true)
+          }
+        } catch (error) {
+          console.error('data-interval error:', error)
         }
-
-        //if (app.await['geolocalize-get'] && app.await['geolocalize-get'].enable) return
-
-        app.xhr.currentAsset.total = 1
-        self._handle(element)
-
-        if (element.getAttribute('data-srcjoin')) {
-          app.xhr.currentAsset.total = 2
-          self._handle(element, true)
-        }
-      }, interval || self.defaultInterval)
+      }, interval)
     }
   },
 
@@ -91,6 +86,11 @@ app.module.data = {
           arg: options
         },
         timeout: (timeout) ? timeout.value : 0
+      },
+      global: {
+        globalize: {
+          iso639: 'iso639'
+        }
       },
       cache: {
         mechanism: this.storageMechanism,
