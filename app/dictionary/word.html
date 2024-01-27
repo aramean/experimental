@@ -1,44 +1,5 @@
 <script src="../../front/front.js"></script>
 <title>Word</title>
-<style>
-  .loader {
-    display: inherit
-  }
-
-  .box.list * {
-    width: auto
-  }
-
-  @font-face {
-    font-family: adiabene;
-    src: url('assets/fonts/adiabene.ttf')
-  }
-
-  @font-face {
-    font-family: edessa;
-    src: url('assets/fonts/edessa.otf')
-  }
-
-  @font-face {
-    font-family: midyat;
-    src: url('assets/fonts/midyat.otf')
-  }
-
-  .ffadiabene{
-    font-family: adiabene;
-    zoom: 1.7
-  }
-
-  .ffedessa{
-    font-family: edessa;
-    zoom: 1.6
-  }
-
-  .ffmidyat{
-    font-family: midyat;
-    zoom: 1.3
-  }
-</style>
 <template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
 <article class="wc_xl">
   <section bindquery="i:i" data-src="https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words?select=word&or=(id.eq.{i})"
@@ -46,7 +7,7 @@
     <h1 data-get="word.eng">&nbsp;</h1>
     <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
       <ol class="pl05">
-        <li><a href="./" globalize="dictionary">Dictionary</a></li>
+        <li><a href="search.html?q=*" globalize="dictionary">Dictionary</a></li>
         <li><a data-set="i:id" href="word.html?i={i}" globalize="word">Word</a></li>
         <li data-get="word.eng"></li>
       </ol>
@@ -109,12 +70,12 @@
       <!-- Syrian (East) (Modern Aramaic) (Cursive) -->
       <h6 class="p05 pl1 black08 fs08">Suryoyo</h6>
       <figure class="p1 mb1">
-        <p class="ffmidyat fs13" data-get="word.syr"></p><a class="icon f0">&#128264;</a>
+        <p class="ffurhoy fs13" data-get="word.syr"></p><a class="icon f0">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 black08 fs08">Surayt</h6>
       <figure class="p1 mb1">
-        <p class="fs13" data-get="word.syt"></p><a class="icon f0">&#128264;</a>
+        <p class="ffmardin fs13" data-get="word.syt"></p><a class="icon f0">&#128264;</a>
       </figure>
 
       <h6 class="p05 pl1 black08 fs08">Suret</h6>
