@@ -270,7 +270,7 @@ var dom = {
                   this._bindfieldPos++
                   object.bindfieldPos = this._bindfieldPos
                   app.listeners.add(target, 'keyup', function (e) {
-                    if ([37, 38, 39, 40].indexOf(e.keyCode) !== -1) return // Ignore keys (left, up, right, down).
+                    if ([9, 16, 17, 18, 20, 27, 37, 38, 39, 40, 91, 93].indexOf(e.keyCode) !== -1) return // Ignore keys.
                     target.startBind = true
                     if (fieldif && fieldif[1] !== target.lastPressedKey) {
                       target.startBind = false
@@ -743,7 +743,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 249 },
+  version: { major: 1, minor: 0, patch: 0, build: 250 },
   module: {},
   plugin: {},
   var: {},
