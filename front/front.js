@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 253 },
+  version: { major: 1, minor: 0, patch: 0, build: 254 },
   module: {},
   plugin: {},
   var: {},
@@ -1433,11 +1433,12 @@ var app = {
 
         var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::((?:{[^{}]*}|[^}])+))?\\}', 'g')
         for (var i = 0; i < object.attributes.length; i++) {
-          // Update default values.
           var attr = object.attributes[i]
-          object.setAttribute(attr.name, attr.value.replace(regex, function (match, defaultValue) {
-            return replaceValue === 0 ? '0' : replaceValue || defaultValue || ''
-          }))
+          // Check if the regex is matched before updating the attribute.
+          if (regex.test(attr.value)) {
+            // Update the attribute value directly.
+            object.setAttribute(attr.name, attr.value.replace(regex, replaceValue === 0 ? '0' : replaceValue || '$1' || ''))
+          }
         }
 
         if (reset) app.attributes.run([object], ['stop'])
