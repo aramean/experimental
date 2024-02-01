@@ -673,7 +673,7 @@ var dom = {
   },
 
   start: function (element) {
-    element.removeAttribute('stop');
+    element.removeAttribute('stop')
     var children = element.childNodes
     for (var i = 0; i < children.length; i++) {
       var child = children[i]
@@ -730,7 +730,7 @@ var dom = {
     var elements = app.element.find(element, '*')
     for (var i = 0; i <= stop - start; i++) {
       if (elements[i]) {
-        app.variables.update.attributes(elements[i], 'i', start + i, false);
+        app.variables.update.attributes(elements[i], 'i', start + i, false)
       }
     }
 
@@ -743,7 +743,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 250 },
+  version: { major: 1, minor: 0, patch: 0, build: 251 },
   module: {},
   plugin: {},
   var: {},
@@ -901,6 +901,8 @@ var app = {
         attr = attr.replace('set', '')
         if (attr === 'text')
           element.textContent = value
+        else if (attr === 'html')
+          element.innerHTML = value
         else
           element.setAttribute(attr, value)
         return
