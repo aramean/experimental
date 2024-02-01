@@ -10,15 +10,33 @@
     globalize-conf="folder:assets/json/locales"
     navigate-conf="startpage:experimental">
   </script>
+  <title>Bindasset</title>
 </head>
-
 <body>
   <h1>Bind</h1>
   <hr>
     <h3>Asset</h3>
-    <span bindasset="api:api.themoviedb.popular;page:api.page.page">{api}?page={page:0}</span><br>
+    <span
+      bindasset="api:api.themoviedb.popular;page:api.page.page"
+    >{api}?page={page:0}</span><br>
     <h3>Var + Asset</h3>
-    <span bindvar="popular:popular" bindasset="api:api.themoviedb.{popular};page:api.page.page">{api}?page={page:0}{popular}</span><br>
+    <span
+      bindvar="var1:popular;var2:var2value"
+      bindasset="api:api.themoviedb.{var1};page:api.page.page"
+    >{api}?page={page:0}&{var1}&{var2}</span><br>
+    <h3>Var + Global + Asset</h3>
+    <span
+      bindglobal="t:title"
+      bindvar="var1:popular;var2:var2value"
+      bindasset="api:api.themoviedb.{var1};page:api.page.page"
+    >{api}?page={page:0}&{var1}&{var2}&title={t}</span><br>
+    <h3>Var + Global + Query + Asset</h3>
+    <span
+      bindglobal="t:title"
+      bindvar="var1:popular;var2:var2value"
+      bindquery="page:page"
+      bindasset="api:api.themoviedb.{var1};page:api.page.page"
+    >{api}?page={page:0}&{var1}&{var2}&title={t}</span><br>
   </section>
 </body>
 
