@@ -217,9 +217,11 @@ var dom = {
             var bindingParts = bindings[i].split(':') || [],
               replaceVariable = bindingParts[0].trim(),
               replaceValue = bindingParts[1].trim()
-
+            app.variables.update.content(object, replaceVariable, replaceValue, false)
             app.variables.update.attributes(object, replaceVariable, replaceValue, false)
           }
+
+          console.log()
           return
         case 'bindquery':
           replaceValue = app.querystrings.get(false, replaceValue)
@@ -743,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 251 },
+  version: { major: 1, minor: 0, patch: 0, build: 252 },
   module: {},
   plugin: {},
   var: {},
@@ -1442,19 +1444,20 @@ var app = {
       },
 
       content: function (object, replaceVariable, replaceValue) {
-        // Escape special characters in the variable pattern to create a valid regular expression
+        // Escape special characters in the variable pattern to create a valid regular expression.
         var escapedVariable = replaceVariable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 
-        // Create a regular expression using the escaped variable pattern
+        // Create a regular expression using the escaped variable pattern.
         var variableRegex = new RegExp('{' + escapedVariable + '(?::([^}]+))?}', 'g')
 
-        // Replace all occurrences of {variable} with the replacement value
+        // Replace all occurrences of {variable} with the replacement value.
         var originalContent = object.innerHTML
-        var modifiedContent = originalContent.replace(variableRegex, function (match, defaultValue) {
-          return replaceValue === 0 ? '0' : replaceValue || defaultValue || ''
-        })
+        var modifiedContent = originalContent.replace(variableRegex, replaceValue === 0 ? '0' : replaceValue || '$1' || '')
 
-        object.innerHTML = modifiedContent
+        // Update element content only if there were replacements.
+        if (originalContent !== modifiedContent) {
+          object.innerHTML = modifiedContent
+        }
       }
     },
 

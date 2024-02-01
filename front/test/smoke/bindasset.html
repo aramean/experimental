@@ -17,6 +17,8 @@
   <hr>
     <h3>Asset</h3>
     <span bindasset="api:api.themoviedb.popular;page:api.page.page">{api}?page={page:0}</span><br>
+    <h3>Var + Asset</h3>
+    <span bindvar="popular:popular" bindasset="api:api.themoviedb.{popular};page:api.page.page">{api}?page={page:0}{popular}</span><br>
   </section>
 </body>
 
