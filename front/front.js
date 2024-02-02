@@ -1437,7 +1437,7 @@ var app = {
           // Check if the regex is matched before updating the attribute.
           if (regex.test(attr.value)) {
             // Update the attribute value directly.
-            object.setAttribute(attr.name, attr.value.replace(regex, replaceValue === 0 ? '0' : replaceValue || '$1' || ''))
+            attr.value = attr.value.replace(regex, replaceValue === 0 ? '0' : replaceValue || '$1' || '')
           }
         }
 
