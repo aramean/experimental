@@ -227,7 +227,8 @@ var dom = {
           replaceValue = app.querystrings.get(false, replaceValue)
           break
         case 'bindglobal':
-          replaceValue = app.element.getPropertyByPath(app, replaceValue)
+          var globals = replaceValue.indexOf('.') ? app.globals : app // Todo: Remove when globals are moved.
+          replaceValue = app.element.getPropertyByPath(globals, replaceValue)
           break
         case 'bindasset':
           var keys = replaceValue.split('.'),
