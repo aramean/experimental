@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 255 251 },
+  version: { major: 1, minor: 0, patch: 0, build: 256 },
   module: {},
   plugin: {},
   var: {},
@@ -1079,7 +1079,6 @@ var app = {
     language: document.documentElement.lang || 'en-US',
     docMode: document.documentMode || 0,
     isFrontpage: document.doctype ? true : false,
-    version: { major: 1, minor: 0, patch: 0, build: 255 251 },
 
     set: function (name, value) {
       app.globals[name] = value
