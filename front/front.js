@@ -745,7 +745,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 254 },
+  version: { major: 1, minor: 0, patch: 0, build: 255 251 },
   module: {},
   plugin: {},
   var: {},
@@ -1075,6 +1075,21 @@ var app = {
     }
   },
 
+  globals: {
+    language: document.documentElement.lang || 'en-US',
+    docMode: document.documentMode || 0,
+    isFrontpage: document.doctype ? true : false,
+    version: { major: 1, minor: 0, patch: 0, build: 255 251 },
+
+    set: function (name, value) {
+      app.globals[name] = value
+    },
+
+    get: function (name) {
+      return app.globals[name]
+    }
+  },
+
   /**
    * @namespace caches
    * @memberof app
@@ -1120,7 +1135,8 @@ var app = {
 
       var cacheData = {
         'data': data,
-        'headers': ''
+        'headers': '',
+        'globals': app.globals
       }
 
       app.caches[type][key] = cacheData
@@ -1627,10 +1643,22 @@ var app = {
 
             var options = this.options,
               type = options.type,
+              global = options.global,
               cache = options.cache,
               target = options.target,
               module = options.module,
               format = options.format
+
+            if (global) {
+              // Create an object to store all globals
+              var obj = {}
+              // Loop through the global array
+              for (var i = 0; i < global.length; i++) {
+                var globalName = global[i]
+                obj[globalName] = dom.parse.json(this.responseText).value[globalName]
+                app.globals.set(module, obj)
+              }
+            }
 
             if (cache && (statusType.success || statusType.redirect)) {
               app.caches.set(cache.type, cache.keyType, cache.key, this.responseText, cache.format)

@@ -4,6 +4,7 @@ app.module.globalize = {
   storageMechanism: 'local',
   storageType: 'module',
   defaultFolder: 'assets/json/locales',
+  globals: ['direction', 'code'],
 
   /**
    * @function _autoload
@@ -28,6 +29,7 @@ app.module.globalize = {
     var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
     if (cache) {
       this.cachedData = cache
+      app.globals.set('globalize', cache.globals.globalize)
     } else {
       app.vars.totalStore++
       this.locale.load(config, this)
@@ -41,6 +43,7 @@ app.module.globalize = {
         type: 'var',
         module: _this.module,
         format: 'json',
+        global: _this.globals,
         cache: {
           format: 'json',
           keyType: _this.storageType,
