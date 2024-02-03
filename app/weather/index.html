@@ -59,10 +59,11 @@
     <div id="loader2" class="m0a loader" hide></div>
     <div
       class="tac mt2 m0a bcblack03 br05 p2 shade2"
-      bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang;city:api.weather.city"
+      bindasset="url:api.weather.api_url;key:api.weather.api_key;city:api.weather.city"
       bindfield="q:#query"
       bindquery="q:q"
-      data-src="{url}/forecast.json?key={key}&q={q:{city}}&days=7&aqi=no&alerts=no&lang={lang}"
+      bindglobal="l:globalize.code"
+      data-src="{url}/forecast.json?key={key}&q={q:{city}}&days=7&aqi=no&alerts=no&lang={l}"
       data-iterate="forecast.forecastday"
       data-loader="#loader2"
       data-error="#error2"
