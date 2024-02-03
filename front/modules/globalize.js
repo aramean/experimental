@@ -18,18 +18,27 @@ app.module.globalize = {
     var query = app.querystrings.get(false, 'locale')
     if (query) this.locale.set(query, this)
 
-    var config = app.config.get(this.module, {
-      store: true,
-      folder: this.defaultFolder + this.module,
-      language: this.locale.get(query, this),
-    }, options.element)
+    var config = app.config.get(
+      this.module,
+      {
+        store: true,
+        folder: this.defaultFolder + this.module,
+        language: this.locale.get(query, this),
+      },
+      options.element
+    )
 
     this.locale.update(config, this)
 
-    var cache = app.caches.get(this.storageMechanism, this.storageType, this.storeKey)
+    var cache = app.caches.get(
+      this.storageMechanism,
+      this.storageType,
+      this.storeKey
+    )
+
     if (cache) {
-      this.cachedData = cache
       app.globals.set('globalize', cache.globals.globalize)
+      this.cachedData = cache
     } else {
       app.vars.totalStore++
       this.locale.load(config, this)
@@ -66,13 +75,22 @@ app.module.globalize = {
     },
 
     get: function (query, _this) {
-      var storedLanguage = app.caches.get(_this.storageMechanism, _this.storageType, _this.module + '.language'),
-        language = (storedLanguage && storedLanguage.data) || query || app.language
-      return language
+      var storedLanguage = app.caches.get(
+        _this.storageMechanism,
+        _this.storageType,
+        _this.module + '.language'
+      )
+      return (storedLanguage && storedLanguage.globals.language) || query || app.language
     },
 
     set: function (config, _this) {
-      app.caches.set(_this.storageMechanism, _this.storageType, _this.module + '.language', config.language)
+      app.globals.set('language', config)
+      app.caches.set(
+        _this.storageMechanism,
+        _this.storageType,
+        _this.module + '.language',
+        config.language
+      )
     },
 
     update: function (config, _this) {
@@ -93,11 +111,11 @@ app.module.globalize = {
     var tag = element.localName,
       target = element.getAttribute(this.module + '-target')
 
-    if (tag === 'optgroup') {
+    if (tag === 'optgroup')
       element.label = element.originalLabel
-    } else {
+    else
       element.textContent = element.originalText
-    }
+
     if (element.renderedText) element.textContent = element.renderedText
 
     var value = element.getAttribute(this.module + '-get') || element.textContent,

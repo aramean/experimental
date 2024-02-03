@@ -746,7 +746,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 257 },
+  version: { major: 1, minor: 0, patch: 0, build: 258 },
   module: {},
   plugin: {},
   var: {},
@@ -1077,7 +1077,7 @@ var app = {
   },
 
   globals: {
-    language: document.documentElement.lang || 'en-US',
+    language: document.documentElement.lang || 'en',
     docMode: document.documentMode || 0,
     isFrontpage: document.doctype ? true : false,
 
