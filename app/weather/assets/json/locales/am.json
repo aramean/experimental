@@ -1,0 +1,16 @@
+{
+  "name": "አማርኛ",
+  "code": "amh",
+  "direction": "ltr",
+  "translations": {
+    "Weather": "የአየሩ ሁኔታ",
+    "Change language": "ቋንቋ መቀየር",
+    "Monday": "ሰኞ",
+    "Tuesday": "ማክሰኞ",
+    "Wednesday": "እሮብ",
+    "Thursday": "ሐሙስ",
+    "Friday": "አርብ",
+    "Saturday": "ቅዳሜ",
+    "Sunday": "እሁድ"
+  }
+}
