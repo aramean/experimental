@@ -746,7 +746,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 256 },
+  version: { major: 1, minor: 0, patch: 0, build: 257 },
   module: {},
   plugin: {},
   var: {},
@@ -1086,6 +1086,7 @@ var app = {
     },
 
     get: function (name) {
+      console.log(name)
       return app.globals[name]
     }
   },

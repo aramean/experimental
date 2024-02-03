@@ -15,6 +15,7 @@ app.module.data = {
   bind: function (element) {
     var value = element.getAttribute('data-bind')
     dom.bind(element, value, 'data-bind')
+    app.variables.update.attributes(element, 'l', 'eng', false)
   },
 
   src: function (element) {
@@ -166,6 +167,24 @@ app.module.data = {
         var elements = app.element.find(element, '*')
         for (var i = 0, j = -1; i < elements.length; i++) {
           if (i % orginalNodeCountAll === 0) j++
+
+          var attributes = elements[i].attributes
+          for (var k = 0; k < attributes.length; k++) {
+            var attr = attributes[k]
+            if (attr.name.indexOf('bind') === 0) {
+              var value = attr.value;
+              var bindings = value ? value.split(';') : []
+
+              for (var l = 0; l < bindings.length; l++) {
+                var bindingParts = bindings[l].split(':') || [],
+                  replaceVariable = bindingParts[0].trim(),
+                  replaceValue = bindingParts[1].trim(),
+                  newReplaceValue = app.element.getPropertyByPath(app.globals, replaceValue)
+
+                app.variables.update.attributes(elements[i], replaceVariable, newReplaceValue, false)
+              }
+            }
+          }
 
           this._process('data-get', elements[i], responseObject[j])
           this._process('data-set', elements[i], responseObject[j])
