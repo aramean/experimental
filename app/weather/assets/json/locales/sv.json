@@ -1,6 +1,11 @@
 {
   "name": "Svenska",
   "code": "swe",
+  "iso639": {
+    "1": "sv",
+    "2": "swe",
+    "3": "swe"
+  },
   "direction": "ltr",
   "translations": {
     "Weather": "Väder",

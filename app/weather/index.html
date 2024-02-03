@@ -42,9 +42,10 @@
     <div id="error" class="m0a" hide>Current error!</div>
     <div
       class="tac"
-      bindasset="url:api.weather.api_url;key:api.weather.api_key;lang:api.weather.lang;city:api.weather.city"
+      bindasset="url:api.weather.api_url;key:api.weather.api_key;city:api.weather.city"
       bindfield="q:#query"
       bindquery="q:q"
+      bindglobal="lang:globalize.iso639.1"
       data-src="{url}/current.json?key={key}&q={q:{city}}&aqi=no&lang={lang}"
       data-loader="#loader"
       data-error="#error"

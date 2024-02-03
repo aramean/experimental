@@ -4,7 +4,7 @@ app.module.globalize = {
   storageMechanism: 'local',
   storageType: 'module',
   defaultFolder: 'assets/json/locales',
-  globals: ['direction', 'code'],
+  globals: ['direction', 'code', 'iso639'],
 
   /**
    * @function _autoload

@@ -1,6 +1,11 @@
 {
   "name": "English",
   "code": "eng",
+  "iso639": {
+    "1": "en",
+    "2": "eng",
+    "3": "eng"
+  },
   "direction": "ltr",
   "translations": {
     "Weather": "Weather",
