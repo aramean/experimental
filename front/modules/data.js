@@ -19,7 +19,7 @@ app.module.data = {
   },
 
   src: function (element) {
-    _self = this
+    var self = this
     dom.setUniqueId(element, true)
     var interval = element.getAttribute('data-interval') || this.interval,
       loader = element.getAttribute('data-loader'),
@@ -34,14 +34,14 @@ app.module.data = {
 
     //if (!element.getAttribute('stop')) element.setAttribute('stop', '*')
 
-    if (!_self._intervalTimers[element.uniqueId]) {
-      _self._intervalTimers[element.uniqueId] = setTimeout(function () {
+    if (!self._intervalTimers[element.uniqueId]) {
+      self._intervalTimers[element.uniqueId] = setTimeout(function () {
         try {
           app.xhr.currentAsset.total = 1
-          _self._handle(element)
+          self._handle(element)
           if (element.getAttribute('data-srcjoin')) {
             app.xhr.currentAsset.total = 2
-            _self._handle(element, true)
+            self._handle(element, true)
           }
         } catch (error) {
           console.error('data-interval error:', error)
