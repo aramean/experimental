@@ -172,8 +172,8 @@ app.module.data = {
           for (var k = 0; k < attributes.length; k++) {
             var attr = attributes[k]
             if (attr.name.indexOf('bind') === 0) {
-              var value = attr.value;
-              var bindings = value ? value.split(';') : []
+              var value = attr.value,
+                bindings = value ? value.split(';') : []
 
               for (var l = 0; l < bindings.length; l++) {
                 var bindingParts = bindings[l].split(':') || [],
