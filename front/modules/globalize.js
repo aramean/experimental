@@ -16,7 +16,7 @@ app.module.globalize = {
   __autoload: function (options) {
     this.module = options.name
     var query = app.querystrings.get(false, 'locale')
-    if (query) this.locale.set(query, this)
+    if (query) this.locale.set({ language: query }, this)
 
     var config = app.config.get(
       this.module,
@@ -84,7 +84,7 @@ app.module.globalize = {
     },
 
     set: function (config, _this) {
-      app.globals.set('language', config)
+      app.globals.set('language', config.language)
       app.caches.set(
         _this.storageMechanism,
         _this.storageType,
