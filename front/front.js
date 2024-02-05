@@ -216,12 +216,12 @@ var dom = {
           for (var i = 0; i < bindings.length; i++) {
             var bindingParts = bindings[i].split(':') || [],
               replaceVariable = bindingParts[0].trim(),
-              replaceValue = bindingParts[1].trim()
+              replaceValue = bindingParts.slice(1).join(':').trim()
+
             app.variables.update.content(object, replaceVariable, replaceValue, false)
             app.variables.update.attributes(object, replaceVariable, replaceValue, false)
           }
 
-          console.log()
           return
         case 'bindquery':
           replaceValue = app.querystrings.get(false, replaceValue)
@@ -246,6 +246,7 @@ var dom = {
             }
 
             replaceValue = value
+            console.error(replaceValue)
           }
           break
         case 'bindfield':
@@ -746,7 +747,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 262 },
+  version: { major: 1, minor: 0, patch: 0, build: 263 },
   module: {},
   plugin: {},
   var: {},
