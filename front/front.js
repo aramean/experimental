@@ -246,7 +246,6 @@ var dom = {
             }
 
             replaceValue = value
-            console.error(replaceValue)
           }
           break
         case 'bindfield':
@@ -747,7 +746,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 263 },
+  version: { major: 1, minor: 0, patch: 0, build: 264 },
   module: {},
   plugin: {},
   var: {},
