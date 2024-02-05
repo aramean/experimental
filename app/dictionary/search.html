@@ -1,7 +1,8 @@
 <script src="../../front/front.js"></script>
 <title>Search</title>
-<style>
-  .loader{display: inherit}
-</style>
 <template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
-<div include="includes/search.html"></div>
+<div
+  bindasset="endpoint:api.words.endpoint"
+  bindvar="src:{endpoint}?select=*&word->>{l}=ilike.{q:*}"
+  include="includes/search.html">
+</div>

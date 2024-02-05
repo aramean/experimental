@@ -2,10 +2,11 @@
 <h1 id="empty" hide bindquery="q:q">No results found for <b>{q}</b></h1>
 <div
   class="box cards shade1 list br0- bcwhite-"
+  bindvar=":"
+  bindasset="apikey:api.api_key"
   bindquery="q:q"
-  bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
+  data-src="{src}"
   bindglobal="l:globalize.code"
-  data-src="{endpoint}?select=*&word->>{l}=ilike.{q:*}"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader"
   data-empty="0;#empty"
