@@ -24,6 +24,8 @@ var dom = {
     'bindasset': 'bind',
     'bindglobal': 'bind',
     'bindfield': 'bind',
+    'ifafterbegin': 'if',
+    'ifbeforeend': 'if',
     'resetvalue': 'reset',
     'margintop': 'apply',
     'marginbottom': 'apply',
@@ -621,6 +623,24 @@ var dom = {
     })
   },
 
+  // TODO: Finish
+  if: function (object, value) {
+    var attr = object.callAttribute
+    var value = value.split(';')
+    var condition1 = value[0]
+    var test = value[1].split(':'),
+      newAttr = test[0],
+      newValue = test[1]
+    var currentAttr = app.element.get(object, newAttr)
+    if (condition1) {
+      switch (attr) {
+        case 'ifbeforeend':
+          app.element.set(object, currentAttr + newValue, newAttr)
+          break
+      }
+    }
+  },
+
   bindif: function (object, options) {
     var test = object.value,
       test2 = test.split(';')
@@ -746,7 +766,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 264 },
+  version: { major: 1, minor: 0, patch: 0, build: 265 },
   module: {},
   plugin: {},
   var: {},
@@ -784,20 +804,22 @@ var app = {
     app.listeners.add(document, 'keydown', function (e) {
       var link = app.element.getTagLink(e.target) || e.target,
         click = link.attributes.click
-      if (e.key === 'Tab') {
-        var tab = link.attributes.onchangetab
-        if (tab) {
-          var val = !click ? tab : click
-          val = val.value.split(':')
-          app.call(['dom', val[0]], [link, val[1]])
-        }
-      }
-      if (e.key === 'Enter') {
-        var submit = link.attributes.onsubmit
-        if (submit) {
-          var val = submit.value.split(':')
-          link.startSubmit = val[0]
-        }
+      switch (e.key) {
+        case 'Tab':
+          var tab = link.attributes.onchangetab
+          if (tab) {
+            var val = !click ? tab : click
+            val = val.value.split(':')
+            app.call(['dom', val[0]], [link, val[1]])
+          }
+          break
+        case 'Enter':
+          var submit = link.attributes.onsubmit
+          if (submit) {
+            var val = submit.value.split(':')
+            link.startSubmit = val[0]
+          }
+          break
       }
       link.lastPressedKey = e.key
     })
@@ -891,9 +913,10 @@ var app = {
       'optgroup': 'label'
     },
 
-    get: function (element) {
+    get: function (element, attr) {
+      if (attr) return element.attributes[attr].value
       var target = element.targetAttribute
-      if (target) return element.getAttribute(target)
+      if (target) return element.attributes[target]
       var property = this.propertyMap[element.localName] || 'textContent'
       return element[property]
     },
@@ -1406,12 +1429,13 @@ var app = {
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
-            var attributeName = dom._replacementMap[attributes[j].name] || attributes[j].name,
-              name = attributeName.split('-'),
-              value = attributes[j].value
+            var attrName = attributes[j].name,
+              attrValue = attributes[j].value,
+              attrFullname = dom._replacementMap[attrName] || attrName
+            if (exclude.indexOf(attrFullname) === -1) {
+              var name = attrFullname.split('-')
 
-            if (exclude.indexOf(attributeName) === -1) {
-              element.callAttribute = attributes[j].name
+              element.callAttribute = attrName
               if (!element.originalText) element.originalText = element.textContent
               if (!element.originalHtml) element.originalHtml = element.innerHTML
               if (!element.originalOuterHtml) element.originalOuterHtml = element.outerHTML
@@ -1422,7 +1446,7 @@ var app = {
                 app.module[name[0]][name[1]] ? app.module[name[0]][name[1]](element) : app.log.error(0)(name[0] + '-' + name[1])
               } else if (dom[name]) {
                 app.log.info(1)('dom.' + name)
-                dom[name](element, value)
+                dom[name](element, attrValue)
               }
             } else {
               app.log.warn(1)(name + " [Skipping]")
