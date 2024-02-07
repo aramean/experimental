@@ -16,7 +16,7 @@
 
 .box *, .cards{
   box-sizing: border-box;
-  width: 100%
+  /*width: 100%*/
 }
 
 .loader {
