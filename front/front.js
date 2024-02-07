@@ -766,7 +766,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 265 },
+  version: { major: 1, minor: 0, patch: 0, build: 266 },
   module: {},
   plugin: {},
   var: {},
@@ -1555,7 +1555,6 @@ var app = {
       { name: 'aside:nth-of-type(2)', class: '' },
       { name: 'footer', class: '' }
     ],
-    elements: { 'header': '', 'aside:nth-of-type(1)': '', 'main': '', 'aside:nth-of-type(2)': '', 'footer': '' },
     originalClassList: [],
 
     render: function () {
@@ -1575,13 +1574,14 @@ var app = {
           responsePageContent = responsePage.innerHTML,
           responsePageContentClass = responsePage.className
 
-        for (var el in this.elements) {
-          var parsedEl = app.element.find(responsePage, el),
+        for (var i = 0; i < this.elementSelectors.length; i++) {
+          var elSelector = this.elementSelectors[i],
+            parsedEl = app.element.find(responsePage, elSelector.name),
             content = parsedEl.innerHTML
 
-          if (el !== 'main') {
-            dom.set(el, content ? content : '')
-            app.attributes.run(el + ' *')
+          if (elSelector.name !== 'main') {
+            dom.set(elSelector.name, content ? content : '')
+            app.attributes.run(elSelector.name + ' *')
           }
         }
 
@@ -1618,19 +1618,21 @@ var app = {
             template = dom.parse.text(app.element.find(html, 'template').innerHTML),
             srcDoc = dom.parse.text(app.srcDocTemplate)
 
-          for (var el in this.elements) {
-            var parsedEl = app.element.find(template, el),
+          for (var i = 0; i < this.elementSelectors.length; i++) {
+            var elSelector = this.elementSelectors[i],
+              parsedEl = app.element.find(template, elSelector.name),
               content = parsedEl.innerHTML,
               classAttr = parsedEl.attributes && parsedEl.attributes.class ? true : false,
               className = parsedEl.className,
-              templateEl = dom.get(el)
+              templateEl = dom.get(elSelector.name),
+              srcDocEl = app.element.find(srcDoc, elSelector.name)
 
-            if (el !== 'main') {
-              dom.set(el, parsedEl.nodeType === 1 ? content : app.element.find(srcDoc, el).innerHTML)
-              if (dom.get('template')) app.attributes.run(el + ' *')
+            if (elSelector.name !== 'main') {
+              dom.set(elSelector.name, parsedEl.nodeType === 1 ? content : srcDocEl.innerHTML)
+              if (dom.get('template')) app.attributes.run(elSelector.name + ' *')
             }
 
-            templateEl.className = classAttr ? className : app.element.find(srcDoc, el).className
+            templateEl.className = classAttr ? className : srcDocEl.className
           }
         }
       }
