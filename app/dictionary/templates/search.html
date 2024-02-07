@@ -18,14 +18,14 @@
         bindglobal="l:globalize.code"
         bindfield="q:#query2"
         bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
-        data-src="{endpoint}?select=*&word->>{l}=ilike.{q:*}"
+        data-src="{endpoint}?select=*&word->>{l}=ilike.{q:*}&limit=30"
         data-header="apikey:{apikey};Prefer:count=exact"
         data-iterate="true"
         data-loader="false"
-        class="box br05 bcblack- white- border- pa w100"
+        class="box br05 bcblack- white- border- pa w100 ail-"
         hide>
-        <figure class="p05">
-          <a bindglobal="l:globalize.code" data-set="id:id" data-get="word.{l}" href="word.html?i={id}" class="md_dn"></a>
+        <figure>
+          <a bindglobal="l:globalize.code" data-set="id:id" data-get="word.{l}" href="word.html?i={id}" class="p1 md_dn"></a>
         </figure>
       </div>
     </div>

@@ -14,6 +14,10 @@
   justify-content: center
 }
 
+.ail- * {
+  align-items: normal !important
+}
+
 .box *, .cards{
   box-sizing: border-box;
   /*width: 100%*/
