@@ -1629,10 +1629,8 @@ var app = {
               srcDocEl = app.element.find(srcDoc, elSelector.name)
 
             if (elSelector.name !== 'main') {
-              if (dom.get('template')) {
-                dom.set(elSelector.name, parsedEl.nodeType === 1 ? content : srcDocEl.innerHTML)
-                app.attributes.run(elSelector.name + ' *')
-              }
+              dom.set(elSelector.name, parsedEl.nodeType === 1 ? content : srcDocEl.innerHTML)
+              if (dom.get('template')) app.attributes.run(elSelector.name + ' *')
             }
 
             templateEl.className = classAttr ? className : srcDocEl.className
