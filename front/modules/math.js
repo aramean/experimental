@@ -8,7 +8,7 @@ app.module.math = {
 
   compute: function (element, value) {
     try {
-      var value = app.element.get(element).value
+      var value = app.element.get(element)
 
       // Allow characters.
       value = value.replace(/[^0-9+\-*/.()^%π]/g, '')

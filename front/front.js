@@ -766,7 +766,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 268 },
+  version: { major: 1, minor: 0, patch: 0, build: 269 },
   module: {},
   plugin: {},
   var: {},
@@ -837,9 +837,8 @@ var app = {
         element.callAttribute = val[0]
         element.targetAttribute = target ? target[1] : false
         app.call(['dom', val[0]], [element, val[1]])
-        if (onclickif) {
-          dom.bindif(onclickif, { e: link })
-        }
+        
+        if (onclickif) dom.bindif(onclickif, { e: link })
       }
     })
 
@@ -916,7 +915,7 @@ var app = {
     get: function (element, attr) {
       if (attr) return element.attributes[attr].value
       var target = element.targetAttribute
-      if (target) return element.attributes[target]
+      if (target) return element.attributes[target].value
       var property = this.propertyMap[element.localName] || 'textContent'
       return element[property]
     },
@@ -1109,7 +1108,6 @@ var app = {
     },
 
     get: function (name) {
-      console.log(name)
       return app.globals[name]
     }
   },
