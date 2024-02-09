@@ -7,8 +7,9 @@ app.module.math = {
   },
 
   compute: function (element, value) {
+    var field = element.targetField && !element.targetAttribute ? element.targetField.ownerElement : element
     try {
-      var value = app.element.get(element)
+      var value = app.element.get(field)
 
       // Allow characters.
       value = value.replace(/[^0-9+\-*/.()^%π]/g, '')
