@@ -766,7 +766,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 270 },
+  version: { major: 1, minor: 0, patch: 0, build: 271 },
   module: {},
   plugin: {},
   var: {},
@@ -838,12 +838,9 @@ var app = {
         element.callAttribute = val[0]
         element.targetAttribute = target && target[1]
         element.targetField = clicktargetfield
-       
-        //console.dir(element)
-        console.dir(val)
 
         app.call(['dom', val[0]], [element, val[1]])
-        
+
         if (onclickif) dom.bindif(onclickif, { e: link })
       }
     })
