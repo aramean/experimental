@@ -21,11 +21,15 @@
         data-header="apikey:{apikey};Prefer:count=exact"
         data-iterate="true"
         data-loader="false"
-        class="box br05 bcwhite- black- pa w100 ail- autocomplete"
+        class="box br05 bcwhite- black- pa w100 ail- zi2 autocomplete"
+        data-empty="0;#empty2"
         hide>
         <figure>
           <a bindglobal="l:globalize.code" data-set="id:id" data-get="word.{l}" href="word.html?i={id}" class="p1"></a>
         </figure>
+      </div>
+      <div id="empty2" class="pa w100 bcwhite p2 zi2" hide>
+        <p class="p">No results found for <b>{q}</b></p>
       </div>
     </div>
     <button click="toggle" clicktargetfield="aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
