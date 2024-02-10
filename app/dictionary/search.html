@@ -3,6 +3,6 @@
 <template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
 <div
   bindasset="endpoint:api.words.endpoint"
-  bindvar="src:{endpoint}?select=*&word->>{l}=ilike.{q:*}"
+  bindvar="src:{endpoint}?select=*&word->>{l}=ilike.{q}*"
   include="includes/search.html">
 </div>
