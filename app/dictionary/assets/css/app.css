@@ -31,6 +31,10 @@
   width: auto
 }
 
+.autocomplete {
+  box-shadow: 0 0 17rem 29rem rgba(0,0,0, .5)
+}
+
 @font-face {
   font-family: adiabene;
   src: url('../fonts/adiabene.ttf')
