@@ -49,6 +49,11 @@
 }
 
 @font-face {
+  font-family: material;
+  src: url('https://cdn.front.nu/dist/design/material/icons/material.woff')
+}
+
+@font-face {
   font-family: adiabene;
   src: url('../fonts/adiabene.ttf')
 }
@@ -96,4 +101,8 @@
 .ffmardin {
   font-family: mardin;
   zoom: 1.6
+}
+
+body [class*='icon']{
+  font-family: material;
 }
