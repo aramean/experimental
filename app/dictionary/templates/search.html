@@ -17,7 +17,7 @@
         bindglobal="l:globalize.code"
         bindfield="q:#query2"
         bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
-        data-src="{endpoint}?select=*&word->>{l}=ilike.{q:*}&limit=30"
+        data-src="{endpoint}?select=*&word->>{l}=ilike.{q}*&limit=30"
         data-header="apikey:{apikey};Prefer:count=exact"
         data-iterate="true"
         data-loader="false"
