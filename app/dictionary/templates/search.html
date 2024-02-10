@@ -1,10 +1,10 @@
 <template>
-  <header class="topbar h4_5 gap1- pr2 shade1">
-    <button click="toggle" clicktargetfield="aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
-    <figure class="sel p075">
-      <a href="./"><img class="br50 bos2 red bw5 shade1 hue-rotate" src="https://www.aramean.institute/favicon.ico"></a>
+  <header class="topbar h4_5 pr1 shade1">
+    <figure class="sel p1">
+      <a href="./"><img class="br50 bos2 red bw3 shade1 hue-rotate" src="https://www.aramean.institute/favicon.ico"></a>
     </figure>
-    <div class="ml0 pr f1">
+    <button click="toggle" clicktargetfield="aside[0]" class="md_du light"><i class="icon32">≡</i></button>
+    <div class="ml0 pr pr1 f1">
       <input
         id="query2"
         type="text"
@@ -29,7 +29,10 @@
         </figure>
       </div>
     </div>
-    <a href="browse.html"><i class="icon pr025">≡</i><span globalize-get>Browse</span></a>
+    <div class="gap1- fs07">
+    <a href="browse.html"><i class="icon pr025">≡</i><span class="md_dn" globalize-get>Browse</span></a>
+    <a href="#language"><i class="icon pr025">🌐</i><span class="md_dn" globalize-get>Language</span></a>
+  </div>
   </header>
   <aside></aside>
   <main class="pauto"></main>
