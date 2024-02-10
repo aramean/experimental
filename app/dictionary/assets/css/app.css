@@ -18,6 +18,18 @@
   align-items: normal !important
 }
 
+.aic {
+  align-items: center !important
+}
+
+.ais {
+  align-items: stretch;
+}
+
+.aie {
+  align-items: end !important;
+}
+
 .box *, .cards{
   box-sizing: border-box;
   /*width: 100%*/
@@ -28,7 +40,8 @@
 }
 
 .box.list * {
-  width: auto
+  width: auto;
+  align-items: stretch;
 }
 
 .autocomplete {
