@@ -80,14 +80,12 @@ app.module.navigate = {
    */
   _load: function (state) {
     var regex = /^\/+|\/+$/g,
-      startpage = app.isLocalNetwork ? this.config.startpageLocal : this.config.startpage
+      startpage = app.isLocalNetwork ? this.config.startpageLocal : this.config.startpage || '/'
 
-    if (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, '')) {
+    if (startpage && (state.href === '/' || state.href.replace(regex, '') === startpage.replace(regex, ''))) {
       app.isFrontpage = true
       state.target = 'html'
       state.extension = false
-    } else if (state.target[0] == '#') {
-      state.target = state.target
     } else if (!state.target || state.target[0] === '_') {
       state.target = this.config.target
     }
@@ -120,14 +118,15 @@ app.module.navigate = {
   },
 
   _scroll: function (behavior, top) {
-    var test = dom.get('main')
-    if (test.scrollTo) {
-      test.scrollTo({
+    var target = dom.get('main') || dom.get('html')
+
+    if (target.scrollTo) {
+      target.scrollTo({
         top: top ? top : 0,
         behavior: behavior ? behavior : 'instant'
       })
     } else {
-      test.scrollTop = top ? top : 0
+      target.scrollTop = top ? top : 0
     }
   },
 
