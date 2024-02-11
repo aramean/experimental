@@ -1,0 +1,48 @@
+<template>
+  <header class="topbar h4_5 pr1 shade1">
+    <figure class="mh30p pl1 pr1 fdc df-">
+      <a class="b0 pr025" href="./" key="0">
+        <img src="https://www.aleptra.com/assets/img/logo_black.png">
+      </a>
+      <small class="fwb black06">NLMS</small>
+    </figure>
+    <div class="ml0 pr f1">
+      <input
+        id="query2"
+        type="text"
+        class="bs1 p1 h3 br05 dark white w100 zi3"
+        globalize-get="input_search"
+        globalize-target="placeholder"
+        autocomplete="off">
+      <div
+        stop="data-src"
+        bindglobal="l:globalize.code"
+        bindfield="q:#query2"
+        bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
+        data-src="{endpoint}?select=*&word->>{l}=ilike.{q}*&limit=30"
+        data-header="apikey:{apikey};Prefer:count=exact"
+        data-iterate="true"
+        data-loader="false"
+        class="box br05 bcwhite- black- pa w100 ail- zi2 autocomplete"
+        data-empty="0;#empty2"
+        hide>
+        <figure>
+          <a bindglobal="l:globalize.code" data-set="id:id" data-get="word.{l}" href="word.html?i={id}" class="p1"></a>
+        </figure>
+      </div>
+      <div id="empty2" class="pa w100 bcwhite p2 zi2" hide>
+        <p class="p">No results found for <b>{q}</b></p>
+      </div>
+    </div>
+    <button click="toggle" clicktargetfield="aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
+    <div class="gap1- fs07 pl1 md_dn">
+      <a href="#language"><i class="icon pr025">🌐</i><span globalize-get>Logout</span></a>
+    </div>
+  </header>
+  <aside>
+    <div include="includes/sidebar.html"></div>
+  </aside>
+  <main class="pauto"></main>
+  <aside class="testar"></aside>
+  <footer></footer>
+</template>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="version" content="1.0.0">
+  <script
+    src="../../front/front.js"
+    module="globalize;data;navigate;form;keyboard"
+    var="api"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:dictionary"
+    globalize-conf="folder:assets/json/locales"
+    navigate-conf="startpage:experimental/app/dictionary;startpageLocal:app/dictionary">
+  </script>
+  <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="icon" href="data:,">
+  <title>NLP</title>
+</head>
+
+<body class="light">
+  <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
+  <header></header>
+  <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn" resize="horizontal"></aside>
+  <main class="bcwhite flc">
+    <article class="df p1 fdc wc_xm">
+      <section>
+        <div class="tac w100">
+          <img class="br50 w4r mb05 bos2 red bw3 shade2 hue-rotate m0a" src="https://www.aramean.institute/favicon.ico">
+          <h1 class="z09 dimgray" globalize-get="title">Aramaic Dictionary</h1>
+        </div>
+        <form method="get" action="search.html" class="mt1 mb5">
+          <input
+            type="text"
+            name="q"
+            class="bs1 p1 h3 br05 dark white w100 w100 bs0"
+            globalize-get="input_search"
+            globalize-target="placeholder" 
+            focus
+            autocomplete="off">
+          <!--<select name="dialects" class="tac z07 mt1">
+            <option value="" globalize-get>All dialects</option>
+            <optgroup globalize-get="aramaic_modern" globalize-target="label">
+              <option value="syr">Suryoyo (Standard)</option>
+              <option value="syt">Surayt (Standard West)</option>
+              <option value="syh">Suret (Standard East)</option>
+              <option value="syn">Soray - Senaya</option>
+              <option value="hrt">Soreth - Hertevin</option>
+              <option value="bhn">Soreth - Gardabani</option>
+              <option value="kqd">Surat - Koy Sanjaq</option>
+              <option value="lhs">Suryo - Mlaḥsô</option>
+              <option value="amw">Aromay - Maaloula</option>
+              <option value="bjf">Lishanid - Barzani</option>
+              <option value="lsd">Lishana Deni - Trans-Zab</option>
+              <option value="trg">Lishana Didan - Trans-Zab</option>
+              <option value="huy">Lishana Noshan - Trans-Zab</option>
+            </optgroup>
+            <optgroup label="Arameiska (Sen)" globalize-get="aramaic_late" globalize-target="label">
+              <option value="syr">Suryaya - Edessa</option>
+              <option value="">Palmyrenian</option>
+              <option value="qly">Arami - Hatran</option>
+              <option value="qhy">Aramu - Nabatean</option>
+            </optgroup>
+            <optgroup label="Arameiska (Medel)" globalize-get="aramaic_middle" globalize-target="label">
+              <option value="tmr">Aramaya - Babylon</option>
+              <option value="syc">Aramaya - Edessa</option>
+              <option value="">Chazal</option>
+            </optgroup>
+            <optgroup label="Arameiska (Imperialistisk)" globalize-get="aramaic_imperial" globalize-target="label">
+              <option value="arc">Aramaya - Assur</option>
+            </optgroup>
+            <optgroup label="Arameiska (Forn)" globalize-get="aramaic_old" globalize-target="label">
+              <option value="oar">Alamaya - Sam'al</option>
+            </optgroup>
+          </select>-->
+          </form>
+      </section>
+    </article>
+  </main>
+  <aside></aside>
+  <footer class="bcwhite">
+    <select name="language" class="p1 m0a fs08" onvaluechange="globalize-set">
+      <option selected disabled globalize-get>Change language</option>
+      <option value="sv">Svenska</option>
+      <option value="en">English (US)</option>
+      <option value="arc">𐡀𐡓𐡌𐡉𐡀</option>
+      <option value="syc">ܐܪܡܝܐ</option>
+      <option value="am">አማርኛ</option>
+    </select>
+  </footer>
+</body>
+
+</html>
