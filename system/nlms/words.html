@@ -1,6 +1,8 @@
 <script src="../../front/front.js"></script>
 <title>Search</title>
 <template srcdoc="../system/nlms/index" src="../system/nlms/templates/main"></template>
+<h1>Words</h1>
+<hr class="bcblack01 mt1">
 <div
   bindasset="endpoint:api.words.endpoint"
   bindvar="src:{endpoint}?select=*&word->>{l}=ilike.{q}*"

@@ -2,17 +2,15 @@
 <title>Word</title>
 <template srcdoc="../system/nlms/index" src="../system/nlms/templates/main"></template>
 <article class="wc_xl">
-  <section bindquery="i:i" bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
+  <section
+    bindquery="i:i"
+    bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
     data-src="{endpoint}?select=id,word&or=(id.eq.{i})"
-    data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json" data-set="word:#word">
+    data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
+    data-set="word:#word"
+  >
     <h1 bindglobal="l:globalize.code" data-get="word.{l}">&nbsp;</h1>
-    <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
-      <ol class="pl05">
-        <li><a href="search.html?q=*" globalize-get>Dictionary</a></li>
-        <li><a bindquery="j:i" href="word.html?i={j}" globalize-get>Word</a></li>
-        <li bindglobal="l:globalize.code" data-get="word.{l}"></li>
-      </ol>
-    </nav>
+    <hr class="bcblack01 mt1">
     <div class="box cards list mt1 br0- flc- bcwhite-">
       <details class="p1">
         <summary class="fwb" globalize-get="genre">Aramaic (12)</summary>
