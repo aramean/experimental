@@ -3,6 +3,15 @@
 <template srcdoc="../system/nlms/index" src="../system/nlms/templates/main"></template>
 <h1>Languages</h1>
 <hr class="bcblack01 mt1">
+<input
+  id="query"
+  type="text"
+  value=""
+  class="bs1 p1 h3 mb1 fr br05"
+  globalize-get="language"
+  globalize-target="placeholder"
+  autocomplete="off"
+>
 <div
   bindasset="endpoint:api.languages.endpoint"
   bindvar="src:{endpoint};href:language;field:language"
