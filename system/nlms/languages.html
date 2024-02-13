@@ -1,10 +1,10 @@
 <script src="../../front/front.js"></script>
 <title>Search</title>
 <template srcdoc="../system/nlms/index" src="../system/nlms/templates/main"></template>
-<h1>Words</h1>
+<h1>Languages</h1>
 <hr class="bcblack01 mt1">
 <div
-  bindasset="endpoint:api.words.endpoint"
-  bindvar="src:{endpoint}?select=*&word->>{l}=ilike.{q}*"
-  include="includes/wordlist.html">
+  bindasset="endpoint:api.languages.endpoint"
+  bindvar="src:{endpoint}"
+  include="includes/languagelist.html">
 </div>
