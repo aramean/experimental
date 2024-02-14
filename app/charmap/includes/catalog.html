@@ -7,7 +7,7 @@
   bindvar=":"
   bindasset="api:api.characters.endpoint;apikey:api.api_key"
   bindquery="page:page"
-  data-src="{api}"
+  data-src="{api}?order=id.asc"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-replace="results.media_type:tv;results.mediatype:show"
   data-set="page:#page;total_pages:#pages;total_results:#results"
@@ -15,10 +15,10 @@
   data-iterate="true"
   data-loader="#loader"
   data-error="#error"
-  class="box cards gut2- xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
+  class="box cards gut1- xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
 >
-  <a bindvar=":" data-get="id:id;link:media_type" href="{link:{link}}.html?id={id}" class="p025 h10">
-    <h1 data-get="appearance"></h1>
+  <a bindvar=":" data-get="id:id;link:media_type" href="{link:{link}}.html?i={id}" class="p025 h10">
+    <p><h1 data-get="char"></h1></p>
     <small class="fs08" data-get="name"></small>
   </a>
 </div>

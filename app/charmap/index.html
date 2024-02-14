@@ -31,10 +31,6 @@
       justify-content: center
     }
 
-    .box *, .cards{
-      box-sizing: border-box;
-      width: 100%
-    }
   </style>
   <title>Character Map</title>
 </head>
@@ -42,9 +38,9 @@
 <body class="light">
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
   <header class="topbar h4 gap2- pr2 shade1">
-    <button click="toggle" clicktargetfield="aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
+    <button click="toggle" clicktargetfield="aside[0]" class="md_du light p1"><i class="icon32">≡</i></button>
     <figure class="mh30p pl2 sel">
-      <a class="b0 fwb pr025" href="./" key="0" globalize-get>Character Map</a>
+      <a class="fwb pr025" href="./" globalize-get>Character Map</a>
     </figure>
     <div class="pr f1">
       <input
@@ -65,7 +61,7 @@
         class="box br05 bcblack- white- border- pa w100"
         hide>
         <figure class="p05">
-          <a data-get="title || name" class="md_dn"></a>
+          <a data-get="name" class="md_dn"></a>
         </figure>
       </div>
     </div>
@@ -74,7 +70,7 @@
   <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn" resize="horizontal"></aside>
   <main class="pauto">
     <div
-      bindvar="name:title;link:movie;endpoint:trending;endpoint2:all"
+      bindvar="name:title;link:char;endpoint:trending;endpoint2:all"
       include="includes/catalog.html">
     </div>
   </main>

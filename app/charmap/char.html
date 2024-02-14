@@ -1,0 +1,26 @@
+<script src="../../front/front.js"></script>
+<title>Character</title>
+<template srcdoc="../app/charmap/index"></template>
+  <section
+    bindquery="i:i"
+    bindasset="apikey:api.api_key;endpoint:api.characters.endpoint"
+    data-src="{endpoint}?select=*&or=(id.eq.{i})"
+    data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
+    data-set="char:#char"
+  >
+    <h1 bindglobal="l:globalize.code" data-get="name">&nbsp;</h1>
+    <hr class="bcblack01 mt1">
+    <div class="box cards mt1 br0- bcwhite-">
+      <h1 class="tac pr5 pl5" style="font-size: 2000%" data-get="char"></h1>
+      <p class="p1">
+        <br><b>Unicode</b>
+        <span data-get="position" insertafterbegin=""></span>
+        <br><b>HEX Code</b>
+        <span data-get="hex" insertafterbegin="&#x" insertbeforeend=";"></span>
+        <br><b>HTML Code</b>
+        <span data-get="decimal" insertafterbegin="&#" insertbeforeend=";"></span>
+        <br><b>HTML Entity</b>
+        <span data-get="html" insertafterbegin="&" insertbeforeend=";"></span>
+      </p>
+    </div>
+  </section>
