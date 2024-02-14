@@ -1,0 +1,26 @@
+<nav class="sidebar pt1 w15 white-">
+  <form form-filter="true">
+    <div class="md_du">
+      <a click="toggle" keyboard-key="m" keyboard-action="click" clicktargetfield="aside[0]" class="button pl1"><i class="icon32">&#171;</i></a>
+      <hr>
+      <input
+        id="query2"
+        class="bs1 p1 h3 bcblack w100"
+        bindvar=":" type="text"
+        placeholder="Search for {link} ..."
+        autocomplete="off">
+    </div>
+    <details open>
+      <summary globalize-get="genre">Genre</summary>
+      <span
+        bindvar=":"
+        bindglobal="language:language"
+        bindasset="genre:api.themoviedb.genre.{endpoint3}"
+        data-src="{genre}&language={language}"
+        data-iterate="genres"
+      >
+        <a data-get="name" globalize-get data-set="i:id" bindquery="page:page" href="?genres={i}&page={page:1}"></a>
+      </span>
+    </details>
+  </form>
+</nav>

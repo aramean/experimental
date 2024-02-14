@@ -1,0 +1,40 @@
+<style>.loader{display: inherit}</style>
+<div id="loader" class="loader"></div>
+<div id="error" class="red mb2" hide>Something went wrong!</div>
+<div id="empty" class="mb2 fwb" hide>Not found!</div>
+<div id="success" class="green mb2" hide>It's working!</div>
+<div
+  bindvar=":"
+  bindasset="api:api.characters.endpoint;apikey:api.api_key"
+  bindquery="page:page"
+  data-src="{api}"
+  data-header="apikey:{apikey};Prefer:count=exact"
+  data-replace="results.media_type:tv;results.mediatype:show"
+  data-set="page:#page;total_pages:#pages;total_results:#results"
+  data-header=""
+  data-iterate="true"
+  data-loader="#loader"
+  data-error="#error"
+  class="box cards gut2- xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
+>
+  <a bindvar=":" data-get="id:id;link:media_type" href="{link:{link}}.html?id={id}" class="p025 h10">
+    <h1 data-get="appearance"></h1>
+    <small class="fs08" data-get="name"></small>
+  </a>
+</div>
+
+<nav class="pagination mt1 p1 p1- bcwhite01 flc" selective="true" iterate="1;9;i">
+  <a class="bcwhite m025 br05" keyboard-key="{i}" keyboard-action="click" keyboard-scope="body" sethref="?page={i}" set="{i}"></a>
+</nav>
+
+<hr>
+
+<hr>
+<div id="down">
+  Page: <span id="page">0</span>
+  <br>
+  Total Pages: <span id="pages" name="pages2">0</span>
+  <br>
+  Total Results: <span id="results">0</span>
+  <br>
+</div>

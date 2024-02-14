@@ -1,0 +1,9 @@
+{
+  "name": "English",
+  "code": "eng",
+  "direction": "ltr",
+  "translations": {
+    "test": "test",
+    "Character Map": "Character Map"
+  }
+}
