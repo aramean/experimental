@@ -1,0 +1,10 @@
+<script src="../../front/front.js"></script>
+<title>Search</title>
+<template srcdoc="../system/nlms/index" src="../system/nlms/templates/main"></template>
+<h1>Characters</h1>
+<hr class="bcblack01 mt1">
+<div
+  bindasset="endpoint:api.characters.endpoint"
+  bindvar="src:{endpoint}?select=*&char=ilike.*{q}*"
+  include="includes/list_characters.html">
+</div>

@@ -1,13 +1,10 @@
 <nav class="sidebar">
   <form form-filter="true">
     <div class="md_du">
-      <a click="toggle" keyboard-key="m" keyboard-action="click" keyboard-scope="body" clicktargetfield="aside[0]" class="button pl1"><i class="icon32">&#171;</i></a>
+      <a click="toggle" keyboard-key="m" keyboard-action="click" keyboard-scope="body" clicktargetfield="aside[0]"
+        class="button pl1"><i class="icon32">&#171;</i></a>
       <hr>
-      <input
-        id="query2"
-        class="bs1 p1 h3 bcblack w100"
-        bindvar=":" type="text"
-        placeholder="Search for {link} ..."
+      <input id="query2" class="bs1 p1 h3 bcblack w100" bindvar=":" type="text" placeholder="Search for {link} ..."
         autocomplete="off">
     </div>
     <select name="language" class="p1 h3 mb1 shade1 fs08" onvaluechange="globalize-set">
@@ -19,12 +16,10 @@
       <option value="am">አማርኛ</option>
     </select>
     <details open>
-      <summary globalize-get="genre" class="fwb">Languages</summary>
-        <a href="languages.html">View</a>
-    </details>
-    <details open>
-      <summary globalize-get="genre" class="fwb">Lexicon</summary>
-        <a href="words.html">Words</a>
+      <summary class="fwb" globalize-get>Manage</summary>
+      <a href="characters.html">Characters</a>
+      <a href="languages.html">Language</a>
+      <a href="words.html">Word</a>
     </details>
   </form>
 </nav>
