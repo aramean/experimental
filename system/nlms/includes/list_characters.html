@@ -25,7 +25,7 @@
   bindglobal="l:globalize.code"
   bindfield="search:#query"
   ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
-  data-src="{src}"
+  data-src="{src}?select=*&or=(name.ilike.*{search}*,char.ilike.*{search})*)"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader"
   data-empty="0;#empty"
