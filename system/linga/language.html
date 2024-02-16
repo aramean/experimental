@@ -1,14 +1,14 @@
 <script src="../../front/front.js"></script>
-<title>Word</title>
-<template srcdoc="../system/nlms/index" src="../system/nlms/templates/main"></template>
+<title>Language</title>
+<template srcdoc="../system/linga/index" src="../system/linga/templates/main"></template>
   <section
     bindquery="i:i"
-    bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
-    data-src="{endpoint}?select=id,word&or=(id.eq.{i})"
+    bindasset="apikey:api.api_key;endpoint:api.languages.endpoint"
+    data-src="{endpoint}?select=id,language&or=(id.eq.{i})"
     data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
-    data-set="word:#word"
+    data-set="language:#language"
   >
-    <h1 bindglobal="l:globalize.code" data-get="word.{l}">&nbsp;</h1>
+    <h1 bindglobal="l:globalize.code" data-get="language.{l}">&nbsp;</h1>
     <hr class="bcblack01 mt1">
     <div class="box cards list mt1 br0- flc- bcwhite-">
       <details class="p1" open>
