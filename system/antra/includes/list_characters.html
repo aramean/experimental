@@ -1,0 +1,40 @@
+<div id="loader" class="loader"></div>
+<div class="df mb1 gap1-">
+  <input
+    id="query"
+    type="text"
+    value=""
+    class="bs1 f3 p1 h3 br05"
+    globalize-get="language"
+    globalize-target="placeholder"
+    autocomplete="off"
+  >
+  <select
+    id="sort"
+    class="bs1 f0 p1 h3 br05 fs08"
+    globalize-target="placeholder"
+  >
+  <option>Updated</option>
+  </select>
+</div>
+<div
+  class="box cards shade1 list br0- bcwhite-"
+  bindvar=":;search:"
+  bindasset="apikey:api.api_key"
+  bindquery="q:q;c:category"
+  bindglobal="l:globalize.code"
+  bindfield="search:#query"
+  ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
+  data-src="{src}?select=*&or=(name.ilike.*{search}*,char.ilike.*{search})*)"
+  data-header="apikey:{apikey};Prefer:count=exact"
+  data-loader="#loader"
+  data-empty="0;#empty"
+  data-iterate="true">
+  <a bindvar=":" data-set="i:id" href="{href}.html?i={i}" class="p1">
+    <figure class="pr">
+      <p bindglobal="l:globalize.code" data-get="name"></p>
+    </figure>
+    <p class="gray" data-get="char"></p>
+    <p class="f0 icon">&#128394;</p>
+  </a>
+</div>

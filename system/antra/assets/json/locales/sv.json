@@ -1,0 +1,23 @@
+{
+  "name": "Svenska",
+  "code": "swe",
+  "direction": "ltr",
+  "translations": {
+    "Change language": "Byt språk",
+    "All dialects": "Alla dialekter",
+    "aramaic_modern": "Arameiska (Modern)",
+    "aramaic_middle": "Arameiska (Medel)",
+    "aramaic_late": "Arameiska (Sen)",
+    "aramaic_old": "Arameiska (Forn)",
+    "aramaic_imperial": "Arameiska (Imperialistisk)",
+    "Browse": "Bläddra",
+    "Dictionary": "Ordbok",
+    "Word": "Ord",
+    "Language": "Språk",
+    "Categories": "Kategorier",
+    "Continue": "Fortsätt",
+    "Manage": "Hantera",
+    "title": "Lingvistiskt Hanteringssystem",
+    "input_search": "Sök efter ord..."
+  }
+}

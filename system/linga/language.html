@@ -4,15 +4,16 @@
   <section
     bindquery="i:i"
     bindasset="apikey:api.api_key;endpoint:api.languages.endpoint"
-    data-src="{endpoint}?select=id,language&or=(id.eq.{i})"
+    data-src="{endpoint}?select=*&or=(id.eq.{i})"
     data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
     data-set="language:#language"
   >
     <h1 keyboard-key="Enter" keyboard-action="alert:save" keyboard-scope form="" bindglobal="l:globalize.code" data-get="language.{l}" contenteditable>&nbsp;</h1>
     <hr class="bcblack01 mt1">
+    <input class="bs1 f3 p1 h3 br05" data-get="iso" type="text" placeholder="ISO">
     <div class="box cards list mt1 br0- flc- bcwhite-">
-      <details class="p1" open>
-        <summary class="fwb" globalize-get="genre">Aramaic (12)</summary>
+      <details class="p1">
+        <summary class="fwb" globalize-get="genre">Native to</summary>
         <!-- Samalian (Northwest) -->
         <hr>
         <h6 class="p05 pl1 black06 fs08">Aramaya</h6>
