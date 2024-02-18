@@ -1,0 +1,28 @@
+<script src="../../front/front.js"></script>
+<title>Humans</title>
+<template srcdoc="../system/antra/index" src="../system/antra/templates/main"></template>
+<h1>Humans</h1>
+<hr class="bcblack01 mt1">
+<div class="df mb1 gap1-">
+  <input
+    id="query"
+    type="text"
+    value=""
+    class="bs1 f3 p1 h3 br05"
+    globalize-get="human"
+    globalize-target="placeholder"
+    autocomplete="off"
+  >
+  <select
+    id="sort"
+    class="bs1 f0 p1 h3 br05 fs08"
+    globalize-target="placeholder"
+  >
+  <option>Updated</option>
+  </select>
+</div>
+<div
+  bindasset="endpoint:api.humans.endpoint"
+  bindvar="src:{endpoint};href:human;field:human"
+  include="includes/list_humans.html">
+</div>
