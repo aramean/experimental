@@ -4,14 +4,24 @@
   <section
     bindquery="i:i"
     bindasset="apikey:api.humans.api_key;endpoint:api.humans.endpoint"
-    data-src="{endpoint}?select=*&or=(id.eq.{i})"
+    data-src="{endpoint}?select=id,first_name,middle_name,last_name,birth,death&or=(id.eq.{i})"
     data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
     data-set="language:#language"
   >
     <h1 keyboard-key="Enter" keyboard-action="alert:save" keyboard-scope form="" bindglobal="l:globalize.code" data-get="first_name.{l}">&nbsp;</h1>
     <hr class="bcblack01 mt1">
-    <input class="bs1 f0 p1 h3 br05" type="text" placeholder="Birth date" maxlength="3" minlength="3" data-get="birth.date" required>
-    <input class="bs1 f0 p1 h3 br05" type="text" placeholder="Birth date" maxlength="3" minlength="3" data-get="birth.date" required>
+
+    <div class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2-">
+      <figure>
+        <small>Birth date</small>
+        <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Birth date" maxlength="3" minlength="3" data-get="birth.date" required>
+      </figure>
+      <figure>
+        <small>Death date</small>
+        <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Death date" maxlength="3" minlength="3" data-get="death.date" required>
+      </figure>
+    </div>
+
     <div class="box cards list mt1 br0- flc- bcwhite-">
       <details class="p1">
         <summary class="fwb" globalize-get>Artwork</summary>
