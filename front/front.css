@@ -70,7 +70,8 @@ html {
   line-height: 1.6;
   letter-spacing: .02em;
   font-family: Arial, Helvetica, sans-serif;
-  color: #111
+  color: #111;
+  zoom: 1;
 }
 
 head,
@@ -402,7 +403,8 @@ body>aside,
   -ms-grid-row: 3;
   -ms-grid-column: 1;
   overflow: auto;
-  padding: 0
+  padding: 0;
+  background-color: inherit;
 }
 
 body>main,
@@ -4031,6 +4033,10 @@ body .br50->* {
   padding: 3rem 1rem
 }
 
+body .h0 {
+  height: 0
+}
+
 body .h1px,
 body .h1px * {
   height: 1px
@@ -4063,6 +4069,18 @@ body .h80 {
 
 body .h90 {
   height: 90%
+}
+
+body .h1r {
+  height: 1rem
+}
+
+body .h2r {
+  height: 2rem
+}
+
+body .h3r {
+  height: 3rem
 }
 
 body .h5r {
@@ -6244,12 +6262,6 @@ body .w13- * {
 body .w14r,
 body .w14,
 body.w14- * {
-  width: 14rem
-}
-
-body .w14r,
-body .w14,
-body .w14- * {
   width: 14rem
 }
 
