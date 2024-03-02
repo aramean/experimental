@@ -1,2 +1,0 @@
-ANTRA
-Anthropology Management System

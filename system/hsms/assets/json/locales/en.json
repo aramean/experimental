@@ -3,6 +3,10 @@
   "code": "eng",
   "direction": "ltr",
   "translations": {
+    "app": {
+      "name": "Human Sciences Management System",
+      "abbreviation": "HSMS"
+    },
     "Change language": "Change language",
     "All dialects": "All dialects",
     "aramaic_modern": "Aramaic (Modern)",
@@ -13,7 +17,7 @@
     "Browse": "Browse",
     "Categories": "Categories",
     "Manage": "Manage",
-    "title": "Anthropology Management System",
+    "title": "Human Sciences Management System",
     "input_search": "Search for words...",
     "Continue": "Continue"
   }

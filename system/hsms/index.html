@@ -8,14 +8,14 @@
     src="../../front/front.js"
     module="globalize;data;navigate;form;keyboard"
     var="api"
-    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:antra"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:hsms"
     globalize-conf="folder:assets/json/locales"
-    navigate-conf="startpage:experimental/system/antra;startpageLocal:system/antra">
+    navigate-conf="startpage:experimental/system/hsms;startpageLocal:system/hsms">
   </script>
   <link type="text/css" href="../../front/front.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="icon" href="data:,">
-  <title>ANTRA</title>
+  <title globalize-get="app.name"></title>
 </head>
 
 <body class="light">
@@ -27,7 +27,7 @@
       <section>
         <div class="tac w100">
           <img class="w10r mb05 hue-rotate m0a" src="https://www.aleptra.com/assets/img/logo_black.png">
-          <h6 class="z09 dimgray" globalize-get="title">Anthropology Management System</h6>
+          <h6 class="z09 dimgray" globalize-get="app.name">Human Sciences Management System</h6>
         </div>
         <form method="get" action="home.html" class="mt2">
           <input

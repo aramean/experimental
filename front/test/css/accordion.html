@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accordion</title>
+
+<body>
+
+  <accordion>
+    <details>
+      <summary>Accordion 1</summary>
+      <content>Content 1</content>
+    </details>
+  </accordion>
+  <accordion>
+    <details>
+      <summary iconopen="+">Accordion 2</summary>
+      <content>Content 2</content>
+    </details>
+  </accordion>
+  <accordion>
+    <details>
+      <summary>Accordion 3</summary>
+      <content>Content 3</content>
+    </details>
+  </accordion>
+
+  <style>
+    /* Base */
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body * {
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    style,
+    script {
+      display: none
+    }
+
+    /* Accordion Component*/
+    accordion {
+      flex-direction: column;
+      background-color: gray;
+    }
+
+    accordion summary {
+      padding: 1rem;
+      cursor: pointer;
+    }
+
+    accordion summary:after {
+      content: attr(iconclosed);
+      float: right;
+    }
+
+    accordion[open] summary:after {
+      content: attr(iconopen);
+    }
+  </style>
+
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+.accordion summary {
+  padding: 1rem;
+}
+
+.accordion summary:after {
+  content: attr(iconclosed);
+  float: right;
+}
+
+.accordion[open] summary:after {
+  content: attr(iconopen);
+}

@@ -1,3 +1,5 @@
+@import url('css/components/accordion.css');
+
 .darktheme ::-webkit-scrollbar {
   background: rgba(0, 0, 0, .5);
 }
@@ -121,7 +123,8 @@ div,
   display: block;
   font-family: inherit;
   height: inherit;
-  word-break: break-word
+  word-break: break-word;
+  width: inherit;
 }
 
 div {

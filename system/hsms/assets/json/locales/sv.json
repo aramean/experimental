@@ -3,6 +3,10 @@
   "code": "swe",
   "direction": "ltr",
   "translations": {
+    "app": {
+      "name": "Människovetenskapligt Hanteringssystem",
+      "abbreviation": "HSMS"
+    },
     "Change language": "Byt språk",
     "All dialects": "Alla dialekter",
     "aramaic_modern": "Arameiska (Modern)",
@@ -17,7 +21,7 @@
     "Categories": "Kategorier",
     "Continue": "Fortsätt",
     "Manage": "Hantera",
-    "title": "Lingvistiskt Hanteringssystem",
+    "title": "Människovetenskapligt Hanteringssystem",
     "input_search": "Sök efter ord..."
   }
 }
