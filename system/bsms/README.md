@@ -1,5 +1,6 @@
 # System
-Human Sciences Management System
+Human Sciences Management System.
+(Biological, Artificial and Supernatural)
 
 # Subsystems
 * Anthropology
