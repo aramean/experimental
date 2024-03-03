@@ -1,5 +1,12 @@
 # System
-Celestial Sciences Management System
+Cosmic Sciences Management System
+
+Planets
+Moons
+Stars
+Comets
+Asteroids
+Galaxies
 
 # Subsystems
 * Astronomy

@@ -1,5 +1,5 @@
 # System
-Human Sciences Management System.
+Being Sciences Management System.
 (Biological, Artificial and Supernatural)
 
 # Subsystems

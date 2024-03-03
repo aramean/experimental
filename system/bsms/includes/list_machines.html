@@ -1,0 +1,22 @@
+<div id="loader" class="loader"></div>
+<div
+  class="box cards shade1 list br0- bcwhite-"
+  bindvar=":;search:"
+  bindasset="apikey:api.humans.api_key"
+  bindquery="q:q;c:category"
+  bindglobal="l:globalize.code"
+  bindfield="search:#query"
+  ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
+  data-src="{src}?select=id,name&name->>{l}=ilike.*{search}*"
+  data-header="apikey:{apikey};Prefer:count=exact"
+  data-loader="#loader"
+  data-empty="0;#empty"
+  data-iterate="true">
+  <a bindvar=":" data-set="i:id" href="{href}.html?i={i}" class="p1">
+    <p>
+      <span bindglobal="l:globalize.code" data-get="name.{l:eng}"></span>
+    </p>
+    <small class="gray" data-get="">Aritificial Intelligence</small>
+    <p class="f0 icon">&#128394;</p>
+  </a>
+</div>
