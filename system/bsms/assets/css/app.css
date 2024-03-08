@@ -49,6 +49,11 @@
   margin-left: 0; /* Resetting margin for all items */
 }
 
+@font-face {
+  font-family: material;
+  src: url('https://cdn.front.nu/dist/design/material/icons/material.woff')
+}
+
 body [class*='icon']{
   font-family: material;
 }
