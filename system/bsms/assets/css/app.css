@@ -41,72 +41,12 @@
   display: inherit
 }
 
-.box.list * {
-  width: auto;
-  align-items: stretch;
-}
-
 .autocomplete {
   box-shadow: 0 0 17rem 29rem rgba(0,0,0, .5)
 }
 
 .body.fww > *:nth-child(n) {
   margin-left: 0; /* Resetting margin for all items */
-}
-
-@font-face {
-  font-family: material;
-  src: url('https://cdn.front.nu/dist/design/material/icons/material.woff')
-}
-
-@font-face {
-  font-family: adiabene;
-  src: url('../fonts/adiabene.ttf')
-}
-
-@font-face {
-  font-family: edessa;
-  src: url('../fonts/edessa.otf')
-}
-
-@font-face {
-  font-family: midyat;
-  src: url('../fonts/midyat.otf')
-}
-
-@font-face {
-  font-family: urhoy;
-  src: url('../fonts/urhoy.otf')
-}
-
-@font-face {
-  font-family: mardin;
-  src: url('../fonts/mardin.otf')
-}
-
-.ffadiabene {
-  font-family: adiabene;
-  zoom: 1.7
-}
-
-.ffedessa {
-  font-family: edessa;
-  zoom: 1.6
-}
-
-.ffmidyat {
-  font-family: midyat;
-  zoom: 1.4
-}
-
-.ffurhoy {
-  font-family: urhoy;
-  zoom: 1.65
-}
-
-.ffmardin {
-  font-family: mardin;
-  zoom: 1.6
 }
 
 body [class*='icon']{

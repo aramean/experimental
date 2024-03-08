@@ -1580,6 +1580,11 @@ summary::marker {
   align-items: center;
 }
 
+.box.list > * {
+  width: auto;
+  align-items: stretch;
+}
+
 .box.list .fr {
   float: right
 }
