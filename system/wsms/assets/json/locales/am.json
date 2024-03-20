@@ -1,0 +1,27 @@
+{
+  "name": "አማርኛ",
+  "code": "amh",
+  "direction": "ltr",
+  "translations": {
+    "Categories": "ምድቦች",
+    "All dialects": "ሁሉም ዘዬዎች",
+    "Change language": "ቋንቋ መቀየር",
+    "Monday": "ሰኞ",
+    "Tuesday": "ማክሰኞ",
+    "Wednesday": "እሮብ",
+    "Thursday": "ሐሙስ",
+    "Friday": "አርብ",
+    "Saturday": "ቅዳሜ",
+    "Sunday": "እሁድ",
+    "Browse": "አስስ",
+    "Dictionary": "መዝገበ ቃላት",
+    "Word": "ቃል",
+    "Language": "ቋንቋ",
+    "title": "የአረማይክ መዝገበ ቃላት",
+    "input_search": "ቃላትን መፈለግ...",
+    "Suryoyo": "ሱርዮዮ",
+    "Suryaya": "ሱርያያ",
+    "Surayt": "ሱራይት",
+    "Suret": "ሱሪት"
+  }
+}

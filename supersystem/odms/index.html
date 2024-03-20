@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="version" content="1.0.0">
+  <script
+    src="../../front/front.js"
+    module="globalize;data;navigate;form;keyboard"
+    var="api"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:bsms"
+    globalize-conf="folder:assets/json/locales"
+    navigate-conf="startpage:experimental/system/bsms;startpageLocal:system/bsms">
+  </script>
+  <link type="text/css" href="../../front/front.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="icon" href="data:,">
+  <title globalize-get="app.name"></title>
+</head>
+
+<body class="light">
+  <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
+  <header></header>
+  <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn shade2" resize="horizontal"></aside>
+  <main class="bcwhite flc">
+    <article class="df p1 fdc wc_xm">
+      <section>
+        <div class="tac w100">
+          <img class="w10r mb05 hue-rotate m0a" src="https://www.aleptra.com/assets/img/logo_black.png">
+          <h6 class="z09 dimgray" globalize-get="app.name">Omni Data Management System</h6>
+        </div>
+        <form method="get" action="home.html" class="mt2">
+          <input
+            type="submit"
+            name="q"
+            class="p1 pr2 pl2 m0a br2 shade1 fwb dark white button"
+            globalize-get
+            value="Continue">
+        </form>
+      </section>
+    </article>
+  </main>
+  <aside></aside>
+  <footer></footer>
+</body>
+
+</html>

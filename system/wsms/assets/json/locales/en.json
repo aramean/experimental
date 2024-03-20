@@ -1,0 +1,24 @@
+{
+  "name": "English",
+  "code": "eng",
+  "direction": "ltr",
+  "translations": {
+    "app": {
+      "name": "Human Sciences Management System",
+      "abbreviation": "HSMS"
+    },
+    "Change language": "Change language",
+    "All dialects": "All dialects",
+    "aramaic_modern": "Aramaic (Modern)",
+    "aramaic_middle": "Aramaic (Middle)",
+    "aramaic_late": "Aramaic (Late)",
+    "aramaic_old": "Aramaic (Old)",
+    "aramaic_imperial": "Aramaic (Imperial)",
+    "Browse": "Browse",
+    "Categories": "Categories",
+    "Manage": "Manage",
+    "title": "Human Sciences Management System",
+    "input_search": "Search for words...",
+    "Continue": "Continue"
+  }
+}

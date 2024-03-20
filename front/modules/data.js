@@ -113,7 +113,8 @@ app.module.data = {
       datamerge = element.getAttribute('data-merge'),
       datafilteritem = element.getAttribute('data-filteritem'),
       datareplace = element.getAttribute('data-replace'),
-      datasort = element.getAttribute('data-sort')
+      datasort = element.getAttribute('data-sort'),
+      selector = '*:not([data-iterate-skip]'
 
     if (responseData) {
       if (datamerge) {
@@ -141,7 +142,7 @@ app.module.data = {
         total = iterate && responseObject.length - 1 || 0
 
       if (!iterate) {
-        var elements = app.element.find(element, '*')
+        var elements = app.element.find(element, selector)
 
         for (var i = 0; i < elements.length; i++) {
           var dataget = elements[i].getAttribute('data-get')
@@ -152,21 +153,31 @@ app.module.data = {
         }
 
       } else {
+        var originalNode = element,
+          originalClonedNode = originalNode.cloneNode(true)
 
-        var originalNode = element
         originalNode.innerHTML = element.originalHtml
-        var orginalNodeCountAll = app.element.find(originalNode, '*').length,
+
+        var elementsSkip = originalNode.querySelectorAll('[data-iterate-skip]')
+
+        // Remove elements that are skipped.
+        for (var i = 0; i < elementsSkip.length; i++) {
+          var skipElement = elementsSkip[i]
+          skipElement.parentNode.removeChild(skipElement)
+        }
+
+        var originalNodeCountAll = app.element.find(originalNode, selector).length || 1,
           content = ''
 
         for (var i = 0; i <= total; i++) {
-          content += originalNode.innerHTML
+          content += i === 0 && elementsSkip.length > 0 ? originalClonedNode.innerHTML : originalNode.innerHTML
         }
 
         element.innerHTML = content
 
-        var elements = app.element.find(element, '*')
+        var elements = app.element.find(element, selector)
         for (var i = 0, j = -1; i < elements.length; i++) {
-          if (i % orginalNodeCountAll === 0) j++
+          if (i % originalNodeCountAll === 0) j++
 
           var attributes = elements[i].attributes
           for (var k = 0; k < attributes.length; k++) {
