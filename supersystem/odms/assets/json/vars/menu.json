@@ -1,8 +1,34 @@
 [
   {
-    "name": "Humans"
+    "name": "Humans",
+    "href": "humans"
   },
   {
-    "name": "Animals"
+    "name": "Animals",
+    "href": "animals"
+  },
+  {
+    "name": "Machines",
+    "href": "machines"
+  },
+  {
+    "name": "Aliens",
+    "href": "aliens"
+  },
+  {
+    "name": "Spirits",
+    "href": "spirits"
+  },
+  {
+    "name": "Monsters",
+    "href": "monsters"
+  },
+  {
+    "name": "Microbes",
+    "href": "microbes"
+  },
+  {
+    "name": "Gods",
+    "href": "gods"
   }
 ]

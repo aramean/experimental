@@ -15,23 +15,9 @@
       <option value="syc">ܐܪܡܝܐ</option>
       <option value="am">አማርኛ</option>
     </select>
-    <details open>
-      <summary class="fwb" globalize-get>Manage</summary>
-      <div data-src="assets/json/vars/menu.json" data-iterate="true">
-        <div data-iterate-skip="true">ss</div>
-        <div data-iterate-skip="true">ss</div>
-        <div data-iterate-skip="true">ss</div>
-        <a href="" data-get="name"></a>
-        <div data-iterate-skip="true">ss</div>
-      </div>
-      <a href="humans.html" title="Anthropology">Humans</a>
-      <a href="animals.html" title="Zoology">Animals</a>
-      <a href="machines.html" title="Mechanology">Machines</a>
-      <a href="aliens.html" title="Astrobiology">Aliens</a>
-      <a href="spirits.html" title="Spirituality">Spirits</a>
-      <a href="monsters.html" title="Cryptozoology">Monsters</a>
-      <a href="microbes.html" title="Microbiology">Microbes</a>
-      <a href="gods.html" title="Theology">Gods</a>
+    <details open data-src="assets/json/vars/menu.json" data-iterate="true">
+      <summary class="fwb" data-iterate-skip globalize-get>Manage</summary>
+      <a href="{href}.html" data-set="href:href" data-get="name"></a>
     </details>
   </form>
 </nav>
