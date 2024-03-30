@@ -4,8 +4,8 @@
   "direction": "ltr",
   "translations": {
     "app": {
-      "name": "Människovetenskapligt Hanteringssystem",
-      "abbreviation": "HSMS"
+      "name": "Omni Data Hanteringssystem",
+      "acronym": "ODMS"
     },
     "Change language": "Byt språk",
     "All dialects": "Alla dialekter",
