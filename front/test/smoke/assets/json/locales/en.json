@@ -3,6 +3,10 @@
   "code": "eng",
   "direction": "ltr",
   "translations": {
+    "app": {
+      "name": "ABC",
+      "name2": "abc"
+    },
     "All dialects": "All dialects",
     "Thursday": "Thursday",
     "age": "Age",

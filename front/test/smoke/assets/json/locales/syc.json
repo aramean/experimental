@@ -3,6 +3,10 @@
   "code": "syc",
   "direction": "rtl",
   "translations": {
+    "app": {
+      "name": "ABC",
+      "name2": "abc"
+    },
     "All dialects": "ܫܘܚܠܦ ܠܫܢܐ",
     "aramaic_modern": "ܐܪܡܝܐ ܚܕܬܐ",
     "age": "ܫܢܝܢ",

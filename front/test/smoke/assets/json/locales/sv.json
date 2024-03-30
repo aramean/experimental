@@ -3,6 +3,10 @@
   "code": "swe",
   "direction": "ltr",
   "translations": {
+    "app": {
+      "name": "ABC",
+      "name2": "abc"
+    },
     "All dialects": "Alla dialekter",
     "Thursday": "Torsdag",
     "age": "Ålder",
