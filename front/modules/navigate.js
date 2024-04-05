@@ -34,26 +34,30 @@ app.module.navigate = {
    */
   _click: function (event) {
     var link = app.element.getTagLink(event.target)
-    if (link && link.hash) {
-      this._hash(link)
-    } else if (link && link.href && link.target !== '_blank') {
-      var state = {
-        'href': link.pathname,
-        'target': link.target,
-        'arg': { disableSrcdoc: true, runAttributes: true }
-      }
+    if (link) {
+      if (link.hash) {
+        this._hash(link)
+      } else if (link.href) {
+        if (link.target === '_blank') {
+          return
+        } else {
+          var pushState = link.getAttribute('navigate-pushstate') === 'false' ? false : true,
+            target = link.target === '_top' ? 'html' : link.target || this.config.target
 
-      if (link.href !== window.location.href) {
-        history.pushState(state, '', link.href)
-      }
+          var state = {
+            'href': link.pathname,
+            'target': target,
+            'arg': { disableSrcdoc: true, runAttributes: true }
+          }
 
-      this._scroll()
-      this._load(history.state || state)
-    } else {
-      return
+          if (link.href !== window.location.href && pushState) history.pushState(state, '', link.href)
+
+          this._scroll() // Reset scroll to top.
+          this._load(state) // Load page.
+        }
+      }
+      return event.preventDefault()
     }
-
-    return event.preventDefault()
   },
 
   /**
@@ -65,7 +69,7 @@ app.module.navigate = {
     var state = (event.state) ? event.state : {
       'href': window.location.pathname,
       'hash': window.location.hash,
-      'target': !event.state ? false : 'html',
+      'target': !event.state ? this.config.target : 'html',
       'extension': false,
       'arg': { disableSrcdoc: true, runAttributes: true }
     }
@@ -86,8 +90,6 @@ app.module.navigate = {
       app.isFrontpage = true
       state.target = 'html'
       state.extension = false
-    } else if (!state.target || state.target[0] === '_') {
-      state.target = this.config.target
     }
 
     app.xhr.get({
