@@ -300,7 +300,7 @@ var dom = {
               case 'select-one':
                 app.listeners.add(target, 'change', function () {
                   var value = this.options[this.selectedIndex].value
-                  app.variables.update.attributes(object, replaceVariableNew, this.value, true)
+                  app.variables.update.attributes(object, replaceVariableNew, this.value, true, ['bind'])
                   app.variables.update.content(object, replaceVariableNew, value)
                 })
                 break
@@ -1465,7 +1465,9 @@ var app = {
    */
   variables: {
     update: {
-      attributes: function (object, replaceVariable, replaceValue, reset) {
+      attributes: function (object, replaceVariable, replaceValue, reset, runExclude) {
+        var exclude = ['stop'].concat(runExclude || [])
+
         if (reset) {
           var originalAttributes = dom.parse.text(object.originalOuterHtml).children[0].attributes,
             originalHtml = object.originalHtml
@@ -1483,7 +1485,7 @@ var app = {
           }
         }
 
-        if (reset) app.attributes.run([object], ['stop'])
+        if (reset) app.attributes.run([object], exclude)
       },
 
       content: function (object, replaceVariable, replaceValue) {
