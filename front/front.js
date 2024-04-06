@@ -846,7 +846,7 @@ var app = {
     })
 
     // Listen for all input fields.
-    app.listeners.add(document, 'input', function test(e) {
+    app.listeners.add(document, 'input', function (e) {
       app.listeners.change('input', e.target, false, e)
     })
   },
