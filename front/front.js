@@ -973,7 +973,7 @@ var app = {
      */
     find: function (node, selector) {
       var element = node.querySelectorAll(selector)
-      return element.length === 1 && selector !== '*' ? element[0] : element
+      return element.length === 1 && selector[0] !== '*' ? element[0] : element
     },
 
     /**
