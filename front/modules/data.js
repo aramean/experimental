@@ -153,6 +153,12 @@ app.module.data = {
         }
 
       } else {
+        if (!responseObject.length) { // Support index select.
+          var keys = Object.keys(responseObject),
+            total = keys.length - 1 || 0,
+            responseObject = keys
+        }
+
         var originalNode = element,
           originalClonedNode = originalNode.cloneNode(true)
 
@@ -229,6 +235,7 @@ app.module.data = {
     var result,
       orPaths = value.split('||')
 
+    if (value === '[0]') return obj
     for (var i = 0; i < orPaths.length; i++) {
       var andPaths = orPaths[i].trim().split('&&'),
         tempResult = []

@@ -738,31 +738,29 @@ var dom = {
     var values = value.split(';'),
       start = parseInt(values[0]),
       stop = parseInt(values[1]),
-      vari = values[2]
-
-    var originalNode = element,
+      varName = values[2],
+      originalNode = element,
       content = ''
+
     originalNode.innerHTML = element.originalHtml
 
     for (var i = start; i <= stop; i++) {
-      content += originalNode.innerHTML
+      var innerHtml = originalNode.innerHTML,
+        regex = new RegExp('\\{' + varName + '\\}', 'g')
+
+      innerHtml = innerHtml.replace(regex, i) // Todo: Use a function. app.varibales
+      content += innerHtml
     }
 
     element.innerHTML = content
 
     var elements = app.element.find(element, '*')
-    for (var i = 0; i <= stop - start; i++) {
-      if (elements[i]) {
-        app.variables.update.attributes(elements[i], 'i', start + i, false)
-      }
-    }
-
-    app.attributes.run(elements, ['iterate'])
+    app.attributes.run(elements)
   },
 
-  await: function (element, value) {
+  /*await: function (element, value) {
     if (value) app.await[value] = { element: element, value: value, enable: true }
-  }
+  }*/
 }
 
 var app = {
@@ -1466,26 +1464,29 @@ var app = {
   variables: {
     update: {
       attributes: function (object, replaceVariable, replaceValue, reset, runExclude) {
-        var exclude = ['stop'].concat(runExclude || [])
+        if (replaceVariable) {
+          if (reset) {
+            var originalAttributes = dom.parse.text(object.originalOuterHtml).children[0].attributes,
+              originalHtml = object.originalHtml
+            app.variables.reset.attributes(object, originalAttributes)
+            app.variables.reset.content(object, originalHtml)
+          }
 
-        if (reset) {
-          var originalAttributes = dom.parse.text(object.originalOuterHtml).children[0].attributes,
-            originalHtml = object.originalHtml
-          app.variables.reset.attributes(object, originalAttributes)
-          app.variables.reset.content(object, originalHtml)
-        }
+          var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::((?:{[^{}]*}|[^}])+))?\\}', 'g')
+          for (var i = 0; i < object.attributes.length; i++) {
+            var attr = object.attributes[i]
+            // Check if the regex is matched before updating the attribute.
+            if (regex.test(attr.value)) {
+              // Update the attribute value directly.
+              attr.value = attr.value.replace(regex, replaceValue === 0 ? '0' : replaceValue || '$1' || '')
+            }
+          }
 
-        var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::((?:{[^{}]*}|[^}])+))?\\}', 'g')
-        for (var i = 0; i < object.attributes.length; i++) {
-          var attr = object.attributes[i]
-          // Check if the regex is matched before updating the attribute.
-          if (regex.test(attr.value)) {
-            // Update the attribute value directly.
-            attr.value = attr.value.replace(regex, replaceValue === 0 ? '0' : replaceValue || '$1' || '')
+          if (reset) {
+            var exclude = ['stop'].concat(runExclude || [])
+            app.attributes.run([object], exclude)
           }
         }
-
-        if (reset) app.attributes.run([object], exclude)
       },
 
       content: function (object, replaceVariable, replaceValue) {
