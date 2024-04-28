@@ -19,8 +19,13 @@
     <section iterate="1;6;i">
       <details>
         <summary>Database (X{i})</summary>
-        <details bindasset="apikey:api.databases.x{i}.api_key;x:api.databases.x{i}.endpoint" data-src="{x}"
-          data-header="apikey:{apikey};Prefer:count=exact" data-iterate="definitions" open>
+        <details
+          stop
+          bindasset="apikey:api.databases.x{i}.api_key;x:api.databases.x{i}.endpoint"
+          data-src="{x}"
+          data-header="apikey:{apikey};Prefer:count=exact"
+          data-iterate="definitions"
+          open>
           <summary class="fwb" data-iterate-skip globalize-get>Tables</summary>
           <a bindvar=":" data-set="i:[0]" href="table.html?i={i}" class="p1" data-get="[0]"></a>
         </details>

@@ -235,7 +235,7 @@ var dom = {
         case 'bindasset':
           var keys = replaceValue.split('.'),
             cache = app.caches.get('window', 'var', keys[0])
-
+          app.log.info()('Binding asset: ' + keys)
           if (cache && cache.data) {
             var value = cache.data
             for (var j = 1; j < keys.length; j++) {
@@ -735,6 +735,7 @@ var dom = {
   },
 
   iterate: function (element, value) {
+    dom.stop(element) // Stop all attributes in element .
     var values = value.split(';'),
       start = parseInt(values[0]),
       stop = parseInt(values[1]),
