@@ -138,7 +138,7 @@ app.module.data = {
       }
 
       var iterate = options.iterate,
-        responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || responseData.data,
+        responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || {},
         total = iterate && responseObject.length - 1 || 0
 
       if (!iterate) {
