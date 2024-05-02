@@ -1144,7 +1144,7 @@ var app = {
       return data
     },
 
-    set: function (mechanism, type, key, data, format) {
+    set: function (mechanism, type, key, data, status, format) {
       if (app.storageKey) key = app.storageKey + '_' + key
       switch (format) {
         case 'xml':
@@ -1159,6 +1159,7 @@ var app = {
 
       var cacheData = {
         'data': data,
+        'status': status ? status : '',
         'headers': '',
         'globals': app.globals
       }
@@ -1693,8 +1694,9 @@ var app = {
               }
             }
 
-            if (cache && (statusType.success || statusType.redirect)) {
-              app.caches.set(cache.type, cache.keyType, cache.key, this.responseText, cache.format)
+            if (cache) {
+            //if (cache && (statusType.success || statusType.redirect)) {
+              app.caches.set(cache.type, cache.keyType, cache.key, this.responseText, this.status, cache.format)
             }
 
             if (type) {
@@ -1794,7 +1796,6 @@ var app = {
 
         onload = options.onload,
         error = options.error,
-        empty = options.empty,
         loader = options.loader,
         type = options.type,
         run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
@@ -1847,15 +1848,6 @@ var app = {
               dom.show(error)
             } else {
               dom.hide(error)
-            }
-
-            if (empty) {
-              var attr = empty.split(';'),
-                response = dom.parse.json(responseData).value
-
-              if (!response[attr[0]]) {
-                dom.show(attr[1])
-              }
             }
 
             if (onload) {

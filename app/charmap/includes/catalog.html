@@ -1,7 +1,6 @@
 <style>.loader{display: inherit}</style>
 <div id="loader" class="loader"></div>
-<div id="error" class="red mb2" hide>Something went wrong!</div>
-<div id="empty" class="mb2 fwb" hide>Not found!</div>
+<div id="empty" class="mb2 fwb" hide><h1>Nothing was found =(</h1></div>
 <div id="success" class="green mb2" hide>It's working!</div>
 <div
   bindvar=":;search:"
@@ -14,7 +13,7 @@
   data-header=""
   data-iterate="true"
   data-loader="#loader"
-  data-error="#error"
+  data-empty="#empty"
   class="box cards gut1- xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
 >
   <a bindvar=":" data-get="id:id;link:media_type" href="{link:{link}}.html?i={id}" class="p025 h10">

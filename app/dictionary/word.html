@@ -2,9 +2,17 @@
 <title>Word</title>
 <template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
 <article class="wc_xl">
+  <div id="status406" class="h50p tac" hide>
+    <img class="br50 m0a w10r h10r bos2 bcred red bw3 shade1 hue-rotate mb2" setsrc="https://www.aramean.institute/assets/img/syriac_aramean_tell_halaf_flag.svg">
+    <h1>Error</h1>
+    <p>Word is not found!</p>
+    <hr>
+  </div>
   <section bindquery="i:i" bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
     data-src="{endpoint}?select=id,word&or=(id.eq.{i})"
-    data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json" data-set="word:#word">
+    data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
+    data-set="word:#word"
+    data-status="406;#status406">
     <h1 bindglobal="l:globalize.code" data-get="word.{l}">&nbsp;</h1>
     <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
       <ol class="pl05">

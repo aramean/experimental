@@ -114,6 +114,8 @@ app.module.data = {
       datafilteritem = element.getAttribute('data-filteritem'),
       datareplace = element.getAttribute('data-replace'),
       datasort = element.getAttribute('data-sort'),
+      datastatus = element.getAttribute('data-status'),
+      dataempty = element.getAttribute('data-empty'),
       selector = '*:not([data-iterate-skip]'
 
     if (responseData) {
@@ -137,6 +139,16 @@ app.module.data = {
         this._sort(responseData.data, datasort, datasortorder)
       }
 
+      if (dataempty) {
+        responseData.data.length === 0 ? dom.show(dataempty) : dom.hide(dataempty)
+      }
+
+      if (datastatus && responseData.status !== 200) { //Todo: Fix dynamic status.
+        var status = datastatus.split(';')
+        var el = status.length > 0 ? status[1] : status[0]
+        if (el) dom.show(el)
+      }
+
       var iterate = options.iterate,
         responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || {},
         total = iterate && responseObject.length - 1 || 0
@@ -157,6 +169,15 @@ app.module.data = {
           var keys = Object.keys(responseObject),
             total = keys.length - 1 || 0,
             responseObject = keys
+
+          if (responseObject.length === 0) {
+            /*total = 0
+            var empty = dataempty.split(';')
+            var el = empty.length > 0 ? empty[1] : empty[0]
+            console.error(el)
+            if (el) dom.show(el)
+            console.warn(responseObject)*/
+          }
         }
 
         var originalNode = element,
