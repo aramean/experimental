@@ -792,6 +792,16 @@ var app = {
   load: function () {
     switch (document.readyState) {
       case 'interactive':
+        var selector = 'script[src*=front]',
+          element = dom.get(selector),
+          value = element.attributes.src.value
+
+        app.script = {
+          element: element,
+          path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
+          selector: selector
+        }
+
         // Create a new canvas element to cover the entire page
         var cover = document.createElement('canvas')
         cover.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background-color:#fff; z-index: 9999'
@@ -799,7 +809,8 @@ var app = {
         break
       default:
         setTimeout(function () {
-          dom.get('canvas', true)[0].remove()
+          var el = dom.get('canvas', true)[0]
+          if (el) el.remove()
         }, 200)
     }
   },
@@ -810,16 +821,6 @@ var app = {
    * @desc
    */
   start: function () {
-    var selector = 'script[src*=front]',
-      element = dom.get(selector),
-      value = element.attributes.src.value
-
-    app.script = {
-      element: element,
-      path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
-      selector: selector
-    }
-
     app.xhr.start()
     app.config.set()
     app.assets.load()
