@@ -790,17 +790,14 @@ var app = {
    * @desc
    */
   load: function () {
+    var el = document.documentElement
     switch (document.readyState) {
       case 'interactive':
-        // Create a new canvas element to cover the entire page
-        var cover = document.createElement('canvas')
-        cover.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background-color:#fff; z-index: 9999'
-        document.body.appendChild(cover)
+        el.style.cssText = 'visibility: hidden'
         break
       default:
         setTimeout(function () {
-          var el = dom.get('canvas:last-child')
-          if (el) el.remove()
+          el.style.cssText = 'visibility: initial'
         }, 200)
     }
   },
