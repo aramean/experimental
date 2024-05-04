@@ -795,11 +795,11 @@ var app = {
         // Create a new canvas element to cover the entire page
         var cover = document.createElement('canvas')
         cover.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background-color:#fff; z-index: 9999'
-        document.body.prepend(cover)
+        document.body.appendChild(cover)
         break
       default:
         setTimeout(function () {
-          var el = dom.get('canvas', true)[0]
+          var el = dom.get('canvas:last-child')
           if (el) el.remove()
         }, 200)
     }
