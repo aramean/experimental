@@ -794,7 +794,7 @@ var app = {
       case 'interactive':
         // Create a new canvas element to cover the entire page
         var cover = document.createElement('canvas')
-        cover.style.cssText = `position:fixed; top:0; left:0; width:100%; height:100%; background-color:#fff; z-index: 9999`
+        cover.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background-color:#fff; z-index: 9999'
         document.body.prepend(cover)
         break
       default:
