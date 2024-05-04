@@ -557,6 +557,10 @@ var dom = {
     }
   },
 
+  remove: function(object) {
+    object.remove()
+  },
+
   format: function (object, value) {
     var tag = object.localName,
       stateValue = object.textContent
@@ -1288,7 +1292,7 @@ var app = {
 
         this.get.modules()
       } else {
-        var templateElement = dom.get('template'),
+        var templateElement = dom.get('template', true)[0], // Get only the first template element.
           templateAttr = templateElement && templateElement.attributes,
           elementSrcDoc = templateAttr && templateAttr.srcdoc && templateAttr.srcdoc.value,
           elementSrc = templateAttr && templateAttr.src && templateAttr.src.value,
@@ -1878,5 +1882,20 @@ var app = {
     }
   },
 }
+
+document.addEventListener('readystatechange', (event) => {
+  if (event.target.readyState === 'interactive') {
+    // Create a new canvas element to cover the entire page
+    var cover = document.createElement('canvas')
+    cover.style.cssText = `position:fixed; top:0; left:0; width:100%; height:100%; background-color:#fff; z-index: 9999`
+    document.body.prepend(cover)
+  }
+
+  if (event.target.readyState === 'complete') {
+    setTimeout(function() {
+      dom.get('canvas', true)[0].remove()
+    }, 200)
+  }
+})
 
 document.addEventListener('DOMContentLoaded', app.start)

@@ -116,6 +116,7 @@ app.module.data = {
       datasort = element.getAttribute('data-sort'),
       datastatus = element.getAttribute('data-status'),
       dataempty = element.getAttribute('data-empty'),
+      datasuccess = element.getAttribute('data-success'),
       selector = '*:not([data-iterate-skip]'
 
     if (responseData) {
@@ -123,6 +124,14 @@ app.module.data = {
         var responseDataJoin = app.caches.get(this.storageMechanism, this.storageType, options.storageKey.replace('join', '') + 'join')
         if (responseDataJoin)
           responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
+      }
+
+      if (dataempty) {
+        responseData.data.length === 0 ? dom.show(dataempty) : dom.hide(dataempty)
+      }
+
+      if (datasuccess) {
+        responseData.status !== 200 ? dom.remove(dom.get(datasuccess)) : ''
       }
 
       if (datafilteritem) {
@@ -137,10 +146,6 @@ app.module.data = {
       if (datasort) {
         var datasortorder = element.getAttribute('data-sortorder')
         this._sort(responseData.data, datasort, datasortorder)
-      }
-
-      if (dataempty) {
-        responseData.data.length === 0 ? dom.show(dataempty) : dom.hide(dataempty)
       }
 
       if (datastatus && responseData.status !== 200) { //Todo: Fix dynamic status.
