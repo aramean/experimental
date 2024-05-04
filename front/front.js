@@ -557,7 +557,7 @@ var dom = {
     }
   },
 
-  remove: function(object) {
+  remove: function (object) {
     object.remove()
   },
 
@@ -783,6 +783,26 @@ var app = {
   vars: { total: 0, totalStore: 0, loaded: 0 },
   modules: { total: 0, loaded: 0 },
   await: {},
+
+  /**
+   * @namespace load
+   * @memberof app
+   * @desc
+   */
+  load: function () {
+    switch (document.readyState) {
+      case 'interactive':
+        // Create a new canvas element to cover the entire page
+        var cover = document.createElement('canvas')
+        cover.style.cssText = `position:fixed; top:0; left:0; width:100%; height:100%; background-color:#fff; z-index: 9999`
+        document.body.prepend(cover)
+        break
+      default:
+        setTimeout(function () {
+          dom.get('canvas', true)[0].remove()
+        }, 200)
+    }
+  },
 
   /**
    * @namespace start
@@ -1699,7 +1719,7 @@ var app = {
             }
 
             if (cache) {
-            //if (cache && (statusType.success || statusType.redirect)) {
+              //if (cache && (statusType.success || statusType.redirect)) {
               app.caches.set(cache.type, cache.keyType, cache.key, this.responseText, this.status, cache.format)
             }
 
@@ -1883,19 +1903,5 @@ var app = {
   },
 }
 
-document.addEventListener('readystatechange', (event) => {
-  if (event.target.readyState === 'interactive') {
-    // Create a new canvas element to cover the entire page
-    var cover = document.createElement('canvas')
-    cover.style.cssText = `position:fixed; top:0; left:0; width:100%; height:100%; background-color:#fff; z-index: 9999`
-    document.body.prepend(cover)
-  }
-
-  if (event.target.readyState === 'complete') {
-    setTimeout(function() {
-      dom.get('canvas', true)[0].remove()
-    }, 200)
-  }
-})
-
+document.addEventListener('readystatechange', app.load)
 document.addEventListener('DOMContentLoaded', app.start)
