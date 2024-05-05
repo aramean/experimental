@@ -790,8 +790,13 @@ var app = {
    * @desc
    */
   load: function () {
-    document.documentElement.style.cssText = 'visibility: hidden'
+    this.disable(true)
     window.addEventListener('load', app.start)
+  },
+
+  disable: function (bool) {
+    var val = bool ? 'hidden' : 'initial'
+    document.documentElement.style.cssText = 'visibility:' + val
   },
 
   /**
@@ -1781,7 +1786,7 @@ var app = {
                 //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                 //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
 
-                document.documentElement.style.cssText = 'visibility: initial'
+                app.disable(false)
                 app.attributes.run()
               }
             }
