@@ -1,6 +1,7 @@
 <script src="../../front/front.js"></script>
 <title>Search</title>
 <template srcdoc="../app/dictionary/index" src="../app/dictionary/templates/search"></template>
+<h1 id="empty" hide bindquery="q:q" class="tac">No results found for <b>{q}</b></h1>
 <div
   bindasset="endpoint:api.words.endpoint"
   bindvar="src:{endpoint}?select=*&word->>{l}=ilike.{q}*"

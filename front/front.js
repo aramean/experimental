@@ -790,16 +790,8 @@ var app = {
    * @desc
    */
   load: function () {
-    var el = document.documentElement
-    switch (document.readyState) {
-      case 'interactive':
-        el.style.cssText = 'visibility: hidden'
-        break
-      default:
-        setTimeout(function () {
-          el.style.cssText = 'visibility: initial'
-        }, 200)
-    }
+    document.documentElement.style.cssText = 'visibility: hidden'
+    window.addEventListener('load', app.start)
   },
 
   /**
@@ -1789,6 +1781,7 @@ var app = {
                 //console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
                 //console.log('Modules loaded:', app.modules.loaded + '/' + app.modules.total)
 
+                document.documentElement.style.cssText = 'visibility: initial'
                 app.attributes.run()
               }
             }
@@ -1901,5 +1894,4 @@ var app = {
   },
 }
 
-document.addEventListener('readystatechange', app.load)
-document.addEventListener('DOMContentLoaded', app.start)
+app.load()
