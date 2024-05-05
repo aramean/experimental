@@ -1,0 +1,13 @@
+{
+  "name": "English",
+  "code": "eng",
+  "direction": "ltr",
+  "translations": {
+    "genre": "Genre",
+    "movie": "Movie",
+    "Movies": "Movies",
+    "show": "Show",
+    "Shows": "Shows",
+    "input_search": "Search movies, TV shows and people..."
+  }
+}

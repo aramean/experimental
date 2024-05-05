@@ -1,0 +1,35 @@
+{
+  "stream": {
+    "endpoint": "https://api.themoviedb.org/3/",
+    "api_key": "api_key=342c7c6976e9730798bc4bfbb2786cf7"
+  },
+  "tvmaze": {
+    "people": "https://api.tvmaze.com/people"
+  },
+  "themoviedb": {
+    "headers": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMDc2MTg0NCwiZXhwIjoxOTM2MzM3ODQ0fQ.xEa_GuNypFdHSdQVLCd0beoL_v8jhWKjSTypX6kn-sg;Prefer:count=exact",
+    "movie": {
+      "videos": "https://api.themoviedb.org/3/movie/{id}/videos?{api_key}",
+      "id": "https://api.themoviedb.org/3/movie/{id}?{api_key}"
+    },
+    "tv": {
+      "videos": "https://api.themoviedb.org/3/tv/{id}/videos?{api_key}"
+    },
+    "movies": {
+      "popular": "https://api.themoviedb.org/3/discover/movie?api_key=342c7c6976e9730798bc4bfbb2786cf7&include_adult=false&language=en-US&sort_by=popularity.desc"
+    },
+    "shows": {
+      "popular": "https://api.themoviedb.org/3/discover/tv?api_key=342c7c6976e9730798bc4bfbb2786cf7&include_adult=false&language=en-US&sort_by=popularity.desc"
+    },
+    "search": {
+      "keyword": "https://api.themoviedb.org/3/search/multi?api_key=342c7c6976e9730798bc4bfbb2786cf7&include_adult=false&language=en-US&query="
+    },
+    "trending": {
+      "all": "https://api.themoviedb.org/3/trending/all/day?api_key=342c7c6976e9730798bc4bfbb2786cf7&include_adult=false&language=en-US"
+    },
+    "genre": {
+      "movie": "https://api.themoviedb.org/3/genre/movie/list?api_key=342c7c6976e9730798bc4bfbb2786cf7",
+      "tv": "https://api.themoviedb.org/3/genre/tv/list?api_key=342c7c6976e9730798bc4bfbb2786cf7"
+    }
+  }
+}

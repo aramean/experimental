@@ -1,0 +1,57 @@
+[hide] {
+  display: none
+}
+
+.h100p{
+  height: 100%
+}
+
+.zi50 {
+  z-index: 50
+}
+
+.jcc {
+  justify-content: center
+}
+
+.ail- * {
+  align-items: normal !important
+}
+
+.aic {
+  align-items: center !important
+}
+
+.ais {
+  align-items: stretch;
+}
+
+.aie {
+  align-items: end !important;
+}
+
+.box *, .cards{
+  box-sizing: border-box;
+  /*width: 100%*/
+}
+
+.loader {
+  display: inherit
+}
+
+.autocomplete {
+  box-shadow: 0 0 17rem 29rem rgba(0,0,0, .5)
+}
+
+.body.fww > *:nth-child(n) {
+  margin-left: 0; /* Resetting margin for all items */
+}
+
+@font-face {
+  font-family: material;
+  src: url('https://cdn.front.nu/dist/design/material/icons/material.woff')
+}
+
+body [class*='icon']{
+  font-family: material;
+}
