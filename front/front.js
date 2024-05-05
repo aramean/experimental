@@ -558,7 +558,7 @@ var dom = {
   },
 
   remove: function (object) {
-    object.remove()
+    if (object) object.remove()
   },
 
   format: function (object, value) {

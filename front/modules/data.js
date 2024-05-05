@@ -126,12 +126,12 @@ app.module.data = {
           responseData = this._merge(responseData.data, responseDataJoin.data, datamerge)
       }
 
-      if (dataempty) {
-        responseData.data.length === 0 ? dom.show(dataempty) : dom.hide(dataempty)
+      if (datasuccess) {
+        responseData.status !== 200 ? dom.hide(datasuccess) : dom.show(datasuccess)
       }
 
-      if (datasuccess) {
-        responseData.status !== 200 ? dom.remove(dom.get(datasuccess)) : ''
+      if (dataempty) {
+        responseData.data.length === 0 ? dom.show(dataempty) : dom.hide(dataempty)
       }
 
       if (datafilteritem) {
