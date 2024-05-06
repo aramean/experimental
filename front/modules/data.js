@@ -159,13 +159,16 @@ app.module.data = {
         total = iterate && responseObject.length - 1 || 0
 
       if (!iterate) {
-        var elements = app.element.find(element, selector)
+        var elements = app.element.find(element, selector),
+        arrayFromNodeList = [].slice.call(elements)
 
-        for (var i = 0; i < elements.length; i++) {
-          var dataget = elements[i].getAttribute('data-get')
+        arrayFromNodeList.push(element) // Support data-get on parent.
+
+        for (var i = 0; i < arrayFromNodeList.length; i++) {
+          var dataget = arrayFromNodeList[i].getAttribute('data-get')
           if (dataget) {
             var value = app.element.getPropertyByPath(responseObject, dataget)
-            app.element.set(elements[i], value, false)
+            app.element.set(arrayFromNodeList[i], value, false)
           }
         }
 
