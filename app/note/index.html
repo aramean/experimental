@@ -49,22 +49,24 @@
         <p globalize-get="app.acronym" uppercase>Note</p>
       </a>
     </figure>
-    <a class="fs90 fr" key="4">
-      <i class="icon24 pr05"><input type="checkbox" name="autosave"></i><label for="autosave">AutoSave</label>
-    </a>
+    <input class="fr mr05" type="checkbox" id="autosave" onvaluechange="alert:hej">
+    <label for="autosave">AutoSave</label>
   </header>
 
   <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn">Om note</aside>
   <main>
     <div id="loader" class="loader"></div>
-
-      <textarea name="note"
+    <textarea 
+      name="note"
       bindvar="id:1"
       data-src="https://lmaxhwqfjsphltrhlewl.supabase.co/rest/v1/notes?id=eq.1"
       data-header="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxODA3Mzg3MSwiZXhwIjoxOTMzNjQ5ODcxfQ.NFnRf6sJq1nhbGUD8eTvliQiOLbYNHQ2GFgYcaQ3Mmw"
-      data-loader="#loader" class="f1 p1 bc0_h h100p w100p"
-      data-get="0.note">{note}</textarea>
-
+      data-loader="#loader"
+      data-get="0.note"
+      onvaluechange="alert:hej"
+      class="f1 p1 bc0_h h100p w100p"
+    >
+    </textarea>
   </main>
   <aside></aside>
   <footer></footer>
