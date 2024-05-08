@@ -14,15 +14,14 @@ app.module.data = {
     console.error(document.forms)
     for (var i = 0; i < document.forms.length; i++) {
       var form = document.forms[i]
-      console.log('josef')
-      form.addEventListener("submit", myListener, false)
+      form.addEventListener('submit', myListener, false)
     }
 
     // Override form submission with Ajax
     function myListener(e) {
-      alert('hej')
-      // Prevent the default form submission
-      e.preventDefault();
+      var allowTargets = ['_top', '_blank'],
+        target = e.srcElement.getAttribute('target')
+      if (!allowTargets.includes(target)) e.preventDefault()
     }
   },
 
@@ -174,7 +173,7 @@ app.module.data = {
 
       if (!iterate) {
         var elements = app.element.find(element, selector),
-        arrayFromNodeList = [].slice.call(elements)
+          arrayFromNodeList = [].slice.call(elements)
 
         arrayFromNodeList.push(element) // Support data-get on parent.
 
