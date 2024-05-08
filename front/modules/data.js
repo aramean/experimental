@@ -10,6 +10,20 @@ app.module.data = {
 
   __autoload: function (options) {
     this.module = options.name
+
+    console.error(document.forms)
+    for (var i = 0; i < document.forms.length; i++) {
+      var form = document.forms[i]
+      console.log('josef')
+      form.addEventListener("submit", myListener, false)
+    }
+
+    // Override form submission with Ajax
+    function myListener(e) {
+      alert('hej')
+      // Prevent the default form submission
+      e.preventDefault();
+    }
   },
 
   bind: function (element) {
