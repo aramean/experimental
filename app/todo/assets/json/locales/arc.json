@@ -1,0 +1,17 @@
+{
+  "name": "𐡀𐡓𐡌𐡉𐡀",
+  "code": "syc",
+  "direction": "rtl",
+  "translations": {
+    "Movies": "ܦܝܠܡ",
+    "People": "𐡐𐡅𐡉𐡈𐡀",
+    "Shows": "ܬܚܪܙܝܬܐ",
+    "input_search": "ܒܘܕܩܐ",
+    "Comedy": "ܡܝܡܣܘܬܐ",
+    "Family": "ܐܝܩܪܬܐ",
+    "Horror": "ܕܘܚܠܐ",
+    "History": "ܡܟܬܒܐ",
+    "Music": "ܙܡܪܐ",
+    "Mystery": "𐡀𐡓𐡆𐡀"
+  }
+}
