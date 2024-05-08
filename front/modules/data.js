@@ -336,13 +336,13 @@ app.module.data = {
 
   patch: function (object) {
     if (object.clicked) {
-      this._patch(object)
+      this._patch(object.clicked.attributes)
     }
   },
 
-  _patch: function (obj) {
-    console.error(obj)
+  _patch: function (attr) {
     app.xhr.get({
+      url: attr['data-patch'].value,
       method: 'patch'
     })
   },

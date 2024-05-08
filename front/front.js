@@ -886,7 +886,6 @@ var app = {
     }
 
     app.log.info()('Calling: ' + run + ' ' + runargs)
-    console.log('Calling: ' + run + ' ' + runargs)
     try {
       var run1 = dom._replacementMap[run[1]] || run[1],
         runargs = Array.isArray(runargs) ? runargs : [runargs], // Ensure runargs is an array
@@ -958,7 +957,6 @@ var app = {
     },
 
     set: function (element, value, attr) {
-
       if (attr) {
         attr = attr.replace('set', '')
         if (attr === 'text')
@@ -1834,7 +1832,6 @@ var app = {
      * @desc Creates XHR requests and updates the DOM based on the response.
      */
     get: function (options) {
-      console.warn(options)
       var method = options.method || 'get',
         url = options.url instanceof Array ? options.url : [options.url],
         target = options.target ? dom.get(options.target) : options.element,
