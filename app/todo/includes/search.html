@@ -11,9 +11,8 @@
   data-loader="#loader"
   data-empty="#empty"
   data-iterate="true">
-  <a data-set="i:id" href="word.html?i={i}" class="p1">
-    <figure class="pr">
-      <p bindglobal="l:globalize.code" data-get="task"></p>
-    </figure>
-  </a>
+  <span class="p1">
+    <input type="checkbox" data-set="id:id" id="{id}">
+    <label data-set="id:id" for="{id}" class="f5" bindglobal="l:globalize.code" data-get="task"></label>
+  </span>
 </div>
