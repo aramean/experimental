@@ -166,9 +166,9 @@ var dom = {
 
     if (ontoggle) {
       var normalize = ontoggle.replace(']', '').split('['),
-        func = ('app.element.' + normalize[0]).split('.')
-      arg = [el, normalize[1]]
-      app.call(func, arg)
+        run = 'app.element.' + normalize[0]
+      runargs = [el, normalize[1]]
+      app.call(run, runargs)
     }
   },
 
@@ -288,7 +288,7 @@ var dom = {
                     if (target.startSubmit) {
                       var length = target.listeners['keyup'].length
                       if (object.bindfieldPos === length) {
-                        app.call(['dom', target.startSubmit], [target])
+                        app.call('dom.' + target.startSubmit, [target])
                         target.startSubmit = false
                       }
                     }
@@ -662,7 +662,7 @@ var dom = {
           console.dir(identifier)
           console.log(condition)
 
-          app.call(['dom', identifier[1]], { clicked: object, value: identifier[2] })
+          app.call('dom.' + identifier[1], { clicked: object, value: identifier[2] })
         }
         break
       case 'select-one':
@@ -828,7 +828,7 @@ var app = {
           if (tab) {
             var val = !click ? tab : click
             val = val.value.split(':')
-            app.call(['dom', val[0]], [link, val[1]])
+            app.call('dom.' + val[0], [link, val[1]])
           }
           break
         case 'Enter':
@@ -857,7 +857,7 @@ var app = {
         element.targetAttribute = target && target[1]
         element.targetField = clicktargetfield
 
-        app.call(['dom', val[0]], [element, val[1]])
+        app.call('dom.' + val[0], [element, val[1]])
 
         if (onclickif) dom.bindif(onclickif, { e: link })
       }
@@ -874,9 +874,19 @@ var app = {
    * @memberof app
    * @desc
    */
-  call: function (run, runargs) {
+  call: function (run, runargs, options) {
+    options = options || { 'before': false, 'after': false }
+    // Before hook
+
+    run = run.split('.') // convert string to array.
+
+    if (options.before) {
+      console.error('calling before once')
+      app.call(options.before, runargs)
+    }
+
     app.log.info()('Calling: ' + run + ' ' + runargs)
-    //console.log('Calling: ' + run + ' ' + runargs)
+    console.log('Calling: ' + run + ' ' + runargs)
     try {
       var run1 = dom._replacementMap[run[1]] || run[1],
         runargs = Array.isArray(runargs) ? runargs : [runargs], // Ensure runargs is an array
@@ -901,6 +911,12 @@ var app = {
 
     } catch (error) {
       app.log.error()('Syntax not found: ' + run1)
+    } finally {
+      // After hook
+      if (options.after) {
+        console.error('calling after')
+        app.call(options.after, runargs)
+      }
     }
   },
 
@@ -1026,7 +1042,7 @@ var app = {
         onchange = onchange.split(':')
         console.log(onchange[0])
         object.callAttribute = onchange[0]
-        app.call(['dom', onchange[0]], [object, onchange[1]])
+        app.call('dom.' + onchange[0], [object, onchange[1]])
       }
     }
   },
@@ -1226,30 +1242,19 @@ var app = {
         changeStateValue = object.attributes.onstatevaluechange,
         changeStateValueIf = object.attributes.onstatevaluechangeif
 
-      if (changeStateValue) {
-        var val = changeStateValue.value.split(':')
-        app.call(['dom', val[0]], { clicked: object, state: true, value: val[1] })
-      }
-
-      if (changeStateValueIf) {
-        var val = changeStateValueIf.value.split(';'),
-          attr = object.value
-
-        var element = dom.get('#result'),
-          elValue = element.attributes.statevalue.value
-
-        // Check if statevalue contains an operator followed by a number
-        var match = elValue.match(/([\+\-\*\/])(\d+)$/)
-
-        if (match) {
-          // Keep the numeric part following the last operator in the input value
-          element.value = match[2]
-        }
-      }
-
       if (changeValue) {
+        var beforeChangeValue = object.attributes.onbeforevaluechange,
+          afterChangeValue = object.attributes.onaftervaluechange
         var val = changeValue.value.split(':')
-        app.call(['dom', val[0]], { clicked: object, value: val[1] })
+
+        // Check if it's a module or not.
+        var variable = val[0].indexOf('-') !== -1 ? 'module.' : 'dom.'
+
+        app.call(
+          variable + val[0],
+          { clicked: object, value: val[1] },
+          { 'before': beforeChangeValue, after: afterChangeValue ? afterChangeValue.value : false }
+        )
       }
 
       if (changeValueIf) {
@@ -1277,7 +1282,28 @@ var app = {
         } else {
           text = statement[2]
           action = statement[1]
-          app.call(['dom', action], { clicked: object, value: text })
+          app.call('dom.' + action, { clicked: object, value: text })
+        }
+      }
+
+      if (changeStateValue) {
+        var val = changeStateValue.value.split(':')
+        app.call('dom.' + val[0], { clicked: object, state: true, value: val[1] })
+      }
+
+      if (changeStateValueIf) {
+        var val = changeStateValueIf.value.split(';'),
+          attr = object.value
+
+        var element = dom.get('#result'),
+          elValue = element.attributes.statevalue.value
+
+        // Check if statevalue contains an operator followed by a number
+        var match = elValue.match(/([\+\-\*\/])(\d+)$/)
+
+        if (match) {
+          // Keep the numeric part following the last operator in the input value
+          element.value = match[2]
         }
       }
     }
@@ -1767,7 +1793,7 @@ var app = {
                   self.currentAsset.loaded++
                   if (self.currentAsset.loaded === self.currentAsset.total) {
                     var run = this.options.onload2.run
-                    app.module[type]._run(run.arg)
+                    app.module[type]._run(run.arg) //Todo: Make app.call work.
                     //app.call([run.func], run.arg)
                     //console.error('run' + self.currentAsset.loaded + '/' + self.currentAsset.total)
                   }
@@ -1808,7 +1834,9 @@ var app = {
      * @desc Creates XHR requests and updates the DOM based on the response.
      */
     get: function (options) {
-      var url = options.url instanceof Array ? options.url : [options.url],
+      console.warn(options)
+      var method = options.method || 'get',
+        url = options.url instanceof Array ? options.url : [options.url],
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
         cache = options.cache || false,
@@ -1818,7 +1846,7 @@ var app = {
         error = options.error,
         loader = options.loader,
         type = options.type,
-        run = onload && onload.run && onload.run.func ? onload.run.func.split('.') : false,
+        run = onload && onload.run && onload.run.func ? onload.run.func : false,
         runarg = onload && onload.run && onload.run.arg
 
       if (false) {
@@ -1886,7 +1914,7 @@ var app = {
           if (error) dom.show(error)
         }
 
-        xhr.open('GET', url + urlExtension, true)
+        xhr.open(method, url + urlExtension, true)
 
         // Set headers
         for (var header in headers) {

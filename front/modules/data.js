@@ -334,6 +334,19 @@ app.module.data = {
     }
   },
 
+  patch: function (object) {
+    if (object.clicked) {
+      this._patch(object)
+    }
+  },
+
+  _patch: function (obj) {
+    console.error(obj)
+    app.xhr.get({
+      method: 'patch'
+    })
+  },
+
   _merge: function (response, responseJoin, merge) {
     response[merge] = responseJoin[merge]
     return { data: response }

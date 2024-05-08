@@ -56,15 +56,16 @@
   <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn">Om note</aside>
   <main>
     <div id="loader" class="loader"></div>
-    <textarea 
+    <textarea
+      class="f1 p1 bc0_h h100p w100p"
       name="note"
       bindvar="id:1"
-      data-src="https://lmaxhwqfjsphltrhlewl.supabase.co/rest/v1/notes?id=eq.1"
+      onvaluechange="data-patch"
+      data-src="https://lmaxhwqfjsphltrhlewl.supabase.co/rest/v1/notes?id=eq.{id}"
       data-header="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxODA3Mzg3MSwiZXhwIjoxOTMzNjQ5ODcxfQ.NFnRf6sJq1nhbGUD8eTvliQiOLbYNHQ2GFgYcaQ3Mmw"
       data-loader="#loader"
+      data-patch="https://lmaxhwqfjsphltrhlewl.supabase.co/rest/v1/notes?id=eq.{id}"
       data-get="0.note"
-      onvaluechange="alert:hej"
-      class="f1 p1 bc0_h h100p w100p"
     >
     </textarea>
   </main>

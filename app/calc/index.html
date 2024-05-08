@@ -53,12 +53,12 @@
       value="0" 
       statevalue="0"
       onvaluechange="sanitize:^0+(?=\d)|[^0-9,]|(,)(?=.*,)"
+      disable-onbeforevaluechange="alert"
+      disable-onaftervaluechange="alert"
       onvaluechangenew="sanitize:number[-0][0]+symbol[0][,]"
       onvaluechangeif="0;#reset;set[C]?set[AC]"
       onstatevaluechange="format:compute"
       onstatevaluechangeif="/[0-9]+/;#result;set[0]"
-      onbeforecompute1="alert:before"
-      onaftercompute1="alert:after"
       readonly
     >
 
