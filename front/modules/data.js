@@ -158,6 +158,7 @@ app.module.data = {
         responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || {},
         total = iterate && responseObject.length - 1 || 0
 
+      if(responseObject) {
       if (!iterate) {
         var elements = app.element.find(element, selector),
           arrayFromNodeList = [].slice.call(elements)
@@ -241,6 +242,7 @@ app.module.data = {
       this._set(responseData, options)
       this._finish(options)
       app.attributes.run(elements, ['data-get', 'data-set'])
+    }
     }
   },
 
