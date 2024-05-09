@@ -10,19 +10,6 @@ app.module.data = {
 
   __autoload: function (options) {
     this.module = options.name
-
-    console.error(document.forms)
-    for (var i = 0; i < document.forms.length; i++) {
-      var form = document.forms[i]
-      form.addEventListener('submit', myListener, false)
-    }
-
-    // Override form submission with Ajax
-    function myListener(e) {
-      var allowTargets = ['_top', '_blank'],
-        target = e.srcElement.getAttribute('target')
-      if (!allowTargets.includes(target)) e.preventDefault()
-    }
   },
 
   bind: function (element) {
@@ -440,7 +427,21 @@ app.module.data = {
     return hash
   },
 
+  _form: function (e) {
+    var allowedTargets = ['_top', '_blank'],
+      target = e.srcElement.getAttribute('target')
+alert('yes')
+    // Prevent the default form submission if target is not in allowedTargets
+    if (!allowedTargets.includes(target)) {
+      e.preventDefault()
+    }
+  },
+
   _finish: function (options) {
+    for (var i = 0; i < document.forms.length; i++) {
+      app.listeners.add(document.forms[i], 'submit', this._form.bind(this))
+    }
+
     if (options.loader) {
       dom.hide(options.loader)
       dom.show(options.element)
