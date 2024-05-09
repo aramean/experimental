@@ -158,91 +158,91 @@ app.module.data = {
         responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || {},
         total = iterate && responseObject.length - 1 || 0
 
-      if(responseObject) {
-      if (!iterate) {
-        var elements = app.element.find(element, selector),
-          arrayFromNodeList = [].slice.call(elements)
+      if (responseObject) {
+        if (!iterate) {
+          var elements = app.element.find(element, selector),
+            arrayFromNodeList = [].slice.call(elements)
 
-        arrayFromNodeList.push(element) // Support data-get on parent.
+          arrayFromNodeList.push(element) // Support data-get on parent.
 
-        for (var i = 0; i < arrayFromNodeList.length; i++) {
-          var dataget = arrayFromNodeList[i].getAttribute('data-get')
-          if (dataget) {
-            var value = app.element.getPropertyByPath(responseObject, dataget)
-            app.element.set(arrayFromNodeList[i], value, false)
-          }
-        }
-
-      } else {
-        if (!responseObject.length) { // Support index select.
-          var keys = Object.keys(responseObject),
-            total = keys.length - 1 || 0,
-            responseObject = keys
-
-          if (responseObject.length === 0) {
-            /*total = 0
-            var empty = dataempty.split(';')
-            var el = empty.length > 0 ? empty[1] : empty[0]
-            console.error(el)
-            if (el) dom.show(el)
-            console.warn(responseObject)*/
-          }
-        }
-
-        var originalNode = element,
-          originalClonedNode = originalNode.cloneNode(true)
-
-        originalNode.innerHTML = element.originalHtml
-
-        var elementsSkip = originalNode.querySelectorAll('[data-iterate-skip]')
-
-        // Remove elements that are skipped.
-        for (var i = 0; i < elementsSkip.length; i++) {
-          var skipElement = elementsSkip[i]
-          skipElement.parentNode.removeChild(skipElement)
-        }
-
-        var originalNodeCountAll = app.element.find(originalNode, selector).length || 1,
-          content = ''
-
-        for (var i = 0; i <= total; i++) {
-          content += i === 0 && elementsSkip.length > 0 ? originalClonedNode.innerHTML : originalNode.innerHTML
-        }
-
-        element.innerHTML = content
-
-        var elements = app.element.find(element, selector)
-        for (var i = 0, j = -1; i < elements.length; i++) {
-          if (i % originalNodeCountAll === 0) j++
-
-          var attributes = elements[i].attributes
-          for (var k = 0; k < attributes.length; k++) {
-            var attr = attributes[k]
-            if (attr.name.indexOf('bind') === 0) {
-              var value = attr.value,
-                bindings = value ? value.split(';') : []
-
-              for (var l = 0; l < bindings.length; l++) {
-                var bindingParts = bindings[l].split(':') || [],
-                  replaceVariable = bindingParts[0].trim(),
-                  replaceValue = bindingParts[1].trim(),
-                  newReplaceValue = app.element.getPropertyByPath(app.globals, replaceValue)
-
-                app.variables.update.attributes(elements[i], replaceVariable, newReplaceValue, false)
-              }
+          for (var i = 0; i < arrayFromNodeList.length; i++) {
+            var dataget = arrayFromNodeList[i].getAttribute('data-get')
+            if (dataget) {
+              var value = app.element.getPropertyByPath(responseObject, dataget)
+              app.element.set(arrayFromNodeList[i], value, false)
             }
           }
 
-          this._process('data-get', elements[i], responseObject[j])
-          this._process('data-set', elements[i], responseObject[j])
-        }
-      }
+        } else {
+          if (!responseObject.length) { // Support index select.
+            var keys = Object.keys(responseObject),
+              total = keys.length - 1 || 0,
+              responseObject = keys
 
-      //if (element.getAttribute('stop') === "*") dom.start(element)
-      this._set(responseData, options)
-      this._finish(options)
-      app.attributes.run(elements, ['data-get', 'data-set'])
-    }
+            if (responseObject.length === 0) {
+              /*total = 0
+              var empty = dataempty.split(';')
+              var el = empty.length > 0 ? empty[1] : empty[0]
+              console.error(el)
+              if (el) dom.show(el)
+              console.warn(responseObject)*/
+            }
+          }
+
+          var originalNode = element,
+            originalClonedNode = originalNode.cloneNode(true)
+
+          originalNode.innerHTML = element.originalHtml
+
+          var elementsSkip = originalNode.querySelectorAll('[data-iterate-skip]')
+
+          // Remove elements that are skipped.
+          for (var i = 0; i < elementsSkip.length; i++) {
+            var skipElement = elementsSkip[i]
+            skipElement.parentNode.removeChild(skipElement)
+          }
+
+          var originalNodeCountAll = app.element.find(originalNode, selector).length || 1,
+            content = ''
+
+          for (var i = 0; i <= total; i++) {
+            content += i === 0 && elementsSkip.length > 0 ? originalClonedNode.innerHTML : originalNode.innerHTML
+          }
+
+          element.innerHTML = content
+
+          var elements = app.element.find(element, selector)
+          for (var i = 0, j = -1; i < elements.length; i++) {
+            if (i % originalNodeCountAll === 0) j++
+
+            var attributes = elements[i].attributes
+            for (var k = 0; k < attributes.length; k++) {
+              var attr = attributes[k]
+              if (attr.name.indexOf('bind') === 0) {
+                var value = attr.value,
+                  bindings = value ? value.split(';') : []
+
+                for (var l = 0; l < bindings.length; l++) {
+                  var bindingParts = bindings[l].split(':') || [],
+                    replaceVariable = bindingParts[0].trim(),
+                    replaceValue = bindingParts[1].trim(),
+                    newReplaceValue = app.element.getPropertyByPath(app.globals, replaceValue)
+
+                  app.variables.update.attributes(elements[i], replaceVariable, newReplaceValue, false)
+                }
+              }
+            }
+
+            this._process('data-get', elements[i], responseObject[j])
+            this._process('data-set', elements[i], responseObject[j])
+          }
+        }
+
+        //if (element.getAttribute('stop') === "*") dom.start(element)
+        this._set(responseData, options)
+        this._finish(options)
+        app.attributes.run(elements, ['data-get', 'data-set'])
+      }
     }
   },
 
@@ -432,7 +432,7 @@ app.module.data = {
   _form: function (e) {
     var allowedTargets = ['_top', '_blank'],
       target = e.srcElement.getAttribute('target')
-alert('yes')
+    alert('yes')
     // Prevent the default form submission if target is not in allowedTargets
     if (!allowedTargets.includes(target)) {
       e.preventDefault()
