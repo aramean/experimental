@@ -446,7 +446,6 @@ app.module.data = {
   },
 
   _form: function (e) {
-    console.error(e)
     var allowedTargets = ['_top', '_blank'],
       srcEl = e.srcElement,
       action = srcEl.getAttribute('action'),

@@ -1234,7 +1234,6 @@ var app = {
     },
 
     change: function (type, object, test) {
-      console.dir(object)
       // Todo
       var changeValue = object.attributes.onvaluechange,
         changeValueIf = object.attributes.onvaluechangeif,
