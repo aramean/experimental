@@ -79,7 +79,7 @@ app.module.data = {
     app.xhr.get({
       url: attr[options.attribute].value,
       type: 'data',
-      headers: header && dom.parse.attribute(header.value),
+      headers: header && header.value,
       target: target ? target.value : false,
       onload2: {
         run: {
@@ -338,14 +338,32 @@ app.module.data = {
 
   patch: function (object) {
     if (object.clicked) {
-      this._patch(object.clicked.attributes)
+      this._send('patch', object.clicked.attributes)
     }
   },
 
-  _patch: function (attr) {
+  post: function (object) {
+    if (object.clicked) {
+      this._send('post', object.clicked.attributes)
+    }
+  },
+
+  _send: function (method, attr) {
+    var url,
+    headers = attr['data-header']
+
+    if(attr.localName === 'form') {
+      url = ''
+      console.log(' form')
+    } else {
+      url = attr['data-' + method]
+      console.log(' not form')
+    }
+
     app.xhr.get({
-      url: attr['data-patch'].value,
-      method: 'patch'
+      url: url.value,
+      method: method,
+      headers: headers && headers.value
     })
   },
 
@@ -431,10 +449,13 @@ app.module.data = {
 
   _form: function (e) {
     var allowedTargets = ['_top', '_blank'],
-      target = e.srcElement.getAttribute('target')
-    alert('yes')
-    // Prevent the default form submission if target is not in allowedTargets
+      attr = e.srcElement,
+      action = attr.getAttribute('action'),
+      method = attr.getAttribute('method'),
+      target = attr.getAttribute('target')
+
     if (!allowedTargets.includes(target)) {
+      this._send(method, attr)
       e.preventDefault()
     }
   },

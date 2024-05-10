@@ -1837,8 +1837,7 @@ var app = {
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
         cache = options.cache || false,
-        headers = options.headers || {},
-
+        headers = options.headers ? dom.parse.attribute(options.headers) : {},
         onload = options.onload,
         error = options.error,
         loader = options.loader,
