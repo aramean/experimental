@@ -338,31 +338,29 @@ app.module.data = {
 
   patch: function (object) {
     if (object.clicked) {
-      this._send('patch', object.clicked.attributes)
+      this._send('patch', object.clicked)
     }
   },
 
   post: function (object) {
     if (object.clicked) {
-      this._send('post', object.clicked.attributes)
+      this._send('post', object.clicked)
     }
   },
 
-  _send: function (method, attr) {
+  _send: function (method, srcEl) {
     var url,
-    headers = attr['data-header']
-
-    if(attr.localName === 'form') {
-      url = ''
-      console.log(' form')
+      headers = srcEl.attributes['data-header']
+    if (srcEl.localName === 'form') {
+      url = srcEl.attributes['action']
     } else {
-      url = attr['data-' + method]
-      console.log(' not form')
+      url = srcEl.attributes['data-' + method]
     }
 
     app.xhr.get({
       url: url.value,
       method: method,
+      srcEl: srcEl,
       headers: headers && headers.value
     })
   },
@@ -448,14 +446,15 @@ app.module.data = {
   },
 
   _form: function (e) {
+    console.error(e)
     var allowedTargets = ['_top', '_blank'],
-      attr = e.srcElement,
-      action = attr.getAttribute('action'),
-      method = attr.getAttribute('method'),
-      target = attr.getAttribute('target')
+      srcEl = e.srcElement,
+      action = srcEl.getAttribute('action'),
+      method = srcEl.getAttribute('method'),
+      target = srcEl.getAttribute('target')
 
     if (!allowedTargets.includes(target)) {
-      this._send(method, attr)
+      this._send(method, srcEl)
       e.preventDefault()
     }
   },

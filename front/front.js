@@ -1234,6 +1234,7 @@ var app = {
     },
 
     change: function (type, object, test) {
+      console.dir(object)
       // Todo
       var changeValue = object.attributes.onvaluechange,
         changeValueIf = object.attributes.onvaluechangeif,
@@ -1821,7 +1822,7 @@ var app = {
       }
 
       XMLHttpRequest.prototype.send = function (data) {
-        if (data) console.log(data)
+        if (data) app.log.info()('Data: ' + data)
         send.apply(this, arguments)
       }
     },
@@ -1838,6 +1839,7 @@ var app = {
         single = options.single,
         cache = options.cache || false,
         headers = options.headers ? dom.parse.attribute(options.headers) : {},
+        srcEl = options.srcEl || false,
         enctype = options.enctype ? options.enctype : 'application/json',
         onload = options.onload,
         error = options.error,
@@ -1915,9 +1917,17 @@ var app = {
 
         var payload
         if (['POST', 'PUT', 'PATCH'].indexOf(method) !== -1) {
-          var json = {
-            note: "value1",
-          }
+
+        var json = {}
+        if (srcEl.elements) {
+          for(var i = 0; i < srcEl.elements.length; i++) {
+			      var el = srcEl.elements[i]
+            json[el.name] = el.value
+		      }
+        }else{
+          json[srcEl.name] = srcEl.value
+        }
+
           payload = JSON.stringify(json)
         } else {
           payload = null
