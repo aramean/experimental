@@ -1832,12 +1832,13 @@ var app = {
      * @desc Creates XHR requests and updates the DOM based on the response.
      */
     get: function (options) {
-      var method = options.method || 'get',
+      var method = options.method ? options.method.toUpperCase() : 'GET',
         url = options.url instanceof Array ? options.url : [options.url],
         target = options.target ? dom.get(options.target) : options.element,
         single = options.single,
         cache = options.cache || false,
         headers = options.headers ? dom.parse.attribute(options.headers) : {},
+        enctype = options.enctype ? options.enctype : 'application/json',
         onload = options.onload,
         error = options.error,
         loader = options.loader,
@@ -1912,12 +1913,24 @@ var app = {
 
         xhr.open(method, url + urlExtension, true)
 
+        var payload
+        if (['POST', 'PUT', 'PATCH'].indexOf(method) !== -1) {
+          var json = {
+            note: "value1",
+          }
+          payload = JSON.stringify(json)
+        } else {
+          payload = null
+          enctype = 'application/x-www-form-urlencoded'
+        }
+
         // Set headers
+        headers['Content-type'] = enctype
         for (var header in headers) {
           if (headers.hasOwnProperty(header)) xhr.setRequestHeader(header, headers[header])
         }
 
-        xhr.send(null)
+        xhr.send(payload)
       }
     }
   },
