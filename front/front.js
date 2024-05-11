@@ -824,7 +824,8 @@ var app = {
 
     app.listeners.add(document, 'submit', function (e) {
       var srcEl = e.srcElement,
-        submit = srcEl.getAttribute('onformsubmit').split(';')
+        attr = srcEl.getAttribute('onformsubmit'),
+        submit = attr && attr.split(';')
       for (action in submit) {
         var val = submit[action].split(':')
         app.call('dom.' + val[0], [srcEl, val[1]])
