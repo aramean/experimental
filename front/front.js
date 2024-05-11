@@ -769,6 +769,11 @@ var dom = {
   /*await: function (element, value) {
     if (value) app.await[value] = { element: element, value: value, enable: true }
   }*/
+
+  rerun: function(object, arg) {
+    var el = arg || object
+    app.attributes.run(el)
+  }
 }
 
 var app = {
