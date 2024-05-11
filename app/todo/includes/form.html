@@ -5,14 +5,16 @@
   action="{src}"
   data-header="apikey:{apikey}"
   data-placeholder=""
-  onsubmit="reset"
+  onformsubmit="reset;alert:Submitted form;rerun:#test"
 >
   <figure class="p1 shade1 bcwhite">
     <input type="text" name="task" class="f2 p05 bos2 bw1 light" placeholder="Add task" autocomplete="off"><p></p>
   </figure>
 </form>
 <div id="loader" class="loader"></div>
+<div id="empty" hide>Empty =(</div>
 <div
+  id="test"
   class="box cards shade1 list br0- bcwhite-"
   bindvar=":"
   bindasset="apikey:api.api_key"

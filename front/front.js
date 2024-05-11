@@ -546,10 +546,12 @@ var dom = {
   },
 
   reset: function (object, value) {
-    alert('hej')
     var tag = object.localName,
       stateValue = object.attributes.statevalue
     switch (tag) {
+      case 'form':
+        object.reset()
+        break
       case 'input':
         object.value = object.defaultValue
         stateValue ? stateValue.value = object.defaultValue : false
@@ -822,11 +824,10 @@ var app = {
 
     app.listeners.add(document, 'submit', function (e) {
       var srcEl = e.srcElement,
-        submit = srcEl.getAttribute('onsubmit')
-      switch (submit) {
-        case 'reset':
-          srcEl.reset()
-          break
+        submit = srcEl.getAttribute('onformsubmit').split(';')
+      for (action in submit) {
+        var val = submit[action].split(':')
+        app.call('dom.' + val[0], [srcEl, val[1]])
       }
     })
 
