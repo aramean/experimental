@@ -1,0 +1,19 @@
+<div id="loader" class="loader"></div>
+<div id="empty" hide>Empty =(</div>
+<div
+  id="test"
+  class="box cards shade1 list br0- bcwhite-"
+  bindvar=":"
+  bindasset="apikey:api.api_key"
+  data-src="{src}?order=id.desc"
+  data-header="apikey:{apikey}"
+  data-loader="#loader"
+  data-empty="#empty"
+  data-iterate="true">
+  <figure class="p1 fdc" data-set="id:id" id="{id}">
+    <div>
+      <small class="di gray fs08" data-get="timestamp" chronotize-format="d/m H:i"></small>
+      <p class="f2" data-get="post" filteron="true" key="13">...</p>
+    </div>
+  </figure>
+</div>

@@ -1461,7 +1461,7 @@ var app = {
    */
   attributes: {
 
-    defaultExclude: ['alt', 'class', 'height', 'id', 'name', 'src', 'style', 'title', 'width', 'target'],
+    defaultExclude: ['alt', 'class', 'for', 'height', 'id', 'name', 'src', 'style', 'target', 'type', 'title', 'width'],
 
     /**
      * @function run
@@ -1925,7 +1925,7 @@ var app = {
 
             if (success) {
               //Todo: Move split to app.call
-              var val = success.split(':') 
+              var val = success.split(':')
               app.call('dom.' + val[0], [srcEl, val[1]])
             }
 

@@ -6,11 +6,11 @@
   <meta name="version" content="1.0.0">
   <script
     src="../../front/front.js"
-    module="globalize;data;navigate;form;keyboard"
+    module="globalize;data;navigate;form;keyboard;chronotize"
     var="api"
-    conf="debug:true;debugLocalhost:true;varsDir:assets/json/vars;storageKey:todo"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:chat"
     globalize-conf="folder:assets/json/locales"
-    navigate-conf="startpage:experimental/app/note;startpageLocal:app/note">
+    navigate-conf="startpage:experimental/app/chat;startpageLocal:app/chat">
   </script>
   <link type="text/css" href="../../front/front.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/app.css">
@@ -37,29 +37,29 @@
       width: 100%
     }
   </style>
-  <title>Todo</title>
+  <title>Chat</title>
 </head>
 
 <body class="light">
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
-  <header class="topbar h4_5 pr1 bcforestgreen white- white shade1">
+  <header class="topbar h4_5 pr1 bcmediumblue white- white shade1">
     <button click="toggle" clicktargetfield="aside[0]" class="ml1 dark p05 br50 hover-"><i class="icon24">≡</i></button>
     <figure class="mh30p pl2 pr2 df-">
       <a href="./home.html" key="0">
-        <p globalize-get="app.acronym" uppercase>Todo</p>
+        <p globalize-get="app.acronym" uppercase>Chat</p>
       </a>
     </figure>
    <!--<input class="fr mr05" type="checkbox" id="autosave" onvaluechange="alert:hej">
     <label for="autosave">AutoSave</label>-->
   </header>
-  <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn" hide>About Todo</aside>
+  <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn" hide>About Chat</aside>
   <main
-    bindasset="url:api.tasks.url"
+    bindasset="url:api.posts.url"
     bindvar="src:{url}"
-    include="includes/form.html">
+    include="includes/posts.html">
   </main>
   <aside></aside>
-  <footer></footer>
+  <footer include="includes/form.html"></footer>
 </body>
 
 </html>

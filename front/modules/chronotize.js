@@ -1,8 +1,28 @@
 'use strict'
 
 app.module.chronotize = {
-  _weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+  format: function (element) {
+    var date = new Date(element.innerHTML),
+      formatAttribute = element.getAttribute('chronotize-format'),
+      formattedTime = '',
+      dateParts = {
+        'd': ('0' + date.getDate()).slice(-2),
+        'm': ('0' + (date.getMonth() + 1)).slice(-2),
+        'y': ('0' + date.getFullYear()).slice(-2),
+        'Y': date.getFullYear(),
+        'H': ('0' + date.getHours()).slice(-2),
+        'i': ('0' + date.getMinutes()).slice(-2),
+        's': ('0' + date.getSeconds()).slice(-2)
+      }
 
+    formattedTime = formatAttribute.replace(/[dmyYHis]/g, function (match) {
+      return dateParts[match] || match
+    })
+
+    app.element.set(element, formattedTime)
+  },
+
+  _weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
   weekday: function (element) {
     var date = new Date(element.innerHTML),
       dayIndex = date.getDay(),

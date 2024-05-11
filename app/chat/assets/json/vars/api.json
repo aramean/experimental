@@ -1,0 +1,6 @@
+{
+  "api_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNzY0NTM0NSwiZXhwIjoxOTMzMjIxMzQ1fQ.pG5ihvVIIwh-xbRHF7H2UWExGNxcQmvsQFrp-BJ_UlQ",
+  "posts": {
+    "url": "https://querlspbhylhljdpvbpm.supabase.co/rest/v1/posts"
+  }
+}
