@@ -770,7 +770,7 @@ var dom = {
     if (value) app.await[value] = { element: element, value: value, enable: true }
   }*/
 
-  rerun: function(object, arg) {
+  rerun: function (object, arg) {
     var el = arg || object
     app.attributes.run(el)
   }
@@ -828,13 +828,7 @@ var app = {
     app.assets.load()
 
     app.listeners.add(document, 'submit', function (e) {
-      var srcEl = e.srcElement,
-        attr = srcEl.getAttribute('onformsubmit'),
-        submit = attr && attr.split(';')
-      for (action in submit) {
-        var val = submit[action].split(':')
-        app.call('dom.' + val[0], [srcEl, val[1]])
-      }
+      app.element.onsubmit(e)
     })
 
     app.listeners.add(document, 'keydown', function (e) {
@@ -1059,6 +1053,16 @@ var app = {
         console.log(onchange[0])
         object.callAttribute = onchange[0]
         app.call('dom.' + onchange[0], [object, onchange[1]])
+      }
+    },
+
+    onsubmit: function (e) {
+      var srcEl = e.srcElement,
+        attr = srcEl.getAttribute('onformsubmit'),
+        submit = attr && attr.split(';')
+      for (action in submit) {
+        var val = submit[action].split(':')
+        app.call('dom.' + val[0], [srcEl, val[1]])
       }
     }
   },
@@ -1860,6 +1864,7 @@ var app = {
         enctype = options.enctype ? options.enctype : 'application/json',
         onload = options.onload,
         error = options.error,
+        success = options.success,
         loader = options.loader,
         type = options.type,
         run = onload && onload.run && onload.run.func ? onload.run.func : false,
@@ -1916,6 +1921,12 @@ var app = {
 
             if (onload) {
               if (run) app.call(run, runarg)
+            }
+
+            if (success) {
+              //Todo: Move split to app.call
+              var val = success.split(':') 
+              app.call('dom.' + val[0], [srcEl, val[1]])
             }
 
           } else if (status.clientError || status.serverError) {

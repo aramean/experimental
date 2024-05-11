@@ -71,7 +71,7 @@ app.module.data = {
       empty = attr['data-empty'],
       header = attr['data-header'],
       loader = attr['data-loader'],
-      success = attr.success,
+      success = attr['data-success'],
       timeout = attr.timeout,
       target = attr.target,
       progresscontent = attr.progresscontent
@@ -350,17 +350,22 @@ app.module.data = {
 
   _send: function (method, srcEl) {
     var url,
-      headers = srcEl.attributes['data-header']
-    if (srcEl.localName === 'form') {
-      url = srcEl.attributes['action']
-    } else {
-      url = srcEl.attributes['data-' + method]
-    }
+      attr = srcEl.attributes,
+      headers = attr['data-header'],
+      success = attr['data-success']
 
+    if (srcEl.localName === 'form') {
+      url = attr['action']
+    } else {
+      url = attr['data-' + method]
+    }
+    
     app.xhr.get({
       url: url.value,
       method: method,
       srcEl: srcEl,
+      single: true, // Todo: Fix multi XHR bug caused by rerun. Single is needed.
+      success: success && success.value,
       headers: headers && headers.value
     })
   },
