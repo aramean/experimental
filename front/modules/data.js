@@ -464,8 +464,12 @@ app.module.data = {
   },
 
   _finish: function (options) {
-    for (var i = 0; i < document.forms.length; i++) {
-      app.listeners.add(document.forms[i], 'submit', this._form.bind(this))
+    //Todo: Find a better place for this?
+    if (!this._formsloaded) {
+      for (var i = 0; i < document.forms.length; i++) {
+        app.listeners.add(document.forms[i], 'submit', this._form.bind(this))
+      }
+      this._formsloaded = true
     }
 
     if (options.loader) {
