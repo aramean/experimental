@@ -546,6 +546,7 @@ var dom = {
   },
 
   reset: function (object, value) {
+    alert('hej')
     var tag = object.localName,
       stateValue = object.attributes.statevalue
     switch (tag) {
@@ -818,6 +819,16 @@ var app = {
     app.xhr.start()
     app.config.set()
     app.assets.load()
+
+    app.listeners.add(document, 'submit', function (e) {
+      var srcEl = e.srcElement,
+        submit = srcEl.getAttribute('onsubmit')
+      switch (submit) {
+        case 'reset':
+          srcEl.reset()
+          break
+      }
+    })
 
     app.listeners.add(document, 'keydown', function (e) {
       var link = app.element.getTagLink(e.target) || e.target,
@@ -1917,15 +1928,15 @@ var app = {
         var payload
         if (['POST', 'PUT', 'PATCH'].indexOf(method) !== -1) {
 
-        var json = {}
-        if (srcEl.elements) {
-          for(var i = 0; i < srcEl.elements.length; i++) {
-			      var el = srcEl.elements[i]
-            json[el.name] = el.value
-		      }
-        }else{
-          json[srcEl.name] = srcEl.value
-        }
+          var json = {}
+          if (srcEl.elements) {
+            for (var i = 0; i < srcEl.elements.length; i++) {
+              var el = srcEl.elements[i]
+              json[el.name] = el.value
+            }
+          } else {
+            json[srcEl.name] = srcEl.value
+          }
 
           payload = JSON.stringify(json)
         } else {

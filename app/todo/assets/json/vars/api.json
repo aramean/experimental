@@ -1,6 +1,6 @@
 {
   "api_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNzYyNDkwNiwiZXhwIjoxOTMzMjAwOTA2fQ._-dA_LjamQizyEoNq2ZjUMkVe2vQPO7C_3Ba9SINXos",
-  "words": {
-    "endpoint": "https://nxsglpuwmlqladuxlmty.supabase.co/rest/v1/tasks"
+  "tasks": {
+    "url": "https://nxsglpuwmlqladuxlmty.supabase.co/rest/v1/tasks"
   }
 }
