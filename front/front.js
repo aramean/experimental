@@ -27,6 +27,7 @@ var dom = {
     'ifafterbegin': 'if',
     'ifbeforeend': 'if',
     'resetvalue': 'reset',
+    'togglevalue': 'toggle',
     'margintop': 'apply',
     'marginbottom': 'apply',
     'marginleft': 'apply',
@@ -155,7 +156,9 @@ var dom = {
    * @memberof dom
    */
   toggle: function (el) {
-    var ontoggle = el.attributes.ontoggle && el.attributes.ontoggle.value
+    var ontoggle = el.attributes.ontoggle && el.attributes.ontoggle.value,
+      tag = el.localName,
+      type = el.type
 
     if (!el.originalClassList) {
       el.originalClassList = [].slice.call(el.classList).join(' ')
@@ -169,6 +172,12 @@ var dom = {
         run = 'app.element.' + normalize[0]
       runargs = [el, normalize[1]]
       app.call(run, runargs)
+    }
+
+    switch (tag) {
+      case 'input':
+        if (type === 'checkbox') el.value = el.checked === true ? '1' : '0'
+        break
     }
   },
 
@@ -398,7 +407,7 @@ var dom = {
 
     switch (tag) {
       case 'input':
-        if (type == 'checkbox') target.checked = value === 'true' ? true : false
+        if (type === 'checkbox') target.checked = value === 'true' ? true : false
         break
       case 'img':
         target.src = value
