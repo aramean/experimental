@@ -444,6 +444,10 @@ var dom = {
     object.innerHTML = object.innerHTML.toLowerCase()
   },
 
+  bold: function (object, value) {
+    object.style.fontWeight = value ? value : 'bold'
+  },
+
   /**
    * @function slice
    * @memberof dom

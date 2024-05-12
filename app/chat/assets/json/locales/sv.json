@@ -3,20 +3,7 @@
   "code": "swe",
   "direction": "ltr",
   "translations": {
-    "genre": "Genre",
-    "movie": "Film",
-    "Movies": "Filmer",
-    "People": "Personer",
-    "show": "Serie",
-    "Shows": "Serier",
-    "Action & Adventure": "Action & Äventyr",
-    "Comedy": "Komedi",
-    "Family": "Familj",
-    "Kids": "Barn",
-    "News": "Nyheter",
-    "Sci-Fi & Fantasy": "Sci-Fi & Fantasi",
-    "Soap": "Såpa",
-    "War & Politics": "Krig & Politik",
-    "input_search": "Sök filmer, serier eller personer..."
+    "chat": "Chatt",
+    "type a message": "Skriv ett meddelande"
   }
 }

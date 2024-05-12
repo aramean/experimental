@@ -10,7 +10,7 @@
     var="api"
     conf="debug:true;debugLocalhost:true;varsDir:assets/json/vars;storageKey:todo"
     globalize-conf="folder:assets/json/locales"
-    navigate-conf="startpage:experimental/app/note;startpageLocal:app/note">
+    navigate-conf="startpage:experimental/app/todo;startpageLocal:app/todo">
   </script>
   <link type="text/css" href="../../front/front.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/app.css">
@@ -44,11 +44,7 @@
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
   <header class="topbar h4 pr1 bcforestgreen white- white shade1">
     <button click="toggle" clicktargetfield="aside[0]" class="ml1 dark p05 br50 hover-"><i class="icon24">≡</i></button>
-    <figure class="mh30p pl2 pr2 df-">
-      <a href="./home.html" key="0">
-        <p globalize-get="app.acronym" uppercase>Todo</p>
-      </a>
-    </figure>
+    <a class="ml1 mr1" href="./" globalize-get="todo" uppercase bold>Todo</a>
    <!--<input class="fr mr05" type="checkbox" id="autosave" onvaluechange="alert:hej">
     <label for="autosave">AutoSave</label>-->
   </header>
