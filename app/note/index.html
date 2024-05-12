@@ -55,12 +55,13 @@
     <textarea
       class="f1 p1 bc0_h h100p w100p"
       name="note"
-      bindvar="id:1;url:https://lmaxhwqfjsphltrhlewl.supabase.co/rest/v1/notes?id=eq."
+      bindasset="apikey:api.api_key;url:api.notes.url"
+      bindvar="id:1"
       onvaluechange="data-patch"
-      data-src="{url}{id}"
-      data-header="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxODA3Mzg3MSwiZXhwIjoxOTMzNjQ5ODcxfQ.NFnRf6sJq1nhbGUD8eTvliQiOLbYNHQ2GFgYcaQ3Mmw"
+      data-src="{url}?id=eq.{id}"
+      data-header="apikey:{apikey}"
       data-loader="#loader"
-      data-patch="{url}{id}"
+      data-patch="{url}?id=eq.{id}&limit=1&order=id"
       data-enctype="application/json"
       data-get="0.note"
     >
