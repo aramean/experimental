@@ -354,6 +354,11 @@ app.module.data = {
       headers = attr['data-header'],
       success = attr['data-success']
 
+    // Support header reference.
+    if (headers.value[0] === '#') {
+      headers = dom.get(headers.value).attributes['data-header']
+    }
+
     if (srcEl.localName === 'form') {
       url = attr['action']
     } else {
