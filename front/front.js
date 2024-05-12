@@ -1470,7 +1470,6 @@ var app = {
       'checked',
       'class',
       'for',
-      'height',
       'id',
       'name',
       'selected',
@@ -1479,8 +1478,7 @@ var app = {
       'target',
       'type',
       'title',
-      'value',
-      'width'],
+      'value'],
 
     /**
      * @function run

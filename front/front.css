@@ -2505,6 +2505,11 @@ body .flc0 {
   justify-content: unset;
 }
 
+body .fu,
+.box *.fu {
+  flex: unset
+}
+
 body .fa,
 .box *.fa {
   flex: auto
