@@ -398,7 +398,7 @@ var dom = {
 
     switch (tag) {
       case 'input':
-        type == 'checkbox' ? target.checked = value : target.value = value
+        if (type == 'checkbox') target.checked = value === 'true' ? true : false
         break
       case 'img':
         target.src = value
@@ -1465,7 +1465,22 @@ var app = {
    */
   attributes: {
 
-    defaultExclude: ['alt', 'class', 'for', 'height', 'id', 'name', 'src', 'style', 'target', 'type', 'title', 'width'],
+    defaultExclude: [
+      'alt',
+      'checked',
+      'class',
+      'for',
+      'height',
+      'id',
+      'name',
+      'selected',
+      'src',
+      'style',
+      'target',
+      'type',
+      'title',
+      'value',
+      'width'],
 
     /**
      * @function run
