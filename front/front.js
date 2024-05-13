@@ -297,7 +297,7 @@ var dom = {
                     if (target.startSubmit) {
                       var length = target.listeners['keyup'].length
                       if (object.bindfieldPos === length) {
-                        app.call('dom.' + target.startSubmit, [target])
+                        app.call(target.startSubmit, [target])
                         target.startSubmit = false
                       }
                     }
@@ -678,7 +678,7 @@ var dom = {
           console.dir(identifier)
           console.log(condition)
 
-          app.call('dom.' + identifier[1], { clicked: object, value: identifier[2] })
+          app.call(identifier[1], { clicked: object, value: identifier[2] })
         }
         break
       case 'select-one':
@@ -853,7 +853,7 @@ var app = {
           if (tab) {
             var val = !click ? tab : click
             val = val.value.split(':')
-            app.call('dom.' + val[0], [link, val[1]])
+            app.call(val[0], [link, val[1]])
           }
           break
         case 'Enter':
@@ -878,11 +878,12 @@ var app = {
           target = clicktargetfield && clicktargetfield.value.split(':'),
           element = target ? dom.get(target[0]) : e.target
 
+
         element.callAttribute = val[0]
         element.targetAttribute = target && target[1]
         element.targetField = clicktargetfield
 
-        app.call('dom.' + val[0], [element, val[1]])
+        app.call(val[0], [element, val[1]])
 
         if (onclickif) dom.bindif(onclickif, { e: link })
       }
@@ -901,10 +902,13 @@ var app = {
    */
   call: function (run, runargs, options) {
     options = options || { 'before': false, 'after': false }
-    // Before hook
-
     run = run.split('.') // convert string to array.
 
+    var run1,
+      runargs = Array.isArray(runargs) ? runargs : [runargs], // Ensure runargs is an array
+      context = null
+
+    // Before hook
     if (options.before) {
       console.error('calling before once')
       app.call(options.before, runargs)
@@ -912,18 +916,18 @@ var app = {
 
     app.log.info()('Calling: ' + run + ' ' + runargs)
     try {
-      var run1 = dom._replacementMap[run[1]] || run[1],
-        runargs = Array.isArray(runargs) ? runargs : [runargs], // Ensure runargs is an array
-        context = null
-
-      // Check if it's a module.
-      if (run[1].indexOf('-') !== -1) {
-        run = run[1].split('-')
+      if (run[0] === 'app') {
+        run1 = run[1]
+      } else if (run[0].indexOf('-') !== -1) {
+        run = run[0].split('-')
         run.unshift('app', 'module')
         run1 = 'module'
         context = window[run[0]][run1][run[2]]
+      } else {
+        run.unshift('dom')
+        run1 = dom._replacementMap[run[1]] || run[1]
       }
-
+  
       switch (run.length) {
         case 4:
           return window[run[0]][run1][run[2]][run[3]].apply(context, runargs)
@@ -932,7 +936,6 @@ var app = {
         case 2:
           return window[run[0]][run1].apply(context, runargs)
       }
-
     } catch (error) {
       app.log.error()('Syntax not found: ' + run1)
     } finally {
@@ -1065,7 +1068,8 @@ var app = {
         onchange = onchange.split(':')
         console.log(onchange[0])
         object.callAttribute = onchange[0]
-        app.call('dom.' + onchange[0], [object, onchange[1]])
+        console.log('onchange')
+        app.call(onchange[0], [object, onchange[1]])
       }
     },
 
@@ -1075,7 +1079,8 @@ var app = {
         submit = attr && attr.split(';')
       for (action in submit) {
         var val = submit[action].split(':')
-        app.call('dom.' + val[0], [srcEl, val[1]])
+        console.log('onsubmit')
+        app.call(val[0], [srcEl, val[1]])
       }
     }
   },
@@ -1280,11 +1285,7 @@ var app = {
           afterChangeValue = object.attributes.onaftervaluechange
         var val = changeValue.value.split(':')
 
-        // Check if it's a module or not.
-        var variable = val[0].indexOf('-') !== -1 ? 'module.' : 'dom.'
-
-        app.call(
-          variable + val[0],
+        app.call(val[0],
           { clicked: object, value: val[1] },
           { 'before': beforeChangeValue, after: afterChangeValue ? afterChangeValue.value : false }
         )
@@ -1315,13 +1316,13 @@ var app = {
         } else {
           text = statement[2]
           action = statement[1]
-          app.call('dom.' + action, { clicked: object, value: text })
+          app.call(action, { clicked: object, value: text })
         }
       }
 
       if (changeStateValue) {
         var val = changeStateValue.value.split(':')
-        app.call('dom.' + val[0], { clicked: object, state: true, value: val[1] })
+        app.call(val[0], { clicked: object, state: true, value: val[1] })
       }
 
       if (changeStateValueIf) {
@@ -1950,9 +1951,10 @@ var app = {
             }
 
             if (success) {
-              //Todo: Move split to app.call
+              //Todo: Move split to app.call. Check for Element reference "#"".
               var val = success.split(':')
-              app.call('dom.' + val[0], [srcEl, val[1]])
+              console.log(val[0])
+              app.call(val[0], [srcEl, val[1]])
             }
 
           } else if (status.clientError || status.serverError) {
