@@ -42,7 +42,6 @@ app.module.keyboard = {
           default:
             var action = action.split(':')
             element.callAttribute = action[0]
-            //app.call(['dom', action[0]], [element, action[1]])
             app.call('dom.' + action[0], [element, action[1]])
         }
       }
