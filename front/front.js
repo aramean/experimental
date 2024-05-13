@@ -1841,7 +1841,7 @@ var app = {
                   if (self.currentAsset.loaded === self.currentAsset.total) {
                     var run = this.options.onload2.run
                     app.module[type]._run(run.arg) //Todo: Make app.call work.
-                    //app.call([run.func], run.arg)
+                    //app.call(run.func, run.arg)
                     //console.error('run' + self.currentAsset.loaded + '/' + self.currentAsset.total)
                   }
                   break
