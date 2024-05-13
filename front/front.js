@@ -631,7 +631,7 @@ var dom = {
     //@TODO Fix ie bug with reversed attributes.
     var bindvar = element.attributes.bindvar
     if (bindvar) dom.bind.include = bindvar.value
-    app.xhr.get({
+    app.xhr.request({
       element: element,
       url: element.attributes.include.value,
       onload: {
@@ -1392,7 +1392,7 @@ var app = {
         for (var j = 0; j < app.vars.total; j++) {
           var name = app.vars.name[j]
           app.log.info(1)(name)
-          app.xhr.get({
+          app.xhr.request({
             url: app.varsDir + '/' + name + '.json',
             type: 'var',
             cache: {
@@ -1451,7 +1451,7 @@ var app = {
           var isStartpage = srcDoc && i === 0 ? true : false,
             currentTemplate = isStartpage ? srcDoc : src[i + hasStartpage]
 
-          app.xhr.get({
+          app.xhr.request({
             url: app.script.path + currentTemplate + '.html',
             type: 'template',
             cache: {
@@ -1879,7 +1879,7 @@ var app = {
      * @memberof app
      * @desc Creates XHR requests and updates the DOM based on the response.
      */
-    get: function (options) {
+    request: function (options) {
       var method = options.method ? options.method.toUpperCase() : 'GET',
         url = options.url instanceof Array ? options.url : [options.url],
         target = options.target ? dom.get(options.target) : options.element,

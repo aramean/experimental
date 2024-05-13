@@ -71,7 +71,7 @@ app.module.globalize = {
         }
       }
 
-      app.xhr.get(options)
+      app.xhr.request(options)
     },
 
     get: function (query, _this) {

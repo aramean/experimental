@@ -92,7 +92,7 @@ app.module.navigate = {
       state.extension = false
     }
 
-    app.xhr.get({
+    app.xhr.request({
       url: state.href,
       urlExtension: state.extension,
       target: state.target,

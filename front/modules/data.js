@@ -76,7 +76,7 @@ app.module.data = {
       target = attr.target,
       progresscontent = attr.progresscontent
 
-    app.xhr.get({
+    app.xhr.request({
       url: attr[options.attribute].value,
       type: 'data',
       headers: header && header.value,
@@ -365,7 +365,7 @@ app.module.data = {
       url = attr['data-' + method]
     }
     
-    app.xhr.get({
+    app.xhr.request({
       url: url.value,
       method: method,
       srcEl: srcEl,
