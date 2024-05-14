@@ -1742,6 +1742,7 @@ button,
   color: inherit;
   font-size: inherit;
   font-family: inherit;
+  white-space: pre-wrap;
   max-width: 100%;
 }
 
