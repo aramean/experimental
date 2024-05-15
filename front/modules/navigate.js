@@ -9,8 +9,7 @@ app.module.navigate = {
    * @private
    */
   __autoload: function (options) {
-    // Enable SPA support using navigate module.
-    app.spa = this
+    app.spa = this // Enable Single Page Application support using this module.
 
     this.config = app.config.get('navigate', {
       target: 'main',

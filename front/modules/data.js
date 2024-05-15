@@ -9,6 +9,7 @@ app.module.data = {
   defaultInterval: 500,
 
   __autoload: function (options) {
+    app.adf = this // Enable Ajax Data Form support using this module.
     this.module = options.name
   },
 
