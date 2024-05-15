@@ -1074,6 +1074,7 @@ var app = {
     },
 
     onsubmit: function (e) {
+      if (app.adf) app.adf._form(e)
       var srcEl = e.srcElement,
         attr = srcEl.getAttribute('onformsubmit'),
         submit = attr && attr.split(';')
