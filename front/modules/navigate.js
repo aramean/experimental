@@ -89,6 +89,7 @@ app.module.navigate = {
       app.isFrontpage = true
       state.target = 'html'
       state.extension = false
+      app.disable(true)
     }
 
     app.xhr.request({
@@ -202,6 +203,7 @@ app.module.navigate = {
       cancelAnimationFrame(this.intervalId)
       clearInterval(this.intervalId)
       dom.hide(this.element)
+      app.disable(false)
     },
   },
 }
