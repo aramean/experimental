@@ -15,7 +15,10 @@ var dom = {
     'insertafterbegin': 'insert',
     'insertbeforeend': 'insert',
     'insertafterend': 'insert',
+    'refsettext': 'set2',
+    'refsethtml': 'set2',
     'settext': 'set2',
+    'sethtml': 'set2',
     'sethref': 'set2',
     'setvalue': 'set2',
     'setsrc': 'set2',
@@ -28,13 +31,13 @@ var dom = {
     'ifbeforeend': 'if',
     'resetvalue': 'reset',
     'togglevalue': 'toggle',
-    'margintop': 'apply',
-    'marginbottom': 'apply',
-    'marginleft': 'apply',
-    'marginright': 'apply',
-    'height': 'apply',
-    'width': 'apply',
-    'padding': 'apply'
+    'margintop': 'style',
+    'marginbottom': 'style',
+    'marginleft': 'style',
+    'marginright': 'style',
+    'height': 'style',
+    'width': 'style',
+    'padding': 'style'
   },
   _uniqueId: 0,
   _bindfieldPos: 0,
@@ -207,6 +210,14 @@ var dom = {
     document.documentElement.style.display = action
   },
 
+  style: function (element, value) {
+    var attr = element.callAttribute.replace(/(top|bottom|left|right)$/g, function (match) {
+      return match.charAt(0).toUpperCase() + match.slice(1)
+    })
+
+    element.style[attr] = value + 'px'
+  },
+
   bind: function (object, value) {
     var attr = object.callAttribute,
       bindings = value.split(';')
@@ -340,14 +351,6 @@ var dom = {
   focus: function (element, value) {
     if (value) element = dom.get(value)
     element.focus()
-  },
-
-  apply: function (element, value) {
-    var attr = element.callAttribute.replace(/(top|bottom|left|right)$/g, function (match) {
-      return match.charAt(0).toUpperCase() + match.slice(1)
-    })
-
-    element.style[attr] = value + 'px'
   },
 
   /**
@@ -987,12 +990,19 @@ var app = {
     set: function (element, value, attr) {
       if (attr) {
         attr = attr.replace('set', '')
-        if (attr === 'text')
-          element.textContent = value
-        else if (attr === 'html')
-          element.innerHTML = value
-        else
-          element.setAttribute(attr, value)
+
+        switch (attr) {
+          case 'text':
+          case 'reftext':
+            element.textContent = attr === 'reftext' ? dom.get(value).textContent : value
+            break
+          case 'html':
+          case 'refhtml':
+            element.innerHTML = attr === 'refhtml' ? dom.get(value).innerHTML : value
+            break
+          default:
+            element.setAttribute(attr, value)
+        }
         return
       }
 

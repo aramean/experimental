@@ -158,7 +158,7 @@ app.module.data = {
       /*var iterateInside = app.element.find(element, '[data-iterate]')
       if (iterateInside.length !== 0) {
         element = iterateInside
-        options.iterate = 'word'
+        options.iterate = 'translation'
       }*/
 
       this._iterate(options, responseData, element, selector)
@@ -171,22 +171,7 @@ app.module.data = {
       total = iterate && responseObject.length - 1 || 0
 
     if (responseObject) {
-      if (!iterate) {
-        var elements = app.element.find(element, selector),
-          arrayFromNodeList = [].slice.call(elements)
-
-        arrayFromNodeList.push(element) // Support data-get on parent.
-
-        for (var i = 0; i < arrayFromNodeList.length; i++) {
-          var dataget = arrayFromNodeList[i].getAttribute('data-get')
-          if (dataget) {
-            var value = app.element.getPropertyByPath(responseObject, dataget)
-            app.element.set(arrayFromNodeList[i], value, false)
-          }
-        }
-
-      } else {
-        console.log('data-iterate')
+      if (iterate) {
         if (!responseObject.length) { // Support index select.
           var keys = Object.keys(responseObject),
             total = keys.length - 1 || 0,
@@ -248,6 +233,19 @@ app.module.data = {
 
           this._process('data-get', elements[i], responseObject[j])
           this._process('data-set', elements[i], responseObject[j])
+        }
+      } else {
+        var elements = app.element.find(element, selector),
+          arrayFromNodeList = [].slice.call(elements)
+
+        arrayFromNodeList.push(element) // Support data-get on parent.
+
+        for (var i = 0; i < arrayFromNodeList.length; i++) {
+          var dataget = arrayFromNodeList[i].getAttribute('data-get')
+          if (dataget) {
+            var value = app.element.getPropertyByPath(responseObject, dataget)
+            app.element.set(arrayFromNodeList[i], value, false)
+          }
         }
       }
 
