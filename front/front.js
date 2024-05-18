@@ -31,13 +31,13 @@ var dom = {
     'ifbeforeend': 'if',
     'resetvalue': 'reset',
     'togglevalue': 'toggle',
-    'margintop': 'style',
-    'marginbottom': 'style',
-    'marginleft': 'style',
-    'marginright': 'style',
-    'height': 'style',
-    'width': 'style',
-    'padding': 'style'
+    'margintop': 'apply',
+    'marginbottom': 'apply',
+    'marginleft': 'apply',
+    'marginright': 'apply',
+    'height': 'apply',
+    'width': 'apply',
+    'padding': 'apply'
   },
   _uniqueId: 0,
   _bindfieldPos: 0,
@@ -210,7 +210,7 @@ var dom = {
     document.documentElement.style.display = action
   },
 
-  style: function (element, value) {
+  apply: function (element, value) {
     var attr = element.callAttribute.replace(/(top|bottom|left|right)$/g, function (match) {
       return match.charAt(0).toUpperCase() + match.slice(1)
     })
