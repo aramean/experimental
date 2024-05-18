@@ -1954,7 +1954,6 @@ var app = {
             if (success) {
               //Todo: Move split to app.call. Check for Element reference "#"".
               var val = success.split(':')
-              console.log(val[0])
               app.call(val[0], [srcEl, val[1]])
             }
 
