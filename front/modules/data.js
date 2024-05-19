@@ -114,6 +114,7 @@ app.module.data = {
       datamerge = element.getAttribute('data-merge'),
       datafilteritem = element.getAttribute('data-filteritem'),
       datareplace = element.getAttribute('data-replace'),
+      dataiterate = element.getAttribute('data-iterate'),
       datasort = element.getAttribute('data-sort'),
       datastatus = element.getAttribute('data-status'),
       dataempty = element.getAttribute('data-empty'),
@@ -155,13 +156,17 @@ app.module.data = {
         if (el) dom.show(el)
       }
 
-      /*var iterateInside = app.element.find(element, '[data-iterate]')
-      if (iterateInside.length !== 0) {
-        element = iterateInside
-        options.iterate = 'translation'
-      }*/
-
       this._iterate(options, responseData, element, selector)
+
+      // Support iterate inside parent.
+      if (!dataiterate) {
+        var iterateInside = app.element.find(element, '[data-iterate]')
+        if (iterateInside.length !== 0) {
+          element = iterateInside
+          options.iterate = element.attributes['data-iterate'].value
+          this._iterate(options, responseData, element, selector)
+        }
+      }
     }
   },
 
@@ -171,11 +176,12 @@ app.module.data = {
       total = iterate && responseObject.length - 1 || 0
 
     if (responseObject) {
-      if (iterate) {
-        if (!responseObject.length) { // Support index select.
-          var keys = Object.keys(responseObject),
-            total = keys.length - 1 || 0,
-            responseObject = keys
+      // Support index select.
+      if (!responseObject.length) {
+        var keys = Object.keys(responseObject)
+        if (keys) {
+          total = keys.length - 1 || 0
+          responseObject = keys
 
           if (responseObject.length === 0) {
             /*total = 0
@@ -186,7 +192,9 @@ app.module.data = {
             console.warn(responseObject)*/
           }
         }
+      }
 
+      if (iterate) {
         var originalNode = element,
           originalClonedNode = originalNode.cloneNode(true)
 
@@ -235,6 +243,7 @@ app.module.data = {
           this._process('data-set', elements[i], responseObject[j])
         }
       } else {
+
         var elements = app.element.find(element, selector),
           arrayFromNodeList = [].slice.call(elements)
 
@@ -250,14 +259,13 @@ app.module.data = {
       }
 
       this._set(responseData, options)
-      this._finish(options)
       app.attributes.run(elements, ['data-get', 'data-set'])
+      this._finish(options)
     }
   },
 
   _process: function (accessor, element, responseObject) {
     var value = element.getAttribute(accessor) || false
-
     if (value) {
       if (value.indexOf(':') !== -1) {
         var keys = value.split(';')
@@ -272,6 +280,7 @@ app.module.data = {
   },
 
   _get: function (obj, value) {
+
     if (value === '[0]') return obj
 
     var result,

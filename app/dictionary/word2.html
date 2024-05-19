@@ -20,7 +20,7 @@
     data-success="#success"
     hide
     >
-    <h1 id="translation">&nbsp;</h1>
+    <h1 id="translation"></h1>
     <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
       <ol class="pl05">
         <li><a href="search.html?q=*" globalize-get>Dictionary</a></li>
@@ -29,11 +29,11 @@
       </ol>
     </nav>
     <div data-iterate="word" data-filter="willbesomething" class="box cards list mt1 br0- flc- bcwhite-">
-      <h6 class="p05 pl1 black06 fs08" globalize-get>Language</h6>
+      <h6 class="p05 pl1 black06 fs08" data-get="[0]"></h6>
       <figure class="p1 mb1">
         <div>
-          <p class="ffadiabene fs13" data-get="[0].nat"></p>
-          <small data-get="[0]" insertafterbegin="[ " insertbeforeend=" ]"></small>
+          test:<p class="ffadiabene fs13" data-get="syr.nat"></p>
+          <small data-gets="[0]" insertafterbegins="[ " insertbeforeends=" ]"></small>
         </div>
         <a class="icon f0" hide>&#128264;</a>
       </figure>
