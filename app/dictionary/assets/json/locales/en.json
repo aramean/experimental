@@ -13,6 +13,10 @@
     "Browse": "Browse",
     "Categories": "Categories",
     "title": "Aramaic Dictionary",
-    "input_search": "Search for words..."
+    "input_search": "Search for words...",
+    "syc": "Suryaya",
+    "syh": "Suret",
+    "syr": "Suryoyo",
+    "syt": "Surayt"
   }
 }

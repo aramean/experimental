@@ -181,7 +181,7 @@ app.module.data = {
         var keys = Object.keys(responseObject)
         if (keys) {
           total = keys.length - 1 || 0
-          responseObject = keys
+          responseObject = responseObject
 
           if (responseObject.length === 0) {
             /*total = 0
@@ -239,7 +239,7 @@ app.module.data = {
             }
           }
 
-          this._process('data-get', elements[i], responseObject[j])
+          this._process('data-get', elements[i], responseObject[j], { fullObject: responseObject, index: j })
           this._process('data-set', elements[i], responseObject[j])
         }
       } else {
@@ -264,7 +264,7 @@ app.module.data = {
     }
   },
 
-  _process: function (accessor, element, responseObject) {
+  _process: function (accessor, element, responseObject, options) {
     var value = element.getAttribute(accessor) || false
     if (value) {
       if (value.indexOf(':') !== -1) {
@@ -274,14 +274,23 @@ app.module.data = {
           app.variables.update.attributes(element, values[0], this._get(responseObject, values[1]), false)
         }
       } else {
-        dom.set(element, this._get(responseObject, value), false)
+        dom.set(element, this._get(responseObject, value, options), false)
       }
     }
   },
 
-  _get: function (obj, value) {
+  _get: function (obj, value, options) {
 
-    if (value === '[0]') return obj
+    if (options) {
+      var keys = Object.keys(options.fullObject),
+        keyAtIndex = keys[options.index]
+      if (value.indexOf('[*].') !== -1) {
+        var key = value.replace('[*]', keyAtIndex)
+        return app.element.getPropertyByPath(options.fullObject, key)
+      } else if (value === '[*]') {
+        return keyAtIndex
+      }
+    }
 
     var result,
       orPaths = value.split('||')
