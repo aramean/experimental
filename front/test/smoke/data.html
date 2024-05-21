@@ -25,6 +25,43 @@
     <option data-get="name.common"></option>
   </select>
 
+  <h4>Get in parent</h4>
+  <div
+    data-src="https://dummyjson.com/products/1"
+    data-get="title"
+  >
+  </div>
+
+  <h4>Get inside parent</h4>
+  <div
+    data-src="https://dummyjson.com/products/3"
+  >
+  <span data-get="title"></span><br>
+  <span data-get="brand"></span>
+  </div>
+
+  <h4>Get image</h4>
+  <div
+    data-src="https://dummyjson.com/products/3"
+  >
+  <img data-get="images.0" width="100"></img>
+  </div>
+
+  <h4>Get with Iterate</h4>
+  <div
+    data-src="https://dummyjson.com/todos"
+    data-iterate="todos"
+  >
+    <p data-get="id"></p><p data-get="todo"></p>
+  </div>
+
+  <h4>Get with key with wildcard</h4>
+  <div
+    data-src="https://dummyjson.com/products/1"
+    data-iterate="images"
+  >
+    <p data-get="[*]"></p>
+  </div>
 
 </body>
 

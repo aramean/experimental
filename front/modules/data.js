@@ -176,22 +176,9 @@ app.module.data = {
       total = iterate && responseObject.length - 1 || 0
 
     if (responseObject) {
-      // Support index select.
       if (!responseObject.length) {
         var keys = Object.keys(responseObject)
-        if (keys) {
-          total = keys.length - 1 || 0
-          responseObject = responseObject
-
-          if (responseObject.length === 0) {
-            /*total = 0
-            var empty = dataempty.split(';')
-            var el = empty.length > 0 ? empty[1] : empty[0]
-            console.error(el)
-            if (el) dom.show(el)
-            console.warn(responseObject)*/
-          }
-        }
+        if (keys) total = keys.length - 1 || 0
       }
 
       if (iterate) {
@@ -250,15 +237,20 @@ app.module.data = {
         arrayFromNodeList.push(element) // Support data-get on parent.
 
         for (var i = 0; i < arrayFromNodeList.length; i++) {
-          var dataget = arrayFromNodeList[i].getAttribute('data-get')
+          var dataget = arrayFromNodeList[i].getAttribute('data-get'),
+            dataset = arrayFromNodeList[i].getAttribute('data-set')
+
           if (dataget) {
             var value = app.element.getPropertyByPath(responseObject, dataget)
             app.element.set(arrayFromNodeList[i], value, false)
           }
+
+          if (dataset) {
+            this._set(responseData, options)
+          }
         }
       }
 
-      this._set(responseData, options)
       app.attributes.run(elements, ['data-get', 'data-set'])
       this._finish(options)
     }
