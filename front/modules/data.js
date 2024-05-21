@@ -229,6 +229,8 @@ app.module.data = {
           this._process('data-get', elements[i], responseObject[j], { fullObject: responseObject, index: j })
           this._process('data-set', elements[i], responseObject[j])
         }
+
+        this._set(responseData, options)
       } else {
 
         var elements = app.element.find(element, selector),
@@ -243,10 +245,6 @@ app.module.data = {
           if (dataget) {
             var value = app.element.getPropertyByPath(responseObject, dataget)
             app.element.set(arrayFromNodeList[i], value, false)
-          }
-
-          if (dataset) {
-            this._set(responseData, options)
           }
         }
       }
