@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script
+    src="../../front.js"
+    module="globalize;data;navigate"
+    var="api"
+    conf="varsDir:assets/json/vars"
+    globalize-conf="folder:assets/json/locales"
+    navigate-conf="startpage:experimental">
+  </script>
+</head>
+
+<body>
+  <h1>Data</h1>
+  <hr>
+
+  <h4>Get with iterate</h4>
+  <div
+    data-src="https://dummyjson.com/todos"
+    data-iterate="todos"
+  >
+    <p data-get="id"></p><p data-get="todo"></p>
+  </div>
+
+  <h4>Get with iterate key with wildcard</h4>
+  <div
+    data-src="https://dummyjson.com/products/1"
+    data-iterate="images"
+  >
+    <p data-get="[*]"></p>
+  </div>
+
+</body>
+
+</html>
