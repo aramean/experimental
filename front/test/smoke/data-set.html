@@ -26,8 +26,17 @@
   <div
     data-src="https://dummyjson.com/products/3"
   >
-  <span data-get="title"></span><br>
-  <span data-get="brand" uppercase></span>
+  <span data-set="i:images.0" settext="{i} dd" uppercase></span>
+  <img data-set="img:images.0" width="100" setsrc="{img}"></img>
+  </div>
+
+<h4>Set with iterate</h4>
+  <div
+    data-src="https://dummyjson.com/todos"
+    data-iterate="todos"
+  >
+    <span data-set="i:id" settext="{i}ddd" uppercase></span>
+    <span data-get="id"></span>
   </div>
 
   <h4>Get image</h4>

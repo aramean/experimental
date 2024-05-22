@@ -239,8 +239,13 @@ app.module.data = {
         arrayFromNodeList.push(element) // Support data-get on parent.
 
         for (var i = 0; i < arrayFromNodeList.length; i++) {
-          var dataget = arrayFromNodeList[i].getAttribute('data-get'),
-            dataset = arrayFromNodeList[i].getAttribute('data-set')
+          var dataset = arrayFromNodeList[i].getAttribute('data-set'),
+            dataget = arrayFromNodeList[i].getAttribute('data-get')
+
+          if (dataset) {
+            var value = app.element.getPropertyByPath(responseObject, dataset)
+            this._process('data-set', arrayFromNodeList[i], responseObject, value)
+          }
 
           if (dataget) {
             var value = app.element.getPropertyByPath(responseObject, dataget)
