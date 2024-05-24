@@ -40,7 +40,21 @@
       height="24"
       class="fu"
     >
-    <label data-set="id:id" for="{id}" class="ml1" data-get="task"></label>
+    <p
+      type="text"
+      name="task"
+      bindvar=":"
+      data-set="id:id"
+      data-get="task"
+      data-patch="{src}?id=eq.{id}&limit=1&order=id"
+      data-header="#test"
+      keyboard-key="Enter"
+      keyboard-action="data-patch"
+      keyboard-scope
+      contenteditable
+      class="ml1 bs0 bw0"
+    >
+    </p>
     <a
       type="button"
       bindvar=":"

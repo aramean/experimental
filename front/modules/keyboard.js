@@ -21,13 +21,13 @@ app.module.keyboard = {
   _keypressed: function (e) {
     for (var i = 0; i < this.keys.length; i++) {
       var current = this.keys[i]
-      if (e.key == current.key) {
+      if (e.key === current.key) {
         var action = current.action,
           element = current.element,
-          target = e.target.localName,
-          scope = current.scope === '' ? element.localName : current.scope
+          targetUid = e.target.uniqueId,
+          scope = current.scope === '' ? element.uniqueId : current.scope
 
-        if (scope && target !== scope) continue
+        if (scope && targetUid !== scope) continue
 
         // Prevent reload.
         element.setAttribute('onclick', 'return false')
@@ -41,6 +41,7 @@ app.module.keyboard = {
             break
           default:
             var action = action.split(':')
+            element.clicked = element
             element.callAttribute = action[0]
             app.call(action[0], [element, action[1]])
         }
@@ -52,6 +53,8 @@ app.module.keyboard = {
     var key = element.getAttribute('keyboard-key'),
       action = element.getAttribute('keyboard-action'),
       scope = element.getAttribute('keyboard-scope')
+
+    dom.setUniqueId(element, true)
 
     this.keys.push({ key: key, action: action, scope: scope, element: element })
   },
