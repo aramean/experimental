@@ -114,6 +114,7 @@ app.module.data = {
       datamerge = element.getAttribute('data-merge'),
       datafilteritem = element.getAttribute('data-filteritem'),
       datareplace = element.getAttribute('data-replace'),
+      dataiterate = element.getAttribute('data-iterate'),
       datasort = element.getAttribute('data-sort'),
       datastatus = element.getAttribute('data-status'),
       dataempty = element.getAttribute('data-empty'),
@@ -155,24 +156,21 @@ app.module.data = {
         if (el) dom.show(el)
       }
 
-      var iterate = options.iterate
-      if (iterate) {
-        this._iterate(options, responseData, element, selector)
-      } else {
-        this._select(options, responseData, element, selector)
-      }
+      this._traverse(options, responseData, element, selector)
 
       // Support iterate inside parent.
-      var iterateInside = app.element.find(element, '[data-iterate]')
-      if (iterateInside.length !== 0) {
-        element = iterateInside
-        options.iterate = element.attributes['data-iterate'].value
-        this._iterate(options, responseData, element, selector)
+      if (!dataiterate) {
+        var iterateInside = app.element.find(element, '[data-iterate]')
+        if (iterateInside.length !== 0) {
+          element = iterateInside
+          options.iterate = element.attributes['data-iterate'].value
+          this._traverse(options, responseData, element, selector)
+        }
       }
     }
   },
 
-  _iterate: function (options, responseData, element, selector) {
+  _traverse: function (options, responseData, element, selector) {
     var iterate = options.iterate,
       responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || {},
       total = iterate && responseObject.length - 1 || 0
@@ -183,7 +181,7 @@ app.module.data = {
         if (keys) total = keys.length - 1 || 0
       }
 
-      if (iterate) {
+      if (iterate) { // Iterate.
         var originalNode = element,
           originalClonedNode = originalNode.cloneNode(true)
 
@@ -233,35 +231,30 @@ app.module.data = {
         }
 
         this._set(responseData, options)
+      } else { // Select.
+        var elements = app.element.find(element, selector),
+          arrayFromNodeList = [].slice.call(elements)
+
+        arrayFromNodeList.push(element) // Support data-get on parent.
+
+        for (var i = 0; i < arrayFromNodeList.length; i++) {
+          var dataset = arrayFromNodeList[i].getAttribute('data-set'),
+            dataget = arrayFromNodeList[i].getAttribute('data-get')
+
+          if (dataset) {
+            var value = app.element.getPropertyByPath(responseObject, dataset)
+            this._process('data-set', arrayFromNodeList[i], responseObject, value)
+          }
+
+          if (dataget) {
+            var value = app.element.getPropertyByPath(responseObject, dataget)
+            app.element.set(arrayFromNodeList[i], value, false)
+          }
+        }
       }
 
       app.attributes.run(elements, ['data-get', 'data-set'])
       this._finish(options)
-    }
-  },
-
-  _select: function (options, responseData, element, selector) {
-    var iterate = options.iterate,
-      responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || {}
-
-    var elements = app.element.find(element, selector),
-      arrayFromNodeList = [].slice.call(elements)
-
-    arrayFromNodeList.push(element) // Support data-get on parent.
-
-    for (var i = 0; i < arrayFromNodeList.length; i++) {
-      var dataset = arrayFromNodeList[i].getAttribute('data-set'),
-        dataget = arrayFromNodeList[i].getAttribute('data-get')
-
-      if (dataset) {
-        var value = app.element.getPropertyByPath(responseObject, dataset)
-        this._process('data-set', arrayFromNodeList[i], responseObject, value)
-      }
-
-      if (dataget) {
-        var value = app.element.getPropertyByPath(responseObject, dataget)
-        app.element.set(arrayFromNodeList[i], value, false)
-      }
     }
   },
 
