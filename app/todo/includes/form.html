@@ -42,14 +42,15 @@
     >
     <label data-set="id:id" for="{id}" class="ml1" data-get="task"></label>
     <input
-      id="{id}"
+      id="d{id}"
       type="button"
-      name="done"
-      value="true"
+      name="del"
       bindvar=":"
       data-set="id:id"
-      data-remove="{src}?id=eq.{id}&limit=1&order=id"
+      value="{id}"
+      data-remove="{src}?id=eq.{id}"
       data-header="#test"
+      click="togglevalue"
       onvaluechange="data-remove"
       width="24"
       height="24"
