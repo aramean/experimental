@@ -361,23 +361,23 @@ app.module.data = {
 
   patch: function (object) {
     if (object.clicked) {
-      this._send('patch', object.clicked)
+      this._request('patch', object.clicked)
     }
   },
 
   post: function (object) {
     if (object.clicked) {
-      this._send('post', object.clicked)
+      this._request('post', object.clicked)
     }
   },
 
   remove: function (object) {
     if (object.clicked) {
-      this._send('remove', object.clicked)
+      this._request('remove', object.clicked)
     }
   },
 
-  _send: function (method, srcEl) {
+  _request: function (method, srcEl) {
     var url,
       attr = srcEl.attributes,
       headers = attr['data-header'],
@@ -492,7 +492,7 @@ app.module.data = {
       target = srcEl.getAttribute('target')
 
     if (!allowedTargets.includes(target)) {
-      this._send(method, srcEl)
+      this._request(method, srcEl)
       e.preventDefault()
     }
   },
