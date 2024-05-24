@@ -181,7 +181,7 @@ app.module.data = {
         if (keys) total = keys.length - 1 || 0
       }
 
-      if (iterate) { // Iterate.
+      if (iterate) { // Iterate
         var originalNode = element,
           originalClonedNode = originalNode.cloneNode(true)
 
@@ -361,23 +361,17 @@ app.module.data = {
 
   patch: function (object) {
     if (object.clicked) {
-      this._request('patch', object.clicked)
+      this._send('patch', object.clicked)
     }
   },
 
   post: function (object) {
     if (object.clicked) {
-      this._request('post', object.clicked)
+      this._send('post', object.clicked)
     }
   },
 
-  remove: function (object) {
-    if (object.clicked) {
-      this._request('remove', object.clicked)
-    }
-  },
-
-  _request: function (method, srcEl) {
+  _send: function (method, srcEl) {
     var url,
       attr = srcEl.attributes,
       headers = attr['data-header'],
