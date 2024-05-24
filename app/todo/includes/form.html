@@ -41,5 +41,19 @@
       class="fu"
     >
     <label data-set="id:id" for="{id}" class="ml1" data-get="task"></label>
+    <input
+      id="{id}"
+      type="button"
+      name="done"
+      value="true"
+      bindvar=":"
+      data-set="id:id"
+      data-remove="{src}?id=eq.{id}&limit=1&order=id"
+      data-header="#test"
+      onvaluechange="data-remove"
+      width="24"
+      height="24"
+      class="fr"
+    >
   </span>
 </div>
