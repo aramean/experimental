@@ -114,7 +114,6 @@ app.module.data = {
       datamerge = element.getAttribute('data-merge'),
       datafilteritem = element.getAttribute('data-filteritem'),
       datareplace = element.getAttribute('data-replace'),
-      dataiterate = element.getAttribute('data-iterate'),
       datasort = element.getAttribute('data-sort'),
       datastatus = element.getAttribute('data-status'),
       dataempty = element.getAttribute('data-empty'),
@@ -156,16 +155,19 @@ app.module.data = {
         if (el) dom.show(el)
       }
 
-      this._iterate(options, responseData, element, selector)
+      var iterate = options.iterate
+      if (iterate) {
+        this._iterate(options, responseData, element, selector)
+      } else {
+        this._select(options, responseData, element, selector)
+      }
 
       // Support iterate inside parent.
-      if (!dataiterate) {
-        var iterateInside = app.element.find(element, '[data-iterate]')
-        if (iterateInside.length !== 0) {
-          element = iterateInside
-          options.iterate = element.attributes['data-iterate'].value
-          this._iterate(options, responseData, element, selector)
-        }
+      var iterateInside = app.element.find(element, '[data-iterate]')
+      if (iterateInside.length !== 0) {
+        element = iterateInside
+        options.iterate = element.attributes['data-iterate'].value
+        this._iterate(options, responseData, element, selector)
       }
     }
   },
@@ -231,31 +233,35 @@ app.module.data = {
         }
 
         this._set(responseData, options)
-      } else {
-
-        var elements = app.element.find(element, selector),
-          arrayFromNodeList = [].slice.call(elements)
-
-        arrayFromNodeList.push(element) // Support data-get on parent.
-
-        for (var i = 0; i < arrayFromNodeList.length; i++) {
-          var dataset = arrayFromNodeList[i].getAttribute('data-set'),
-            dataget = arrayFromNodeList[i].getAttribute('data-get')
-
-          if (dataset) {
-            var value = app.element.getPropertyByPath(responseObject, dataset)
-            this._process('data-set', arrayFromNodeList[i], responseObject, value)
-          }
-
-          if (dataget) {
-            var value = app.element.getPropertyByPath(responseObject, dataget)
-            app.element.set(arrayFromNodeList[i], value, false)
-          }
-        }
       }
 
       app.attributes.run(elements, ['data-get', 'data-set'])
       this._finish(options)
+    }
+  },
+
+  _select: function (options, responseData, element, selector) {
+    var iterate = options.iterate,
+      responseObject = iterate === 'true' ? responseData.data : app.element.getPropertyByPath(responseData.data, iterate) || {}
+
+    var elements = app.element.find(element, selector),
+      arrayFromNodeList = [].slice.call(elements)
+
+    arrayFromNodeList.push(element) // Support data-get on parent.
+
+    for (var i = 0; i < arrayFromNodeList.length; i++) {
+      var dataset = arrayFromNodeList[i].getAttribute('data-set'),
+        dataget = arrayFromNodeList[i].getAttribute('data-get')
+
+      if (dataset) {
+        var value = app.element.getPropertyByPath(responseObject, dataset)
+        this._process('data-set', arrayFromNodeList[i], responseObject, value)
+      }
+
+      if (dataget) {
+        var value = app.element.getPropertyByPath(responseObject, dataget)
+        app.element.set(arrayFromNodeList[i], value, false)
+      }
     }
   },
 
