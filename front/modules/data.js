@@ -361,17 +361,23 @@ app.module.data = {
 
   patch: function (object) {
     if (object.clicked) {
-      this._send('patch', object.clicked)
+      this._request('patch', object.clicked)
     }
   },
 
   post: function (object) {
     if (object.clicked) {
-      this._send('post', object.clicked)
+      this._request('post', object.clicked)
     }
   },
 
-  _send: function (method, srcEl) {
+  remove: function (object) {
+    if (object.clicked) {
+      this._request('remove', object.clicked)
+    }
+  },
+
+  _request: function (method, srcEl) {
     var url,
       attr = srcEl.attributes,
       headers = attr['data-header'],
