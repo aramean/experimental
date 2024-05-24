@@ -885,6 +885,7 @@ var app = {
         element.callAttribute = val[0]
         element.targetAttribute = target && target[1]
         element.targetField = clicktargetfield
+        element.clicked = element
 
         app.call(val[0], [element, val[1]])
 
@@ -930,7 +931,7 @@ var app = {
         run.unshift('dom')
         run1 = dom._replacementMap[run[1]] || run[1]
       }
-  
+
       switch (run.length) {
         case 4:
           return window[run[0]][run1][run[2]][run[3]].apply(context, runargs)
