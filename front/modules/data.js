@@ -371,9 +371,9 @@ app.module.data = {
     }
   },
 
-  remove: function (object) {
+  delete: function (object) {
     if (object.clicked) {
-      this._request('remove', object.clicked)
+      this._request('delete', object.clicked)
     }
   },
 
