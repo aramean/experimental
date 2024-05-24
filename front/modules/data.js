@@ -371,6 +371,12 @@ app.module.data = {
     }
   },
 
+  remove: function (object) {
+    if (object.clicked) {
+      this._send('remove', object.clicked)
+    }
+  },
+
   _send: function (method, srcEl) {
     var url,
       attr = srcEl.attributes,
