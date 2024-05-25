@@ -36,8 +36,9 @@ var dom = {
     'marginleft': 'apply',
     'marginright': 'apply',
     'height': 'apply',
+    'padding': 'apply',
     'width': 'apply',
-    'padding': 'apply'
+    'wordbreak': 'apply',
   },
   _uniqueId: 0,
   _bindfieldPos: 0,
@@ -211,11 +212,24 @@ var dom = {
   },
 
   apply: function (element, value) {
-    var attr = element.callAttribute.replace(/(top|bottom|left|right)$/g, function (match) {
-      return match.charAt(0).toUpperCase() + match.slice(1)
-    })
+    var prefix,
+      attr = element.callAttribute.replace(/(top|bottom|left|right)$/g, function (match) {
+        return match.charAt(0).toUpperCase() + match.slice(1)
+      })
 
-    element.style[attr] = value + 'px'
+    switch (attr) {
+      case 'wordbreak':
+        attr = 'wordBreak'
+        prefix = ''
+        break
+      default:
+        attr = attr
+        prefix = 'px'
+    }
+
+    console.log(value)
+
+    element.style[attr] = value + prefix
   },
 
   bind: function (object, value) {
@@ -1545,6 +1559,7 @@ var app = {
               if (!element.originalHtml) element.originalHtml = element.innerHTML
               if (!element.originalOuterHtml) element.originalOuterHtml = element.outerHTML
               if (!element.originalLabel) element.originalLabel = element.label
+              if (!element.name) element.name = element.attributes.name && element.attributes.name.value
 
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
@@ -1984,13 +1999,13 @@ var app = {
         var payload
         if (['POST', 'PUT', 'PATCH'].indexOf(method) !== -1) {
           var json = {}
-          if (srcEl.elements) {
+          if (srcEl.elements) { // Iterate in form elements.
             for (var i = 0; i < srcEl.elements.length; i++) {
               var el = srcEl.elements[i]
               json[el.name] = el.value
             }
-          } else {
-            json[srcEl.name] = srcEl.value
+          } else { // Single select form elements.
+            json[srcEl.name] = srcEl.value || srcEl.textContent
           }
 
           payload = JSON.stringify(json)
