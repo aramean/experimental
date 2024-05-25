@@ -39,6 +39,7 @@ var dom = {
     'padding': 'apply',
     'width': 'apply',
     'wordbreak': 'apply',
+    'whitespace': 'apply'
   },
   _uniqueId: 0,
   _bindfieldPos: 0,
@@ -222,12 +223,14 @@ var dom = {
         attr = 'wordBreak'
         prefix = ''
         break
+      case 'whitespace':
+          attr = 'whiteSpace'
+          prefix = ''
+          break
       default:
         attr = attr
         prefix = 'px'
     }
-
-    console.log(value)
 
     element.style[attr] = value + prefix
   },
@@ -1559,7 +1562,6 @@ var app = {
               if (!element.originalHtml) element.originalHtml = element.innerHTML
               if (!element.originalOuterHtml) element.originalOuterHtml = element.outerHTML
               if (!element.originalLabel) element.originalLabel = element.label
-              if (!element.name) element.name = element.attributes.name && element.attributes.name.value
 
               if (app.module[name[0]] && name[1]) {
                 app.log.info(1)(name[0] + ':' + name[0] + '-' + name[1])
@@ -2005,7 +2007,8 @@ var app = {
               json[el.name] = el.value
             }
           } else { // Single select form elements.
-            json[srcEl.name] = srcEl.value || srcEl.textContent
+            var name = srcEl.name ? srcEl.name : srcEl.attributes.name.value
+            json[name] = srcEl.name ? srcEl.value : srcEl.outerText
           }
 
           payload = JSON.stringify(json)
