@@ -224,9 +224,9 @@ var dom = {
         prefix = ''
         break
       case 'whitespace':
-          attr = 'whiteSpace'
-          prefix = ''
-          break
+        attr = 'whiteSpace'
+        prefix = ''
+        break
       default:
         attr = attr
         prefix = 'px'
@@ -593,8 +593,9 @@ var dom = {
     }
   },
 
-  remove: function (object) {
-    if (object) object.remove()
+  remove: function (object, arg) {
+    var target = arg ? dom.get(arg) : object
+    if (target) target.remove()
   },
 
   format: function (object, value) {
@@ -1981,6 +1982,7 @@ var app = {
             if (success) {
               //Todo: Move split to app.call. Check for Element reference "#"".
               var val = success.split(':')
+              console.log(val)
               app.call(val[0], [srcEl, val[1]])
             }
 

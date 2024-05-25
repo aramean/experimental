@@ -4,7 +4,7 @@
   method="post"
   action="{src}"
   data-header="apikey:{apikey}"
-  data-success="rerun:#test"
+  data-success="rerun:#list"
   onformsubmit="reset"
 >
   <figure class="p1 shade1 bcwhite">
@@ -14,7 +14,7 @@
 <div id="loader" class="loader"></div>
 <div id="empty" hide>Empty =(</div>
 <div
-  id="test"
+  id="list"
   class="box cards shade1 list br0- bcwhite-"
   bindvar=":"
   bindasset="apikey:api.api_key"
@@ -23,9 +23,8 @@
   data-loader="#loader"
   data-empty="#empty"
   data-iterate="true">
-  <span class="p1 aic">
+  <span class="p1 aic" data-set="id:id" id="p{id}">
     <input
-      id="{id}"
       type="checkbox"
       name="done"
       value="true"
@@ -33,7 +32,7 @@
       data-set="id:id"
       data-get="done"
       data-patch="{src}?id=eq.{id}&limit=1&order=id"
-      data-header="#test"
+      data-header="#list"
       click="togglevalue"
       onvaluechange="data-patch"
       width="24"
@@ -47,7 +46,7 @@
       data-set="id:id"
       data-get="task"
       data-patch="{src}?id=eq.{id}&limit=1&order=id"
-      data-header="#test"
+      data-header="#list"
       keyboard-key="Enter"
       keyboard-action="data-patch"
       keyboard-scope
@@ -62,7 +61,8 @@
       bindvar=":"
       data-set="id:id"
       data-delete="{src}?id=eq.{id}"
-      data-header="#test"
+      data-header="#list"
+      data-success="remove:#p{id}"
       click="data-delete"
       class="bc0 fu fr icon24 dimgray"
     >
