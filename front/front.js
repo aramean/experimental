@@ -1910,8 +1910,7 @@ var app = {
         runarg = onload && onload.run && onload.run.arg
 
       if (false) {
-        console.dir(cache)
-        console.log('hej')
+        console.dir('cache: ' + cache)
       } else {
 
         var xhr = new XMLHttpRequest(),
@@ -1984,7 +1983,6 @@ var app = {
 
         var payload
         if (['POST', 'PUT', 'PATCH'].indexOf(method) !== -1) {
-
           var json = {}
           if (srcEl.elements) {
             for (var i = 0; i < srcEl.elements.length; i++) {
