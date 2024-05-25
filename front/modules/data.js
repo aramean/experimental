@@ -378,20 +378,19 @@ app.module.data = {
   },
 
   _request: function (method, srcEl) {
-    var url,
-      attr = srcEl.attributes,
+    var attr = srcEl.attributes,
       headers = attr['data-header'],
-      success = attr['data-success']
+      success = attr['data-success'],
+      url = attr['data-' + method]
 
     // Support header reference.
     if (headers.value[0] === '#') {
       headers = dom.get(headers.value).attributes['data-header']
     }
 
+    // Support action attribute.
     if (srcEl.localName === 'form') {
       url = attr['action']
-    } else {
-      url = attr['data-' + method]
     }
 
     app.xhr.request({
