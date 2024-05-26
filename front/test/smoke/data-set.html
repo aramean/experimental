@@ -16,34 +16,25 @@
   <h1>Data</h1>
   <hr>
   <h4>Get in parent</h4>
-  <div
-    data-src="https://dummyjson.com/products/1"
-    data-get="title"
-  >
+  <div data-src="https://dummyjson.com/products/1" data-set="t:title">
+    {t}
   </div>
 
-  <h4>Get inside parent</h4>
-  <div
-    data-src="https://dummyjson.com/products/3"
-  >
-  <span data-set="i:images.0" settext="{i} dd" uppercase></span>
-  <img data-set="img:images.0" width="100" setsrc="{img}"></img>
+  <h4>Set inside parent</h4>
+  <div data-src="https://dummyjson.com/products/1">
+    <span data-set="i:images.0" settext="{i} dd" uppercase></span>
+    <img data-set="img:images.0" width="100" setsrc="{img}"></img>
   </div>
 
-<h4>Set with iterate</h4>
-  <div
-    data-src="https://dummyjson.com/todos"
-    data-iterate="todos"
-  >
+  <h4>Set with iterate</h4>
+  <div data-src="https://dummyjson.com/todos" data-iterate="todos">
     <span data-set="i:id" settext="{i}ddd" uppercase></span>
     <span data-get="id"></span>
   </div>
 
-  <h4>Get image</h4>
-  <div
-    data-src="https://dummyjson.com/products/3"
-  >
-  <img data-get="images.0" width="100"></img>
+  <h4>Set image</h4>
+  <div data-src="https://dummyjson.com/products/1">
+    <img data-set="img:images.0" width="100" setsrc="{img}"></img>
   </div>
 
 </body>

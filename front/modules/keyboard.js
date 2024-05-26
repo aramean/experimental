@@ -14,8 +14,11 @@ app.module.keyboard = {
     var self = this
 
     app.listeners.add(document, 'keyup', function (e) {
+      e.preventDefault()
+      return
       self._keypressed(e)
-    })
+      
+    }, true)
   },
 
   _keypressed: function (e) {

@@ -16,25 +16,26 @@
   <h1>Data</h1>
   <hr>
   <h4>Get in parent</h4>
-  <div
-    data-src="https://dummyjson.com/products/1"
-    data-get="title"
-  >
-  </div>
+  <div data-src="https://dummyjson.com/products/1" data-get="title"></div>
 
   <h4>Get inside parent</h4>
-  <div
-    data-src="https://dummyjson.com/products/3"
-  >
-  <span data-get="title"></span><br>
-  <span data-get="brand" uppercase></span>
+  <div data-src="https://dummyjson.com/products/1">
+    <span data-get="title"></span> - <span data-get="brand" uppercase></span>
   </div>
 
-  <h4>Get image</h4>
-  <div
-    data-src="https://dummyjson.com/products/3"
-  >
-  <img data-get="images.0" width="100"></img>
+  <h4>Image</h4>
+  <div data-src="https://dummyjson.com/products/3">
+    <img data-get="images.0" width="77"></img>
+  </div>
+
+  <h4>Text</h4>
+  <div data-src="https://dummyjson.com/products/1">
+    <input type="text" data-get="title"></input>
+  </div>
+
+  <h4>Textarea</h4>
+  <div data-src="https://dummyjson.com/products/1">
+    <textarea data-get="images.0"></textarea>
   </div>
 
 </body>
