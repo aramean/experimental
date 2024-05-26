@@ -366,8 +366,13 @@ var dom = {
   },
 
   focus: function (element, value) {
-    if (value) element = dom.get(value)
-    element.focus()
+    var target = value ? dom.get(value) : element
+    if (target) target.focus()
+  },
+
+  blur: function (element, value) {
+    var target = value ? dom.get(value) : element
+    if (target) target.blur()
   },
 
   /**
