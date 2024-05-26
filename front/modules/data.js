@@ -268,7 +268,7 @@ app.module.data = {
           app.variables.update.attributes(element, values[0], this._get(responseObject, values[1]), false)
         }
       } else {
-        dom.set(element, this._get(responseObject, value, options), false)
+        app.element.set(element, this._get(responseObject, value, options), false)
       }
     }
   },

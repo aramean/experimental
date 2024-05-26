@@ -421,14 +421,10 @@ var dom = {
     } else {
       var target = object instanceof Object ? object : dom.get(object),
         tag = object.localName,
-        type = object.type,
         value = strip ? value.replace(/<[^>]+>/g, '') : value || ''
     }
 
     switch (tag) {
-      case 'input':
-        if (type === 'checkbox') target.checked = value === 'true' ? true : false
-        break
       case 'img':
         target.src = value
         break
@@ -988,7 +984,6 @@ var app = {
       'script': 'src',
       'track': 'src',
       'iframe': 'src',
-      'a': 'href',
       'area': 'href',
       'base': 'href',
       'link': 'href',
@@ -1025,8 +1020,14 @@ var app = {
         return
       }
 
-      var property = this.propertyMap[element.localName] || 'textContent'
-      element[property] = value
+      switch (element.type) {
+        case 'checkbox':
+          element.checked = value === 'true' ? true : false
+          break
+        default:
+          var property = this.propertyMap[element.localName] || 'textContent'
+          element[property] = value
+      }
     },
 
     add: {
