@@ -1,0 +1,3 @@
+[submodule "official/front"]
+	path = official/front
+	url = git@github.com:aleptra/front.git
