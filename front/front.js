@@ -1471,6 +1471,9 @@ var app = {
 
           document.head.appendChild(script)
         }
+
+        // Run vars if no modules.
+        if (app.modules.total === 0) app.assets.get.vars()
       },
 
       /**
