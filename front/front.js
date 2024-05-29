@@ -602,8 +602,8 @@ var dom = {
     }
   },
 
-  remove: function (object, arg) {
-    var target = arg ? dom.get(arg) : object
+  remove: function (object) {
+    var target = typeof object === 'string' ? dom.get(object) : object
     if (target) target.remove()
   },
 
@@ -1983,16 +1983,15 @@ var app = {
             }*/
 
             var responseData = this.responseText,
-              responseError = this.responseError
+              responseError = this.responseError // Get the parsing error message.
 
             if (target) {
               dom.set(target, responseData)
             }
 
+            //Todo: Fix so parsing problem shows. 
             if (responseError) {
-              dom.show(error)
-            } else {
-              dom.hide(error)
+              //dom.show(error)
             }
 
             if (onload) {
@@ -2002,8 +2001,7 @@ var app = {
             if (success) {
               //Todo: Move split to app.call. Check for Element reference "#"".
               var val = success.split(':')
-              console.log(val)
-              app.call(val[0], [srcEl, val[1]])
+              app.call(val[0], [val[1]])
             }
 
           } else if (status.clientError || status.serverError) {
@@ -2014,8 +2012,15 @@ var app = {
         }
 
         xhr.onerror = function () {
-          if (loader) dom.loader(loader)
-          if (error) dom.show(error)
+          if (srcEl) {
+            if (error) {
+              //Todo: Move split to app.call. Check for Element reference "#"".
+              var val = error.split(':')
+              app.call(val[0], [val[1]])
+            }
+          } else {
+            if (error) dom.show(error)
+          }
         }
 
         xhr.open(method, url + urlExtension, true)

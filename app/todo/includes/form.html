@@ -5,10 +5,12 @@
   action="{src}"
   data-header="apikey:{apikey}"
   data-success="rerun:#list"
+  data-error="show:#formerror"
   onformsubmit="reset"
 >
   <figure class="p1 shade1 bcwhite">
-    <input type="text" name="task" class="f2 p05 bos2 bw1 light" placeholder="Add task" autocomplete="off" required><p></p>
+    <input type="text" name="task" class="f2 p05 bos2 bw1 light" placeholder="Add task" autocomplete="off" required>
+    <div id="formerror" class="red" hide>Error!</div>
   </figure>
 </form>
 <h2 id="empty" class="tac" hide>List is empty. Add a task.</h2>
@@ -35,6 +37,7 @@
       data-header="#list"
       click="togglevalue"
       onvaluechange="data-patch"
+      onbeforeclick="alert:hej"
       width="24"
       height="24"
       class="fu"
@@ -42,11 +45,14 @@
     <input
       type="text"
       name="task"
+      id="t{id}"
       bindvar=":"
       data-set="id:id"
       data-get="task"
       data-patch="{src}?id=eq.{id}&limit=1&order=id"
       data-success="blur"
+      data-error="show:#josef{id}"
+      datas-loader="#josef"
       data-header="#list"
       keyboard-key="Enter"
       keyboard-action="data-patch"
@@ -56,6 +62,7 @@
       whitespace="pre-wrap"
       class="ml1 mr1 bs0 bw0"
     >
+    <small data-set="id:id" id="josef{id}" hide class="red" click="#t{id}">Error. <a click="rerun:#t{id}">Try again</a></small>
     <a
       type="button"
       bindvar=":"
