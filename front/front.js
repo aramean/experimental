@@ -228,8 +228,16 @@ var dom = {
         prefix = ''
         break
       default:
-        attr = attr
-        prefix = 'px'
+        // Extract the value and unit in the default case
+        var regex = /^(\d+)([a-z%]*)$/,
+          match = value.match(regex)
+
+        if (match) {
+          var numeric = parseFloat(match[1]), // Convert the value to a float
+            unit = match[2] || 'px'
+          value = numeric
+          prefix = unit
+        }
     }
 
     element.style[attr] = value + prefix
