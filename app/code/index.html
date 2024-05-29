@@ -44,7 +44,7 @@
   <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
   <header class="topbar h4 pr1 bcblack white- white shade1">
     <button click="toggle" clicktargetfield="aside[0]" class="ml1 dark p05 br50 hover-"><i class="icon24">≡</i></button>
-    <a class="ml1 mr1" href="./" globalize-get="note" uppercase bold>Note</a>
+    <a class="ml1 mr1" href="./" globalize-get="code" uppercase bold>Code</a>
     <input class="fr mr05" type="checkbox" id="autosave" onvaluechange="alert:hej">
     <label for="autosave">RUN</label>
   </header>
@@ -62,6 +62,7 @@
       data-patch="{url}?id=eq.{id}&limit=1&order=id"
       data-enctype="application/json"
       data-get="0.note"
+      whitespace="pre-wrap"
       contenteditable
       spellcheck="false"
     >
