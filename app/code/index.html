@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="version" content="1.0.0">
+  <script
+    src="../../front/front.js"
+    module="globalize;data;navigate;keyboard"
+    var="api"
+    conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:code"
+    globalize-conf="folder:assets/json/locales"
+    navigate-conf="startpage:experimental/app/note;startpageLocal:app/code">
+  </script>
+  <link type="text/css" href="../../front/front.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <link rel="icon" href="data:,">
+  <style>
+    [hide] {
+      display: none
+    }
+
+    .h100p{
+      height: 100%
+    }
+    
+    .zi50 {
+      z-index: 50
+    }
+
+    .jcc {
+      justify-content: center
+    }
+
+    .box *, .cards{
+      box-sizing: border-box;
+      width: 100%
+    }
+  </style>
+  <title>Code</title>
+</head>
+
+<body class="light">
+  <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
+  <header class="topbar h4 pr1 bcblack white- white shade1">
+    <button click="toggle" clicktargetfield="aside[0]" class="ml1 dark p05 br50 hover-"><i class="icon24">≡</i></button>
+    <a class="ml1 mr1" href="./" globalize-get="note" uppercase bold>Note</a>
+    <input class="fr mr05" type="checkbox" id="autosave" onvaluechange="alert:hej">
+    <label for="autosave">RUN</label>
+  </header>
+
+  <aside>
+    <code
+      class="f1 p1 bc0_h h100p w100p"
+      name="note"
+      bindasset="apikey:api.api_key;url:api.notes.url"
+      bindvar="id:1"
+      onvaluechange="data-patch"
+      data-src="{url}?id=eq.{id}"
+      data-header="apikey:{apikey}"
+      data-loader="#loader"
+      data-patch="{url}?id=eq.{id}&limit=1&order=id"
+      data-enctype="application/json"
+      data-get="0.note"
+      contenteditable
+    >
+    </code>
+  </aside>
+  <aside>
+    <iframe></iframe>
+  </aside>
+  <footer></footer>
+</body>
+
+</html>
