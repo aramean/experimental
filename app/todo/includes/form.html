@@ -4,8 +4,8 @@
   method="post"
   action="{src}"
   data-header="apikey:{apikey}"
-  data-success="rerun:#list"
-  data-error="show:#formerror"
+  data-onsuccess="rerun:#list"
+  data-onerror="show:#formerror"
   onformsubmit="reset"
 >
   <figure class="p1 shade1 bcwhite">
@@ -50,8 +50,8 @@
       data-set="id:id"
       data-get="task"
       data-patch="{src}?id=eq.{id}&limit=1&order=id"
-      data-success="blur"
-      data-error="show:#josef{id}"
+      data-onsuccess="blur"
+      data-onerror="show:#josef{id}"
       datas-loader="#josef"
       data-header="#list"
       keyboard-key="Enter"
@@ -69,7 +69,7 @@
       data-set="id:id"
       data-delete="{src}?id=eq.{id}"
       data-header="#list"
-      data-success="remove:#p{id}"
+      data-onsuccess="remove:#p{id}"
       click="data-delete"
       class="bc0 fu fr icon24 dimgray"
     >
