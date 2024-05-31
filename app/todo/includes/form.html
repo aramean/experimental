@@ -63,12 +63,12 @@
     >
     <small data-set="id:id" id="josef{id}" hide class="red" click="#t{id}">Error. <a click="rerun:#t{id}">Try again</a></small>
     <a
-      type="button"
       bindvar=":"
       data-set="id:id"
       data-delete="{src}?id=eq.{id}"
       data-header="#list"
       data-onsuccess="remove:#p{id}"
+      confirmtext="Are you sure?"
       onclickif="confirm:true"
       click="data-delete"
       class="bc0 fu fr icon24 dimgray"
