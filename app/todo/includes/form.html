@@ -37,7 +37,6 @@
       data-header="#list"
       click="togglevalue"
       onvaluechange="data-patch"
-      onbeforeclick="alert:hej"
       width="24"
       height="24"
       class="fu"
@@ -70,6 +69,7 @@
       data-delete="{src}?id=eq.{id}"
       data-header="#list"
       data-onsuccess="remove:#p{id}"
+      onclickif="confirm:true"
       click="data-delete"
       class="bc0 fu fr icon24 dimgray"
     >
