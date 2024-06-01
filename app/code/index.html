@@ -6,7 +6,7 @@
   <meta name="version" content="1.0.0">
   <script
     src="../../front/front.js"
-    module="globalize;data;navigate;keyboard"
+    module="globalize;data;navigate;keyboard;screen"
     var="api"
     conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:code"
     globalize-conf="folder:assets/json/locales"
@@ -22,12 +22,12 @@
   <header class="topbar h4 pr1 bcblack white- white shade1">
     <button click="toggle" clicktargetfield="aside[0]" class="ml1 dark p05 br50 hover-"><i class="icon24">≡</i></button>
     <a class="ml1 mr1" href="./" globalize-get="code" uppercase bold>Code</a>
-    <input class="fr mr05" type="checkbox" id="autosave" onvaluechange="alert:hej">
-    <label for="autosave">RUN</label>
+    <button click="reload:#preview" class="mr05 fr dark p05 br50 hover-"><i class="icon16">&#9658;</i></button>
   </header>
 
   <aside resize="horizontal">
     <code
+      id="code"
       class="f1 p1 bc0_h h100p w100p"
       name="note"
       bindasset="apikey:api.api_key;url:api.notes.url"
@@ -46,7 +46,7 @@
     </code>
   </aside>
   <main>
-    <iframe class="w100 h100 bw0 bcwhite"></iframe>
+    <iframe class="w100 h100 bw0 bcwhite" id="preview" src="includes/preview.html"></iframe>
   </main>
   <aside></aside>
   <footer></footer>
