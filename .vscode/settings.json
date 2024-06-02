@@ -20,5 +20,9 @@
     "titleBar.inactiveForeground": "#15202b99"
   },
   "peacock.color": "#f9e64f",
-  "git.openDiffOnClick": false
+  "git.openDiffOnClick": false,
+  "editor.tokenColorCustomizations": {
+    "comments": "",
+    "textMateRules": []
+  }
 }
