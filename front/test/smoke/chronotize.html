@@ -12,7 +12,9 @@
   </script>
 </head>
 
-<body data-src="assets/json/vars/chronotize.json" data-set="birth:#birth;birth:#birth2">
+<body
+  data-src="assets/json/vars/chronotize.json"
+  data-set="birth:birth;birth:birth2">
   <h1>Chronotize</h1>
   <hr>
   <h4>From text content:</h4>
@@ -23,7 +25,7 @@
   <p id="birth2" chronotize-age insertbeforeend=" years old"></p>
 
 <br>
-  <p class="f3 tal" chronotize-weekday globalize-geta>1987-04-30</p>
+  <p class="f3 tal" globalize-get chronotize-weekday>1987-04-30</p>
 
 
   <select class="h1 fs08" onvaluechange="globalize-set">
