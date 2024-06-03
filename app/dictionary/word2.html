@@ -25,7 +25,7 @@
       <ol class="pl05">
         <li><a href="search.html?q=*" globalize-get>Dictionary</a></li>
         <li><a bindquery="j:i" href="word.html?i={j}" globalize-get>Word</a></li>
-        <li refsettext="#translation"></li>
+        <li bindglobal="l:globalize.code" data-get="translation.{l}"></li>
       </ol>
     </nav>
     <div data-bind="test:hej" data-iterate="word" test="{test}" data-filter="willbesomething" class="box cards list mt1 br0- flc- bcwhite-">
