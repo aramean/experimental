@@ -38,6 +38,16 @@
     <textarea data-get="images.0"></textarea>
   </div>
 
+  <h4>Single</h4>
+  <div data-src="https://dummyjson.com/products/1">
+    <a bindvar=":" data-get="test:id" href="{test}" >Link</a>
+  </div>
+
+  <h4>Iterate</h4>
+  <div data-src="https://dummyjson.com/products" data-iterate="products">
+    <a bindvar=":" data-get="test:id;test2:id" href="{test}/{test2}" >Link</a>
+  </div>
+
 </body>
 
 </html>
