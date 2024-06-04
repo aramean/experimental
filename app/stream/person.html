@@ -1,14 +1,16 @@
 <script src="../../front/front.js"></script>
-<title>People</title>
+<title>Person</title>
 <style>.loader{display: inherit}</style>
-<template srcdoc="../app/stream/index" src="../app/stream/templates/people"></template>
+<template srcdoc="../app/stream/index"></template>
+<div id="error" class="red" hide>Person not found!</div>
+<div id="loader" class="loader"></div>
 <h2 bindglobal="title:title" settext="{title}" globalize-get="{title}"></h2>
 <hr class="bcblack01">
-<div id="loader" class="loader"></div>
 <div
   bindquery="id:id"
   data-src="https://api.tvmaze.com/people/{id}"
-  data-loader="#loader">
+  data-loader="#loader"
+  data-onerror="show:#error">
   <span class="p025">
     <figure class="pr">
       <img width="132px" data-get="image.medium">
