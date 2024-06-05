@@ -7,10 +7,9 @@
   <p>Word is not found!</p>
   <hr>
 </div>
-<article class="wc_xl">
-  <div id="loader" class="loader"></div>
+<div id="loader" class="loader"></div>
+<article id="success" class="wc_xl">
   <section
-    id="success"
     bindquery="i:i"
     bindasset="apikey:api.api_key;endpoint:api.words_aramaic.endpoint"
     bindglobal="l:globalize.code"
@@ -18,9 +17,8 @@
     data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
     data-set="translation.{l}:#translation"
     data-status="406;#status406"
-    data-onsuccess="show:#success"
+    data-onerror="hide:#success"
     data-loader="#loader"
-    hide
     >
     <h1 id="translation"></h1>
     <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
