@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="../../front.js" conf="debug:true"></script>
+</head>
+
+<body>
+  <main>
+    <div id="trim">#Trim#</div>
+    <div id="show" hide>SHOW</div>
+    <div id="hide">HIDE</div>
+    <div id="text">Text</div>
+    <div id="target"></div>
+  </main>
+  <script>
+    //var call = 'alert'
+    //app.callOld(call, [null, 'alert text'])
+
+    /*var call = 'trim'
+    app.callOld(call, ['#trim', '#'])
+
+    var call = 'show'
+    app.callOld(call, ['#show'])
+
+    var call = 'hide'
+    app.callOld(call, ['#hide'])
+
+    var call = 'sethtml'
+    app.callOld(call, ['#text', 'value'])*/
+
+    //app.call('attr1')
+    //app.call('attr1;attr2')
+
+    app.call('set2:#', {
+      mapfunc: 'sethtml',
+      value: 'App call: test',
+      element: dom.get('#target')
+    })
+
+    /*app.call('insertbeforeend:5')
+    app.call('math-compute', {
+      'current': null,
+      'target': null,
+      'targetvalue': 'statevalue'
+    })
+    app.call('sethtml:#target')
+    app.call('math-compute:hej')
+    */
+
+  </script>
+</body>
+
+</html>

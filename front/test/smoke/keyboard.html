@@ -21,13 +21,13 @@
   <h2>With scope:</h2>
   <h3>Body</h3>
   <a keyboard-key="b" keyboard-action="alert:You pressed B" keyboard-scope="body">Press B</a><br>
-  <a keyboard-key="c" keyboard-action="sethref://www.microsoft.com" keyboard-scope="body" href="//www.google.com" onchangehref="settext:Go to Microsoft" target="_blank">Press C</a><br>
+  <a keyboard-key="c" keyboard-action="sethref://www.microsoft.com" keyboard-scope="body" href="//www.google.com" onhrefchange="settext:Go to Microsoft" target="_blank">Press C</a><br>
   <span keyboard-key="d" keyboard-action="click" keyboard-scope="body" value="0" click="setvalue:jkasdjklsajdk">Press D</span><br>
 
   <div keyboard-key="e" keyboard-action="settext:You pressed E" keyboard-scope="body">Press E</div><br>
   <a keyboard-key="f" keyboard-action="settext:Changed text" keyboard-scope="body">Press F</a><br>
-  <a keyboard-key="g" keyboard-action="click" click="sethref:#href" onchangehref="alert:href" keyboard-scope="body">Press G</a><br>
-
+  <a keyboard-key="g" keyboard-action="sethref:?\#hej" onhrefchange="alert:hej" keyboard-scope="body" href="ss">Press G</a><br>
+  
   <h3>Enter</h3>
   <input type="text" statevalue="0" keyboard-key="Enter" keyboard-action="alert:hej" keyboard-scope>
 </body>

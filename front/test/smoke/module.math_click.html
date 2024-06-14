@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script
+    src="../../front.js"
+    module="math">
+  </script>
+</head>
+
+<body>
+  <h1>Math</h1>
+  <section>
+    <input
+      type="text"
+      id="result"
+      value="5+5" 
+      statevalue="5+5"
+    >
+  <button type="button" click="math-compute:#result.statevalue" clicktargetattr="statevalue">Compute statevalue attribute in field</button>
+  </section>
+  <section>
+    <input
+      type="text"
+      id="result2"
+      value="5+5"
+    >
+    <button click="math-compute:#result2">Click me</button>
+    <button click="math-compute:#result2" clicktargetfield="#result2">Click me</button>
+    <button click="math-compute" clicktargetfield="#result2">Click me</button>
+  </section>
+  <section>
+    <input
+      type="text"
+      id="result3"
+      value="2+2"
+    >
+    <button click="math-compute:#result3">Click me</button>
+    <button click="math-compute:#result3" clicktargetfield="#result3">Click me</button>
+    <button click="math-compute:#" value="2+2">Click me</button>
+  </section>
+  <section>
+    <input
+      type="text"
+      id="result4"
+      value="0"
+    >
+    <button click="math-compute:##result4" value="2+2">Click me</button>
+  </section>
+</body>
+
+</html>

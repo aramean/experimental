@@ -56,12 +56,11 @@
       disable-onbeforevaluechange="alert"
       disable-onaftervaluechange="alert"
       onvaluechangenew="sanitize:number[-0][0]+symbol[0][,]"
-      onvaluechangeif="0;#reset;set[C]?set[AC]"
-      onstatevaluechange="format:compute"
+      onvaluechangeif="0;#reset;settext[C]?settext[AC]"
+      onstatevaluechange=""
       onstatevaluechangeif="/[0-9]+/;#result;set[0]"
       readonly
     >
-
     <div class="fdc">
       <div class="p1- mb05">
         <button id="reset" class="button w4r" type="button" keyboard-key="c" keyboard-action="click" click="resetvalue" clicktargetfield="#result">AC</button>
@@ -95,7 +94,7 @@
     <div class="p1- mb05">
       <button class="button w8r" type="button" keyboard-key="0" keyboard-action="click" click="insertbeforeend:0" clicktargetfield="#result">0</button>
       <button class="button w4r" type="button" keyboard-key="," keyboard-action="click" click="insertbeforeend:," clicktargetfield="#result">,</button>
-      <button class="button w4r bcgold" type="button" keyboard-key="Enter" keyboard-action="click" click="math-compute" clicktargetfield="#result:statevalue">=</button>
+      <button class="button w4r bcgold" type="button" keyboard-key="Enter" keyboard-action="click" click="math-compute:#result.statevalue;math-compute:#result.statevalue#result.value" clicktargetfield1="#result:statevalue">=</button>
     </div>
   </main>
 </body>

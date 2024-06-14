@@ -14,16 +14,21 @@
 <body>
   <h1>Click</h1>
   <hr>
+  <button click="alert:Hello world">Alert</button><br>
   <button click="math-compute">Compute 5+5</button><br>
   <button click="settext:Hello">Call Settext</button><br>
-  <button click="trimright:#">#Trim right#</button>
-  <button click="trimleft:#">#Trim left#</button>
-  <button click="trim:#">#Trim#</button><br>
-  <button click="escape">&#36;</button>
+  <button click="trimright:\#">#Trim right#</button>
+  <button click="trimleft:\#">#Trim left#</button>
+  <button click="trim:\#">#Trim#</button><br>
+  <input type="text" click="trim:" value=" Trim "><br>
+  <button click="escape:">&#36;</button>
 
   <h1>Click with target</h1>
-  <button click="math-compute" clicktargetfield="#test1">5+5</button><input id="test1" value=""><br>
-  <button click="setvalue:Hello" clicktargetfield="#test2">Set</button><input id="test2" value="">
+  <button click="math-compute:##test1" clicktargetfield="#test1">5+5</button><input id="test1" value=""><br>
+  <button click="math-compute:#fromvalue#test10">Compute</button><span id="fromvalue">10+10</span><input id="test10" value=""><br>
+  <button click="math-compute:#fromvalue2.statevalue#test11">Compute</button><span id="fromvalue2" statevalue="5+5">0</span><input id="test11" value=""><br>
+  <button click="math-compute:#test2" clicktargetfield="#test2">10+10</button><input id="test2" value="10+10"><br>
+  <button click="setvalue:Hello" clicktargetfield="#test3">Set</button><input id="test3" value="">
   <hr>
 
 </body>
