@@ -2,52 +2,35 @@
 <html>
 
 <head>
-  <script src="../../front.js" conf="debug:true"></script>
+  <script src="../../front.js" conf="debug:true" module="math"></script>
 </head>
 
 <body>
   <main>
-    <div id="trim">#Trim#</div>
-    <div id="show" hide>SHOW</div>
-    <div id="hide">HIDE</div>
-    <div id="text">Text</div>
-    <div id="target"></div>
+    <b>trim: </b><span id="trim">NOT OK</span><br>
+    <b>show: </b><span id="show" hide>OK</span><br>
+    <b>hide: </b><span id="hide">OK</span><br>
+    <b>insertbeforeend: </b><span id="insertbeforeend"></span><br>
+    <b>sethtml: </b><span id="sethtml"></span>
   </main>
   <script>
-    //var call = 'alert'
-    //app.callOld(call, [null, 'alert text'])
+    app.call('trim:NOT', {
+      element: dom.get('#trim')
+    })
 
-    /*var call = 'trim'
-    app.callOld(call, ['#trim', '#'])
+    app.call('show:#show', {})
 
-    var call = 'show'
-    app.callOld(call, ['#show'])
-
-    var call = 'hide'
-    app.callOld(call, ['#hide'])
-
-    var call = 'sethtml'
-    app.callOld(call, ['#text', 'value'])*/
-
-    //app.call('attr1')
-    //app.call('attr1;attr2')
+    app.call('hide:#hide', {})
 
     app.call('set2:#', {
       mapfunc: 'sethtml',
-      value: 'App call: test',
-      element: dom.get('#target')
+      value: 'OK',
+      element: dom.get('#sethtml')
     })
 
-    /*app.call('insertbeforeend:5')
-    app.call('math-compute', {
-      'current': null,
-      'target': null,
-      'targetvalue': 'statevalue'
+    app.call('insertbeforeend:OK', {
+      element: dom.get('#insertbeforeend')
     })
-    app.call('sethtml:#target')
-    app.call('math-compute:hej')
-    */
-
   </script>
 </body>
 
