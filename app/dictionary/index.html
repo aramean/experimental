@@ -29,15 +29,20 @@
           <img class="br50 w4r mb05 bos2 red bw3 shade2 hue-rotate m0a" src="https://www.aramean.institute/favicon.ico">
           <h1 class="z09 dimgray" globalize-get="title">Aramaic Dictionary</h1>
         </div>
-        <form method="get" action="search.html" target="_top" class="mt1 mb5">
+        <form method="get" action="search.html" target="_top" class="mt1 mb5 pr">
           <input
             type="text"
             name="q"
-            class="bs1 p1 h3 br05 dark white w100 w100 bs0"
+            class="bs1 p1 h3 br05 dark white w100 w100 pr4 bs0"
             globalize-get="input_search"
-            globalize-target="placeholder" 
+            globalize-target="placeholder"
             focus
             autocomplete="off">
+          <input
+            type="submit"
+            class="bs0 dark white p1 h3 br05 w5 icon icon16 pa r0"
+            value="&#128269;"
+            style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
           <!--<select name="dialects" class="tac z07 mt1">
             <option value="" globalize-get>All dialects</option>
             <optgroup globalize-get="aramaic_modern" globalize-target="label">
@@ -73,7 +78,10 @@
               <option value="oar">Alamaya - Sam'al</option>
             </optgroup>
           </select>-->
-          </form>
+          <div margintop="40" class="m0a z09 bo1">
+            <a click="alert:hej"><i class="icon icon24" marginright="5">&#127922;</i> Random</a>
+          </div>
+        </form>  
       </section>
     </article>
   </main>
