@@ -315,25 +315,25 @@ app.module.data = {
     return result
   },
 
-  patch: function (object) {
+  reqpatch: function (object) {
     if (object.exec) {
       this._request('patch', object.exec.element)
     }
   },
 
-  post: function (object) {
+  reqpost: function (object) {
     if (object.exec) {
       this._request('post', object.exec.element)
     }
   },
 
-  getnew: function (object) {
+  reqget: function (object) {
     if (object.exec) {
       this._request('get', object.exec.element)
     }
   },
 
-  delete: function (object) {
+  reqdelete: function (object) {
     if (object.exec) {
       this._request('delete', object.exec.element)
     }
@@ -346,7 +346,7 @@ app.module.data = {
       error = attr['data-onerror'],
       loader = attr['data-loader'],
       empty = attr['data-onempty'],
-      url = attr['data-' + method]
+      url = attr['data-req' + method]
 
     // Support header reference.
     if (headers && headers.value[0] === '#') {

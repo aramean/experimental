@@ -5,5 +5,8 @@
   },
   "words_aramaic": {
     "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words_aramaic"
+  },
+  "word_random": {
+    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_random"
   }
 }
