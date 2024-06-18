@@ -327,6 +327,12 @@ app.module.data = {
     }
   },
 
+  getnew: function (object) {
+    if (object.exec) {
+      this._request('get', object.exec.element)
+    }
+  },
+
   delete: function (object) {
     if (object.exec) {
       this._request('delete', object.exec.element)
@@ -343,12 +349,12 @@ app.module.data = {
       url = attr['data-' + method]
 
     // Support header reference.
-    if (headers.value[0] === '#') {
+    if (headers && headers.value[0] === '#') {
       headers = dom.get(headers.value).attributes['data-header']
     }
 
     // Support action attribute.
-    if (srcEl.localName === 'form') {
+    if (srcEl && srcEl.localName === 'form') {
       url = attr['action']
     }
 

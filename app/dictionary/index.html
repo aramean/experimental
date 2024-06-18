@@ -78,7 +78,11 @@
             </optgroup>
           </select>-->
           <div margintop="40" class="m0a z09 bo1">
-            <a click="alert:hej"><i class="icon icon24" marginright="5">&#127922;</i> Random</a>
+            <a
+              click="data-getnew"
+              bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
+              data-getnew="{endpoint}/rpc/word_random"
+            ><i class="icon icon24" marginright="5">&#127922;</i> Random</a>
           </div>
         </form>  
       </section>
