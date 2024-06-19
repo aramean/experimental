@@ -22,7 +22,7 @@
 >
   <a bindvar=":" data-get="id:id;link:media_type" href="{link:{link}}.html?id={id}" class="p025">
     <figure class="pr">
-      <img class="br05" width="100%" data-get="poster_path" insertafterbegin="https://image.tmdb.org/t/p/w220_and_h330_face">
+      <img class="br05" width="100%" data-set="poster_path:poster_path" setsrc="https://image.tmdb.org/t/p/w220_and_h330_face/{poster_path}">
       <figcaption class="z1 pa md_dn b0 fs08 white ts05 bcblack02 w100" data-get="title || name"></figcaption>
     </figure>
   </a>
