@@ -1152,8 +1152,10 @@ var app = {
             break
           case 'html':
             if (localName === 'iframe') {
-              var y = element.contentDocument || element.contentWindow.document
-              y.body.innerHTML = value
+              var iframe = element.contentDocument || element.contentWindow.document
+              iframe.open()
+              iframe.write(value)
+              iframe.close()
             } else {
               element.innerHTML = value
             }
