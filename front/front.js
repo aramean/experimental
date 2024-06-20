@@ -478,6 +478,8 @@ var dom = {
    * @desc Converts the contents of an element to uppercase letters.
    */
   uppercase: function (object, first) {
+    console.error(object)
+    if (object.exec) object = object.exec.element
     object.innerHTML = !first || first === 'true' ? object.innerHTML.toUpperCase() : object.innerHTML.charAt(0).toUpperCase() + object.innerHTML.slice(1)
   },
 
