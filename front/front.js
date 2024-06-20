@@ -1167,7 +1167,7 @@ var app = {
         return
       }
 
-      switch (type || localName) {
+      switch (type) {
         case 'checkbox':
           element.checked = value === 'true' ? true : false
           break
