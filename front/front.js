@@ -1636,7 +1636,6 @@ var app = {
           var isStartpage = srcDoc && i === 0 ? true : false,
             currentTemplate = isStartpage ? srcDoc : src[i + hasStartpage]
 
-          //TODO: fix path problem
           app.xhr.request({
             url: window.location.origin + window.location.pathname + '/' + currentTemplate + '.html',
             type: 'template',
