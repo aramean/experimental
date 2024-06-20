@@ -4,7 +4,7 @@
 <head>
   <script
     src="../../front.js"
-    module="navigate;chronotize;data;globalize"
+    module="chronotize;data;globalize"
     var="api"
     conf="varsDir:assets/json/vars"
     globalize-conf="folder:assets/json/locales"
@@ -22,11 +22,7 @@
   <h4>From data source + beforebegin:</h4>
   <p id="birth" insertafterbegin="Age: " chronotize-age>19870430</p>
   <h4>From data source + bind + insert:</h4>
-  <p id="birth2" chronotize-age insertbeforeend=" years old"></p>
-
-<br>
-  <p class="f3 tal" globalize-get chronotize-weekday>1987-04-30</p>
-
+  <p id="birth2" insertbeforeend=" years old" chronotize-age>1987-04-30</p>
 
   <select class="h1 fs08" onvaluechange="globalize-set">
     <option selected></option>
