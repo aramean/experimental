@@ -1141,7 +1141,9 @@ var app = {
     },
 
     set: function (element, value, attr) {
-      attr = element.exec ? element.targetattr : attr
+      attr = element.exec ? element.targetattr : attr,
+        type = element.type,
+        localName = element.localName
       if (attr) {
         attr = attr.replace('set', '')
         switch (attr) {
@@ -1149,7 +1151,12 @@ var app = {
             element.textContent = value
             break
           case 'html':
-            element.innerHTML = value
+            if (localName === 'iframe') {
+              var y = element.contentDocument || element.contentWindow.document
+              y.body.innerHTML = value
+            } else {
+              element.innerHTML = value
+            }
             break
           case 'value':
             element.value = value
@@ -1160,17 +1167,12 @@ var app = {
         return
       }
 
-      switch (element.type || element.localName) {
+      switch (type || localName) {
         case 'checkbox':
           element.checked = value === 'true' ? true : false
           break
-        case 'iframe':
-          var y = (element.contentWindow || element.contentDocument)
-          if (y.document) y = y.document
-          y.body.innerHTML = '<html><b>Test</b></html>'
-          break
         default:
-          var property = this.propertyMap[element.localName] || 'textContent'
+          var property = this.propertyMap[localName] || 'textContent'
           element[property] = value
       }
     },
