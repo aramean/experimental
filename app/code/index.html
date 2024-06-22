@@ -7,10 +7,11 @@
   <script
     src="../../front/front.js"
     module="globalize;data;navigate;keyboard;screen"
-    plugin="syntax_highlighting"
+    plugin="syntaxhighlighting"
     var="api"
     conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:code"
     globalize-conf="folder:assets/json/locales"
+    syntaxhighlighting-conf=""
     navigate-conf="startpage:experimental/app/note;startpageLocal:app/code">
   </script>
   <link type="text/css" href="../../front/front.css" rel="stylesheet">
@@ -44,6 +45,7 @@
       data-get="0.note"
       whitespace="pre-wrap"
       contenteditable
+      syntaxhighlighting--set="ftml"
       spellcheck="false"
     >
     </code>
