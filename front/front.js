@@ -2078,8 +2078,8 @@ var app = {
                 && app.vars.loaded === (app.vars.total + app.vars.totalStore)
                 && type !== 'template' && type !== 'data') {
 
-                console.log('Extensions loaded:', app.extensions.loaded + '/' + app.extensions.total)
-                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+                /*console.log('Extensions loaded:', app.extensions.loaded + '/' + app.extensions.total)
+                console.log('Vars loaded:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))*/
 
                 app.disable(false)
                 app.attributes.run()
