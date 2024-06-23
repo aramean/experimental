@@ -7,8 +7,8 @@ app.plugin.syntaxhighlighting = {
   set: function (object) {
     var text = app.element.get(object)
     console.log(text)
-    console.dir(object)
-    object.innerHTML = this._colorize(object.innerHTML, 'colors:silver,cornsilk,navajowhite,slategray,green')
+    console.dir(object.textContent)
+    object.textContent = this._colorize(object.textContent, 'colors:silver,cornsilk,navajowhite,slategray,green')
   },
 
   _colorize: function (text, attr) {
