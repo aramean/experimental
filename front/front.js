@@ -1002,6 +1002,7 @@ var app = {
    */
   call: function (run, options) {
     var runArray = run && run.split(';')
+    console.error(runArray)
     for (var i = 0; i < runArray.length; i++) {
       var parts = runArray[i].split(':')
       var args = options || {}
