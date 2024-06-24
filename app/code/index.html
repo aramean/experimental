@@ -38,7 +38,7 @@
       onvaluechange="data-reqpatch"
       data-src="{url}?id=eq.{id}"
       data-get="0.note"
-      data-onfinish="sethtml:#code#preview;alert"
+      data-onfinish="syntaxhighlighting--set:#code;sethtml:#code#preview"
       data-onsuccess="sethtml:#code#preview"
       data-header="apikey:{apikey}"
       data-loader="#loader"
@@ -46,7 +46,7 @@
       data-enctype="application/json"
       whitespace="pre-wrap"
       contenteditable
-      syntaxhighlighting--set="ftml"
+      ssyntaxhighlighting--set="ftml"
       spellcheck="false"
     >
     </code>

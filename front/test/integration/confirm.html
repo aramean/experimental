@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="../../front.js" conf="debug:true" module="math"></script>
+</head>
+
+<body>
+  <main>
+    <b>confirm: </b><span id="confirm">OK</span><br>
+  </main>
+  <script>
+    app.call('confirm', {
+      element: dom.get('#confirm'),
+      value: 'Confirm?'
+    })
+  </script>
+</body>
+
+</html>

@@ -5,20 +5,14 @@ app.plugin.syntaxhighlighting = {
   __autoload: function () { },
 
   set: function (object) {
-    var text = app.element.get(object)
-    console.log(text)
-    console.dir(object.textContent)
-    object.textContent = this._colorize(object.textContent, 'colors:silver,cornsilk,navajowhite,slategray,green')
+    if (object.exec) object = object.exec.element
+    object.innerHTML = this._colorize(object.innerHTML, 'silver,cornsilk,navajowhite,slategray,green')
   },
 
-  _colorize: function (text, attr) {
-    var color = []
-console.dir(text)
-    for (var val in attr) {
-      var prop = attr[val].split(":")
-      if (prop[0] == "colors")
-        color = prop[1].split(",")
-    }
+  _colorize: function (text, colors) {
+    var color = colors.split(',')
+
+    console.log(color)
 
     //Name
     text = text.replace(/(&#0060;\w+|&#0060;&#0047;\w+)/ig, function (x) {
@@ -47,6 +41,8 @@ console.dir(text)
     text = text.replace(/<\w+\s+\S+&#0033;&#0045;&#0045;.(.*?).&#0045;&#0045;<\w+\s+\S+>/ig, function (x, y) {
       return '<span class="' + color[4] + '">' + dom.removeAllTags(x) + '</span>'
     })
+
+    console.dir(text)
 
     return text
   }
