@@ -25,7 +25,7 @@
   <header class="topbar h4 pr1 bcblack white- white shade1">
     <button click="toggle" clicktargetfield="aside[0]" class="ml1 dark p05 br50 hover-"><i class="icon24">≡</i></button>
     <a class="ml1 mr1" href="./" globalize-get="code" uppercase bold>Code</a>
-    <button click="sethtml:#code#preview" class="mr05 fr dark p05 br50 hover-"><i class="icon16">&#9658;</i></button>
+    <button click="sethtml:#preview:#code" class="mr05 fr dark p05 br50 hover-"><i class="icon16">&#9658;</i></button>
   </header>
 
   <aside resize="horizontal">
@@ -38,10 +38,10 @@
       onvaluechange="data-reqpatch"
       data-src="{url}?id=eq.{id}"
       data-get="0.note"
+      data-ongetload="sethtml:#preview:#code"
       data-onfinish="syntaxhighlighting--set:#code"
-      data-onsuccess="sethtml:#code#preview"
+      data-onsuccess="sethtml:#preview:#code"
       data-header="apikey:{apikey}"
-      data-loader="#loader"
       data-reqpatch="{url}?id=eq.{id}&limit=1&order=id"
       data-enctype="application/json"
       whitespace="pre-wrap"

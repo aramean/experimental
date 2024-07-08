@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="../../front.js" conf="debug:false"></script>
+  <script>
+    window.addEventListener('load', function () {
+      app.callBest('trim:#trim:[NOT]')
+      app.callBest('show:#show')
+      app.callBest('hide:#hide')
+      app.callBest('hide:#hide;show:#hide')
+      app.callBest('sethtml:#sethtml:[OK]')
+      app.callBest('insertbeforeend:#insertbeforeend:[OK]')
+      //app.callBest('setvalue:#setvalue:[OK]')
+      app.callBest('settext:#settext:[OK]')
+      app.callBest('settext:#settextT:#settextF')
+      app.callBest('sethref:#sethref:[https://www.front.nu]')
+      app.callBest('blur:#blur')
+      app.callBest('focus:#focus')
+      app.callBest('uppercase:#uppercase')
+      app.callBest('lowercase:#lowercase')
+      app.callBest('bold:#bold')
+      app.callBest('remove:#remove')
+      //app.callBest('alert:[OK]')
+      app.callBest('marginleft:#marginleft:[30px]')
+      app.callBest('settext:#settextT:#settextF')
+    })
+  </script>
+</head>
+
+<body>
+  <main>
+    <b>trim: </b><span id="trim">NOT OK</span><br>
+    <b>show: </b><span id="show" hide>OK</span><br>
+    <b>hide: </b><span id="hide">OK</span><br>
+    <b>insertbeforeend: </b><span id="insertbeforeend"></span><br>
+    <b>sethtml: </b><span id="sethtml"></span><br>
+    <b>settext: </b><span id="settext"></span><br>
+    <b>settext (2): </b><span id="settextF">OK</span> <span id="settextT"></span><br>
+    <b>setvalue: </b><span id="setvalue" value="NOT OK" onvaluechange="sethtml:[OK]"></span><br>
+    <b>uppercase: </b><span id="uppercase">ok</span><br>
+    <b>lowercase: </b><span id="lowercase">OK</span><br>
+    <button id="blur">Blur</button><br>
+    <b>attribute: </b><span id="attribute" runattribute="sethtml:#attribute:[OK]"></span><br>
+    <b>sethref: </b><a href="#" id="sethref" target="_blank">Link</a><br>
+    <b>bold: </b><span id="bold">OK</span><br>
+    <b>focus: </b><input id="focus"></input><br>
+    <b>remove: </b><div id="remove" onsuccessremove="alert:yes">NOT OK</div><br>
+
+
+    <div href="#" click="sethref:[#OK]">link</div>
+    <div bold="">bold</div>
+    <div marginleft="10px" id="marginleft">aaa</div>
+    <div hide show>sss</div>
+  </main>
+</body>
+
+</html>
