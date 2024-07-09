@@ -33,6 +33,7 @@
           <input
             type="text"
             name="q"
+            id="q"
             class="bs1 p1 h3 br05 dark white w100 w100 pr3 bs0"
             globalize-get="input_search"
             globalize-target="placeholder"
@@ -83,6 +84,7 @@
               bindasset="apikey:api.api_key;endpoint:api.word_random.endpoint"
               data-reqget="{endpoint}"
               data-header="apikey:{apikey}"
+              data-onsuccess="setvalue:#q:[];submit:[form[0]]"
             ><i class="icon icon24" marginright="5">&#127922;</i> Random</a>
           </div>
         </form>  
