@@ -85,12 +85,14 @@
           <div margintop="40" class="m0a z09 bo1">
             <a
               click="data-reqget"
+              onclicked="hide"
+              ondata-reqget="log:[ondata-reqget]"
               bindasset="apikey:api.api_key;endpoint:api.word_random.endpoint"
               data-reqget="{endpoint}"
-              data-header="apikey:{apikey}"
-              data-onreqget="alert:[OK]"
-              onbindasset=""
-              data-onsuccess="setvalue:#q:[new value]"
+              data-header="apikey:{apikey};Accept:application/vnd.pgrst.object+json"
+              data-onbeforesuccess="data-set:word:id"
+              data-onsuccess="setvalue:#q:[{word}]"
+              data-onaftersuccess="submit:[form[0]]"
             ><i class="icon icon24" marginright="5">&#127922;</i> Random</a>
           </div>
         </form>  
