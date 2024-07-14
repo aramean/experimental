@@ -29,7 +29,7 @@
           <img class="br50 w4r mb05 bos2 red bw3 shade2 hue-rotate m0a" src="https://www.aramean.institute/favicon.ico">
           <h1 class="z09 dimgray" globalize-get="title">Aramaic Dictionary</h1>
         </div>
-        <form method="get" action="search.html" target="_top" class="mt1 mb5 pr">
+        <form id="form" method="get" action="search.html" target="_top" class="mt1 mb5 pr">
           <input
             type="text"
             name="q"
@@ -40,8 +40,6 @@
             onsetvalue="focus"
             onfocused="select:[0,10]"
             autocomplete="off"
-            click="log:[click]"
-            onclicked="log:[onclicked]"
             focus>
           <input
             type="submit"
@@ -85,13 +83,12 @@
           <div margintop="40" class="m0a z09 bo1">
             <a
               click="data-reqget"
-              onclicked="hide"
               bindasset="apikey:api.api_key;endpoint:api.word_random.endpoint"
               data-header="apikey:{apikey};Accept:application/vnd.pgrst.object+json"
               data-reqget="{endpoint}"
               ondata-reqget="log:[ondata-reqget]"
-              data-onbeforesuccess="data-set:[word:id]"
-              data-onaftersuccess="setvalue:#q:[{word}]"
+              data-onbeforesuccess="data-set:[word:id];setaction:#form:[word.html];setname:#q:[i]"
+              data-onaftersuccess="setvalue:#q:[{word}];submit:[form[0]]"
             ><i class="icon icon24" marginright="5">&#127922;</i> Random</a>
           </div>
         </form>  
