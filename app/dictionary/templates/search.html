@@ -37,8 +37,29 @@
       <a href="#language"><i class="icon pr025">🌐</i><span globalize-get>Language</span></a>
     </div>
   </header>
-  <aside></aside>
+  <aside>
+    <nav class="sidebar pt1 w15 white- shade3">
+      <form form-filter="true">
+        <div class="md_du">
+          <a click="toggle" marginbottom="1rem" clicktargetfield="aside[0]" keyboard-key="m" keyboard-action="click" keyboard-scope="body" class="button pl1"><i class="icon32">«</i></a>
+         <hr class="bcblack">
+          <div class="tac w100" margintop="1rem">
+            <img class="br50 w3r mb05 bos8 red bw3 shade2 hue-rotate m0a" src="https://www.aramean.institute/favicon.ico">
+            <h6 class="bold" globalize-get="title"></h6>
+          </div>
+          <hr class="bcblack">
+        </div>
+        <details open="">
+          <summary globalize-get="language">Language</summary>
+          <span bindvar=":" bindglobal="language:language">
+            <a href="#">Svenska</a>
+            <a href="#">English</a>
+          </span>
+        </details>
+      </form>
+    </nav>
+  </aside>
   <main class="pauto"></main>
-  <aside class="testar"></aside>
+  <aside></aside>
   <footer></footer>
 </template>
