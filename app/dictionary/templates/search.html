@@ -31,7 +31,7 @@
         <p class="m1" bindfield="q:#query2">No results found for <b>{q}</b></p>
       </div>
     </div>
-    <button click="toggle" clicktargetfield="aside[0]" class="md_du light pl1"><i class="icon32">≡</i></button>
+    <button click="toggle" clicktargetfield="aside[1]" class="md_du light pl1"><i class="icon32">≡</i></button>
     <div class="gap1- fs07 pl1 pr05 md_dn">
       <a href="browse.html"><i class="icon pr025">≡</i><span globalize-get>Browse</span></a>
       <details class="md_dn">
@@ -44,13 +44,15 @@
       </details>
     </div>
   </header>
+  <aside></aside>
+  <main class="pauto"></main>
   <aside>
     <nav class="sidebar pt1 w15 white- shade3">
       <form form-filter="true">
         <div class="md_du">
-          <a click="toggle" marginbottom="1rem" clicktargetfield="aside[0]" keyboard-key="m" keyboard-action="click" keyboard-scope="body" class="button pl1"><i class="icon32">«</i></a>
-         <hr class="bcblack">
-          <div class="tac w100" margintop="1rem">
+          <a click="toggle" marginbottom="1rem" clicktargetfield="aside[1]" keyboard-key="m" keyboard-action="click" keyboard-scope="body" class="button pl1"><i class="icon32">«</i></a>
+          <hr class="bcblack">
+          <div class="tac w100" margintop="0.5rem">
             <img class="br50 w3r mb05 bos8 red bw3 shade2 hue-rotate m0a" src="https://www.aramean.institute/favicon.ico">
             <h6 class="bold" globalize-get="title"></h6>
           </div>
@@ -66,7 +68,5 @@
       </form>
     </nav>
   </aside>
-  <main class="pauto"></main>
-  <aside></aside>
   <footer></footer>
 </template>
