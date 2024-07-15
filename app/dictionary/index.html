@@ -89,8 +89,8 @@
               <option value="oar">Alamaya - Sam'al</option>
             </optgroup>
           </select>-->
-          <div margintop="2rem" class="m0a z08">
-            <a
+          <div class="m0a z08 p2 jcc tac" style="flex-wrap: wrap">
+            <a class="aic p05 shade1 bclinen"
               click="data-reqget"
               bindasset="apikey:api.api_key;endpoint:api.word_random.endpoint"
               data-header="apikey:{apikey};Accept:application/vnd.pgrst.object+json"
@@ -98,9 +98,14 @@
               ondata-reqget="log:[ondata-reqget]"
               data-onbeforesuccess="data-set:[word:id];setaction:#form:[word.html];setname:#q:[i]"
               data-onaftersuccess="setvalue:#q:[{word}];submit:[form[0]]"
-            ><i class="icon icon24" marginright="5">&#127922;</i> Random</a>
+            >
+              <i class="icon icon24" marginright="5">&#127922;</i> Random word
+            </a>
+            <a class="aic p05 shade1 bcsnow" href="word_of_the_day.html">
+              <i class="icon icon24" marginright="5">&#128293;</i> Word of the day
+            </a>
           </div>
-        </form>  
+        </form>
       </section>
     </article>
   </main>
