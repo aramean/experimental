@@ -8,5 +8,8 @@
   },
   "word_random": {
     "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_random"
+  },
+  "word_of_the_day": {
+    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_of_the_day"
   }
 }

@@ -1,5 +1,5 @@
 <script src="../../front/front.js"></script>
-<title globalize-get>Word of the day</title>
+<title globalize-get>Word of the Day</title>
 <template srcdoc="../index" src="../templates/search"></template>
 <div id="status406" class="tac" hide>
   <img class="br50 m0a w10r h10r bos2 bcred red bw3 shade1 hue-rotate mb2" setsrc="https://www.aramean.institute/assets/img/syriac_aramean_tell_halaf_flag.svg">
@@ -11,22 +11,19 @@
 <article id="success" class="wc_xl">
   <section
     bindquery="i:i"
-    bindasset="apikey:api.api_key;endpoint:api.words_aramaic.endpoint"
+    bindasset="apikey:api.api_key;endpoint:api.word_of_the_day.endpoint"
     bindglobal="l:globalize.code"
-    data-src="{endpoint}?id=eq.{i}"
+    data-src="{endpoint}"
     data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
-    data-set="translation.{l}:#translation"
+    data-set="word.{l}:#translation"
     data-status="406;#status406"
     data-onerror="hide:#success"
     data-loader="#loader"
     >
-    <h1 id="translation"></h1>
-    <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
-      <ol class="pl05">
-        <li><a href="search.html?q=*" globalize-get>Dictionary</a></li>
-        <li><a bindquery="j:i" href="word.html?i={j}" globalize-get>Word</a></li>
-        <li bindglobal="l:globalize.code" data-get="translation.{l}"></li>
-      </ol>
+    <h1 globalize-get>Word of the Day</h1>
+    <h2 chronotize-get="Y-m-d H:i:s"></h2>
+    <nav class="crumbs bcwhite pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
+      <h1 class="tac p2" bindglobal="l:globalize.code" id="translation">Word</h1>
     </nav>
     <div data-bind="test:bindthroughcore" data-iterate="word" test="{test}" data-filter="willbesomething" class="box cards list mt1 br0- flc- bcwhite-">
       <h6 class="p05 pl1 black06 fs08" data-get="[*]" globalize-get></h6>
