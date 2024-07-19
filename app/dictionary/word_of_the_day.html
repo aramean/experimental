@@ -15,15 +15,15 @@
     bindglobal="l:globalize.code"
     data-src="{endpoint}"
     data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
-    data-set="word.{l}:#translation"
     data-status="406;#status406"
     data-onerror="hide:#success"
     data-loader="#loader"
+    globalize-onset="rerun"
     >
     <h1 globalize-get>Word of the Day</h1>
     <h2 chronotize-get="F d, Y"></h2>
     <nav class="bcwhite pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">
-      <h1 class="tac p2" bindglobal="l:globalize.code" id="translation">Word</h1>
+      <h1 class="tac p2" bindglobal="l:globalize.code" id="translation" data-get="word.{l}"></h1>
     </nav>
     <!--<div data-bind="test:bindthroughcore" data-iterate="word" test="{test}" data-filter="willbesomething" class="box cards list mt1 br0- flc- bcwhite-">
       <h6 class="p05 pl1 black06 fs08" data-get="[*]" globalize-get></h6>
