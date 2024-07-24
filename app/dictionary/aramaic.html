@@ -1,0 +1,22 @@
+<script src="https://cdn.front.nu/nightly/front.js"></script>
+<template srcdoc="../index" src="../templates/search"></template>
+<title globalize-get>Aramaic</title>
+<section class="wc_xl">
+  <h1 class="z08" globalize-get>Estrangel(o/a)</h1>
+  <hr class="shade1">
+  <div
+    id="categories"
+    class="box cards mt05 mb1 gut2- br05- xs_gtc2 xm_gtc2 md_gtc3 lg_gtc4 xl_gtc5 xxl_gtc6 xxxl_gtc7 br0- flc-"
+    bindasset="apikey:api.api_key;endpoint:api.abgad.endpoint"
+    data-src="{endpoint}"
+    data-header="apikey:{apikey};Prefer:count=exact"
+    data-iterate="true"
+    globalize-onsetload="rerun"
+    >
+    <a class="bcwhite" data-set="id:id" href="./search.html?category={id}">
+      <figure class="p1 tac">
+        <h3 class="f2" margintop="10" bindglobal="l:globalize.code" data-get="char" uppercase></h3>
+      </figure>
+    </a>
+  </div>
+</section>

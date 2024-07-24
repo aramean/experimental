@@ -11,5 +11,8 @@
   },
   "word_of_the_day": {
     "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_of_the_day"
+  },
+  "abgad": {
+    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/characters_syc"
   }
 }

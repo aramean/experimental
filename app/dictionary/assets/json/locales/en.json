@@ -16,10 +16,11 @@
     "title": "Aramaic Dictionary",
     "input_search": "Search for words...",
     "Go-to Word": "Go-to Word",
-    "oar": "Aramaya",
+    "arc": "Aramaya",
     "syc": "Suryaya",
     "syh": "Suret",
     "syr": "Suryoyo",
-    "syt": "Surayt"
+    "syt": "Surayt",
+    "oar": "Aram"
   }
 }
