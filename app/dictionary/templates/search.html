@@ -3,14 +3,21 @@
     <figure class="sel p075">
       <a href="./"><img class="br50 bos2 red bw3 shade1 hue-rotate" src="https://www.aramean.institute/favicon.ico"></a>
     </figure>
-    <div class="ml0 pr f1 zi3">
-      <input
-        id="query2"
-        type="text"
-        class="bs1 p1 h3 br05 dark white w100 zi3"
-        globalize-get="input_search"
-        globalize-target="placeholder"
-        autocomplete="off">
+    <div class="ml0 pr f1">
+      <form class="zi3" id="form" method="get" action="search.html" target="_top">
+        <input
+          id="query2"
+          name="q"
+          type="text"
+          class="bs1 p1 h3 br05 dark white w100 zi3"
+          globalize-get="input_search"
+          globalize-target="placeholder"
+          autocomplete="off">
+          <input
+          type="submit"
+          class="bos0 bc0 white p1 h5 w4 icon icon16 pa r0"
+          value="&#128269;">
+      </form>
       <div
         stop="data-src"
         bindglobal="l:globalize.code"
@@ -70,6 +77,8 @@
         <a href="browse.html">Browse</a>
         <a href="#">Randomize word</a>
         <a href="word-of-the-day.html">Word of the Day</a>
+
+        <a href="phonetics.html">Phonetics</a>
       </form>
     </nav>
   </aside>
