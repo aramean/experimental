@@ -4,7 +4,7 @@
   <section
     bindquery="i:i"
     bindasset="apikey:api.humans.api_key;endpoint:api.humans.endpoint"
-    data-src="{endpoint}?select=id,first_name,middle_name,last_name,birth,death,sex,gender,blood_type,marital_status,health_status&or=(id.eq.{i})"
+    data-src="{endpoint}?select=id,first_name,middle_name,last_name,birth,death,ethnicity,sex,gender,blood_type,marital_status,health_status&or=(id.eq.{i})"
     data-header="apikey:{apikey};Accept:application/vnd.pgrst.object+json"
     data-set="language:#language"
   >
@@ -44,11 +44,11 @@
           </figure>
           <figure>
             <small>Blood type</small>
-            <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Death date" maxlength="3" minlength="3" data-get="death.date" required>
+            <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Death date" maxlength="3" minlength="3" data-get="blood_type" required>
           </figure>
           <figure>
             <small>Ethnicity</small>
-            <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Death date" maxlength="3" minlength="3" data-get="death.date" required>
+            <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Death date" maxlength="3" minlength="3" data-get="ethnicity" required>
           </figure>
           <figure>
             <small>Religion</small>
