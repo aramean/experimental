@@ -20,6 +20,7 @@
     "Manage": "Hantera",
     "Train": "Träna",
     "title": "Lingvistiskt Hanteringssystem",
-    "input_search": "Sök efter ord..."
+    "input_search": "Sök efter ord...",
+    "Show Words": "Visa ord"
   }
 }
