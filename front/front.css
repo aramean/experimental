@@ -19,7 +19,7 @@
   outline: none !important
 }
 
-*,
+*:not(dialog),
 form,
 .df,
 .df- * {
@@ -147,10 +147,6 @@ code *,
 
 dialog,
 .modal {
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: flex;
   overflow: auto
 }
 
