@@ -1892,10 +1892,6 @@ var app = {
           stop = attributes.stop && !ignore ? attributes.stop.value.split(';') : [],
           exclude = stop && excludes.indexOf('stop') === -1 ? excludes.concat(stop) : excludes
 
-        for (var j = 0; j < runorder.length; j++) {
-          orderMap[runorder[j]] = j
-        }
-
         attributes = [].slice.call(attributes)
 
         // Normalize attributes for IE.
@@ -1903,12 +1899,18 @@ var app = {
           attributes = array.reverse()
         }
 
-        // Sort attributes based on runorder.
-        attributes.sort(function (a, b) {
-          var indexA = orderMap[a.name] !== undefined ? orderMap[a.name] : Number.MAX_VALUE
-          var indexB = orderMap[b.name] !== undefined ? orderMap[b.name] : Number.MAX_VALUE
-          return indexA - indexB
-        })
+        if (runorder) {
+          for (var j = 0; j < runorder.length; j++) {
+            orderMap[runorder[j]] = j
+          }
+
+          // Sort attributes based on runorder.
+          attributes.sort(function (a, b) {
+            var indexA = orderMap[a.name] !== undefined ? orderMap[a.name] : Number.MAX_VALUE,
+            indexB = orderMap[b.name] !== undefined ? orderMap[b.name] : Number.MAX_VALUE
+            return indexA - indexB
+          })
+        }
 
         if (run !== 'false') {
           for (var j = 0; j < attributes.length; j++) {
