@@ -1907,7 +1907,7 @@ var app = {
           // Sort attributes based on runorder.
           attributes.sort(function (a, b) {
             var indexA = orderMap[a.name] !== undefined ? orderMap[a.name] : Number.MAX_VALUE,
-            indexB = orderMap[b.name] !== undefined ? orderMap[b.name] : Number.MAX_VALUE
+              indexB = orderMap[b.name] !== undefined ? orderMap[b.name] : Number.MAX_VALUE
             return indexA - indexB
           })
         }
