@@ -1,6 +1,0 @@
-[submodule "official/front"]
-	path = official/front
-	url = git@github.com:aleptra/front.git
-[submodule "official/aramean-institute-dictionary"]
-	path = official/aramean-institute-dictionary
-	url = git@github.com:aramean-institute/front-aramean-institute-dictionary.git
