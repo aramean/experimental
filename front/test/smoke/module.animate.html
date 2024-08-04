@@ -9,11 +9,22 @@
   <h1>Animate</h1>
   <hr>
   <button
-    id="animate" 
-    animate-key="rotate(0deg); rotate(180deg); rotate(360deg)"
-    animate-load="ease-in-out"
-    animate-interval="2s"
-    click="animate-start">Start rotate 0,180,360deg</button>
+    id="animate1"
+    animate-key="0;50;100"
+    animate-transform="rotate(0deg); rotate(180deg); rotate(360deg)"
+    animate-easing="ease-in-out"
+    animate-duration="2s"
+    click="animate-start:#animate1"
+    mouseover="click">Start Rotate</button>
+
+  <button
+    id="animate2"
+    animate-key="0;50;100"
+    animate-transform="scale(1); scale(1.5); scale(1)"
+    animate-easing="ease-in-out"
+    animate-duration="1s"
+    click="animate-start:#animate2"
+    mouseover="click">Start Scale</button>
 
 </body>
 
