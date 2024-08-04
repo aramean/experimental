@@ -11,7 +11,7 @@
   <button
     id="animate1"
     animate-key="0;50;100"
-    animate-transform="rotate(0deg); rotate(180deg); rotate(360deg)"
+    animate-transform="rotate(0deg);rotate(180deg);rotate(360deg)"
     animate-easing="ease-in-out"
     animate-duration="2s"
     click="animate-start:#animate1"
@@ -20,10 +20,19 @@
   <button
     id="animate2"
     animate-key="0;50;100"
-    animate-transform="scale(1); scale(1.5); scale(1)"
+    animate-transform="scale(1);scale(1.5);scale(1)"
     animate-easing="ease-in-out"
     animate-duration="1s"
     click="animate-start:#animate2"
+    mouseover="click">Start Scale</button>
+
+  <button
+    id="animate3"
+    animate-key="0;100"
+    animate-transform="translateX(-100px) translateY(100px)"
+    animate-easing="ease-in-out"
+    animate-duration="1s"
+    click="animate-start:#animate3"
     mouseover="click">Start Scale</button>
 
 </body>

@@ -3,16 +3,16 @@
 app.module.animate = {
   start: function (element, value) {
     var element = element.exec && element.exec.element,
-      keyframePercentages = element.getAttribute("animate-key").replace(/\s*;\s*/g, ';').split(';'),
-      transforms = element.getAttribute("animate-transform").replace(/\s*;\s*/g, ';').split(';'),
+      keyframePercentages = (element.getAttribute("animate-key") || '').replace(/\s*;\s*/g, ';').split(';'),
+      transforms = (element.getAttribute("animate-transform") || '').replace(/\s*;\s*/g, ';').split(';'),
       easing = element.getAttribute("animate-easing"),
       duration = element.getAttribute("animate-duration"),
       name = 'animate-' + element.id,
       keyframesCSS = ''
 
     // Generate CSS for keyframes
-    for (var j = 0; j < transforms.length; j++) {
-      var percentage = keyframePercentages[j] || (j * (100 / (transforms.length - 1)))
+    for (var j = 0; j < keyframePercentages.length; j++) {
+      var percentage = keyframePercentages[j] || (j * (100 / (keyframePercentages.length - 1)))
       keyframesCSS += percentage + '% { transform: ' + transforms[j] + ' }'
     }
 
