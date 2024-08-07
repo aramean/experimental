@@ -701,10 +701,10 @@ var dom = {
 
     switch (object.originalAttribute) {
       case 'mapclass':
-        object.classList = cache.data[value] || ''
+         object.style.margin = cache.data['class'][value] || ''
         break
       case 'mapmargin':
-        console.log('mapmargin')
+         object.style.margin = cache.data['margin'][value] || ''
         break
     }
   },
