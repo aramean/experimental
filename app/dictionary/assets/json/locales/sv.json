@@ -11,7 +11,7 @@
     "aramaic_old": "Arameiska (Forn)",
     "aramaic_imperial": "Arameiska (Imperialistisk)",
     "Browse": "Bläddra",
-    "Browse by category": "Bläddra efter kategori",
+    "Browse by letter": "Bläddra efter kategori",
     "Dictionary": "Ordbok",
     "Word": "Ord",
     "Language": "Språk",
@@ -24,10 +24,13 @@
     "Go-to Word": "Gå till ord",
     "amw": "Aromay",
     "arc": "Aramaya",
+    "eng": "Engelska",
+    "heb": "Hebreiska",
     "syc": "Suryaya",
     "syh": "Suret",
     "syr": "Suryoyo",
     "syt": "Surayt",
-    "oar": "Aram"
+    "swe": "Svenska",
+    "oar": "Aramay"
   }
 }

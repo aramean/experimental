@@ -4,7 +4,7 @@
     "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words"
   },
   "words_aramaic": {
-    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words_aramaic"
+    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words"
   },
   "word_random": {
     "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_random"
@@ -13,6 +13,6 @@
     "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_of_the_day"
   },
   "abgad": {
-    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/characters_syc"
+    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/characters_"
   }
 }

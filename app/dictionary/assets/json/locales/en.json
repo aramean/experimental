@@ -11,16 +11,19 @@
     "aramaic_old": "Aramaic (Old)",
     "aramaic_imperial": "Aramaic (Imperial)",
     "Browse": "Browse",
-    "Browse by category": "Browse by category",
+    "Browse by letter": "Browse by category",
     "Categories": "Categories",
     "title": "Dictionary",
     "input_search": "Search for words...",
     "Go-to Word": "Go-to Word",
     "arc": "Aramaya",
+    "eng": "English",
+    "heb": "Hebrew",
     "syc": "Suryaya",
     "syh": "Suret",
     "syr": "Suryoyo",
     "syt": "Surayt",
-    "oar": "Aram"
+    "swe": "Swedish",
+    "oar": "Aramay"
   }
 }

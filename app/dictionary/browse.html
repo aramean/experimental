@@ -2,21 +2,20 @@
 <template srcdoc="../index" src="../templates/search"></template>
 <title globalize-get>Browse</title>
 <section class="wc_xl">
-  <h1 class="z08" globalize-get>Browse by category</h1>
+  <h1 class="z08" globalize-get>Browse by letter</h1>
   <hr class="shade1">
   <div
     id="categories"
     class="box cards mt05 mb1 gut2- br05- xs_gtc2 xm_gtc2 md_gtc3 lg_gtc4 xl_gtc5 xxl_gtc6 xxxl_gtc7 br0- flc-"
-    bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
-    data-src="{endpoint}?select=id,word&and=(taxonomy.is.null)"
-    data-header="apikey:{apikey};Prefer:count=exact"
+    bindasset="apikey:api.api_key;endpoint:api.abgad.endpoint"
+    data-src="{endpoint}eng?type=eq.{alphabetic}&or=(category.eq.{uppercase_letter})&order=char.asc"
+    data-header="apikey:{apikey}"
     data-iterate="true"
     globalize-onsetload="rerun"
     >
-    <a class="bcwhite" data-set="id:id" href="./search.html?category={id}">
+    <a class="bcwhite" data-set="char:char" href="./search.html?q={char}">
       <figure class="p1 tac">
-        <i class="icon icon32">&#9733;</i>
-        <small class="f2 z09" margintop="10" bindglobal="l:globalize.code" data-get="word.{l}" uppercase></small>
+        <h5 class="f2" data-get="char" uppercase></h5>
       </figure>
     </a>
   </div>
