@@ -697,7 +697,8 @@ var dom = {
    */
   map: function (object, value) {
     var object = typeof object === 'string' ? dom.get(object) : object,
-      cache = app.caches.get('window', 'var', 'enum')
+      cache = app.caches.get('window', 'var', 'enum'),
+      func = object.originalAttribute
 
     switch (object.originalAttribute) {
       case 'mapclass':
