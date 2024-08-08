@@ -25,8 +25,21 @@ app.module.canvas = {
       } else {
         grad = ctx.createLinearGradient(0, 0, c.width, 0);
       }
-      grad.addColorStop(0, "lightblue");
-      grad.addColorStop(1, "darkblue");
+
+      // Apply gradient stops from canvas-grad-stops attribute
+      var gradStops = element.getAttribute("canvas-grad-stops");
+      if (gradStops) {
+        var stops = gradStops.split(',');
+        for (var i = 0; i < stops.length; i++) {
+          var stop = stops[i].split('[');
+          if (stop.length === 2) {
+            var color = stop[0];
+            var position = stop[1].replace(']', ''); // Remove the closing bracket
+            grad.addColorStop(parseFloat(position), color);
+          }
+        }
+      }
+
       ctx.fillStyle = grad;
     }
 
