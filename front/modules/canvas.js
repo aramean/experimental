@@ -18,12 +18,12 @@ app.module.canvas = {
 
     // Apply gradient if canvas-grad is present
     if (element.hasAttribute("canvas-grad")) {
-      var orientation = element.getAttribute("canvas-grad-orientation") || "horizontal";
-      var grad;
+      var orientation = element.getAttribute("canvas-grad-orientation") || "horizontal",
+        grad
       if (orientation === "vertical") {
-        grad = ctx.createLinearGradient(0, 0, 0, c.height);
+        grad = ctx.createLinearGradient(0, 0, 0, c.height)
       } else {
-        grad = ctx.createLinearGradient(0, 0, c.width, 0);
+        grad = ctx.createLinearGradient(0, 0, c.width, 0)
       }
 
       // Apply gradient stops from canvas-grad-stops attribute
