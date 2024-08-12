@@ -464,7 +464,7 @@ var dom = {
    * @param {string} value - The message to display in the dialog box.
    */
   alert: function (object, value) {
-    alert(object.exec.value || value)
+    alert(object.exec ? object.exec.value : value)
   },
 
   /**
