@@ -18,9 +18,11 @@
         bindasset="genre:api.themoviedb.genre.{endpoint3}"
         data-src="{genre}&language={language}"
         data-iterate="genres"
+        data-loader="#sidebarloader"
       >
         <a data-get="name" globalize-get data-set="i:id" bindquery="page:page" href="?genres={i}&page={page:1}"></a>
       </span>
     </details>
+    <div id="sidebarloader" marginleft="2rem">Loading...</div>
   </form>
 </nav>
