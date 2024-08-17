@@ -50,14 +50,17 @@
       type="text"
       id="result"
       class="pl05 pr05 mb1 bos2 bw1 bclavender z14"
+
       value="0" 
-      statevalue="0"
       onvaluechange="sanitize:[^0+(?=\d)|[^0-9,]|(,)(?=.*,)]"
+      onvaluechangeif="0:settext:#reset:[AC]?settext:#reset:[C]"
+
+      statevalue="0"
+      onstatevaluechangeif="/[0-9]+/;#result;set[0]"
+      
       disable-onbeforevaluechange="alert"
       disable-onaftervaluechange="alert"
       disable-onvaluechangenew="sanitize:number[-0][0]+symbol[0][,]"
-      onvaluechangeif="0;#reset;settext[C]?settext[AC]"
-      onstatevaluechangeif="/[0-9]+/;#result;set[0]"
       readonly
     >
     <div class="fdc">
