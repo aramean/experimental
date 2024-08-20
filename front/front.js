@@ -746,7 +746,6 @@ var dom = {
           data2 = data[test[0]] || ''
         console.log(data2)
         dom.bind(object, test[0] + ':' + data2, 'mapbindvar')
-        //console.log(object, value)
         break
     }
   },
