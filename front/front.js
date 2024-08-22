@@ -1226,7 +1226,7 @@ var app = {
       }
     })
 
-    app.listeners.add(document, 'change', function (e) {
+    app.listeners.add(document, 'input', function (e) {
       app.listeners.change('input', e.target, false, e)
     })
   },
