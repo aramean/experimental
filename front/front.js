@@ -750,8 +750,8 @@ var dom = {
       case 'mapbindvar':
         var test = value.split(':')
         //console.log(test[0])
-        data = cache.data[func.replace('map', '')][test[1]] || '',
-          data2 = data[test[0]] || ''
+        data = cache.data[func.replace('map', '')][test[1]] || ''
+        var data2 = data[test[0]] || ''
         //console.log(data2)
         dom.bind(object, test[0] + ':' + data2, 'mapbindvar')
         break
