@@ -1835,6 +1835,7 @@ var app = {
           localStorage.setItem(key, JSON.stringify(cacheData))
           break
         case 'session':
+          alert('yeah')
           sessionStorage.setItem(key, JSON.stringify(cacheData))
           break
         case 'cookie':
