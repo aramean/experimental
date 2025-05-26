@@ -436,8 +436,15 @@ app.module.data = {
   },
 
   _merge: function (response, responseJoin, merge) {
-    response.data[merge] = responseJoin.data[merge]
-    return { data: response.data, status: response.status }
+      var keys = merge.split(';')
+      keys.forEach(function (key) {
+        if (responseJoin.data.hasOwnProperty(key)) {
+          response.data[key] = responseJoin.data[key]
+        } else {
+          console.warn('Missing key in responseJoin.data:', key)
+        }
+      })
+      return { data: response.data, status: response.status }
   },
 
   _filter: function (response, item, key) {
