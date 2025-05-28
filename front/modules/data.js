@@ -327,9 +327,8 @@ app.module.data = {
       var fullObject = options.fullObject,
         keys = options.keys,
         keyAtIndex = keys && keys[options.index]
-
       if (value.indexOf('[*].') !== -1) {
-        var key = value.replace('[*]', keyAtIndex)
+        var key = value.replace(value.slice(-1) === '.' ? '[*].' : '[*]', keyAtIndex)
         return app.element.getPropertyByPath(fullObject, key)
       } else if (value === '[*]') {
         return keyAtIndex
