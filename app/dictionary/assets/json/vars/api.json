@@ -3,11 +3,8 @@
   "words": {
     "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words"
   },
-  "words_aramaic": {
-    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/words"
-  },
   "word_random": {
-    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_random"
+    "endpoint": "https://api.aleptra.com/humanology/?table=human_language_word"
   },
   "word_of_the_day": {
     "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_of_the_day"
