@@ -4,6 +4,6 @@
 <h1 id="empty" hide bindquery="q:q" class="tac">No results found for <b>{q}</b></h1>
 <div
   bindasset="endpoint:api.words.endpoint"
-  bindvar="src:{endpoint}?select=*&word->>{l}=ilike.{q}*"
+  bindvar="src:{endpoint}&select=*&where=word->>{l}.ilike.({q}*)"
   include="includes/search.html">
 </div>
