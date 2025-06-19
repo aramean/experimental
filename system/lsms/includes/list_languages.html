@@ -7,7 +7,7 @@
   bindglobal="l:globalize.code"
   bindfield="search:#query"
   ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
-  data-src="{src}?isSign=eq.false&isExtinct=is.null&language->>{l}=ilike.*{search}*"
+  data-src="{src}&where=isSign.eq(false),isExtinct.eq(null),language->>{l}.ilike(*{search}*)"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader"
   data-onempty="#empty"

@@ -4,7 +4,7 @@
   <section
     bindquery="i:i"
     bindasset="apikey:api.api_key;endpoint:api.languages.endpoint"
-    data-src="{endpoint}?select=*&or=(id.eq.{i})"
+    data-src="{endpoint}&column=*&where=id.eq({i})"
     data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
     data-set="language:#language"
   >
