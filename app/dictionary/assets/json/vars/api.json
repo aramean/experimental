@@ -7,7 +7,7 @@
     "endpoint": "https://api.aleptra.com/humanology/?table=human_language_word"
   },
   "word_of_the_day": {
-    "endpoint": "https://cehhbnpbfqgkyyggvkic.supabase.co/rest/v1/rpc/word_of_the_day"
+    "endpoint": "https://api.aleptra.com/humanology/?function=human_language_word_of_the_day()"
   },
   "abgad": {
     "endpoint": "https://api.aleptra.com/humanology/?table=human_script_character_"
