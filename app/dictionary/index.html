@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="version" content="1.0.0">
   <script
-    src="https://cdn.front.nu/nightly/front.js"
+    src="../../front/front.js"
     module="globalize;chronotize;data;navigate;keyboard"
     var="api;enum"
     conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:dictionary;frontSrcLocal:../../front/front.js"
@@ -37,7 +37,8 @@
         <div class="tac w100">
           <h1 class="z09 dimgray" globalize-get="title">Dictionary</h1>
         </div>
-        <form id="form" method="get" action="search.html" target="_top" class="mt1 mb5 pr">
+        <form id="form" method="get" action="search.html" onformsubmit="setname:#i:[]" target="_top" class="mt1 mb5 pr">
+          <input type="hidden" id="i" value="">
           <input
             type="text"
             name="q"
@@ -96,9 +97,8 @@
               bindasset="apikey:api.api_key;endpoint:api.word_random.endpoint"
               data-header="apikey:{apikey};Accept:application/json+single"
               data-reqget="{endpoint}&order=random()&limit=1"
-              ondata-reqget="log:[ondata-reqget]"
-              data-onbeforesuccess="data-set:[word:id];setaction:#form:[word.html];setname:#q:[i]"
-              data-onaftersuccess="setvalue:#q:[{word}];submit:[form[0]]"
+              data-onbeforesuccess="data-set:[word:id];setaction:#form:[word.html];setname:#i:[i]"
+              data-onaftersuccess="setvalue:#i:[{word}];submit:[form[0]]"
             >
               <i class="icon icon24" marginright="5">&#127922;</i> <span globalize-get>Randomize word</span>
             </a>
