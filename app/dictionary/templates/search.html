@@ -75,7 +75,15 @@
           </div>
         </div>
         <a href="browse.html" globalize-get>Browse</a>
-        <a href="#" globalize-get>Randomize word</a>
+        <a
+          click="data-reqget"
+          bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
+          data-header="Accept:application/json+single"
+          data-reqget="{endpoint}&order=random()&limit=1"
+          data-onbeforesuccess="data-set:[word:id]"
+          data-onaftersuccess="sethref:[word.html?i={word}]"
+          onhrefchange="navigate-go"
+          globalize-get>Randomize word</a>
         <a href="word-of-the-day.html" globalize-get>Word of the Day</a>
         <a href="phonetics.html" globalize-get>Phonetics</a>
       </form>
