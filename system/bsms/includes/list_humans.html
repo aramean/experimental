@@ -19,7 +19,9 @@
         data-get="first_name.{l:eng}"
       ></span>&nbsp;<span 
         bindglobal="l:globalize.code"
-        data-get="middle_name.{l:eng}"></span><span
+        data-set="m:middle_name.{l:eng}"
+        onifdata-set="([{m}]![]);settext:[{m}&nbsp;]"
+      ></span><span
         bindglobal="l:globalize.code"
         data-get="last_name.{l:eng}"
       ></span>
