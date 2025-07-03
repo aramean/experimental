@@ -4,8 +4,8 @@
   "direction": "ltr",
   "translations": {
     "app": {
-      "name": "Human Sciences Management System",
-      "abbreviation": "HSMS"
+      "name": "Existential Sciences Management System",
+      "abbreviation": "ESMS"
     },
     "Change language": "Change language",
     "All dialects": "All dialects",
@@ -17,7 +17,7 @@
     "Browse": "Browse",
     "Categories": "Categories",
     "Manage": "Manage",
-    "title": "Human Sciences Management System",
+    "title": "Existential Sciences Management System",
     "input_search": "Search for words...",
     "Continue": "Continue"
   }
