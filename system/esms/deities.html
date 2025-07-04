@@ -1,0 +1,32 @@
+<script src="../../front/front.js"></script>
+<title>Deities</title>
+<template srcdoc="../index" src="../templates/main"></template>
+<div include="includes/dialog_deities.html"></div>
+<div class="df aic">
+  <h1 class="f1">Deities</h1>
+  <button click="dialog" class="button round br50 w2r h2r fr bcblack white aic bs1"><i id="updateDetails" class="icon16">&#8854;</i></button>
+</div>
+<hr class="bcblack01 mt1">
+<div class="df mb1 gap1-">
+  <input
+    id="query"
+    type="text"
+    value=""
+    class="bs1 f3 p1 h3 br05"
+    globalize-get="human"
+    globalize-target="placeholder"
+    autocomplete="off"
+  >
+  <select
+    id="sort"
+    class="bs1 f0 p1 h3 br05 fs08"
+    globalize-target="placeholder"
+  >
+  <option>Updated</option>
+  </select>
+</div>
+<div
+  bindasset="endpoint:api.deities.endpoint"
+  bindvar="src:{endpoint};href:deities;field:deity"
+  include="includes/list_deities.html">
+</div>
