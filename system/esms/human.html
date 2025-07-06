@@ -1,11 +1,34 @@
 <script src="../../front/front.js"></script>
 <title>Language</title>
 <template srcdoc="../index" src="../templates/main"></template>
-<section bindquery="i:i" bindasset="apikey:api.humans.api_key;endpoint:api.humans.endpoint"
+<section
+  bindquery="i:i"
+  bindasset="apikey:api.humans.api_key;endpoint:api.humans.endpoint"
   data-src="{endpoint}&select=id,first_name,middle_name,last_name,birth,death,ethnicity,sex,gender,blood_type,marital_status,health_status&where=id.eq({i})"
-  data-header="apikey:{apikey};Accept:application/json+single" data-set="language:#language">
-  <h1 keyboard-key="Enter" keyboard-action="alert:save" keyboard-scope form="" bindglobal="l:globalize.code"
-    data-get="first_name.{l}">&nbsp;</h1>
+  data-header="apikey:{apikey};Accept:application/json+single"
+  >
+  <h2 settext="test" ontextchange="bindvar:([josef][a])"></h2>
+  <h3 bindvar="j:a">{josef}</h3>
+    <h1
+      bindglobal="c:globalize.code"
+      data-set="f:first_name.{c:eng};m:middle_name.{c:eng};l:last_name.{c:eng}"
+      onifdata-set="([{m}]![]);"
+      settext="{f} {m}{space}{l}"
+    ></h1>
+     <!--<p>
+       <span 
+        bindglobal="l:globalize.code"
+        data-get="first_name.{l:eng}"
+      ></span>&nbsp;<span 
+        bindglobal="l:globalize.code"
+        data-set="m:middle_name.{l:eng}"
+        onifdata-set="([{m}]![]);settext:[{m}&nbsp;]"
+      ></span><span
+        bindglobal="l:globalize.code"
+        data-get="last_name.{l:eng}"
+      ></span>
+    </p>-->
+
   <hr class="bcblack01 mt1">
 
   <!--<div class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6 gut2-">
