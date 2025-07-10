@@ -7,12 +7,11 @@
   data-src="{endpoint}&select=id,first_name,middle_name,last_name,birth,death,ethnicity,sex,gender,blood_type,marital_status,health_status&where=id.eq({i})"
   data-header="apikey:{apikey};Accept:application/json+single"
   >
-  <h2 settext="test" ontextchange="bindvar:([josef][a])"></h2>
-  <h3 bindvar="j:a">{josef}</h3>
     <h1
+      id="name"
       bindglobal="c:globalize.code"
       data-set="f:first_name.{c:eng};m:middle_name.{c:eng};l:last_name.{c:eng}"
-      onifdata-set="([{m}]![]);"
+      onifdata-set="([{m}]![]);bindvar:#name:[space][ ]?bindvar:#name:[space][]"
       settext="{f} {m}{space}{l}"
     ></h1>
      <!--<p>
