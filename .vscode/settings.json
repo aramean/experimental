@@ -24,5 +24,6 @@
   "editor.tokenColorCustomizations": {
     "comments": "",
     "textMateRules": []
-  }
+  },
+  "editor.stickyScroll.enabled": false,
 }
