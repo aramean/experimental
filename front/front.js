@@ -1102,7 +1102,7 @@ var dom = {
   },
 
   iterate: function (element, value) {
-    dom.stop(element) // Stop all attributes in element .
+    dom.stop(element) // Stop all attributes in element.
     var values = value.split(';'),
       start = parseInt(values[0]),
       stop = parseInt(values[1]),
