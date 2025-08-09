@@ -16,13 +16,13 @@
       <option value="am">አማርኛ</option>
     </select>
 
-    <section iterate="1;6;i">
+    <section iterate="1;2;i">
       <details>
-        <summary>Database (X{i})</summary>
+        <summary>Database ({i})</summary>
         <details
           bindasset="apikey:api.databases.x{i}.api_key;x:api.databases.x{i}.endpoint"
           data-src="{x}"
-          data-header="apikey:{apikey};Prefer:count=exact"
+          data-header="apikey:{apikey}"
           data-iterate="definitions"
           data-onempty="#error{i}"
           open>
