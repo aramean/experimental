@@ -4,8 +4,8 @@
   <section
     bindquery="i:i"
     bindasset="apikey:api.api_key;endpoint:api.characters.endpoint"
-    data-src="{endpoint}?select=*&or=(id.eq.{i})"
-    data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
+    data-src="{endpoint}&select=*&where=id.eq({i})"
+    data-header="apikey:{apikey};Accept:application/json+single"
     data-set="char:#char"
   >
     <h1 bindglobal="l:globalize.code" data-get="name">&nbsp;</h1>
