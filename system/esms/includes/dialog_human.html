@@ -1,20 +1,55 @@
-<dialog id="favDialog" class="modals">
-  <form method="dialog">
-    <button id="close" aria-label="close" formnovalidate>X</button>
-    <section>
-      <p>
-        <label for="favAnimal">Favorite animal:</label>
-        <select id="favAnimal" name="favAnimal">
-          <option></option>
-          <option>Brine shrimp</option>
-          <option>Red panda</option>
-          <option>Spider monkey</option>
-        </select>
-      </p>
-    </section>
-    <menu>
-      <button type="reset">Reset</button>
-      <button type="submit">Confirm</button>
+<dialog id="favDialog" class="modals" margin="0 auto" border="0">
+  <button id="close" aria-label="close" formnovalidate>X</button>
+  <form
+    class="gaph2" 
+    bindasset="action:api.humans.endpoint" 
+    method="post" 
+    action="{action}" 
+    data-onsuccess="rerun:#list" 
+    data-onerror="show:#formerror">
+    <div class="group outline- gap2">
+      <input name="first_name" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="First Name"
+        globalize="first_name" jsonget="first_name" required="">
+      <input name="middle_name" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Middle Name"
+        globalize="middle_name" jsonget="middle_name">
+      <input name="last_name" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Last Name"
+        globalize="last_name" jsonget="last_name" required="">
+    </div>
+    <i globalize="date_of_birth">Date of birth</i>
+    <div class="box gut2-">
+      <select class="phdark bw1 bos8 bocblack02" name="birth_date_year" variable="i:1900" jsonget="birth_date_year"
+        placeholder="-" required="" select="1990">
+        <option selected="true" disabled="">-</option>
+      </select>
+      <select class="phdark bw1 bos8 bocblack02" name="birth_date_month" variable="i:01" jsonget="birth_date_month"
+        placeholder="-" required="" select="7">
+        <option selected="true" disabled="">-</option>
+      </select>
+      <select class="phdark bw1 bos8 bocblack02" name="birth_date_day" variable="i:01" jsonget="birth_date_day"
+        placeholder="-" required="" select="20">
+        <option selected="true" disabled="">-</option>
+      </select>
+    </div>
+
+    <i globalize="country_of_birth">Country of birth</i>
+    <div class="group">
+      <select class="phdark bw1 bos8 bocblack02" id="birth_country" name="birth_country" iterate="true" json="true"
+        datasource="https://api.aleptra.com/geography/?table=geography_country&amp;order=country-&gt;&gt;eng"
+        dataheader="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMTA0Mzc4NywiZXhwIjoxOTM2NjE5Nzg3fQ.vok7K5RJkQTP25mLjJ09co5neL4wxt5O1oIdd9E9m40"
+        ondone="_.populate(this.aEl)" populate="residence_country" jsonget="birth_country" placeholder="-" required=""
+        select="340" jsonindex="3">
+        <option selected="true" disabled="">-</option>
+      </select>
+    </div>
+
+    <i globalize="country_of_residence">Country of residence</i>
+    <div class="group">
+      <select class="phdark bw1 bos8 bocblack02" id="residence_country" name="residence_country">
+        <option selected="true" disabled="">-</option>
+      </select>
+    </div>
+    <menu class="group mt1 gap1-">
+      <input class="button w5r round br1 h2r fr bcblack white aic bs1 h3" type="submit" value="Add" globalize-get="Add">
     </menu>
   </form>
 </dialog>
