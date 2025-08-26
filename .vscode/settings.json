@@ -21,9 +21,11 @@
   },
   "peacock.color": "#f9e64f",
   "git.openDiffOnClick": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
   "editor.tokenColorCustomizations": {
     "comments": "",
     "textMateRules": []
   },
-  "editor.stickyScroll.enabled": false,
+  "editor.stickyScroll.enabled": false
 }

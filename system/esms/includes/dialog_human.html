@@ -1,4 +1,5 @@
-<dialog id="favDialog" class="modals" margin="0 auto" border="0">
+<dialog id="favDialog" class="modals" margin="0 auto" border="0" padding="2rem">
+  
   <button id="close" aria-label="close" formnovalidate>X</button>
   <form
     class="gaph2" 
@@ -6,46 +7,46 @@
     method="post" 
     action="{action}" 
     data-onsuccess="rerun:#list" 
-    data-onerror="show:#formerror">
+    data-onerror="show:#formerror">  
     <div class="group outline- gap2">
-      <input name="first_name.swe" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="First Name"
-        globalize="first_name" jsonget="first_name" required="">
-      <input name="middle_name.swe" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Middle Name"
-        globalize="middle_name" jsonget="middle_name">
-      <input name="last_name.swe" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Last Name"
-        globalize="last_name" jsonget="last_name" required="">
+      <input name="first_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="First Name"
+        globalize="first_name" required="">
+      <input name="middle_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Middle Name"
+        globalize="middle_name">
+      <input name="last_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Last Name"
+        globalize="last_name" required="">
     </div>
+
     <i globalize="date_of_birth">Date of birth</i>
     <div class="box gut2-">
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[0]" variable="i:1900" jsonget="birth_date_year"
-        placeholder="-" required="" select="1990">
-        <option selected="true" disabled="">-</option>
+      <select class="phdark bw1 bos8 bocblack02" name="birth.date[0]" iterate="1920;2025;i" required="">
+        <option>{i}</option>
       </select>
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[1]" variable="i:01" jsonget="birth_date_month"
-        placeholder="-" required="" select="7">
-        <option selected="true" disabled="">-</option>
+      <select class="phdark bw1 bos8 bocblack02" name="birth.date[1]" iterate="01;12;i" required="">
+        <option>{i}</option>
       </select>
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[2]" variable="i:01" jsonget="birth_date_day"
-        placeholder="-" required="" select="20">
-        <option selected="true" disabled="">-</option>
+      <select class="phdark bw1 bos8 bocblack02" name="birth.date[2]" iterate="01;31;i" required="">
+        <option>{i}</option>
       </select>
     </div>
 
     <i globalize="country_of_birth">Country of birth</i>
     <div class="group">
-      <select class="phdark bw1 bos8 bocblack02" id="birth_country" name="birth.country" iterate="true" json="true"
-        datasource="https://api.aleptra.com/geography/?table=geography_country&amp;order=country-&gt;&gt;eng"
-        dataheader="apikey:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMTA0Mzc4NywiZXhwIjoxOTM2NjE5Nzg3fQ.vok7K5RJkQTP25mLjJ09co5neL4wxt5O1oIdd9E9m40"
-        ondone="_.populate(this.aEl)" populate="residence_country" jsonget="birth_country" placeholder="-" required=""
-        select="340" jsonindex="3">
-        <option selected="true" disabled="">-</option>
+      <select class="phdark bw1 bos8 bocblack02" id="birth_country" name="birth.country"
+        data-src="https://api.aleptra.com/geography/?table=geography_country&order=country->>eng"
+        data-iterate="true"
+        required="">
+        <option data-get="country.eng" data-set="i:id" value="{i}"></option>
       </select>
     </div>
 
     <i globalize="country_of_residence">Country of residence</i>
     <div class="group">
-      <select class="phdark bw1 bos8 bocblack02" id="residence_country" name="resident.country_code">
-        <option selected="true" disabled="">-</option>
+      <select class="phdark bw1 bos8 bocblack02" id="residence_country" name="resident.country_code"
+      data-src="https://api.aleptra.com/geography/?table=geography_country&order=country->>eng"
+        data-iterate="true"
+        required="">
+        <option data-get="country.eng" data-set="i:id" value="{i}"></option>
       </select>
     </div>
     <menu class="group mt1 gap1-">
