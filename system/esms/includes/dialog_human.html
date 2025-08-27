@@ -1,11 +1,10 @@
-<dialog id="favDialog" class="modals" margin="0 auto" border="0" padding="2rem">
-  
+<dialog id="dialoghuman" margin="0 auto" border="0" padding="2rem">
   <button id="close" aria-label="close" formnovalidate>X</button>
   <form
     class="gaph2" 
     bindasset="action:api.humans.endpoint" 
     method="post" 
-    action="{action}" 
+    action="{action}"
     data-onsuccess="rerun:#list" 
     data-onerror="show:#formerror">  
     <div class="group outline- gap2">
