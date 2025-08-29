@@ -1,4 +1,4 @@
-<dialog id="dialoghuman" margin="0 auto" border="0" padding="2rem">
+<dialog id="dialoghuman" stop="*" onshow="start:[*]" margin="0 auto" border="0" padding="2rem">
   <button click="overlay-close:[#dialoghuman]" bgcolor="black" color="white" height="2rem" aria-label="close" formnovalidate>X</button>
   <form
     class="gaph2" 
@@ -9,22 +9,21 @@
     data-onerror="show:#formerror">  
     <div class="group outline- gap2">
       <input name="first_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="First Name"
-        globalize="first_name" required="">
+        globalize-get="first_name" required="">
       <input name="middle_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Middle Name"
-        globalize="middle_name">
+        globalize-get="middle_name">
       <input name="last_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Last Name"
-        globalize="last_name" required="">
+        globalize-get="last_name" required="">
     </div>
-
     <i globalize="date_of_birth">Date of birth</i>
     <div class="box gut2-">
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[0]" iterate="1920;2025;i" required="">
+      <select class="phdark bw1 bos8 bocblack02" name="birth.date[0]" iterate="1920,2025,i" required="">
         <option>{i}</option>
       </select>
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[1]" iterate="01;12;i" required="">
+      <select class="phdark bw1 bos8 bocblack02" name="birth.date[1]" iterate="01,12,i" required="">
         <option>{i}</option>
       </select>
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[2]" iterate="01;31;i" required="">
+      <select class="phdark bw1 bos8 bocblack02" name="birth.date[2]" iterate="01,31,i" required="">
         <option>{i}</option>
       </select>
     </div>
