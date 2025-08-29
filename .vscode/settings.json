@@ -27,5 +27,8 @@
     "comments": "",
     "textMateRules": []
   },
-  "editor.stickyScroll.enabled": false
+  "editor.stickyScroll.enabled": false,
+  "[javascript]": {
+    "editor.formatOnSave": true
+  }
 }
