@@ -1186,21 +1186,11 @@ var app = {
   load: function () {
     if (!window.frontLoaded) {
       app.disable(true)
-
-      var selector = 'script[src*=front]',
-        element = dom.get(selector),
-        value = element.attributes.src.value
-
-      app.script = {
-        element: element,
-        path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
-        selector: selector
-      }
       // TODO: Experimental feature
-
-      var config = app.config.get(false, { frontSrcLocal: '' }, element)
-
       if (app.isLocalNetwork) {
+        var selector = 'script[src*=front]',
+          element = dom.get(selector),
+          config = app.config.get(false, { frontSrcLocal: '' }, element)
         if (config.frontSrcLocal.length > 0) {
           element.remove()
 
@@ -1237,6 +1227,16 @@ var app = {
    * @desc
    */
   start: function () {
+    var selector = 'script[src*=front]',
+      element = dom.get(selector),
+      value = element.attributes.src.value
+
+    app.script = {
+      element: element,
+      path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
+      selector: selector
+    }
+
     app.config.set()
     app.assets.set(element.attributes)
     app.xhr.start()
