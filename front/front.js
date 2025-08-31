@@ -1187,10 +1187,11 @@ var app = {
     if (!window.frontLoaded) {
       app.disable(true)
       // TODO: Experimental feature
+      var selector = 'script[src*=front]',
+        element = dom.get(selector),
+        config = app.config.get(false, { frontSrcLocal: '' }, element)
+
       if (app.isLocalNetwork) {
-        var selector = 'script[src*=front]',
-          element = dom.get(selector),
-          config = app.config.get(false, { frontSrcLocal: '' }, element)
         if (config.frontSrcLocal.length > 0) {
           element.remove()
 
@@ -1801,7 +1802,8 @@ var app = {
      * @desc Gets the configuration from the DOM element and overrides the standard configuration.
      */
     get: function (extension, standard, element) {
-      var value = extension ? element.attributes && element.getAttribute(extension + '-conf') : element && element.getAttribute('conf') || '',
+      console.dir(element)
+      var value = extension ? element && element.getAttribute(extension + '-conf') : element && element.getAttribute('conf') || '',
         override = value ? value && dom.parse.attribute(value) : {},
         final = {}
       for (var prop in standard) {
