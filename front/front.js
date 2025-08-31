@@ -1801,7 +1801,7 @@ var app = {
      * @desc Gets the configuration from the DOM element and overrides the standard configuration.
      */
     get: function (extension, standard, element) {
-      var value = extension ? element && element.getAttribute(extension + '-conf') : element && element.getAttribute('conf') || '',
+      var value = extension ? element.attributes && element.getAttribute(extension + '-conf') : element && element.getAttribute('conf') || '',
         override = value ? value && dom.parse.attribute(value) : {},
         final = {}
       for (var prop in standard) {
@@ -2401,7 +2401,7 @@ var app = {
           responsePageContent = responsePage.innerHTML,
           responsePageBodyAttr = responsePage.attrList
 
-        for (var i = 0; i < this.elementSelectors.length; i++) {
+        /*for (var i = 0; i < this.elementSelectors.length; i++) {
           var elSelector = this.elementSelectors[i],
             parsedEl = app.element.find(responsePage, elSelector.name),
             content = parsedEl.innerHTML
@@ -2413,7 +2413,7 @@ var app = {
             dom.set(elSelector.name, content ? content : '')
             app.attributes.run(elSelector.name + ' *')
           }
-        }
+        }*/
 
         if (!isReload) {
           app.assets.set(responsePageScript.attributes)
