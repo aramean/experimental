@@ -1186,10 +1186,19 @@ var app = {
   load: function () {
     if (!window.frontLoaded) {
       app.disable(true)
-      // TODO: Experimental feature
+
       var selector = 'script[src*=front]',
         element = dom.get(selector),
-        config = app.config.get(false, { frontSrcLocal: '' }, element)
+        value = element.attributes.src.value
+
+      app.script = {
+        element: element,
+        path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
+        selector: selector
+      }
+      // TODO: Experimental feature
+
+      var config = app.config.get(false, { frontSrcLocal: '' }, element)
 
       if (app.isLocalNetwork) {
         if (config.frontSrcLocal.length > 0) {
@@ -1228,16 +1237,6 @@ var app = {
    * @desc
    */
   start: function () {
-    var selector = 'script[src*=front]',
-      element = dom.get(selector),
-      value = element.attributes.src.value
-
-    app.script = {
-      element: element,
-      path: (value.match(/^(.*\/)[^/]+$/) || ['', ''])[1],
-      selector: selector
-    }
-
     app.config.set()
     app.assets.set(element.attributes)
     app.xhr.start()
@@ -1802,7 +1801,6 @@ var app = {
      * @desc Gets the configuration from the DOM element and overrides the standard configuration.
      */
     get: function (extension, standard, element) {
-      console.dir(element)
       var value = extension ? element && element.getAttribute(extension + '-conf') : element && element.getAttribute('conf') || '',
         override = value ? value && dom.parse.attribute(value) : {},
         final = {}
