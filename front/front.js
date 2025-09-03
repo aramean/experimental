@@ -1838,6 +1838,8 @@ var app = {
     language: document.documentElement.lang || 'en',
     docMode: document.documentMode || 0,
     isFrontpage: document.doctype ? true : false,
+    windowHeight: (window.visualViewport && window.visualViewport.height) || window.innerHeight,
+    windowWidth: (window.visualViewport && window.visualViewport.width) || window.innerWidth,
 
     set: function (name, value) {
       app.globals[name] = value
@@ -2400,7 +2402,7 @@ var app = {
           responsePageContent = responsePage.innerHTML,
           responsePageBodyAttr = responsePage.attrList
 
-        for (var i = 0; i < this.elementSelectors.length; i++) {
+        /*for (var i = 0; i < this.elementSelectors.length; i++) {
           var elSelector = this.elementSelectors[i],
             parsedEl = app.element.find(responsePage, elSelector.name),
             content = parsedEl.innerHTML
@@ -2408,9 +2410,11 @@ var app = {
           if (elSelector.name !== 'main') {
             elSelector.content = content
             dom.set(elSelector.name, content ? content : '')
-            app.attributes.run(elSelector.name + ' *')
           }
-        }
+
+          app.attributes.run(elSelector.name)
+          app.attributes.run(elSelector.name + ' *')
+        }*/
 
         if (!isReload) {
           app.assets.set(responsePageScript.attributes)
@@ -2451,11 +2455,10 @@ var app = {
 
             if (elSelector.name !== 'main') {
               dom.set(elSelector.name, parsedEl.nodeType === 1 ? content : srcDocEl.innerHTML)
-              hasMarkup && app.attributes.run(elSelector.name) // Run attributes in parent
               hasMarkup && app.attributes.run(elSelector.name + ' *') // Run attributes in children
-            } else if (elSelector.name === 'main') {
-              hasMarkup && app.attributes.run(elSelector.name, '*') // Run attributes in children
             }
+
+            hasMarkup && app.attributes.run(elSelector.name) // Run attributes in parent
           }
         }
       }
