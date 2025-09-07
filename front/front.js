@@ -392,9 +392,9 @@ var dom = {
 
         if (match) {
           var numeric = parseFloat(match[1]), // Convert the value to a float
-            unit = match[2] || 'px'
-          value = numeric
-          prefix = unit
+            unit = match[2] || 'px',
+            value = numeric,
+            prefix = unit
         }
     }
     element.style[attr] = suffix + value + prefix
