@@ -154,12 +154,16 @@ var dom = {
       }
 
       if (exclude) {
-        var regexArray = exclude.map(function (tag) {
-          return new RegExp('<' + tag + '[^>]*>[\\s\\S]*?</' + tag + '>', 'g')
-        })
+        for (var k = 0; k < exclude.length; k++) {
+          var tag = exclude[k];
 
-        for (var i = 0; i < regexArray.length; i++) {
-          string = string.replace(regexArray[i], '')
+          // Remove paired tags: <tag> ... </tag>
+          var paired = new RegExp('<' + tag + '[^>]*>[\\s\\S]*?<\\/' + tag + '>', 'gi');
+          string = string.replace(paired, '');
+
+          // Remove single/self-closing tags: <tag ...>
+          var single = new RegExp('<' + tag + '[^>]*>', 'gi');
+          string = string.replace(single, '');
         }
       }
 
@@ -2443,7 +2447,7 @@ var app = {
       if (src) {
         for (var i = 0; i < src.length; i++) {
           var cache = app.caches.get('window', 'template', src[i]),
-            html = dom.parse.text(cache.data),
+            html = dom.parse.text(cache.data, ['meta', 'base']),
             template = dom.parse.text(app.element.find(html, 'template').innerHTML),
             srcDoc = dom.parse.text(app.srcDocTemplate),
             hasMarkup = dom.get('template')
@@ -2532,7 +2536,7 @@ var app = {
             if (type) {
               switch (type) {
                 case 'page':
-                  var responsePage = dom.parse.text(this.responseText),
+                  var responsePage = dom.parse.text(this.responseText, ['base']),
                     responsePageTitle = app.element.find(responsePage, 'title').textContent,
                     templateElement = app.element.find(responsePage, 'template'),
                     templateAttr = templateElement && templateElement.attributes,
@@ -2620,6 +2624,7 @@ var app = {
      * @desc Creates XHR requests and updates the DOM based on the response.
      */
     request: function (options) {
+      if (!options.url) return // prevent empty requests. example include=""
       var method = options.method ? options.method.toUpperCase() : 'GET',
         url = options.url instanceof Array ? options.url : [options.url],
         target = options.target ? dom.get(options.target) : options.element,
