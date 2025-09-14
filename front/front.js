@@ -2408,7 +2408,7 @@ var app = {
 
       if (srcDoc) {
         var cache = app.caches.get('window', 'template', srcDoc),
-          responsePage = dom.parse.text(cache.data, ['title']),
+          responsePage = dom.parse.text(cache.data, ['title', 'base']),
           responsePageScript = app.element.find(responsePage, app.script.selector),
           responsePageContent = responsePage.innerHTML,
           responsePageBodyAttr = responsePage.attrList
