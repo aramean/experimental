@@ -288,6 +288,23 @@ var dom = {
     app.element.runOnEvent({ exec: { func: 'hide', element: el } })
   },
 
+  hrefhost: function (el) {
+    var value = el.getAttribute('hrefhost')
+    var parts = value.split(':'),
+      host = parts[0],
+      folder = parts[1] && parts[1].replace(/[\[\]]/g, '')
+
+    var test2 = location.pathname.split('/')[1]
+
+    // Check if the host from hrefhost matches the current location.hostname
+    if (host === location.hostname) {
+      el.href = test2 === '' ? '/' : '/' + folder + '/'
+    } else {
+      el.href = '/'
+    }
+    app.baseHref = el.href
+  },
+
   /**
    * @function show
    * @memberof dom
@@ -2145,10 +2162,11 @@ var app = {
 
         for (var i = 0; i < app.srcTemplate.total; i++) {
           var isStartpage = srcDoc && i === 0 ? true : false,
-            currentTemplate = isStartpage ? srcDoc : src[i + hasStartpage]
+            currentTemplate = isStartpage ? srcDoc : src[i + hasStartpage],
+            url = window.location.origin + window.location.pathname.replace(/\/+$/, '') + '/' + currentTemplate + '.html'
 
           app.xhr.request({
-            url: window.location.origin + window.location.pathname + '/' + currentTemplate + '.html',
+            url: url,
             type: 'template',
             cache: {
               format: 'html',
@@ -2408,24 +2426,14 @@ var app = {
 
       if (srcDoc) {
         var cache = app.caches.get('window', 'template', srcDoc),
-          responsePage = dom.parse.text(cache.data, ['title', 'base']),
+          responsePage = dom.parse.text(cache.data, ['title']),
+          responsePageBodyAttr = responsePage.attrList,
           responsePageScript = app.element.find(responsePage, app.script.selector),
-          responsePageContent = responsePage.innerHTML,
-          responsePageBodyAttr = responsePage.attrList
+          responsePageBaseHref = app.element.find(responsePage, 'base')
 
-        /*for (var i = 0; i < this.elementSelectors.length; i++) {
-          var elSelector = this.elementSelectors[i],
-            parsedEl = app.element.find(responsePage, elSelector.name),
-            content = parsedEl.innerHTML
+        dom.hrefhost(responsePageBaseHref)
 
-          if (elSelector.name !== 'main') {
-            elSelector.content = content
-            dom.set(elSelector.name, content ? content : '')
-          }
-
-          app.attributes.run(elSelector.name)
-          app.attributes.run(elSelector.name + ' *')
-        }*/
+        var responsePageContent = responsePage.innerHTML
 
         if (!isReload) {
           app.assets.set(responsePageScript.attributes)
