@@ -155,15 +155,15 @@ var dom = {
 
       if (exclude) {
         for (var k = 0; k < exclude.length; k++) {
-          var tag = exclude[k];
+          var tag = exclude[k]
 
           // Remove paired tags: <tag> ... </tag>
-          var paired = new RegExp('<' + tag + '[^>]*>[\\s\\S]*?<\\/' + tag + '>', 'gi');
-          string = string.replace(paired, '');
+          var paired = new RegExp('<' + tag + '[^>]*>[\\s\\S]*?<\\/' + tag + '>', 'gi')
+          string = string.replace(paired, '')
 
           // Remove single/self-closing tags: <tag ...>
-          var single = new RegExp('<' + tag + '[^>]*>', 'gi');
-          string = string.replace(single, '');
+          var single = new RegExp('<' + tag + '[^>]*>', 'gi')
+          string = string.replace(single, '')
         }
       }
 
@@ -2117,8 +2117,8 @@ var app = {
           (function (i) {
 
             // Determine if the current script is a module or a plugin
-            var isModule = i < modulesCount;
-            var folder = isModule ? 'modules' : 'plugins';
+            var isModule = i < modulesCount
+            var folder = isModule ? 'modules' : 'plugins'
 
             var script = document.createElement('script')
             script.name = allExtensions[i]
@@ -2620,7 +2620,7 @@ var app = {
             originalOnReadyStateChange.apply(this, arguments)
           }
         }
-        open.apply(this, arguments);
+        open.apply(this, arguments)
       }
 
       XMLHttpRequest.prototype.send = function (data) {
