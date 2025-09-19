@@ -2540,7 +2540,8 @@ var app = {
 
             if (cache) {
               //if (cache && (statusType.success || statusType.redirect)) {
-              app.caches.set(cache.mechanism, cache.keyType, cache.key, this.responseText, this.status, cache.format)
+              // Todo: add cache.mechanism? cache.type is used?
+              app.caches.set(cache.type, cache.keyType, cache.key, this.responseText, this.status, cache.format)
             }
 
             if (type) {
