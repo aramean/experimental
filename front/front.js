@@ -1192,7 +1192,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 293 },
+  version: { major: 1, minor: 0, patch: 0, build: 297 },
   module: {},
   plugin: {},
   var: {},
@@ -2086,6 +2086,8 @@ var app = {
         app.log.info()('Loading vars...')
         for (var j = 0; j < app.vars.total; j++) {
           var name = app.vars.name[j]
+          var cache = app.caches.get('session', 'var', name);
+
           app.log.info(1)(name)
           app.xhr.request({
             url: app.varsDir + '/' + name + '.json',
@@ -2501,11 +2503,23 @@ var app = {
   xhr: {
     currentRequest: null,
     currentAsset: { loaded: 0, total: 1 },
-
     start: function () {
       var self = this,
         open = XMLHttpRequest.prototype.open,
         send = XMLHttpRequest.prototype.send
+
+      self.finalize = function (type) {
+        if (app.extensions.loaded === app.extensions.total
+          && app.vars.loaded === (app.vars.total + app.vars.totalStore)
+          && type !== 'template' && type !== 'data') {
+
+          app.log.info()('Loaded extensions:', app.extensions.loaded + '/' + app.extensions.total +
+            ', vars:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
+          app.attributes.run()
+          app.disable(false)
+        }
+      }
+
       XMLHttpRequest.prototype.open = function () {
         var originalOnReadyStateChange = this.onreadystatechange
         this.onreadystatechange = function () {
@@ -2604,15 +2618,7 @@ var app = {
                   return
               }
 
-              if (app.extensions.loaded === app.extensions.total
-                && app.vars.loaded === (app.vars.total + app.vars.totalStore)
-                && type !== 'template' && type !== 'data') {
-
-                app.log.info()('Loaded extensions:', app.extensions.loaded + '/' + app.extensions.total +
-                  ', vars:', app.vars.loaded + '/' + (app.vars.total + app.vars.totalStore))
-                app.attributes.run()
-                app.disable(false)
-              }
+              self.finalize(type)
             }
           }
 
