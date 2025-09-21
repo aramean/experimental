@@ -2086,7 +2086,8 @@ var app = {
         app.log.info()('Loading vars...')
         for (var j = 0; j < app.vars.total; j++) {
           var name = app.vars.name[j]
-          var cache = app.caches.get('session', 'var', name);
+          var cache = app.caches.get('session', 'var', name)
+          console.log('test')
 
           app.log.info(1)(name)
           app.xhr.request({
