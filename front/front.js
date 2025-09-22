@@ -464,7 +464,7 @@ var dom = {
           break
         case 'bindasset':
           var keys = replaceValue.split('.'),
-            cache = app.caches.get('window', 'var', keys[0])
+            cache = app.caches.get('session', 'var', keys[0])
           app.log.info()('Binding asset: ' + keys)
           if (cache && cache.data) {
             var value = cache.data
@@ -1192,7 +1192,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 306 },
+  version: { major: 1, minor: 0, patch: 0, build: 309 },
   module: {},
   plugin: {},
   var: {},
@@ -2085,17 +2085,23 @@ var app = {
         app.log.info()('Loading vars...')
         for (var j = 0; j < app.vars.total; j++) {
           var name = app.vars.name[j]
-          app.log.info(1)(name)
-          app.xhr.request({
-            url: app.varsDir + '/' + name + '.json',
-            type: 'var',
-            cache: {
-              mechanism: 'session',
-              format: 'json',
-              keyType: 'var',
-              key: name
-            }
-          })
+          var cache = app.caches.get('session', 'var', name)
+          if (cache && cache.data) {
+            app.vars.loaded++
+            app.xhr.finalize('var')
+          } else {
+            app.log.info(1)(name)
+            app.xhr.request({
+              url: app.varsDir + '/' + name + '.json',
+              type: 'var',
+              cache: {
+                mechanism: 'session',
+                format: 'json',
+                keyType: 'var',
+                key: name
+              }
+            })
+          }
         }
       },
 
