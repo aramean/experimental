@@ -34,6 +34,7 @@ var dom = {
     'bindfield': 'bind',
     'ifafterbegin': 'if',
     'ifbeforeend': 'if',
+    'ifopen': 'ifnew',
     'resetvalue': 'reset',
     'togglevalue': 'toggle',
     'mapclass': 'map',
@@ -1192,7 +1193,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 309 },
+  version: { major: 1, minor: 0, patch: 0, build: 310 },
   module: {},
   plugin: {},
   var: {},
