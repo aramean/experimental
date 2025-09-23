@@ -675,7 +675,7 @@ var dom = {
   doctitle: function (object, value) {
     var title = object.exec ? object.exec.value : value
     if (title) {
-      app.globals.set(title, title)
+      app.globals.set('title', title)
       document.title = title
     }
   },
@@ -1192,7 +1192,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 311 },
+  version: { major: 1, minor: 0, patch: 0, build: 314 },
   module: {},
   plugin: {},
   var: {},
