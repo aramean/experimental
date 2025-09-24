@@ -1192,7 +1192,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 314 },
+  version: { major: 1, minor: 0, patch: 0, build: 316 },
   module: {},
   plugin: {},
   var: {},
@@ -2087,6 +2087,7 @@ var app = {
           var name = app.vars.name[j]
           var cache = app.caches.get('session', 'var', name)
           if (cache && cache.data) {
+            cache = cache.data
             app.vars.loaded++
             app.xhr.finalize('var')
           } else {
