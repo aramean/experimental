@@ -56,6 +56,7 @@ var dom = {
     'minheight': 'apply',
     'minwidth': 'apply',
     'maxwidth': 'apply',
+    'move': 'move',
     'font': 'apply',
     'flex': 'apply',
     'flexitem': 'apply',
@@ -71,6 +72,7 @@ var dom = {
     'radius': 'apply',
     'resize': 'apply',
     'transform': 'apply',
+    'underline': 'apply',
     'width': 'apply',
     'wordbreak': 'apply',
     'whitespace': 'apply',
@@ -268,6 +270,14 @@ var dom = {
     })
   },
 
+  move: function (object, value) {
+    var from = object
+    var to = dom.get(value)
+    if (from && to) {
+      to.appendChild(from)
+    }
+  },
+
   /**
    * @function hide
    * @memberof dom
@@ -424,6 +434,10 @@ var dom = {
         break
       case 'font':
         attr = 'fontFamily'
+        break
+      case 'underline':
+        element.style.textDecoration = 'underline'
+        element.style.textUnderlinePosition = 'under'
         break
       case 'zindex':
         attr = 'zIndex'
@@ -1214,7 +1228,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 329 },
+  version: { major: 1, minor: 0, patch: 0, build: 330 },
   module: {},
   plugin: {},
   var: {},
@@ -2472,7 +2486,6 @@ var app = {
           responsePageBaseHref = app.element.find(responsePage, 'base')
 
         dom.hrefhost(responsePageBaseHref)
-
         var responsePageContent = responsePage.innerHTML
 
         if (!isReload) {
