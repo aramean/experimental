@@ -14,12 +14,12 @@
 <body>
   <h1>Click</h1>
   <hr>
-  <button click="alert:[Hello world]">Alert</button><br>
+  <button click="alert:[Hello world]" onalert="inserbeforeend:[(OK)]">Alert</button><br>
   <button click="math-compute">5+5</button><br>
-  <button click="settext:[Hello]">Call Settext</button><br>
-  <button click="trimright:[#]">#Trim right#</button>
+  <button click="settext:[Hello]" onsettext="insertbeforeend:[(OK)]">Call Settext</button><br>
+  <button click="trimright:[#]" ontrimright="inserbeforeend:[(OK)]">#Trim right#</button>
   <button click="trimleft:[#]">#Trim left#</button>
-  <button click="trim:[#]">#Trim#</button><br>
+  <button click="trim:[#]" ontrim="inserbeforeend:[(OK)]">#Trim#</button><br>
   <input click="trim:[ ]" type="text" value=" Trim "><br>
   <button click="escape">&#36;</button><br>
   <button click="confirm:[Confirm?]">Call confirm</button>
