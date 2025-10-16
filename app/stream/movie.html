@@ -1,8 +1,22 @@
 <script src="../../front/front.js"></script>
+<title>Movie</title>
+<template srcdoc="../index" src="../templates/movie"></template>
+<article
+  bindvar=":"
+  bindasset="m:api.themoviedb.movie.id;api_key:api.stream.api_key"
+  bindquery="id:id"
+  data-src="{m}"
+  data-set="bg:backdrop_path"
+  bgimage="https://image.tmdb.org/t/p/original{bg} cover no-repeat center"
+  height="100%"
+  width="100%"
+  style="display: flex; justify-content: center; align-items: center;"
+>
 
-<template srcdoc="../index" src="../templates/player"></template>
-<div
-  class="df h100 youtube"
-  bindvar="discover:movie;endpoint:movie"
-  include="includes/player.html">
-</div>
+  <section color="white" screen-xs="width:[65%]" screen-sm="width:[60%]" screen-md="width:[70%]" margin="0 auto" height="unset">
+    <h2 data-get="title"></h2>
+    <h6 data-get="overview"></h6>
+    <button color="black" margintop="2rem" padding="1rem" radius="1rem" bindquery="id:id" href="movietrailer.html?id={id}">Play Trailer</button>
+  </section>
+
+</article>
