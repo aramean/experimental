@@ -44,7 +44,7 @@ app.module.navigate = {
       // Support href in all elements.
       if (link.localName !== 'a') {
         link.href = href.value
-        link.pathname = link.baseURI + href.value
+        link.pathname = href.value
       }
 
       if (link.hash) {
