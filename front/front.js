@@ -70,6 +70,7 @@ var dom = {
     'flexdirection': 'apply',
     'justifycontent': 'apply',
     'height': 'apply',
+    'left': 'apply',
     'lineheight': 'apply',
     'padding': 'apply',
     'paddingtop': 'apply',
@@ -905,6 +906,16 @@ var dom = {
     }
   },
 
+  prepend: function (element, value) {
+    var div = dom.get(value)
+    element.insertBefore(div, element.firstChild)
+  },
+
+  append: function (element, value) {
+    var div = dom.get(value)
+    element.appendChild(div)
+  },
+
   /**
    * @function map
    * @memberof dom
@@ -1241,7 +1252,7 @@ var dom = {
 }
 
 var app = {
-  version: { major: 1, minor: 0, patch: 0, build: 348 },
+  version: { major: 1, minor: 0, patch: 0, build: 350 },
   module: {},
   plugin: {},
   var: {},
