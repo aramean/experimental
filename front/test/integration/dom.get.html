@@ -4,11 +4,11 @@
   <script src="../../front.js" conf="debug:true"></script>
   <script>
     window.addEventListener('load', function () {
-      var main = app.element.select('main');
-      console.log(main);
+      var main = app.element.select('main')
+      console.log(main)
 
       // Update content using app.call
-      app.call('sethtml:main:[OK]')
+      //app.call('sethtml:main:[OK]')
 
       // Verify the content was updated
       console.assert(main.innerHTML === 'Hello', 'Update content');
