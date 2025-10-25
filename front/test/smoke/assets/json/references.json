@@ -51,7 +51,7 @@
           "description": "Creates an element."
         },
         {
-          "property": "dom.get()",
+          "property": "app.element.select()",
           "description": "Gets an element by id, name or tag."
         },
         {

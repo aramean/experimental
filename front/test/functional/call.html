@@ -14,22 +14,20 @@
     <b>sethtml: </b><span id="sethtml"></span>
   </main>
   <script>
-    app.call('trim:NOT', {
-      element: dom.get('#trim')
+    app.call('trim:[NOT]', {
+      element: app.element.select('#trim')
     })
 
     app.call('show:#show', {})
 
     app.call('hide:#hide', {})
 
-    app.call('set2:#', {
-      mapfunc: 'sethtml',
-      value: 'OK',
-      element: dom.get('#sethtml')
+    app.call('sethtml:[OK]', {
+      element: app.element.select('#sethtml')
     })
 
-    app.call('insertbeforeend:OK', {
-      element: dom.get('#insertbeforeend')
+    app.call('insertbeforeend:[OK]', {
+      element: app.element.select('#insertbeforeend')
     })
   </script>
 </body>
