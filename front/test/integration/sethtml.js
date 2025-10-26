@@ -1,8 +1,8 @@
 app.listeners.add(window, 'load', function () {
-  test('sethtml updates main', function () {
-    var main = document.querySelector('main')
+  test('sethtml updates div element', function () {
     var expected = 'OK'
-    app.call('sethtml:*main:[' + expected + ']')
-    assertEqual(main.innerHTML, expected, 'main content mismatch')
+    var testElement = createElement('div')
+    app.call('sethtml:#' + testElement.id + ':[' + expected + ']')
+    assertEqual(testElement.innerHTML, expected)
   })
 })
