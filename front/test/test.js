@@ -41,14 +41,26 @@
   }
 
   global.assertEqual = function (actual, expected, message) {
-    if (actual !== expected) {
-      var error = new Error(message || 'Assertion failed')
-      error.expected = expected
-      error.actual = actual
-      throw error
-    } else {
+    if (actual !== expected)
+      log(currentTestName, expected, actual, false, new Error(message || 'Assertion failed'))
+    else
       log(currentTestName, expected, actual, true)
+  }
+
+  global.assertStyleEqual = function (element, styleProp, expected, message) {
+    if (!element || !element.style) {
+      log(currentTestName, expected, 'no element', false, new Error('Element not found'))
+      return
     }
+
+    // Get the computed style
+    var computed = window.getComputedStyle ? window.getComputedStyle(element, null) : element.currentStyle
+    var actual = computed[styleProp]
+
+    if (actual !== expected)
+      log(currentTestName, expected, actual, false, new Error(message || 'Style assertion failed for ' + styleProp))
+    else
+      log(currentTestName, expected, actual, true)
   }
 
   global.createElement = function (tag) {

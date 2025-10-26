@@ -3,6 +3,6 @@ app.listeners.add(window, 'load', function () {
     var expected = 'OK'
     var testElement = createElement('div')
     app.call('bold:#' + testElement.id + ':[' + expected + ']')
-    assertEqual(testElement.innerText, expected + '')
+    assertStyleEqual(testElement, 'fontWeight', '700')
   })
 })
