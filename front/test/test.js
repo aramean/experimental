@@ -1,15 +1,38 @@
 (function (global) {
-
   var currentTestName = ''
+  var currentGroup = ''
 
   function log(name, expected, actual, passed, error) {
+    var parts = name.split(' - ')
+    var group, title
+
+    if (parts.length > 1) {
+      group = parts[0]
+      title = parts.slice(1).join(' - ')
+    } else {
+      group = 'no group'      // default group if no "-"
+      title = parts[0]    // use the whole name as title
+    }
+
+    // Only create header when group changes
+    if (group !== currentGroup) {
+      currentGroup = group
+      var header = document.createElement('h4')
+      header.textContent = group
+      header.style.marginBottom = '4px'
+      document.body.appendChild(header)
+    }
+
     var div = document.createElement('div')
-    div.textContent = (passed ? '✅ ' : '❌ ') + name + ': expected "' + expected + '", got "' + actual + '"'
-    if (!passed && error) div.textContent += ' | Error: ' + (error.message || error)
+    div.textContent =
+      (passed ? '✅ ' : '❌ ') +
+      title +
+      (passed ? '' : ': expected "' + expected + '", got "' + actual + '"')
     div.style.color = passed ? 'green' : 'red'
     document.body.appendChild(div)
+
     if (passed) {
-      console.info('PASS:', name, '| expected:', expected, '| got:', actual)
+      console.info('PASS:', name)
     } else {
       console.error('FAIL:', name, '| expected:', expected, '| got:', actual, '| error:', error)
     }
@@ -41,20 +64,26 @@
   }
 
   global.assertEqual = function (actual, expected, message) {
-    if (actual !== expected)
-      log(currentTestName, expected, actual, false, new Error(message || 'Assertion failed'))
-    else
+    if (actual !== expected) {
+      var error = new Error(message || 'Assertion failed')
+      error.expected = expected
+      error.actual = actual
+      throw error
+    } else {
       log(currentTestName, expected, actual, true)
+    }
   }
 
-  global.assertStyleEqual = function (element, styleProp, expected, message) {
-    var computed = window.getComputedStyle ? window.getComputedStyle(element, null) : element.currentStyle
-    var actual = computed[styleProp]
-
-    if (actual !== expected)
-      log(currentTestName, expected, actual, false, new Error(message || 'Style assertion failed for ' + styleProp))
-    else
+  global.assertStyleEqual = function (el, property, expected, message) {
+    var actual = global.getComputedStyle(el)[property]
+    if (actual !== expected) {
+      var error = new Error(message || 'Style assertion failed for ' + property)
+      error.expected = expected
+      error.actual = actual
+      throw error
+    } else {
       log(currentTestName, expected, actual, true)
+    }
   }
 
   global.createElement = function (tag) {
@@ -64,21 +93,6 @@
     el.id = 'id_' + Math.random().toString(36).slice(2, 11)
     document.body.appendChild(el)
     return el
-  }
-
-  function initTests() {
-    var retries = 0, maxRetries = 100
-    var interval = setInterval(function () {
-      if ((global.front && global.front.isReady) || retries++ >= maxRetries) {
-        clearInterval(interval)
-      }
-    }, 100)
-  }
-
-  if (document.addEventListener) {
-    document.addEventListener('DOMContentLoaded', initTests, false)
-  } else {
-    window.onload = initTests
   }
 
 })(this)
