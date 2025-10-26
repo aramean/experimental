@@ -48,12 +48,6 @@
   }
 
   global.assertStyleEqual = function (element, styleProp, expected, message) {
-    if (!element || !element.style) {
-      log(currentTestName, expected, 'no element', false, new Error('Element not found'))
-      return
-    }
-
-    // Get the computed style
     var computed = window.getComputedStyle ? window.getComputedStyle(element, null) : element.currentStyle
     var actual = computed[styleProp]
 
