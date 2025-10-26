@@ -7,7 +7,7 @@ JS_FILE := front.js
 MIN_FILE := front.min.js
 TAG := $(shell grep -o 'build:[[:space:]]*[0-9]*' $(JS_FILE) | awk -F':' '{ print $$2+1 }')
 
-release: minify
+release: precommit minify
 	@sed -E 's/(build:[[:space:]]+)[0-9]+/\1$(TAG)/g' ${JS_FILE} > temp_file && mv temp_file ${JS_FILE}
 	@echo "Release: $(TAG) ..."
 	@cp front.js $(NIGHTLY)
@@ -15,6 +15,9 @@ release: minify
 	@cp -fr plugins $(NIGHTLY)
 	@cp -fr modules $(NIGHTLY)
 	@cd $(NIGHTLY) && git add . && git commit -m "Build $(TAG)" && git push --force
+
+precommit:
+	@git add . && git commit --allow-empty-message -m ''
 
 # Pure Bash minify step
 minify:
