@@ -74,6 +74,18 @@
     }
   }
 
+  // New boolean assertions
+  global.assertTrue = function (value, message) {
+    if (value !== true) {
+      var error = new Error(message || 'Expected true')
+      error.expected = true
+      error.actual = value
+      throw error
+    } else {
+      log(currentTestName, true, value, true)
+    }
+  }
+
   global.assertStyleEqual = function (el, property, expected, message) {
     var actual = global.getComputedStyle(el)[property]
     if (actual !== expected) {
