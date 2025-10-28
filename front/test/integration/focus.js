@@ -1,12 +1,10 @@
-app.listeners.add(window, 'load', function () {
-  test('focus - should focus the element', function () {
-    var testElement = createElement('input')
-    var focused = false
+test('focus - should focus the element', function () {
+  var testElement = createElement('input')
+  var focused = false
 
-    // Mock the focus method
-    testElement.focus = function () { focused = true }
+  // Mock the focus method
+  testElement.focus = function () { focused = true }
 
-    app.call('focus:#' + testElement.id)
-    assertTrue(focused)
-  })
+  app.call('focus:#' + testElement.id)
+  assertTrue(focused)
 })

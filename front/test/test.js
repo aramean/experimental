@@ -107,4 +107,62 @@
     return el
   }
 
+  // Autoload support
+  function autoloadAttributes() {
+    var thisScript = document.currentScript || (function () {
+      var scripts = document.getElementsByTagName('script')
+      return scripts[scripts.length - 1]
+    })()
+
+    var autoloadAttr = thisScript && thisScript.getAttribute('autoload')
+    if (!autoloadAttr) return
+
+    // If it's a JSON path, load JSON and auto-load scripts with "example"
+    if (autoloadAttr.indexOf('.json') !== -1) {
+      var xhr = new XMLHttpRequest()
+      xhr.open('GET', autoloadAttr, true)
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              var attributes = JSON.parse(xhr.responseText)
+              for (var key in attributes) {
+                if (attributes.hasOwnProperty(key)) {
+                  var def = attributes[key]
+                  if (def.example) {
+                    var script = document.createElement('script')
+                    script.src = key + '.js'
+                    script.async = true
+                    document.head.appendChild(script)
+                  }
+                }
+              }
+              app.log.info()('✅ Loaded attribute test scripts from JSON:', autoloadAttr)
+            } catch (err) {
+              console.error('❌ Failed to parse JSON:', err)
+            }
+          } else {
+            console.error('❌ Could not load JSON:', xhr.status)
+          }
+        }
+      }
+      xhr.send()
+    } else {
+      // Otherwise treat as semicolon-separated list of script names
+      var files = autoloadAttr.split(';')
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i].replace(/^\s+|\s+$/g, '')
+        if (file) {
+          var s = document.createElement('script')
+          s.src = file + '.js'
+          s.async = false // maintain order
+          document.head.appendChild(s)
+        }
+      }
+      app.log.info()('✅ Loaded attribute test scripts from list:', files.join(', '))
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', autoloadAttributes)
+
 })(this)
