@@ -1,6 +1,6 @@
-# Project Name
+# Front: Low-Code Framework
 
-This project automates front-end builds and Git workflow using `Makefile`. It provides commands for pulling, committing, pushing code, installing Git hooks, building releases, and minifying JavaScript files.
+This project automates builds and Git workflow using `Makefile`. It provides commands for pulling, committing, pushing code, installing Git hooks, building releases, and minifying JavaScript files.
 
 ---
 
