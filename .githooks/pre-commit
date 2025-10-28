@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# Pre-commit Linter for JavaScript/TypeScript files using AWK (portable for macOS/Linux).
+
+# Get staged JS/TS files
+files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|jsx|ts|tsx)$')
+found=0
+
+for file in $files; do
+  # Show staged content and run AWK checks
+  git show ":$file" | awk -v file="$file" '
+    BEGIN { found=0 }
+    # Store last 3 lines for context
+    { lines[NR%3] = $0; line_nums[NR%3] = NR }
+
+    # Check for console.log / console.trace
+    /^[[:space:]]*console\.(log|trace)[[:space:]]*\(/ && !/^[[:space:]]*\/\// {
+      context = ""
+      for (i = 1; i <= 3; i++) {
+        idx = (NR - i) % 3
+        if (NR - i > 0) context = context lines[idx] "\n"
+      }
+      if (context !~ /log: function|@function log/) {
+        print "❌ Commit aborted: disallowed console in " file ":" line_nums[NR%3] ": " $0
+        found=1
+      }
+    }
+
+    # Check for trailing semicolons
+    /;[[:space:]]*$/ && !/^[[:space:]]*\/\// {
+      print "❌ Commit aborted: trailing semicolon in " file ":" NR ": " $0
+      found=1
+    }
+
+    END { exit found }
+  '
+
+  status=$?
+  if [ $status -ne 0 ]; then
+    found=1
+    git reset >/dev/null 2>&1
+  fi
+
+done
+
+exit $found
