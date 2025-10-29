@@ -1156,10 +1156,18 @@ var dom = {
     app.attributes.run(elements, ['stop'])
   },
 
+  /**
+   * @function var
+   * @memberof dom
+   */
   var: function (element, value) {
     if (element.localName === 'script') return
   },
 
+  /**
+   * @function iterate
+   * @memberof dom
+   */
   iterate: function (element, value) {
     dom.stop(element) // Stop all attributes in element.
     var values = value.split(';'),
@@ -1191,15 +1199,21 @@ var dom = {
     app.attributes.run(elements)
   },
 
+  /**
+   * @function rerun
+   * @memberof dom
+   */
   rerun: function (object) {
     var el = object.exec ? object.exec.element : object
     el.innerHTML = el.originalHtml
     var target = el.id ? '#' + el.id : [el]
-    if (target) {
-      app.attributes.run(target, false, true)
-    }
+    if (target) app.attributes.run(target, false, true)
   },
 
+  /**
+   * @function reload
+   * @memberof dom
+   */
   reload: function (object, value) {
     app.element.select(value).contentDocument.location.reload(true)
   }
