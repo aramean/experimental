@@ -1471,7 +1471,7 @@ var app = {
       event.initEvent(eventName, true, true)
     }
 
-    el.dispatchEvent(event)
+    return el.dispatchEvent(event)
   },
 
   /**

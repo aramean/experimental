@@ -1,101 +1,100 @@
 (function (global) {
-  var currentTestName = ''
-  var currentGroup = ''
+  var currentTest = '', currentGroup = ''
+  var total = 0, passed = 0, failed = 0, missing = 0
 
-  function log(name, expected, actual, passed, error) {
-    var parts = name.split(' - ')
-    var group, title
+  function getContainer() {
+    return document.querySelector('main')
+  }
 
-    if (parts.length > 1) {
-      group = parts[0]
-      title = parts.slice(1).join(' - ')
-    } else {
-      group = 'no group'      // default group if no "-"
-      title = parts[0]    // use the whole name as title
+  function updateSummary() {
+    var s = document.getElementById('summary')
+    if (!s) {
+      s = document.createElement('div')
+      s.id = 'summary'
+      document.body.insertBefore(s, getContainer())
     }
+    s.textContent = 'Total: ' + total + ', Passed: ' + passed + ', Failed: ' + failed + ', Missing: ' + missing
+  }
 
-    // Only create header when group changes
+  function log(name, expected, actual, isPass, error) {
+    total++
+
+    if (isPass) passed++; else failed++
+
+    var parts = name.split(' - ')
+    var group = parts.length > 1 ? parts[0] : 'Ungrouped'
+    var title = parts.length > 1 ? parts.slice(1).join(' - ') : parts[0]
+
     if (group !== currentGroup) {
       currentGroup = group
-      var header = document.createElement('h4')
-      header.textContent = group
-      header.style.marginBottom = '4px'
-      document.body.appendChild(header)
+      var h = document.createElement('h4')
+      h.textContent = group
+      getContainer().appendChild(h)
     }
 
-    var div = document.createElement('div')
-    div.textContent =
-      (passed ? '✅ ' : '❌ ') +
-      title +
-      (passed ? '' : ': expected "' + expected + '", got "' + actual + '"')
-    div.style.color = passed ? 'green' : 'red'
-    document.body.appendChild(div)
+    var d = document.createElement('div')
+    d.textContent = (isPass ? '✅ ' : '❌ ') + title +
+      (isPass ? '' : ': expected "' + expected + '", got "' + actual + '"')
+    d.style.color = isPass ? 'green' : 'red'
+    getContainer().appendChild(d)
 
-    if (passed) {
-      console.info('PASS:', name)
-    } else {
-      console.error('FAIL:', name, '| expected:', expected, '| got:', actual, '| error:', error)
-    }
+    if (isPass) console.info('PASS:', name)
+    else console.error('FAIL:', name, '| expected:', expected, '| got:', actual, '| error:', error)
+
+    updateSummary()
   }
 
   global.cleanup = function () {
-    var elements = document.getElementsByTagName('*')
-    for (var i = elements.length - 1; i >= 0; i--) {
-      if (elements[i].id && elements[i].style.display === 'none') {
-        elements[i].parentNode.removeChild(elements[i])
-      }
-    }
+    var els = document.querySelectorAll('[id][style*="display: none"]'), i
+    for (i = els.length - 1; i >= 0; i--) els[i].parentNode.removeChild(els[i])
   }
 
-  global.test = function (name, fn, callback) {
+  global.test = function (name, fn, cb) {
     global.cleanup()
-    currentTestName = name
+    currentTest = name
     try {
-      var done = function () {
-        currentTestName = ''
-        if (callback) callback()
-      }
-      fn(done)
+      fn(function done() {
+        currentTest = ''
+        if (cb) cb()
+        updateSummary()
+      })
     } catch (e) {
-      log(currentTestName, e.expected || 'unknown', e.actual || 'unknown', false, e)
-      currentTestName = ''
-      if (callback) callback()
+      log(currentTest, e.expected || 'unknown', e.actual || 'unknown', false, e)
+      currentTest = ''
+      if (cb) cb()
+      updateSummary()
     }
   }
 
-  global.assertEqual = function (actual, expected, message) {
+  global.assertEqual = function (actual, expected, msg) {
     if (actual !== expected) {
-      var error = new Error(message || 'Assertion failed')
-      error.expected = expected
-      error.actual = actual
-      throw error
-    } else {
-      log(currentTestName, expected, actual, true)
+      var e = new Error(msg || 'Assertion failed')
+      e.expected = expected
+      e.actual = actual
+      throw e
     }
+    log(currentTest, expected, actual, true)
   }
 
-  // New boolean assertions
-  global.assertTrue = function (value, message) {
-    if (value !== true) {
-      var error = new Error(message || 'Expected true')
-      error.expected = true
-      error.actual = value
-      throw error
-    } else {
-      log(currentTestName, true, value, true)
+  global.assertTrue = function (val, msg) {
+    if (val !== true) {
+      var e = new Error(msg || 'Expected true')
+      e.expected = true
+      e.actual = val
+      throw e
     }
+    log(currentTest, true, val, true)
   }
 
-  global.assertStyleEqual = function (el, property, expected, message) {
-    var actual = global.getComputedStyle(el)[property]
-    if (actual !== expected) {
-      var error = new Error(message || 'Style assertion failed for ' + property)
-      error.expected = expected
-      error.actual = actual
-      throw error
-    } else {
-      log(currentTestName, expected, actual, true)
+  global.assertStyleEqual = function (el, prop, expected, msg) {
+    var val = window.getComputedStyle(el)[prop]
+    if (val !== expected) {
+      var e = new Error(msg || 'Style assertion failed for ' + prop)
+      e.expected = expected
+      e.actual = val
+      throw e
     }
+    log(currentTest, expected, val, true)
   }
 
   global.createElement = function (tag) {
@@ -107,62 +106,52 @@
     return el
   }
 
-  // Autoload support
-  function autoloadAttributes() {
-    var thisScript = document.currentScript || (function () {
+  function autoload() {
+    var s = document.currentScript || (function () {
       var scripts = document.getElementsByTagName('script')
       return scripts[scripts.length - 1]
-    })()
+    }())
+    var attr = s && s.getAttribute('autoload')
+    if (!attr) return
 
-    var autoloadAttr = thisScript && thisScript.getAttribute('autoload')
-    if (!autoloadAttr) return
-
-    // If it's a JSON path, load JSON and auto-load scripts with "example"
-    if (autoloadAttr.indexOf('.json') !== -1) {
+    if (attr.indexOf('.json') !== -1) {
       var xhr = new XMLHttpRequest()
-      xhr.open('GET', autoloadAttr, true)
+      xhr.open('GET', attr, true)
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status >= 200 && xhr.status < 300) {
             try {
-              var attributes = JSON.parse(xhr.responseText)
-              for (var key in attributes) {
-                if (attributes.hasOwnProperty(key)) {
-                  var def = attributes[key]
-                  if (def.example) {
-                    var script = document.createElement('script')
-                    script.src = key + '.js'
-                    script.async = true
-                    document.head.appendChild(script)
-                  }
-                }
+              var data = JSON.parse(xhr.responseText), key
+              for (key in data) if (data.hasOwnProperty(key) && data[key].example) {
+                (function (src) {
+                  var sc = document.createElement('script')
+                  sc.src = src
+                  sc.async = true
+                  sc.onerror = function () { missing++ }
+                  document.head.appendChild(sc)
+                }(key + '.js'))
               }
-              app.log.info()('✅ Loaded attribute test scripts from JSON:', autoloadAttr)
-            } catch (err) {
-              console.error('❌ Failed to parse JSON:', err)
-            }
-          } else {
-            console.error('❌ Could not load JSON:', xhr.status)
+              app.log.info('Loaded JSON tests:', attr)
+            } catch (err) { console.error('JSON parse error:', err) }
           }
         }
       }
       xhr.send()
     } else {
-      // Otherwise treat as semicolon-separated list of script names
-      var files = autoloadAttr.split(';')
-      for (var i = 0; i < files.length; i++) {
-        var file = files[i].replace(/^\s+|\s+$/g, '')
-        if (file) {
-          var s = document.createElement('script')
-          s.src = file + '.js'
-          s.async = false // maintain order
-          document.head.appendChild(s)
+      var files = attr.split(';'), i
+      for (i = 0; i < files.length; i++) {
+        var f = files[i].replace(/^\s+|\s+$/g, '')
+        if (f) {
+          (function (src) {
+            var sc = document.createElement('script')
+            sc.src = src
+            document.head.appendChild(sc)
+          }(f + '.js'))
         }
       }
-      app.log.info()('✅ Loaded attribute test scripts from list:', files.join(', '))
+      app.log.info('Loaded scripts:', files.join(', '))
     }
   }
 
-  document.addEventListener('DOMContentLoaded', autoloadAttributes)
-
-})(this)
+  document.addEventListener('DOMContentLoaded', autoload)
+}(this))
