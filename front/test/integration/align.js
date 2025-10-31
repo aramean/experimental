@@ -1,4 +1,4 @@
-test('align should set text alignment', function () {
+test('align - should set text alignment', function () {
   var testElement = createElement('div')
   testElement.style.display = 'block'
 
