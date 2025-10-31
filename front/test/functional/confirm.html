@@ -1,21 +1,15 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
   <script src="../../front.js" conf="debug:true"></script>
 </head>
 
 <body>
-  <main>
-    <b>confirm: </b><span id="confirm">OK</span><br>
-  </main>
-  <script>
-    app.call('confirm', {
-      element: app.get('#confirm'),
-      value: 'Confirm?'
-    })
-    
-  </script>
+  <h1>Confirm</h1>
+  <hr>
+  <div confirm="Confirm?"></div>
 </body>
 
 </html>
+
