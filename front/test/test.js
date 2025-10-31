@@ -1,4 +1,7 @@
 (function (global) {
+  // get test filter from querystring using your app.querystrings.get
+  var filterTest = app.querystrings.get('', 'test')
+
   var currentTest = '', currentGroup = ''
   var total = 0, passed = 0, failed = 0, missing = 0
 
@@ -18,9 +21,7 @@
 
   function log(name, expected, actual, isPass, error) {
     total++
-
     if (isPass) passed++; else failed++
-
     var parts = name.split(' - ')
     var group = parts.length > 1 ? parts[0] : 'Ungrouped'
     var title = parts.length > 1 ? parts.slice(1).join(' - ') : parts[0]
@@ -50,6 +51,9 @@
   }
 
   global.test = function (name, fn, cb) {
+    // only run test if it matches the filter (or no filter is set)
+    if (filterTest && name.toLowerCase().indexOf(filterTest.toLowerCase()) === -1) return
+
     global.cleanup()
     currentTest = name
     try {
@@ -98,11 +102,15 @@
   }
 
   global.createElement = function (tag) {
-    tag = tag || 'div'
-    var el = document.createElement(tag)
-    el.style.display = 'none'
+    // create the wrapper
+    var wrapper = document.createElement('template')
+    document.body.appendChild(wrapper)
+
+    // create the actual element
+    var el = document.createElement(tag || 'div')
     el.id = 'id_' + Math.random().toString(36).slice(2, 11)
-    document.body.appendChild(el)
+
+    wrapper.appendChild(el)
     return el
   }
 
@@ -112,8 +120,19 @@
       return scripts[scripts.length - 1]
     }())
     var attr = s && s.getAttribute('autoload')
-    if (!attr) return
 
+    // ✅ 1️⃣ If ?test= is present, always load only that test
+    if (filterTest) {
+      var sc = document.createElement('script')
+      sc.src = filterTest + '.js'
+
+      sc.onerror = function () { missing++ }
+      document.head.appendChild(sc)
+      app.log.info('Loaded filtered script (priority):', filterTest)
+      return
+    }
+
+    // ✅ 2️⃣ Otherwise, continue with the normal autoload logic
     if (attr.indexOf('.json') !== -1) {
       var xhr = new XMLHttpRequest()
       xhr.open('GET', attr, true)
@@ -126,7 +145,6 @@
                 (function (src) {
                   var sc = document.createElement('script')
                   sc.src = src
-                  sc.async = true
                   sc.onerror = function () { missing++ }
                   document.head.appendChild(sc)
                 }(key + '.js'))
