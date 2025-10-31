@@ -1,4 +1,4 @@
-test('insertbeforebegin - should insert text before element (beforebegin)', function () {
+test('insertbeforebegin - should insert text before element', function () {
   var expected = 'Hello World'
   var testElement = createElement('div')
   testElement.textContent = 'Hello'
