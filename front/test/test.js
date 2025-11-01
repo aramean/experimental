@@ -45,16 +45,10 @@
     updateSummary()
   }
 
-  global.cleanup = function () {
-    var els = document.querySelectorAll('[id][style*="display: none"]'), i
-    for (i = els.length - 1; i >= 0; i--) els[i].parentNode.removeChild(els[i])
-  }
-
   global.test = function (name, fn, cb) {
     // only run test if it matches the filter (or no filter is set)
     if (filterTest && name.toLowerCase().indexOf(filterTest.toLowerCase()) === -1) return
 
-    global.cleanup()
     currentTest = name
     try {
       fn(function done() {
@@ -145,6 +139,7 @@
                 (function (src) {
                   var sc = document.createElement('script')
                   sc.src = src
+                  sc.async = false
                   sc.onerror = function () { missing++ }
                   document.head.appendChild(sc)
                 }(key + '.js'))
