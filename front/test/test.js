@@ -135,7 +135,7 @@
           if (xhr.status >= 200 && xhr.status < 300) {
             try {
               var data = JSON.parse(xhr.responseText), key
-              for (key in data) if (data.hasOwnProperty(key) && data[key].example) {
+              for (key in data) if (data.hasOwnProperty(key)) {
                 (function (src) {
                   var sc = document.createElement('script')
                   sc.src = src
