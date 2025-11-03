@@ -1709,21 +1709,29 @@ var app = {
     },
 
     operate: function (operation, query, attr) {
-      // Define a function to perform the operation
+      // Parse dynamic operation parts
+      var op = operation[0],
+        operand = parseFloat(operation.slice(1)) || 1 // default multiplier/addend to 1 if not provided
+
       var apply = function (value) {
         var num = parseFloat(value)
-        switch (operation) {
+        if (isNaN(num)) return value
+
+        switch (op) {
+          case '+': return num + operand
+          case '-': return num - operand
+          case '*': return num * operand
+          case '/': return num / operand
+          case '+': return num + operand
           case '++': return num + 1
           case '--': return num - 1
-          case '*': return num * 2
-          case '/': return num / 2
           default: return value
         }
       }
 
       if (query) {
         // Modify specific query parameter in the URL
-        var regex = new RegExp('(\\b' + query + '=)(-?\\d+)', 'g')
+        var regex = new RegExp('(\\b' + query + '=)(-?\\d+(?:\\.\\d+)?)', 'g')
         return attr.replace(regex, function (match, prefix, currentValue) {
           return prefix + apply(currentValue)
         })
