@@ -1641,7 +1641,7 @@ var app = {
         attr = attr.replace('set', '')
         switch (attr) {
           case 'attr':
-            element.setAttribute(value, '')
+            element.setAttribute(typeof value === 'string' ? value : value[0], value[1] || '')
             break
           case 'text':
             element.textContent = value

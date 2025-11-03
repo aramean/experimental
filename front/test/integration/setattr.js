@@ -6,8 +6,8 @@ test('setattr - should set custom attribute', function () {
 })
 
 test('setattr - should set custom attribute with value', function () {
-  var expected = 'attribute'
+  var expected = 'value'
   var testElement = createElement('div')
-  app.call('setattr:#' + testElement.id + ':[data-test,' + expected + ']')
-  assertEqual(testElement.getAttribute('data-test'), expected)
+  app.call('setattr:#' + testElement.id + ':[new-attribute][value]')
+  assertEqual(testElement.getAttribute('new-attribute'), expected)
 })
