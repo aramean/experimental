@@ -2,14 +2,7 @@
 <html lang="en">
 
 <head>
-  <script
-    src="../../front.js"
-    module="globalize;data;navigate"
-    var="api"
-    conf="varsDir:assets/json/vars"
-    globalize-conf="folder:assets/json/locales"
-    navigate-conf="startpage:experimental">
-  </script>
+  <script src="../../front.js" conf="debug:false"></script>
 </head>
 
 <body>
@@ -17,7 +10,7 @@
   <hr>
   <section>
     <h3>Var</h3>
-    <span bindvar="a:varA;b:varB;c:varC">{a:0} {b:0} {c:0}</span><br>
+    <span bindvar="a:varA;b:varB;c:varC" onbindvar="log:[binvar(OK)]">{a:0} {b:0} {c:0}</span><br>
   </section>
 </body>
 

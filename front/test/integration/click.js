@@ -1,11 +1,14 @@
-test('click - utility triggers click event', function (done) {
-  var testElement = createElement('button')
+test('click - utility triggers click event', function () {
   var clicked = false
+  var testElement1 = createElement('button')
 
-  testElement.addEventListener('click', function () {
+  // Add click event listener to verify click was triggered 
+  testElement1.addEventListener('click', function () {
     clicked = true
   })
 
-  app.call('click:#' + testElement.id)
+  testElement1.setAttribute('click', '')
+  app.call('click:#' + testElement1.id)
+
   assertTrue(clicked, 'Click event should be fired')
 })

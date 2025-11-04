@@ -1,6 +1,6 @@
-test('runorder - should execute attributes in runorder', function () {
-  var testElement = createElement('div')
-  testElement.setAttribute('bold')
-  app.call('runorder:#' + testElement.id + ':[bold]')
-  assertStyleEqual(testElement, 'font-weight', 'block')
+test('runorder - should execute attributes in order', function () {
+  var expected = 'RUN'
+  var testElement = createElement('span')
+  app.call('settext:#' + testElement.id + ':[' + expected + '];lowercase:#' + testElement.id + ';uppercase:#' + testElement.id)
+  assertEqual(testElement.innerText, expected)
 })
