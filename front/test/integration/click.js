@@ -7,8 +7,6 @@ test('click - utility triggers click event', function () {
     clicked = true
   })
 
-  testElement1.setAttribute('click', '')
-  app.call('click:#' + testElement1.id)
-
-  assertTrue(clicked, 'Click event should be fired')
+  app.click(testElement1)
+  assertTrue(clicked)
 })
