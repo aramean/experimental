@@ -8,7 +8,8 @@
 <body>
   <h1>Confirm</h1>
   <hr>
-  <div confirm="Are you sure?" onconfirm="log:[confirm(OK)]"></div>
+  <div confirm="Are you sure?" onconfirm="log:[confirm(OK)]" onconfirmvalue="true;alert:[OK]"></div>
+  <button click="confirm:[Are you sure?]" onconfirm="log:[confirm(OK)]">Trigger confirm</button>
 </body>
 
 </html>
