@@ -69,9 +69,8 @@
       data-reqdelete="{src}?id=eq.{id}"
       data-header="#list"
       data-onsuccess="remove:#p{id}"
-      confirmtext="Are you sure?"
-      onclickif="confirm:[true]"
-      click="data-reqdelete"
+      click="confirm:[Are you sure?]"
+      onconfirmvalue="true;data-reqdelete"
       class="bc0 fu fr icon24 dimgray"
     >
     &#128465;
