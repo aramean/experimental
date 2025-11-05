@@ -4,11 +4,9 @@
 <head>
   <script
     src="../../front.js"
-    module="globalize;data;navigate"
+    module="data"
     var="api"
-    conf="debug:true;varsDir:assets/json/vars"
-    globalize-conf="folder:assets/json/locales"
-    navigate-conf="startpage:experimental">
+    conf="debug:true">
   </script>
 </head>
 
@@ -16,8 +14,8 @@
   <h1>Data</h1>
   <hr>
   <h4>Get bad Json</h4>
-  <div data-src="assets/json/badjson.json" data-onerror="hej" data-get="title"></div>
-  <div data-src="assets/json/badjson2.json" data-onerror="hej" data-get="title"></div>
+  <div data-src="assets/json/badjson.json" data-onerror="alert:[error1]" data-get="title"></div>
+  <div data-src="assets/json/badjson2.json" data-onerror="alert:[error2]" data-get="title"></div>
 </body>
 
 </html>
