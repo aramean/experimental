@@ -5,12 +5,16 @@
   bindasset="apikey:api.api_key"
   bindquery="q:q;c:category"
   bindglobal="l:globalize.code"
-  ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
+  d-ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
+  
+  if="([{c}]![]);insertbeforeend:#.data-src:[_&or=(id.eq.{c},taxonomy.eq.{c})]"
+
   data-src="{src}"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader"
   data-onempty="#empty"
   globalize-onsetload="rerun"
+  
   data-iterate="true">
   <a data-set="i:id" href="word.html?i={i}" class="p1">
     <figure class="pr">
