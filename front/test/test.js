@@ -95,10 +95,10 @@
     log(currentTest, expected, val, true)
   }
 
-  global.createElement = function (tag) {
+  global.createElement = function (tag, noWrapper) {
     // create the wrapper
     var wrapper = document.createElement('template')
-    document.body.appendChild(wrapper)
+    !noWrapper && document.body.appendChild(wrapper)
 
     // create the actual element
     var el = document.createElement(tag || 'div')
