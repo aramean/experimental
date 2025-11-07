@@ -133,18 +133,6 @@
     }
   }
 
-  global.assertIsObject1 = function (val, msg) {
-    var passed = val !== null && typeof val === 'object' && !Array.isArray(val)
-    log(currentTest, 'object', typeof val, passed)
-
-    if (!passed) {
-      var e = new Error(msg || 'Expected an object but got ' + typeof val)
-      e.expected = 'object'
-      e.actual = typeof val
-      throw e
-    }
-  }
-
   global.createElement = function (tag, noWrapper) {
     // create the wrapper.
     var wrapper = document.createElement('template')
@@ -156,6 +144,22 @@
 
     wrapper.appendChild(el)
     return el
+  }
+
+  /**
+   * @function createStub
+   * @memberof global
+   * @param {object} obj - The object containing the method to stub.
+   * @param {string} method - The name of the method on `obj` to stub.
+   * @returns {object} - An object with a getter `get` that returns the last captured argument.
+   * @desc Replaces a method on an object temporarily to capture.
+   */
+  global.createStub = function (obj, method) {
+    var lastCall
+    obj[method] = function (run, args) {
+      lastCall = args && args[method]
+    }
+    return { get get() { return lastCall } }
   }
 
   function autoload() {
