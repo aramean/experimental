@@ -5,10 +5,10 @@ test('extractBracketValues - single bracket', function () {
 
 test('extractBracketValues - multiple brackets', function () {
   var result = app.element.extractBracketValues('[one][two][three]')
-  assertEqual(result.length, 3)
-  assertEqual(result[0], 'one')
-  assertEqual(result[1], 'two')
-  assertEqual(result[2], 'three')
+  assertEqual(result.length, 3).desc('count values')
+  assertEqual(result[0], 'one').desc('value 1')
+  assertEqual(result[1], 'two').desc('value 2')
+  assertEqual(result[2], 'three').desc('value 3')
 })
 
 test('extractBracketValues - special char &', function () {

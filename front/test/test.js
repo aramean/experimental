@@ -21,10 +21,10 @@
 
   function log(name, expected, actual, isPass, error) {
     total++
-    if (isPass) passed++; else failed++
-    var parts = name.split(' - ')
-    var group = parts.length > 1 ? parts[0] : 'Ungrouped'
-    var title = parts.length > 1 ? parts.slice(1).join(' - ') : parts[0]
+    isPass ? passed++ : failed++
+    var parts = name.split(' - '),
+      group = parts.length > 1 ? parts[0] : 'Ungrouped',
+      title = parts.length > 1 ? parts.slice(1).join(' - ') : parts[0]
 
     if (group !== currentGroup) {
       currentGroup = group
@@ -43,6 +43,8 @@
     else console.error('FAIL:', name, '| expected:', expected, '| got:', actual, '| error:', error)
 
     updateSummary()
+
+    return d // Return the log entry element for modification
   }
 
   global.test = function (name, fn, cb) {
@@ -50,17 +52,22 @@
     if (filterTest && name.toLowerCase().indexOf(filterTest.toLowerCase()) === -1) return
 
     currentTest = name
-    try {
-      fn(function done() {
-        currentTest = ''
-        if (cb) cb()
-        updateSummary()
-      })
-    } catch (e) {
-      log(currentTest, e.expected || 'unknown', e.actual || 'unknown', false, e)
+    var doneCalled = false
+    var done = function () {
+      if (doneCalled) return
+      doneCalled = true
       currentTest = ''
       if (cb) cb()
       updateSummary()
+    }
+
+    try {
+      fn(done)
+      // If sync (fn doesn't accept done), call done immediately after
+      if (fn.length === 0) done()
+    } catch (e) {
+      log(currentTest, e.expected || 'unknown', e.actual || 'unknown', false, e)
+      done() // Ensure cleanup even on failure
     }
   }
 
@@ -71,7 +78,12 @@
       e.actual = actual
       throw e
     }
-    log(currentTest, expected, actual, true)
+    var entry = log(currentTest, expected, actual, true)
+    return {
+      desc: function (description) {
+        entry.textContent += ' — ' + description
+      }
+    }
   }
 
   global.assertTrue = function (val, msg) {
@@ -81,7 +93,12 @@
       e.actual = val
       throw e
     }
-    log(currentTest, true, val, true)
+    var entry = log(currentTest, true, val, true)
+    return {
+      desc: function (description) {
+        entry.textContent += ' — ' + description
+      }
+    }
   }
 
   global.assertStyleEqual = function (el, prop, expected, msg) {
@@ -92,7 +109,12 @@
       e.actual = val
       throw e
     }
-    log(currentTest, expected, val, true)
+    var entry = log(currentTest, expected, val, true)
+    return {
+      desc: function (description) {
+        entry.textContent += ' — ' + description
+      }
+    }
   }
 
   global.createElement = function (tag, noWrapper) {
@@ -131,22 +153,20 @@
       var xhr = new XMLHttpRequest()
       xhr.open('GET', attr, true)
       xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            try {
-              var data = JSON.parse(xhr.responseText), key
-              for (key in data) if (data.hasOwnProperty(key)) {
-                (function (src) {
-                  var sc = document.createElement('script')
-                  sc.src = src
-                  sc.async = false
-                  sc.onerror = function () { missing++ }
-                  document.head.appendChild(sc)
-                }(key + '.js'))
-              }
-              app.log.info('Loaded JSON tests:', attr)
-            } catch (err) { console.error('JSON parse error:', err) }
-          }
+        if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+          try {
+            var data = JSON.parse(xhr.responseText), key
+            for (key in data) if (data.hasOwnProperty(key)) {
+              (function (src) {
+                var sc = document.createElement('script')
+                sc.src = src
+                sc.async = false
+                sc.onerror = function () { missing++ }
+                document.head.appendChild(sc)
+              }(key + '.js'))
+            }
+            app.log.info('Loaded JSON tests:', attr)
+          } catch (err) { console.error('JSON parse error:', err) }
         }
       }
       xhr.send()
