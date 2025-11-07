@@ -19,7 +19,6 @@ test('app.parse.attribute - multiple pairs', function () {
 
 test('app.parse.attribute - empty pair (;;)', function () {
   var result = app.parse.attribute('a:1;;b:2')
-  console.dir(result)
   assertEqual(Object.keys(result).length, 2).desc('count two items')
   assertEqual(result.a, '1').desc('first')
   assertEqual(result.b, '2').desc('second')
