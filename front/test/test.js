@@ -44,11 +44,11 @@
 
     updateSummary()
 
-    return d // Return the log entry element for modification
+    return d // Return the log entry element for modification.
   }
 
   global.test = function (name, fn, cb) {
-    // only run test if it matches the filter (or no filter is set)
+    // only run test if it matches the filter (or no filter is set).
     if (filterTest && name.toLowerCase().indexOf(filterTest.toLowerCase()) === -1) return
 
     currentTest = name
@@ -63,11 +63,11 @@
 
     try {
       fn(done)
-      // If sync (fn doesn't accept done), call done immediately after
+      // If sync (fn doesn't accept done), call done immediately after.
       if (fn.length === 0) done()
     } catch (e) {
       log(currentTest, e.expected || 'unknown', e.actual || 'unknown', false, e)
-      done() // Ensure cleanup even on failure
+      done() // Ensure cleanup even on failure.
     }
   }
 
@@ -117,12 +117,40 @@
     }
   }
 
+  global.assertIsObject = function (el) {
+    if (typeof el !== 'object' || el === null) {
+      const e = new Error(`Expected an object but got ${typeof el}`)
+      e.expected = 'object'
+      e.actual = typeof el
+      throw e
+    }
+
+    var entry = entry = log(currentTest, 'object', el, true)
+    return {
+      desc: function (description) {
+        entry.textContent += ' — ' + description
+      }
+    }
+  }
+
+  global.assertIsObject1 = function (val, msg) {
+    var passed = val !== null && typeof val === 'object' && !Array.isArray(val)
+    log(currentTest, 'object', typeof val, passed)
+
+    if (!passed) {
+      var e = new Error(msg || 'Expected an object but got ' + typeof val)
+      e.expected = 'object'
+      e.actual = typeof val
+      throw e
+    }
+  }
+
   global.createElement = function (tag, noWrapper) {
-    // create the wrapper
+    // create the wrapper.
     var wrapper = document.createElement('template')
     !noWrapper && document.body.appendChild(wrapper)
 
-    // create the actual element
+    // create the actual element.
     var el = document.createElement(tag || 'div')
     el.id = 'id_' + Math.random().toString(36).slice(2, 11)
 
@@ -137,7 +165,7 @@
     }())
     var attr = s && s.getAttribute('autoload')
 
-    // ✅ 1️⃣ If ?test= is present, always load only that test
+    // If ?test= is present, always load only that test.
     if (filterTest) {
       var sc = document.createElement('script')
       sc.src = filterTest + '.js'
@@ -148,7 +176,7 @@
       return
     }
 
-    // ✅ 2️⃣ Otherwise, continue with the normal autoload logic
+    // Otherwise, continue with the normal autoload logic.
     if (attr.indexOf('.json') !== -1) {
       var xhr = new XMLHttpRequest()
       xhr.open('GET', attr, true)
@@ -178,6 +206,7 @@
           (function (src) {
             var sc = document.createElement('script')
             sc.src = src
+            sc.async = false
             document.head.appendChild(sc)
           }(f + '.js'))
         }

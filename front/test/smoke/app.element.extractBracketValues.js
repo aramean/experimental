@@ -1,9 +1,9 @@
-test('extractBracketValues - single bracket', function () {
+test('app.element.extractBracketValues - single bracket', function () {
   var result = app.element.extractBracketValues('[value]')
   assertEqual(result, 'value')
 })
 
-test('extractBracketValues - multiple brackets', function () {
+test('app.element.extractBracketValues - multiple brackets', function () {
   var result = app.element.extractBracketValues('[one][two][three]')
   assertEqual(result.length, 3).desc('count values')
   assertEqual(result[0], 'one').desc('value 1')
@@ -11,17 +11,17 @@ test('extractBracketValues - multiple brackets', function () {
   assertEqual(result[2], 'three').desc('value 3')
 })
 
-test('extractBracketValues - special char &', function () {
+test('app.element.extractBracketValues - special char &', function () {
   var result = app.element.extractBracketValues('[&test]')
   assertEqual(result, '&test')
 })
 
-test('extractBracketValues - empty brackets', function () {
+test('app.element.extractBracketValues - empty brackets', function () {
   var result = app.element.extractBracketValues('[]')
   assertEqual(result, '')
 })
 
-test('extractBracketValues - no brackets', function () {
+test('app.element.extractBracketValues - no brackets', function () {
   var result = app.element.extractBracketValues('no brackets here')
   assertEqual(result, '')
 })
