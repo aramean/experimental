@@ -47,6 +47,14 @@
     return d // Return the log entry element for modification.
   }
 
+  function withDescription(entry) {
+    return {
+      desc: function (description) {
+        entry.textContent += ' — ' + description
+      }
+    }
+  }
+
   global.test = function (name, fn, cb) {
     // only run test if it matches the filter (or no filter is set).
     if (filterTest && name.toLowerCase().indexOf(filterTest.toLowerCase()) === -1) return
@@ -63,74 +71,40 @@
 
     try {
       fn(done)
-      // If sync (fn doesn't accept done), call done immediately after.
       if (fn.length === 0) done()
     } catch (e) {
-      log(currentTest, e.expected || 'unknown', e.actual || 'unknown', false, e)
-      done() // Ensure cleanup even on failure.
+      // Determine expected and actual safely
+      var expected = (e && typeof e.expected !== 'undefined') ? e.expected : 'unknown',
+        actual = (e && typeof e.actual !== 'undefined') ? e.actual : e.message || 'error'
+      log(currentTest, expected, actual, false, e)
+      done()
     }
   }
 
-  global.assertEqual = function (actual, expected, msg) {
-    if (actual !== expected) {
-      var e = new Error(msg || 'Assertion failed')
-      e.expected = expected
-      e.actual = actual
-      throw e
-    }
-    var entry = log(currentTest, expected, actual, true)
-    return {
-      desc: function (description) {
-        entry.textContent += ' — ' + description
-      }
-    }
+  global.assertEqual = function (actual, expected) {
+    var isPass = actual === expected
+    return withDescription(log(currentTest, expected, actual, isPass))
   }
 
-  global.assertTrue = function (val, msg) {
-    if (val !== true) {
-      var e = new Error(msg || 'Expected true')
-      e.expected = true
-      e.actual = val
-      throw e
-    }
-    var entry = log(currentTest, true, val, true)
-    return {
-      desc: function (description) {
-        entry.textContent += ' — ' + description
-      }
-    }
+  global.assertTrue = function (val) {
+    var isPass = val === true
+    return withDescription(log(currentTest, true, val, isPass))
   }
 
-  global.assertStyleEqual = function (el, prop, expected, msg) {
+  global.assertFalse = function (val) {
+    var isPass = val === false
+    return withDescription(log(currentTest, false, val, isPass))
+  }
+
+  global.assertStyleEqual = function (el, prop, expected) {
     var val = window.getComputedStyle(el)[prop]
-    if (val !== expected) {
-      var e = new Error(msg || 'Style assertion failed for ' + prop)
-      e.expected = expected
-      e.actual = val
-      throw e
-    }
-    var entry = log(currentTest, expected, val, true)
-    return {
-      desc: function (description) {
-        entry.textContent += ' — ' + description
-      }
-    }
+    var isPass = val === expected
+    return withDescription(log(currentTest, expected, val, isPass))
   }
 
   global.assertIsObject = function (el) {
-    if (typeof el !== 'object' || el === null) {
-      const e = new Error(`Expected an object but got ${typeof el}`)
-      e.expected = 'object'
-      e.actual = typeof el
-      throw e
-    }
-
-    var entry = entry = log(currentTest, 'object', el, true)
-    return {
-      desc: function (description) {
-        entry.textContent += ' — ' + description
-      }
-    }
+    var isPass = typeof el === 'object' && el !== null
+    return withDescription(log(currentTest, 'object', el, isPass))
   }
 
   global.createElement = function (tag, noWrapper) {
