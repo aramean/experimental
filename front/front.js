@@ -474,6 +474,7 @@ var dom = {
               replaceVariableNew = match ? match[1] : '',
               fieldif = bindfieldif && bindfieldif.value.split(':')
 
+            // Initialize update the values of variable.
             var resolvedValue = app.element.resolveBindingValue(object, replaceVariableNew, target.value)
             app.variables.update.content(object, replaceVariableNew, resolvedValue)
             app.variables.update.attributes(object, replaceVariableNew, resolvedValue, false)
@@ -1859,7 +1860,7 @@ var app = {
     },
     /**
      * 
-     * @param {*} resolveBindingValue
+     * @function resolveBindingValue
      * @memberof app.element
      * @returns 
      */
