@@ -76,7 +76,7 @@
   </div>
   
 
-  <h4>Input 2 </h4>
+  <h4>Two-way data binding</h4>
   <input type="text" id="content">
   <div bindfield="content:#content">
     {content:it's empty}
@@ -85,6 +85,12 @@
   <input type="text" id="content2">
   <div bindfield="content2:#content2">
     {content2}
+  </div>
+
+  <h4>Two-way data binding in attribute</h4>
+  <input type="text" id="content3">
+  <div>
+    <a bindfield="josef:#content3" href="{josef:test}" target="_blank">Link</a>
   </div>
 
   <h4>Select with div:</h4>
