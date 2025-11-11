@@ -2144,8 +2144,8 @@ var app = {
     template: {},
 
     get: function (mechanism, type, key, options) {
-      var options = options || {},
-        data
+      options = options || {}
+      var data
       if (app.storageKey) key = app.storageKey + '_' + key
       switch (mechanism) {
         case 'local':
