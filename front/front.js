@@ -587,7 +587,7 @@ var dom = {
    */
   focus: function (element) {
     var el = app.element.resolveCall(element)
-    if (el) el.focus()
+    if (el) setTimeout(function () { el.focus() }, 100)
   },
 
   /**
