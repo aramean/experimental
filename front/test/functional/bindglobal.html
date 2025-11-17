@@ -10,14 +10,16 @@
     globalize-conf="folder:assets/json/locales"
     navigate-conf="startpage:experimental">
   </script>
+  <title>Global</title>
 </head>
 
 <body>
-  <h1>Bind</h1>
+  <h1>Bindglobal</h1>
   <hr>
-  <h3>Global</h3>
+  Title: <span bindglobal="t:title">{t}</span><br>
   Language: <span bindglobal="s:language">{s}</span><br>
   Language: <span bindglobal="s:language" settext="{s}"></span><br>
+  Window: <span bindglobal="wh:windowHeight;ww:windowWidth">{wh} x {ww}</span><br>
   Version: <span bindglobal="major:version.major;minor:version.minor;build:version.build;patch:version.patch">{build} - {major}.{minor}.{patch}</span>
 </body>
 
