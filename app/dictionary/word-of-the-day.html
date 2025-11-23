@@ -7,10 +7,10 @@
   <hr>
 </div>
 <div id="loader" class="loader"></div>
-<article id="success" class="wc_xl">
-  <section bindquery="i:i" bindasset="apikey:api.api_key;endpoint:api.word_of_the_day.endpoint"
+<article id="success" class="wc_xl" bindquery="i:i" bindasset="apikey:api.api_key;endpoint:api.word_of_the_day.endpoint"
     bindglobal="l:globalize.code" data-src="{endpoint}" data-header="apikey:{apikey};Accept:application/json+single"
     data-status="406;#status406" data-onerror="hide:#success" data-loader="#loader" globalize-onsetload="rerun">
+  <section>
     <h1 globalize-get>Word of the Day</h1>
     <h2 chronotize-get="F d, Y" marginbottom="1rem"></h2>
     <div class="bcwhite p05 bos6 bocblack01 bw1 br05">
@@ -32,13 +32,14 @@
     </div>-->
   </section>
   <div class="m0a z07 jcc tac" margintop="2rem">
-    <a click="share--open"
+    <a
+      click="share--open"
+      data-set="id:id"
       class="aic p05 shade1 bclinen" 
       paddingright="1rem" 
       paddingleft="1rem"
       share--platform="facebook"
-      share--title="{word.{l}}"
-      share--url="/word.html?i=0">Share word
+      share--url="/word.html?i={id}">Share word
     </a>
   </div>
 </article>
