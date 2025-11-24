@@ -5,31 +5,15 @@
     </figure>
     <div class="ml0 pr f1">
       <form class="zi3" id="form" method="get" action="search.html" target="_top">
-        <input
-          id="query2"
-          name="q"
-          type="text"
-          class="bs1 p1 h3 br05 dark white w100 zi3"
-          globalize-get="input_search"
-          globalize-target="placeholder"
-          autocomplete="off">
-          <input
-          type="submit"
-          class="bos0 bc0 white p1 h5 w4 icon icon16 pa r0"
-          value="&#128269;">
+        <input id="query2" name="q" type="text" class="bs1 p1 h3 br05 dark white w100 zi3" globalize-get="input_search"
+          globalize-target="placeholder" autocomplete="off">
+        <input type="submit" class="bos0 bc0 white p1 h5 w4 icon icon16 pa r0" value="&#128269;">
       </form>
-      <div
-        stop="data-src"
-        bindglobal="l:globalize.code"
-        bindfield="q:#query2"
+      <div stop="data-src" bindglobal="l:globalize.code" bindfield="q:#query2"
         bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
         data-src="{endpoint}&select=*&where=word->>{l}.ilike({q}*)&limit=30"
-        data-header="apikey:{apikey};Prefer:count=exact"
-        data-iterate="true"
-        data-loader="false"
-        class="box br05 bcwhite- black- pa w100 ail- zi2 autocomplete"
-        data-onempty="#empty2"
-        hide>
+        data-header="apikey:{apikey};Prefer:count=exact" data-iterate="true" data-loader="false"
+        class="box br05 bcwhite- black- pa w100 ail- zi2 autocomplete" data-onempty="#empty2" hide>
         <figure>
           <a bindglobal="l:globalize.code" data-set="id:id" data-get="word.{l}" href="word.html?i={id}" class="p1"></a>
         </figure>
@@ -56,31 +40,25 @@
     <nav class="sidebar pt05 white- shade2" width="70vw">
       <form>
         <div>
-          <a click="toggle" marginbottom="0.5rem" clicktargetfield="aside[1]" keyboard-key="m" keyboard-action="click" keyboard-scope="body" class="button pl1"><i class="icon32">«</i></a>
+          <a click="toggle" marginbottom="0.5rem" clicktargetfield="aside[1]" keyboard-key="m" keyboard-action="click"
+            keyboard-scope="body" class="button pl1"><i class="icon32">«</i></a>
           <hr class="bcblack">
           <div class="tac w100" margintop="0.5rem">
-            <img class="br50 w3r mb05 bos8 red bw3 shade2 hue-rotate m0a" src="https://www.aramean.institute/favicon.ico">
+            <img class="br50 w3r mb05 bos8 red bw3 shade2 hue-rotate m0a"
+              src="https://www.aramean.institute/favicon.ico">
             <h6 class="bold" globalize-get="title" marginbottom="1rem"></h6>
             <select name="language" class="p1 m0a fs08 tac shade2 light" onvaluechange="globalize-set">
               <option selected disabled globalize-get>Change language</option>
               <option value="sv">Svenska</option>
               <option value="en">English (US)</option>
-              <option value="arc">𐡀𐡓𐡌𐡉𐡀</option>
-              <option value="syc">ܐܪܡܝܐ</option>
-              <option value="am">አማርኛ</option>
             </select>
           </div>
         </div>
         <a href="browse.html" globalize-get>Browse</a>
-        <a
-          click="data-reqget"
-          bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
-          data-header="Accept:application/json+single"
-          data-reqget="{endpoint}&order=random()&limit=1"
-          data-onbeforesuccess="data-set:[word:id]"
-          data-onaftersuccess="sethref:[word.html?i={word}]"
-          onhrefchange="navigate-go"
-          globalize-get>Randomize word</a>
+        <a click="data-reqget" bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
+          data-header="Accept:application/json+single" data-reqget="{endpoint}&order=random()&limit=1"
+          data-onbeforesuccess="data-set:[word:id]" data-onaftersuccess="sethref:[word.html?i={word}]"
+          onhrefchange="navigate-go" globalize-get>Randomize word</a>
         <a href="word-of-the-day.html" globalize-get>Word of the Day</a>
         <a href="phonetics.html" globalize-get>Phonetics</a>
       </form>

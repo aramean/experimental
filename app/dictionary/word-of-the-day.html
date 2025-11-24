@@ -1,5 +1,7 @@
 <script src="../../front/front.js"></script>
 <title globalize-get>Word of the Day</title>
+<meta property="og:title" content="Word of the Day" />
+<meta property="og:description" content="See how it's written and pronounced in different Aramaic dialects." />
 <template srcdoc="../index" src="../templates/search"></template>
 <div id="status406" class="tac" hide>
   <h1>Error</h1>
@@ -8,8 +10,8 @@
 </div>
 <div id="loader" class="loader"></div>
 <article id="success" class="wc_xl" bindquery="i:i" bindasset="apikey:api.api_key;endpoint:api.word_of_the_day.endpoint"
-    bindglobal="l:globalize.code" data-src="{endpoint}" data-header="apikey:{apikey};Accept:application/json+single"
-    data-status="406;#status406" data-onerror="hide:#success" data-loader="#loader" globalize-onsetload="rerun">
+  bindglobal="l:globalize.code" data-src="{endpoint}" data-header="apikey:{apikey};Accept:application/json+single"
+  data-status="406;#status406" data-onerror="hide:#success" data-loader="#loader" globalize-onsetload="rerun">
   <section>
     <h1 globalize-get>Word of the Day</h1>
     <h2 chronotize-get="F d, Y" marginbottom="1rem"></h2>
@@ -32,13 +34,8 @@
     </div>-->
   </section>
   <div class="m0a z07 jcc tac" margintop="2rem">
-    <a
-      click="share--open"
-      data-set="id:id"
-      class="aic p05 shade1 bclinen" 
-      paddingright="1rem" 
-      paddingleft="1rem"
-      share--platform="facebook"
+    <a click="share--open" bindglobal="l:globalize.code" data-set="id:id;w:word.{l}" class="aic p05" paddingright="1rem"
+      paddingleft="1rem" share--platform="facebook" share--title="Word of the Day - {w} in Aramaic!"
       share--url="/word.html?i={id}">Share word
     </a>
   </div>

@@ -14,10 +14,11 @@
     bindglobal="l:globalize.code"
     data-src="{endpoint}&where=id.eq({i})"
     data-header="apikey:{apikey};Prefer:count=exact;Accept:application/json+single"
-    data-set="word.{l}:#translation"
+    data-set="word.{l}:#translation;w:word.{l}"
     data-status="406;#status406"
     data-onerror="hide:#success"
     data-loader="#loader"
+    data-onfinish="doctitle:[{w}]"
     >
     <h1 id="translation"></h1>
     <nav class="crumbs pointer p05 bos6 bocblack01 bw1 mt05 br05 gray w0">

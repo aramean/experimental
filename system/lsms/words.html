@@ -4,29 +4,24 @@
 <div include="includes/dialog_word.html"></div>
 <div class="df aic">
   <h1 globalize-get class="f1">Words</h1>
-  <button click="overlay-dialog:#dialogword" class="button round br50 w2r h2r fr bcblack white aic bs1"><i id="updateDetails" class="icon16">&#8854;</i></button>
+  <button click="overlay-dialog:#dialogword" class="button round br50 w2r h2r fr bcblack white aic bs1"><i
+      id="updateDetails" class="icon16">&#8854;</i></button>
+  <details class="md_dn" paddingleft="1rem" zindex="10">
+    <summary><i class="icon24">&#8942;</i></summary>
+    <ul class="pa r1 bcwhite p05 fdc bs5 p025- fdc" margintop="2rem" width="12rem">
+      <li><a click="data-reqget"
+          data-reqget="https://api.aleptra.com/humanology/?procedure=public.update_transliterated_jsonb_column(human_language_word,word,word_transliterated)"
+          class="fs09">Sync Transliteration</a></li>
+    </ul>
+  </details>
 </div>
 <hr class="bcblack01 mt1">
 <div class="df mb1 gap1-">
-  <input
-    id="query"
-    type="text"
-    value=""
-    class="bs1 f3 p1 h3 br05"
-    globalize-get="language"
-    globalize-target="placeholder"
-    autocomplete="off"
-  >
-  <select
-    id="sort"
-    class="bs1 f0 p1 h3 br05 fs08"
-    globalize-target="placeholder"
-  >
-  <option>Updated</option>
+  <input id="query" type="text" value="" class="bs1 f3 p1 h3 br05" globalize-get="language"
+    globalize-target="placeholder" autocomplete="off">
+  <select id="sort" class="bs1 f0 p1 h3 br05 fs08" globalize-target="placeholder">
+    <option>Updated</option>
   </select>
 </div>
-<div
-  bindasset="endpoint:api.words.endpoint"
-  bindvar="src:{endpoint};href:word"
-  include="includes/list_words.html">
+<div bindasset="endpoint:api.words.endpoint" bindvar="src:{endpoint};href:word" include="includes/list_words.html">
 </div>
