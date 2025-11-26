@@ -5,14 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="version" content="1.0.0">
-  <script
-    src="../../front/front.js"
-    module="globalize;data;navigate;keyboard;overlay"
-    var="api"
+  <script src="../../front/front.js" module="globalize;data;navigate;keyboard;overlay;screen" var="api"
     conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:lsms"
     globalize-conf="folder:assets/json/locales"
     navigate-conf="startpage:experimental/system/lsms;startpageLocal:system/lsms">
-  </script>
+    </script>
   <link type="text/css" href="../../front/front.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="icon" href="data:,">
@@ -20,7 +17,9 @@
 </head>
 
 <body class="light">
-  <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
+  <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide>
+    <div class="bcblack08"></div>
+  </div>
   <header></header>
   <aside ontoggle="toggle.class[pf t0 h100p zi50]" class="dark xl_dn shade2" resize="horizontal"></aside>
   <main class="bcwhite flc">
@@ -31,13 +30,9 @@
           <h6 class="z09 dimgray" globalize-get="title">Linguistic Management System</h6>
         </div>
         <form method="get" action="home.html" class="mt2" target="_top">
-          <input
-            type="submit"
-            name="q"
-            class="p1 pr2 pl2 m0a br2 shade1 fwb dark white button"
-            globalize-get
-            value="Continue"> 
-          </form>
+          <input type="submit" name="q" class="p1 pr2 pl2 m0a br2 shade1 fwb dark white button" globalize-get
+            value="Continue">
+        </form>
       </section>
     </article>
   </main>

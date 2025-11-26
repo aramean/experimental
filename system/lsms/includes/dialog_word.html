@@ -1,51 +1,21 @@
-<dialog id="dialogword" stop="*" onoverlay-dialog="start:[*]" margin="0 auto" border="0" padding="2rem">
-  <button click="overlay-close:#dialogword" bgcolor="black" color="white" height="2rem" aria-label="close" formnovalidate>X</button>
-  <form
-    class="gaph2" 
-    bindasset="action:api.humans.endpoint" 
-    method="post" 
-    action="{action}"
-    data-onsuccess="rerun:#list" 
-    data-onerror="show:#formerror">  
-    <div class="group outline- gap2">
-      <input name="first_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="First Name"
-        globalize-get="first_name" required="">
-      <input name="middle_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Middle Name"
-        globalize-get="middle_name">
-      <input name="last_name.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" placeholder="Last Name"
-        globalize-get="last_name" required="">
+<dialog id="dialogword" stop="*" onoverlay-dialog="start:[*]" margin="0 auto" border="0" padding="2rem"
+  screen-xs="width:[100%]" screen-sm="width:[600px]">
+  <button click="overlay-close:#dialogword" bgcolor="black" color="white" height="2rem" aria-label="close"
+    formnovalidate>X</button>
+  <form class="gaph2" bindasset="action:api.words.endpoint" method="post" action="{action}" data-onsuccess="rerun:#list"
+    data-onerror="show:#formerror">
+    <div class="group outline- gap2" id="to">
+      <input name="word.eng" type="text" class="f1 phdark bw1 bos8 bocblack02" paddingleft=".5rem" paddingright=".5rem"
+        placeholder="Word in English" globalize-get="word" required="">
     </div>
-    <i globalize="date_of_birth">Date of birth</i>
-    <div class="box gut2-">
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[0]" iterate="1920;2025;i" required="">
-        <option>{i}</option>
-      </select>
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[1]" iterate="01;12;i" required="">
-        <option>{i}</option>
-      </select>
-      <select class="phdark bw1 bos8 bocblack02" name="birth.date[2]" iterate="01;31;i" required="">
-        <option>{i}</option>
-      </select>
-    </div>
-
-    <i globalize="country_of_birth">Country of birth</i>
+    <i globalize="country_of_birth">Translations</i>
     <div class="group">
       <select class="phdark bw1 bos8 bocblack02" id="birth_country" name="birth.country"
-        data-src=""
-        data-iterate="true"
-        required="">
-        <option data-get="country.eng" data-set="i:id" value="{i}"></option>
+        data-src="https://api.aleptra.com/humanology/?table=human_language&order=language->>eng&where=isSign.eq(false),isExtinct.eq(null)"
+        data-iterate="true" append="#to:#from" onvaluechange="append:#to:#from" required="">
+        <option data-get="language.eng" data-set="i:id" value="{i}"></option>
       </select>
-    </div>
-
-    <i globalize="country_of_residence">Country of residence</i>
-    <div class="group">
-      <select class="phdark bw1 bos8 bocblack02" id="residence_country" name="resident.country_code"
-      data-src=""
-        data-iterate="true"
-        required="">
-        <option data-get="country.eng" data-set="i:id" value="{i}"></option>
-      </select>
+      <div id="from" hide>sss</div>
     </div>
     <menu class="group mt1 gap1-">
       <input class="button w5r round br1 h2r fr bcblack white aic bs1 h3" type="submit" value="Add" globalize-get="Add">
