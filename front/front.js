@@ -862,7 +862,10 @@ var dom = {
     var from = element.call.subElement,
       to = element.call.element,
       i = from.children.length
-    while (i--) to.appendChild(from.children[i].cloneNode(true))
+    while (i--) {
+      dom.rerun(from.children[i])
+      to.appendChild(from.children[i].cloneNode(true))
+    }
   },
 
   /**
