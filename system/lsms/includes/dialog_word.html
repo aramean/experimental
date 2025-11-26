@@ -1,22 +1,23 @@
 <dialog id="dialogword" stop="*" onoverlay-dialog="start:[*]" margin="0 auto" border="0" padding="2rem"
   screen-xs="width:[100%]" screen-sm="width:[600px]">
-  <button click="overlay-close:#dialogword" bgcolor="black" color="white" height="2rem" aria-label="close"
-    formnovalidate>X</button>
+  <button click="overlay-close:#dialogword" bgcolor="black" color="white" height=".5rem" width="1.5rem" top="-5"
+    right="0" absolute padding=".5rem" aria-label="close">x</button>
   <form class="gaph2" bindasset="action:api.words.endpoint" method="post" action="{action}" data-onsuccess="rerun:#list"
     data-onerror="show:#formerror">
     <div flex flexdirection="column" id="to">
-      <input name="word.eng" type="text" class="phdark bw1 bos8 bocblack02" paddingleft=".5rem" paddingright=".5rem"
+      <input name="word.eng" type="text" class="phdark bw1 bos8 bocblack02" padding=".5rem .5rem"
         placeholder="Word in English" autocomplete="off" globalize-get="word" required>
     </div>
     <i globalize="country_of_birth">Translations</i>
     <div class="group">
-      <select ignorepayload class="phdark bw1 bos8 bocblack02" id="birth_country" name="birth.country" ignorepayload
+      <select ignorepayload class="phdark bw1 bos8 bocblack02" id="language"
         data-src="https://api.aleptra.com/humanology/?table=human_language&order=language->>eng&where=isSign.eq(false),isExtinct.eq(null)"
-        data-iterate="true" append="#to:#from" onvaluechange="append:#to:#from" required>
+        data-iterate="true" onvaluechange="append:#to:#from;bind:#test:a" required>
         <option data-get="language.eng" data-set="i:id" value="{i}"></option>
       </select>
       <div id="from" hide>
-        <input type="text" class="phdark bw1 bos8 bocblack02" placeholder="Word in ???" autocomplete="off" required>
+        <input type="text" class="phdark bw1 bos8 bocblack02" padding=".5rem .5rem" placeholder="Word in ???"
+          autocomplete="off" required>
       </div>
     </div>
     <menu class="group mt1 gap1-">
