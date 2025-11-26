@@ -1,8 +1,9 @@
 test('append - should insert element at the end', function () {
-  var parent = createElement('div')
-  var child = createElement('div', true)
-  child.id = 'child2'
+  var from = createElement('div')
+  from.id = 'from'
+  var to = createElement('div')
+  to.id = 'to'
 
-  app.call('append:#' + parent.id + ':#' + child.id)
-  assertEqual(parent.lastChild.id, child.id)
+  app.call('append:#' + from.id + ':#' + to.id)
+  assertEqual(from.lastChild.id, to.id)
 })

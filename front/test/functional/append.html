@@ -10,15 +10,18 @@
   <hr>
   <section>
 
-    <button click="fragmentappend:#test:#test2">Add fragment</button>
+    <div append="#to:#from"></div>
+    <button click="append:#to:#from">Add fragment</button>
 
-    <template type="fragment" id="test">
+    <div type="fragment" id="to">
       <li>Item 2</li>
-    </template>
+    </div>
 
     <ul id="test2">
       <li>Item 1</li>
     </ul>
+
+    <div id="from" hide>sss</div>
   </section>
 </body>
 
