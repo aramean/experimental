@@ -12,12 +12,12 @@
     <div class="group">
       <select ignorepayload class="phdark bw1 bos8 bocblack02" id="language"
         data-src="https://api.aleptra.com/humanology/?table=human_language&order=language->>eng&where=isSign.eq(false),isExtinct.eq(null)"
-        data-iterate="true" onvaluechange="append:#to:#from;bind:#test:a" required>
+        data-iterate="true" onvaluechange="append:#to:#from" required>
         <option data-get="language.eng" data-set="i:id" value="{i}"></option>
       </select>
-      <div id="from" hide>
-        <input type="text" class="phdark bw1 bos8 bocblack02" padding=".5rem .5rem" placeholder="Word in ???"
-          autocomplete="off" required>
+      <div id="from" hide stop="*">
+        <input type="text" class="phdark bw1 bos8 bocblack02" margintop=".5rem" padding=".5rem .5rem"
+          bindappend="#language.value:e" placeholder="Word in {e}" name="{e}" autocomplete="off">
       </div>
     </div>
     <menu class="group mt1 gap1-">
