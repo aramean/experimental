@@ -1767,6 +1767,7 @@ var app = {
         default:
           var property = this._propertyMap[localName] || 'textContent'
           element[property] = value
+          element.renderedText = value //todo: Fix this. Strange rendering solution.
       }
     },
 
