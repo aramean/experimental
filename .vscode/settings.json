@@ -28,6 +28,9 @@
     "textMateRules": []
   },
   "editor.stickyScroll.enabled": false,
+  "[html]": {
+    "editor.formatOnSave": true
+  },
   "[javascript]": {
     "editor.formatOnSave": true
   },

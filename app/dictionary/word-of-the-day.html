@@ -13,11 +13,12 @@
   bindglobal="l:globalize.code" data-src="{endpoint}" data-header="apikey:{apikey};Accept:application/json+single"
   data-status="406;#status406" data-onerror="hide:#success" data-loader="#loader" globalize-onsetload="rerun">
   <section>
-    <h1 globalize-get>Word of the Day</h1>
+    <h1 globalize-get seold--desc>Word of the Day</h1>
     <h2 chronotize-get="F d, Y" marginbottom="1rem"></h2>
     <div class="bcwhite p05 bos6 bocblack01 bw1 br05">
       <a data-set="id:id" href="word.html?i={id}" class="df fdc">
-        <h2 class="tac z15" margintop="1rem" bindglobal="l:globalize.code" data-get="word.{l}"></h2>
+        <h2 class="tac z15" margintop="1rem" bindglobal="l:globalize.code" data-get="word.{l}" seold--name>Word
+        </h2>
         <hr class="shade2" margintop="1rem">
         <span class="aic p05 w100"><span globalize-get>Go-to Word</span> <i class="icon pr025 fr">&#707;</i></span>
       </a>

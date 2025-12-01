@@ -1,6 +1,7 @@
 <template>
-  <header class="topbar h4_5 pr1 shade1">
-    <button click="toggle" clicktargetfield="aside[0]" class="md_du light p1 br50 hover-"><i class="icon24">≡</i></button>
+  <header class="topbar h4_5 pr1 shade1" bgcolor="white05">
+    <button click="toggle" clicktargetfield="aside[0]" class="md_du light p1 br50 hover-"><i
+        class="icon24">≡</i></button>
     <figure class="mh30p pl2 pr2 df-">
       <a href="./" key="0">
         <img class="pr025" src="https://www.aleptra.com/assets/img/logo_black.png">
@@ -11,11 +12,17 @@
       <a class="f0 pr" href=""><i class="icon">&#8630;</i>Undo</a>
       <a class="f0 pr" href="">Redo <i class="icon">&#8631;</i></a>
     </div>
+    <details paddingleft="1rem" zindex="10">
+      <summary><i class="icon24">&#8942;</i></summary>
+      <ul class="pa r1 bcwhite p05 fdc bs5 p025- fdc" margintop="2rem" width="12rem">
+        <li><a href="settings.html" class="fs09">Settings</a></li>
+      </ul>
+    </details>
   </header>
-  <aside class="w15 shade2 md_dn">
+  <aside class="w15 shade2 md_dn" bgcolor="white05">
     <div include="includes/sidebar.html"></div>
   </aside>
-  <main class="pauto"></main>
-  <aside class="testar"></aside>
+  <main class="pauto" bgcolor="white05"></main>
+  <aside></aside>
   <footer></footer>
 </template>

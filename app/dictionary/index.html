@@ -5,15 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="version" content="1.0.0">
-  <script
-    src="../../front/front.js"
-    module="globalize;chronotize;data;navigate;keyboard"
-    plugin="share"
+  <script src="../../front/front.js" module="globalize;chronotize;data;navigate;keyboard" plugin="share;seold"
     var="api;enum"
     conf="debug:false;debugLocalhost:true;varsDir:assets/json/vars;storageKey:dictionary;frontSrcLocal:../../front/front.js"
     globalize-conf="folder:assets/json/locales"
     navigate-conf="startpage:experimental/app/dictionary;startpageLocal:app/dictionary">
-  </script>
+    </script>
   <link type="text/css" href="https://cdn.front.nu/dist/front.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/app.css">
   <link rel="icon" href="data:,">
@@ -21,7 +18,9 @@
 </head>
 
 <body class="light">
-  <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide><div class="bcblack08"></div></div>
+  <div id="navloader" class="navloader pa t0 w100 bcblack03 h2px" hide>
+    <div class="bcblack08"></div>
+  </div>
   <header>
     <select name="language" class="p1 m0a fs08 tac" onvaluechange="globalize-set">
       <option selected disabled globalize-get>Change language</option>
@@ -38,30 +37,16 @@
         </div>
         <form id="form" method="get" action="search.html" onformsubmit="setname:#i:[]" target="_top" class="mt1 mb5 pr">
           <input type="hidden" id="i">
-          <input
-            type="text"
-            name="q"
-            id="q"
-            class="bs1 p1 h3 br05 dark white w100 w100 pr3 bs0"
-            globalize-get="input_search"
-            globalize-target="placeholder"
-            autocomplete="off"
-            focus>
-          <input
-            type="submit"
-            class="bos0 bc0 white p1 h3 br05 w4 icon icon16 pa r0"
-            value="&#128269;">
+          <input type="text" name="q" id="q" class="bs1 p1 h3 br05 dark white w100 w100 pr3 bs0"
+            globalize-get="input_search" globalize-target="placeholder" autocomplete="off" focus>
+          <input type="submit" class="bos0 bc0 white p1 h3 br05 w4 icon icon16 pa r0" value="&#128269;">
           <div class="m0a z07 jcc tac" margintop="2rem" style="flex-wrap: wrap">
-            <a
-              class="aic p05 shade1 bclinen"
-              click="data-reqget"
-              paddingright="1rem"
+            <a class="aic p05 shade1 bclinen" click="data-reqget" paddingright="1rem"
               bindasset="apikey:api.api_key;endpoint:api.word_random.endpoint"
               data-header="apikey:{apikey};Accept:application/json+single"
               data-reqget="{endpoint}&order=random()&limit=1"
               data-onbeforesuccess="data-set:[word:id];setaction:#form:[word.html];setname:#i:[i]"
-              data-onaftersuccess="setvalue:#i:[{word}];submit:[form[0]]"
-            >
+              data-onaftersuccess="setvalue:#i:[{word}];submit:[form[0]]">
               <i class="icon icon24" marginright="5">&#127922;</i> <span globalize-get>Randomize word</span>
             </a>
             <a class="aic p05 shade1 bcsnow" paddingright="1rem" href="word-of-the-day.html">
