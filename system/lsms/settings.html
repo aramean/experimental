@@ -21,11 +21,11 @@
       <label class="fs09">Add language</label>
       <div class="ml0 pr f1">
         <form class="zi3" id="form" method="get" action="search.html" target="_top">
-          <input id="query2" name="q" type="text" class="bs1 p1 h3 br05 w100 zi3" color="black"
+          <input id="addLanguage" name="q" type="text" class="bs1 p1 h3 br05 w100 zi3" color="black"
             globalize-get="input_search" globalize-target="placeholder" placeholder="Enter language name or ISO code"
             autocomplete="off">
         </form>
-        <div maxheight="5rem" stop="data-src" bindglobal="l:globalize.code" bindfield="q:#query2"
+        <div maxheight="5rem" stop="data-src" bindglobal="l:globalize.code" bindfield="q:#addLanguage"
           bindasset="apikey:api.api_key;endpoint:api.languages.endpoint"
           data-src="{endpoint}&column=*&where=language->>{l}.ilike({q}*),isSign.eq(false)&limit=30"
           data-header="apikey:{apikey};Prefer:count=exact" data-iterate="true" data-loader="false"
@@ -36,7 +36,7 @@
           </figure>
         </div>
         <div id="empty2" class="pa w100 bcwhite zi2" hide>
-          <p class="m1" bindfield="q:#query2">No results found for <b>{q}</b></p>
+          <p class="m1" bindfield="q:#addLanguage">No results found for <b>{q}</b></p>
         </div>
       </div>
       <button class="p1 mt1 br05 shade2" click="data-add:setlist:#languages:[addLang]">Add</button>
