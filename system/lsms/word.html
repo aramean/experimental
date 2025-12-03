@@ -1,142 +1,23 @@
 <script src="../../front/front.js"></script>
 <title>Word</title>
 <template srcdoc="../index" src="../templates/main"></template>
-  <section
-    bindquery="i:i"
-    bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
-    data-src="{endpoint}&column=id,word&where=id.eq({i})"
-    data-header="apikey:{apikey};Prefer:count=exact;Accept:application/vnd.pgrst.object+json"
-    data-set="word:#word"
-  >
-    <h1 bindglobal="l:globalize.code" data-get="word.{l}" contenteditable>&nbsp;</h1>
-    <hr class="bcblack01 mt1">
+<section bindquery="i:i" bindasset="endpoint:api.words.endpoint" data-src="{endpoint}&column=id,word&where=id.eq({i})"
+  data-header="Prefer:count=exact;Accept:application/json+single">
+
+  <hr class="bcblack01 mt1">
+  <form method="put" bindasset="endpoint2:api.words.endpoint" action="{endpoint2}">
     <div class="box cards list mt1 br0- flc- bcwhite-">
-      <details class="p1" open>
-        <summary class="fwb" globalize-get="genre">Aramaic (12)</summary>
-        <!-- Samalian (Northwest) -->
-        <hr>
-        <h6 class="p05 pl1 black06 fs08">Aramaya</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p data-get="word.oar" contenteditable></p>
-            <small data-get="word.oar_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <h6 class="p05 pl1 black06 fs08">Armaya</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p data-get="word.arc" contenteditable></p>
-            <small data-get="word.arc_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <h6 class="p05 pl1 black06 fs08">Aramya</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p data-get="word.arc" contenteditable></p>
-            <small data-get="word.arc_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <!-- Babylonian (Southeast) -->
-        <h6 class="p05 pl1 black06 fs08">Aramita</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p data-get="word.sam" contenteditable></p>
-            <small data-get="word.amw_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <!-- Samaritan (West) -->
-        <h6 class="p05 pl1 black06 fs08">Aramit</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p data-get="word.sam" contenteditable></p>
-            <small data-get="word.sam_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <!-- Syrian (West) (Middle Aramaic) (Square) -->
-        <h6 class="p05 pl1 black06 fs08">Aromay</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p data-get="word.amw" contenteditable></p>
-            <small data-get="word.amw_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <!-- Syrian (West) (Modern Aramaic) (Cursive) -->
-        <h6 class="p05 pl1 black06 fs08">Siryon</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p data-get="word.amw" contenteditable></p>
-            <small data-get="word.amw_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <!-- Palestinian (West) (Old Aramaic) (Cursive) -->
-        <h6 class="p05 pl1 black06 fs08">Sursi</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p data-get="word.jpa" contenteditable></p>
-            <small data-get="word.jpa_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <!-- Syrian (West) (Modern Aramaic) (Cursive) -->
-        <div class="df">
-          <h6 class="p05 pl1 black06 fs08" globalize-get>Suryaya</h6>
-          <a class="icon f0 aic pr1" hide>&#9733;</a>
+      <details class="accordion" flexdirection="column" open>
+        <summary class="fwb" globalize-get iconopen="⊖" iconclosed="⊕" iconsize="24">Translations</summary>
+        <div class="box cards p1- grid xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6" data-iterate="word"
+          padding="1rem">
+          <figure>
+            <small data-get="[*]">[iso]</small>
+            <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Birth date" data-get="[*]." required>
+          </figure>
         </div>
-        <figure class="p1 mb1">
-          <div>
-            <p class="ffedessa" data-get="word.syc" contenteditable></p>
-            <small data-get="word.syc_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
 
-        <!-- Syrian (East) (Modern Aramaic) (Cursive) -->
-        <div class="df">
-          <h6 class="p05 pl1 black06 fs08" globalize-get>Suryoyo</h6>
-          <a class="icon f0 aic pr1" hide>&#9733;</a>
-        </div>
-        <figure class="p1 mb1">
-          <div>
-            <p class="ffurhoy" data-get="word.syr" contenteditable></p>
-            <small data-get="word.syr_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <div class="df fdc f0" style="flex-direction: column">
-            <a class="icon aie" hide>&#128264;</a>
-          </div>
-        </figure>
-
-        <h6 class="p05 pl1 black06 fs08" globalize-get>Surayt</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p class="ffmardin" data-get="word.syt" contenteditable></p>
-            <small data-get="word.syt_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
-
-        <h6 class="p05 pl1 black06 fs08" globalize-get>Suret</h6>
-        <figure class="p1 mb1">
-          <div>
-            <p class="ffadiabene" data-get="word.syh" contenteditable></p>
-            <small data-get="word.syh_lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
-          </div>
-          <a class="icon f0" hide>&#128264;</a>
-        </figure>
+      </details>
     </div>
-    </details>
-  </section>
+  </form>
+</section>
