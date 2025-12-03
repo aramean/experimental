@@ -1176,7 +1176,7 @@ var dom = {
    * @param {Array<string>} exclude - An array of attribute names to exclude from the 'stop' attribute value.
    */
   stop: function (element, value) {
-    var exclude = ['stop'],
+    var exclude = ['bind', 'stop'],
       children = element.childNodes
     for (var i = 0; i < children.length; i++) {
       var child = children[i]
@@ -2677,6 +2677,7 @@ var app = {
             app.variables.reset.attribute(object, options.single)
           }
 
+          console.dir(object.attributes)
           var regex = new RegExp('\\{\\s*' + replaceVariable + '\\s*(?::((?:{[^{}]*}|[^}])+))?\\}', 'g')
           for (var i = 0; i < object.attributes.length; i++) {
             var attr = object.attributes[i]
