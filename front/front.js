@@ -2777,13 +2777,18 @@ var app = {
   querystrings: {
     get: function (url, param) {
       var parser = document.createElement('a')
-      parser.href = url || window.location.href
+
+      // Safari Private Mode Fix
+      var current = document.location.toString()
+
+      parser.href = url || current
+
       var query = parser.search.substring(1),
         vars = query.split('&')
 
-      for (var i = 0, len = vars.length; i < len; i++) {
+      for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split('='),
-          key = decodeURIComponent(pair[0]),
+          key = decodeURIComponent(pair[0] || ''),
           value = decodeURIComponent(pair[1] || '')
         if (key === param) return value
       }
