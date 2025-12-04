@@ -2777,9 +2777,8 @@ var app = {
   querystrings: {
     get: function (url, param) {
       var parser = document.createElement('a')
-
-      //Todo: Add to fix Safari bug || window.history.state && window.history.state.href
-      parser.href = url || window.location.href
+      // Use the provided URL, or fallback to SPA history state (for Safari), otherwise use window.location
+      parser.href = url || (window.history.state && window.history.state.href) || window.location.href
       var query = parser.search.substring(1),
         vars = query.split('&')
 
