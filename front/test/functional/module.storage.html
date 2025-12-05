@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="../../front.js" module="storage" conf="debug:true"></script>
+</head>
+
+<body>
+  <h1>Storage</h1>
+  <hr>
+  <br><br>
+  <div id="hide1" onshow="storage-sessionset:[test1]:[user][profiles][name][[city][GB][country][SE]]" hide>Stored 1
+  </div>
+  <div id="hide2" onshow="storage-sessionset:[test2]:[user][profiles][name][[city][GB][country][[SE][DE]]]" hide>Stored
+    2
+  </div>
+  <div id="hide3" onshow="storage-sessionset:[test3]:[config][ui][[theme][dark][lang][en][fontsize][16]]" hide>Stored3
+  </div>
+  <div id="hide4" onshow="storage-sessionset:[test4]:[player][stats][[level][100][gold][999999][rank][pro]]" hide>
+    Stored4
+  </div>
+
+  <button click="show:#hide1;show:#hide2;show:#hide3;show:#hide4">Store Data</button>
+  <br><br>
+  <button click="storage-sessionremove:[test1]">Remove 'test1' item</button>
+  <br><br>
+  <button click="storage-sessionremove:[test3]:[config][ui][lang]">Remove 'lang' from 'test3'</button>
+  <br><br>
+  <button click="storage-sessionremove:[test4]:[player][stats][gold]">Remove 'gold' from 'test4'</button>
+  <br><br>
+  <button click="storage-sessionupdate:[test3]:[config][ui][lang]:[sv]">Update 'lang' in 'test3' to 'sv'</button>
+</body>
+
+</html>

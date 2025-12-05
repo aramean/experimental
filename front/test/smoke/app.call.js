@@ -59,3 +59,20 @@ test('app.call - multiple bracket values', function () {
   app.call('func:#' + el.id + ':[one][two][three]')
   assertEqual(stub.get.value.length, 3).desc('multiple bracket values parsed')
 })
+
+test('app.call - element selector using *', function () {
+  var stub = createStub(app, 'exec')
+  app.call('func:*main:[value]')
+  assertIsObject(stub.get.element).desc('element is object selected by *')
+  assertEqual(stub.get.element.localName, 'main').desc('element name')
+  assertEqual(stub.get.func, 'func').desc('func name')
+  assertEqual(stub.get.value, 'value').desc('value')
+})
+
+test('app.call - primaryvalue with multiple bracket values', function () {
+  var stub = createStub(app, 'exec')
+  app.call('func:[value1]:[value2][value3]')
+  assertEqual(stub.get.func, 'func').desc('func name')
+  assertFalse(stub.get.element).desc('element is false')
+  assertEqual(stub.get.value.length, 3).desc('has three values')
+})
