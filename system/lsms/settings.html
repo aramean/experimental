@@ -29,8 +29,7 @@
           bindasset="apikey:api.api_key;endpoint:api.languages.endpoint"
           data-src="{endpoint}&column=*&where=language->>{l}.ilike({q}*),isSign.eq(false)&limit=30"
           data-header="apikey:{apikey};Prefer:count=exact" data-iterate="true" data-loader="false"
-          ondata-finish="alert:[e]" class="box br05 bcwhite- black- pa w100 ail- zi2 shade2" data-onempty="#empty2"
-          hide>
+          class="box br05 bcwhite- black- pa w100 ail- zi2 shade2" data-onempty="#empty2" hide>
           <figure>
             <a bindglobal="l:globalize.code" data-set="iso:iso" data-get="language.{l}" padding=".5rem 1rem"
               mouseover="bgcolor:[whitesmoke]" mouseout="bgcolor:[inherit]"
@@ -42,10 +41,9 @@
         </div>
         <ul storage-bind="session:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column"
           paddingtop="1rem">
-          <li>
-            <span storage-get="[*]" flex="1"></span>
-            <button storage-set="iso:[*]"
-              click="storage-sessionremove:[dictionaryLanguage.languages.{iso}]">Remove</button>
+          <li mouseover="bgcolor:[whitesmoke]" mouseout="bgcolor:[inherit]">
+            <span storage-get="[*]" class="f1" flex="1"></span>
+            <button storage-set="iso:[*]" click="storage-sessionremove:[dictionaryLanguage.languages.{iso}]">🗑</button>
           </li>
         </ul>
       </div>
