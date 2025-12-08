@@ -31,19 +31,19 @@
           data-header="apikey:{apikey};Prefer:count=exact" data-iterate="true" data-loader="false"
           class="box br05 bcwhite- black- pa w100 ail- zi2 shade2" data-onempty="#empty2" hide>
           <figure>
-            <a bindglobal="l:globalize.code" data-set="iso:iso" data-get="language.{l}" padding=".5rem 1rem"
-              mouseover="bgcolor:[whitesmoke]" mouseout="bgcolor:[inherit]"
-              click="storage-sessionadd:![dictionaryLanguage]:[languages][{iso}];remove:#;hide:#languages;reset:#addLanguage"></a>
+            <a bindglobal="l:globalize.code" data-set="iso:iso;name:language.{l}" data-get="language.{l}"
+              padding=".5rem 1rem" mouseover="bgcolor:[whitesmoke]" mouseout="bgcolor:[inherit]"
+              click="storage-localadd:![dictionaryLanguage]:[languages][{iso}][[name[{name}]][iso[{iso}]]];remove:#;hide:#languages;reset:#addLanguage"></a>
           </figure>
         </div>
         <div id="empty2" class="pa w100 bcwhite zi2" hide>
           <p class="m1" bindfield="q:#addLanguage">No results found for <b>{q}</b></p>
         </div>
-        <ul storage-bind="session:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column"
+        <ul storage-bind="local:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column"
           paddingtop="1rem">
           <li mouseover="bgcolor:[whitesmoke]" mouseout="bgcolor:[inherit]">
-            <span storage-get="[*]" class="f1" flex="1"></span>
-            <button storage-set="iso:[*]" click="storage-sessionremove:[dictionaryLanguage.languages.{iso}]">🗑</button>
+            <span storage-get="name" class="f1" flex="1"></span>
+            <button storage-set="iso:iso" click="storage-localremove:[dictionaryLanguage.languages.{iso}]">🗑</button>
           </li>
         </ul>
       </div>
