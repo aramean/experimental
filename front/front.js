@@ -1176,7 +1176,7 @@ var dom = {
    * @param {Array<string>} exclude - An array of attribute names to exclude from the 'stop' attribute value.
    */
   stop: function (element, value) {
-    var exclude = ['bind', 'stop'],
+    var exclude = ['stop'],
       children = element.childNodes
     for (var i = 0; i < children.length; i++) {
       var child = children[i]
