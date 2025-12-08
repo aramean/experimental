@@ -6,12 +6,12 @@
 
   <hr class="bcblack01 mt1">
   <form method="put" bindasset="endpoint2:api.words.endpoint" action="{endpoint2}">
-    <div class="box cards list mt1 br0- flc- bcwhite-">
-      <details class="accordion" flexdirection="column" open>
-        <summary class="fwb" globalize-get iconopen="⊖" iconclosed="⊕" iconsize="24">Translations</summary>
-        <div class="box cards p1- grid xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6" data-iterate="word"
-          padding="1rem">
-          <figure>
+    <div class="box" bgcolor="white" width="100%">
+      <details class="accordion shade1" flexdirection="column" width="100%" open>
+        <summary globalize-get iconopen="⊖" iconclosed="⊕" iconsize="24" bold>Translations</summary>
+        <div class="box cards p1- grid xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6" width="unset"
+          data-iterate="word" padding="1rem">
+          <figure width="unset">
             <small data-get="[*]">[iso]</small>
             <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Birth date" data-get="[*]." required>
           </figure>
