@@ -20,7 +20,7 @@
       </a>
     </div>
     <menu class="group mt1">
-      <i globalize="country_of_birth">Translations</i>
+      <!--<i globalize="country_of_birth">Translations</i>
       <div class="group">
         <select ignorepayload class="phdark bw1 bos8 bocblack02" id="language"
           data-src="https://api.aleptra.com/humanology/?table=human_language&order=language->>eng&where=isSign.eq(false),isExtinct.eq(null)"
@@ -29,9 +29,10 @@
         </select>
         <div id="from" hide stop="*">
           <input type="text" class="phdark bw1 bos8 bocblack02" margintop=".5rem" padding=".5rem .5rem"
-            bindappend="#language:e;#language.value:iso" placeholder="Word in {e}" name="word.{iso}" autocomplete="off">
+            bindappend="#language.label:e;#language.value:iso" placeholder="Word in {e}" name="word.{iso}"
+            autocomplete="off">
         </div>
-      </div>
+      </div>-->
       <input class="button w5r round br1 h2r fr bcblack white aic bs1 h3" type="submit" value="Add" globalize-get="Add">
     </menu>
   </form>
