@@ -29,7 +29,7 @@
   },
   "editor.stickyScroll.enabled": false,
   "[html]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   "[javascript]": {
     "editor.formatOnSave": true
