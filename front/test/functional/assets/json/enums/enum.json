@@ -1,5 +1,9 @@
 {
   "class": {
-    "name": "bg color"
+    "name": "bg color",
+    "lastname": "bg2 color2"
+  },
+  "run": {
+    "help": "append:"
   }
 }
