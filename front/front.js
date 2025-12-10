@@ -638,6 +638,8 @@ var dom = {
       element = element.exec.element
     }
 
+    if (element.localName === 'body') element = document.documentElement
+
     // Resolve element if it's a selector string
     var target = typeof element === 'string' ? app.element.select(element) : element
     // Determine scroll position
