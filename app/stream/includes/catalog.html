@@ -1,35 +1,33 @@
-<a href="#down"><h2 bindglobal="title:title" settext="{title}" globalize-get="{title}"></h2></a>
+<a href="#down">
+  <h2 bindglobal="title:title" settext="{title}" globalize-get="{title}"></h2>
+</a>
 <hr class="bcblack01">
-<style>.loader{display: inherit}</style>
+<style>
+  .loader {
+    display: inherit
+  }
+</style>
 <div id="loader" class="loader"></div>
 <div id="error" class="red mb2" hide>Something went wrong!</div>
 <div id="empty" class="mb2 fwb" hide>Not found!</div>
 <div id="success" class="green mb2" hide>It's working!</div>
-<div
-  bindvar=":"
-  bindasset="api:api.themoviedb.{endpoint}.{endpoint2}"
-  bindquery="page:page;genres:genres"
-  data-src="{api}&page={page:1}&with_genres={genres}"
-  data-replace="results.media_type:tv;results.mediatype:show"
-  data-set="page:#page;total_pages:#pages;total_results:#results"
-  data-header=""
-  data-iterate="results"
-  data-loader="#loader"
-  data-onerror="show:#error"
-  data-onempty="#empty"
-  filter="true"
-  class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac"
->
+<div bindvar=":" bindasset="api:api.themoviedb.{endpoint}.{endpoint2}" bindquery="page:page;genres:genres"
+  data-src="{api}&page={page:1}&with_genres={genres}" data-replace="results.media_type:tv;results.mediatype:show"
+  data-set="page:#page;total_pages:#pages;total_results:#results" data-header="" data-iterate="results"
+  data-loader="#loader" data-onerror="show:#error" data-onempty="#empty" filter="true"
+  class="box cards xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc6 xxxl_gtc7 br05- bcwhite- border- tac">
   <a bindvar=":" data-get="id:id;link:media_type" href="{link:{link}}.html?id={id}" class="p025">
     <figure class="pr">
-      <img class="br05" width="100%" data-set="poster_path:poster_path" setsrc="https://image.tmdb.org/t/p/w220_and_h330_face/{poster_path}">
+      <img class="br05" width="100%" data-set="poster_path:poster_path"
+        setsrc="https://image.tmdb.org/t/p/w220_and_h330_face/{poster_path}">
       <figcaption class="z1 pa md_dn b0 fs08 white ts05 bcblack02 w100" data-get="title || name"></figcaption>
     </figure>
   </a>
 </div>
 
 <nav class="pagination mt1 p1 p1- bcwhite01 flc" selective="true" iterate="1;9;i">
-  <a class="bcwhite m025 br05" keyboard-key="{i}" keyboard-action="click" keyboard-scope="body" sethref="?page={i}" settext="{i}"></a>
+  <a class="bcwhite m025 br05" keyboard-key="{i}" keyboard-action="click" keyboard-scope="body" sethref="?page={i}"
+    settext="{i}"></a>
 </nav>
 
 <hr>
@@ -43,3 +41,9 @@
   Total Results: <span id="results">0</span>
   <br>
 </div>
+<hr>
+<select name="language" class="h1 fs08" onvaluechange="globalize-set">
+  <option selected disabled></option>
+  <option value="sv">Svenska</option>
+  <option value="en">English</option>
+</select>
