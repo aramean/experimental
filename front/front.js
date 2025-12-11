@@ -1911,7 +1911,11 @@ var app = {
           selector = selector.replace(regex, '')
       }
 
-      var elements = document.querySelectorAll(selector)
+      try {
+        var elements = document.querySelectorAll(selector)
+      } catch (e) {
+        return app.log.warn(1)('Invalid selector: ' + selector)
+      }
 
       if (elements.length === 0)
         return ''
