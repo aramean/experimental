@@ -132,6 +132,15 @@
   >
     <option data-get="name"></option>
   </select>
+
+
+<section>
+  <h4>Bindfield with reloadcontent false</h4>
+  <form flex flexdirection="row" bindfield="test:#command" onformsubmit="alert:[{test}];reset">
+      <input type id="command" autocomplete="off" bindfieldreloadcontent="false">
+  </form>
+</section>
+
 </body>
 
 </html>
