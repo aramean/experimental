@@ -967,8 +967,12 @@ var dom = {
    * @function clear
    * @memberof dom
    */
-  clear: function (object) {
-    if (object.exec) object = object.exec.element
+  clear: function (object, value) {
+    if (value) {
+      object = app.element.select(value)
+    } else if (object.exec.element) {
+      object = object.exec.element
+    }
     object.innerHTML = ''
   },
 
