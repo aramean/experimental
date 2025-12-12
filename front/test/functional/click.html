@@ -31,6 +31,12 @@
   <h1>Click target element</h1>
   <button click="click:#button2">Button1</button>
   <button id="button2" onclicked="color:[red];disable;log:[Button1(OK)]">Button2</button>
+
+  <section>
+      <h1>Click onclicked</h1>
+      <button click="click:#button3" onclicked="alert:[clicked]">Button3</button>
+      <button id="button3" onclicked="settext:[Button4]"></button>
+  </section>
 </body>
 
 </html>

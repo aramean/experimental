@@ -2049,7 +2049,7 @@ var app = {
       }
     },
 
-    runOnEvent: function (parsedCall, options) {
+    runOnEvent: function (parsedCall) {
       if (parsedCall.exec) {
         var func = dom._eventMap[parsedCall.exec.func] || parsedCall.exec.func,
           el = parsedCall.exec.element,
@@ -2625,10 +2625,14 @@ var app = {
   attributes: {
 
     defaultExclude: [
+      'async',
       'alt',
       'checked',
       'class',
+      'click',
       'content',
+      'defer',
+      'href',
       'for',
       'id',
       'name',
