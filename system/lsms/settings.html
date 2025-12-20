@@ -40,12 +40,17 @@
           <p class="m1" bindfield="q:#addLanguage">No results found for <b>{q}</b></p>
         </div>
         <ul storage-bind="local:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column"
-          paddingtop="1rem">
+          paddingtop="1rem" storage-onempty="#no-languages">
           <li mouseover="bgcolor:[whitesmoke]" mouseout="bgcolor:[inherit]">
             <span storage-get="name" class="f1" flex="1"></span>
             <button storage-set="iso:iso" click="storage-localremove:[dictionaryLanguage.languages.{iso}]">🗑</button>
           </li>
         </ul>
+
+        <div id="no-languages" hide>
+          No languages added.
+        </div>
+
       </div>
       <!-- <button class="p1 mt1 br05 shade2" click="data-add:setlist:#languages:[addLang]">Add</button>-->
     </div>
