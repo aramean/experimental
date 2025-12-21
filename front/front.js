@@ -2741,8 +2741,7 @@ var app = {
               attrFullname = dom._actionMap[attrName] || attrName
             if (exclude.indexOf(attrFullname) === -1) {
               var name = attrFullname.split('-')
-              element.originalAttribute = attrName && dom._actionMap[attrName]
-              //element.lastRunAttribute = attrName
+              element.originalAttribute = dom._actionMap[attrName] && attrName
 
               if (attrName === 'include') dom.setUniqueId(element) // Add ID to all includes.
 
