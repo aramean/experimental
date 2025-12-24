@@ -3250,9 +3250,9 @@ var app = {
           }
 
           if (success) {
-            if (srcEl) {
-              app.call(success, { srcElement: srcEl })
-            }
+            //if (srcEl) {
+            app.call(success, { srcElement: srcEl })
+            //}
 
             // Clean up error element.
             if (error) {
