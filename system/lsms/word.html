@@ -5,18 +5,48 @@
   data-header="Prefer:count=exact;Accept:application/json+single">
 
   <hr class="bcblack01 mt1">
-  <form method="put" bindasset="endpoint2:api.words.endpoint" action="{endpoint2}">
+  <form method="put" bindasset="endpoint2:api.words.endpoint" data-set="id:id" action="{endpoint2}&where=id.eq({id})">
     <div class="box" bgcolor="white" width="100%">
       <details class="accordion shade1" flexdirection="column" width="100%" open>
         <summary globalize-get iconopen="⊖" iconclosed="⊕" iconsize="24" bold>Translations</summary>
         <div class="box cards p1- grid xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6" width="unset"
-          data-iterate="word" padding="1rem">
+          data-iterate="word" padding="1rem" id="to">
           <figure width="unset">
             <small data-get="[*]">[iso]</small>
-            <input class="bs1 w100p p1 h3 br05" type="text" placeholder="Birth date" data-get="[*]." required>
+            <input class="bs1 w100p p1 h3 br05" type="submit" data-get="[*]." data-set="iso:[*]" name="word.{iso}" required>
           </figure>
         </div>
       </details>
     </div>
   </form>
+</section>
+<hr>
+<section>
+  <div class="p1 shade1 br05 mb1">
+    <label class="fs09" bold>Add more translations</label>
+    <div class="ml0 pr f1">
+      <ul storage-bind="local:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column"
+        paddingtop="1rem" storage-onempty="#no-languages">
+        <li mouseover="bgcolor:[whitesmoke]" mouseout="bgcolor:[inherit]">
+          <span storage-get="name" class="f1" flex="1"></span>
+          <button padding="0.5rem 1rem"
+            storage-set="name:name;iso:iso"
+            click="setvalue:#iso:[{iso}];setvalue:#language:[{name}];remove:#"
+            onclicked="append:#to:#from">Add</button>
+        </li>
+      </ul>
+      <div id="no-languages" hide>
+        No languages added. <a href="settings.html">Manage Dictionary Languages</a>
+      </div>
+      <input type="hidden" id="iso">
+      <input type="hidden" id="language">
+    </div>
+  </div>
+  <div id="from" hide stop="*">
+    <figure>
+      <small bindappend="#iso:iso">{iso}</small>
+      <input type="text" class="phdark bs1 br05" height="3rem" width="100%" padding="1rem"
+        bindappend="#language:e;#iso:iso" placeholder="Word in {e}" name="word.{iso}" autocomplete="off">
+    </figure>
+  </div>
 </section>

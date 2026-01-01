@@ -10,8 +10,8 @@
         placeholder="Word in English" autocomplete="off" globalize-get="word" required>
     </div>
     <ul storage-bind="local:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column">
-      <input storage-set="iso:iso;name:name" name="word.{iso}" type="text" class="phdark bw1 bos8 bocblack02"
-        padding=".5rem .5rem" placeholder="Word in {name}" autocomplete="off" globalize-get="word" required>
+      <input storage-set="iso:iso;e:name" name="word.{iso}" type="text" class="phdark bw1 bos8 bocblack02"
+        padding=".5rem .5rem" placeholder="Word in {e}" autocomplete="off" globalize-get="word" required>
       </li>
     </ul>
     <div style="margin-bottom: 1rem; font-size: 0.9rem;">
