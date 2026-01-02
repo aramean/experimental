@@ -13,7 +13,14 @@
           data-iterate="word" padding="1rem" id="to">
           <figure width="unset">
             <small data-get="[*]">[iso]</small>
-            <input class="bs1 w100p p1 h3 br05" type="text" data-get="[*]." data-set="iso:[*]" name="word.{iso}" required>
+            <input type="text" class="bs1 w100p p1 h3 br05"
+              data-set="iso:[*]"
+              data-get="[*]."
+              name="word.{iso}"
+              keyboard-key="Enter"
+              keyboard-action="alert:[You pressed enter {iso}.]" 
+              keyboard-scope
+              required>
           </figure>
         </div>
       </details>
