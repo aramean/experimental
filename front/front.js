@@ -677,11 +677,13 @@ var dom = {
    * @param {HTMLElement} element - The element to set the unique id on.
    * @desc Sets a unique id for the given element.
    */
-  setUniqueId: function (element, internal) {
+  setUniqueId: function (element, internal, attr) {
     this._uniqueId++
     var id = this._uniqueId
     if (!internal)
       element.id = 'id' + id
+    else if (attr)
+      element.setAttribute('uniqueid', id)
     else
       element.uniqueId = id
   },
