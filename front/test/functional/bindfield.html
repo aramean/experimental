@@ -4,7 +4,7 @@
 <head>
   <script
     src="../../front.js"
-    module="globalize;data;navigate"
+    module="globalize;data;navigate;keyboard"
     var="api"
     conf="varsDir:assets/json/vars;debug:true"
     globalize-conf="folder:assets/json/locales"
@@ -136,7 +136,7 @@
 
 <section>
   <h4>Bindfield with reloadcontent false</h4>
-  <form flex flexdirection="row" bindfield="test:#command" onformsubmit="alert:[{test}];reset">
+  <form flex flexdirection="row" bindfield="test:#command" onformsubmit="alert:[OK];reset">
       <input type id="command" autocomplete="off" bindfieldreloadcontent="false">
   </form>
 </section>
