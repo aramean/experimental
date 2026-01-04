@@ -5,7 +5,7 @@
   data-header="Prefer:count=exact;Accept:application/json+single">
 
   <hr class="bcblack01 mt1">
-  <form method="put" bindasset="endpoint2:api.words.endpoint" data-set="id:id" action="{endpoint2}&where=id.eq({id})">
+  <form id="edit" method="put" bindasset="endpoint2:api.words.endpoint" data-set="id:id" action="{endpoint2}&where=id.eq({id})" onsubmitted="alert:[Saved]">
     <div class="box" bgcolor="white" width="100%">
       <details class="accordion shade1" flexdirection="column" width="100%" open>
         <summary globalize-get iconopen="⊖" iconclosed="⊕" iconsize="24" bold>Translations</summary>
@@ -18,8 +18,9 @@
               data-get="[*]."
               name="word.{iso}"
               keyboard-key="Enter"
-              keyboard-action="alert:[You pressed enter {iso}.]" 
+              keyboard-action="submit:#edit:[#edit]"
               keyboard-scope
+              autocomplete="off"
               required>
           </figure>
         </div>
@@ -53,7 +54,14 @@
     <figure>
       <small bindappend="#iso:iso">{iso}</small>
       <input type="text" class="phdark bs1 br05" height="3rem" width="100%" padding="1rem"
-        bindappend="#language:e;#iso:iso" placeholder="Word in {e}" name="word.{iso}" autocomplete="off">
+        bindappend="#language:e;#iso:iso"
+        placeholder="Word in {e}"
+        name="word.{iso}"
+        keyboard-key="Enter"
+        keyboard-action="alert:[You pressed enter {iso}.]"
+        keyboard-scope
+        autocomplete="off"
+        required>
     </figure>
   </div>
 </section>

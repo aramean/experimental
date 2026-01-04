@@ -9,11 +9,14 @@
       <input name="word.eng" type="text" class="phdark bw1 bos8 bocblack02" padding=".5rem .5rem"
         placeholder="Word in English" autocomplete="off" globalize-get="word" required>
     </div>
-    <ul storage-bind="local:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column">
-      <input storage-set="iso:iso;e:name" name="word.{iso}" type="text" class="phdark bw1 bos8 bocblack02"
-        padding=".5rem .5rem" placeholder="Word in {e}" autocomplete="off" globalize-get="word" required>
-      </li>
-    </ul>
+    <div storage-bind="local:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column">
+      <div flexdirection="row" storage-set="iso:iso" id="{iso}">
+        <input flex="1" style="flex: 1" storage-set="iso:iso;e:name" name="word.{iso}" type="text"
+          class="phdark bw1 bos8 bocblack02" padding=".5rem .5rem" placeholder="Word in {e}" autocomplete="off"
+          globalize-get="word" required>
+        <button storage-set="iso:iso" click="remove:#{iso}">🗑</button>
+      </div>
+    </div>
     <div style="margin-bottom: 1rem; font-size: 0.9rem;">
       <a href="settings.html">
         Manage Dictionary Languages
