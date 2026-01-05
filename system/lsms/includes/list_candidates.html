@@ -1,3 +1,4 @@
+<div id="loader" class="loader"></div>
 <div class="box cards shade1 list br0- bcwhite-" bindvar="search:" bindasset="apikey:api.api_key"
   bindquery="q:q;c:category" bindglobal="l:globalize.code" bindfield="search:#query"
   ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
@@ -10,8 +11,7 @@
       <details class="accordion shade1" flexdirection="column" width="100%" open>
         <summary globalize-get iconopen="⊖" iconclosed="⊕" iconsize="24" bold data-get="word.eng"></summary>
 
-        <div class="box cards p1- grid xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6" width="unset"
-          padding="1rem">
+        <div class="box cards p1- grid xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6" padding="1rem">
 
           <figure width="unset" data-iterate="word">
             <small data-get="[*]"></small>
