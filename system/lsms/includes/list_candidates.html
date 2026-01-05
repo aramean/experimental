@@ -1,0 +1,26 @@
+<div class="box cards shade1 list br0- bcwhite-" bindvar="search:" bindasset="apikey:api.api_key"
+  bindquery="q:q;c:category" bindglobal="l:globalize.code" bindfield="search:#query"
+  ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
+  data-src="{src}&column=*&where=word->>{l}.ilike(*{search}*)" data-header="apikey:{apikey};Prefer:count=exact"
+  data-loader="#loader" data-onempty="#empty" data-iterate="true">
+
+  <form id="edit" method="put" bindasset="endpoint2:api.words.endpoint" data-set="id:id"
+    action="{endpoint2}&where=id.eq({id})" onsubmitted="alert:[Saved]">
+    <div class="box" bgcolor="white" width="100%">
+      <details class="accordion shade1" flexdirection="column" width="100%" open>
+        <summary globalize-get iconopen="⊖" iconclosed="⊕" iconsize="24" bold data-get="word.eng"></summary>
+
+        <div class="box cards p1- grid xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6" width="unset"
+          padding="1rem">
+
+          <figure width="unset" data-iterate="word">
+            <small data-get="[*]"></small>
+
+            <input type="text" class="bs1 w100p p1 h3 br05" data-set="iso:[*]" data-get="[*]." name="word.{iso}"
+              keyboard-key="Enter" keyboard-action="submit:#edit:[#edit]" keyboard-scope autocomplete="off" required>
+          </figure>
+        </div>
+      </details>
+    </div>
+  </form>
+</div>

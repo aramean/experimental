@@ -1,0 +1,16 @@
+<script src="../../front/front.js"></script>
+<title>Candidates</title>
+<template srcdoc="../index" src="../templates/main"></template>
+<div class="df aic">
+  <h1 bindglobal="title:title" class="f1">{title}</h1>
+</div>
+<hr class="bcblack01 mt1">
+<div class="df mb1 gap1-">
+  <input id="query" type="text" value="" class="bs1 f3 p1 h3 br05" globalize-get="language"
+    globalize-target="placeholder" autocomplete="off">
+  <select id="sort" class="bs1 f0 p1 h3 br05 fs08" globalize-target="placeholder">
+    <option>Updated</option>
+  </select>
+</div>
+<div bindasset="endpoint:api.words.endpoint" bindvar="src:{endpoint};href:word" include="includes/list_candidates.html">
+</div>
