@@ -1,32 +1,35 @@
 <script src="../../front/front.js"></script>
 <title>Word</title>
 <template srcdoc="../index" src="../templates/main"></template>
-<section bindquery="i:i" bindasset="endpoint:api.words.endpoint" data-src="{endpoint}&column=id,word&where=id.eq({i})"
-  data-header="Prefer:count=exact;Accept:application/json+single">
+<section bindquery="i:i" bindasset="endpoint:api.words.endpoint" data-src="{endpoint}&column=id,lang_code,word&where=meaning_id.eq({i})">
 
   <hr class="bcblack01 mt1">
-  <form id="edit" method="put" bindasset="endpoint2:api.words.endpoint" data-set="id:id" action="{endpoint2}&where=id.eq({id})" onsubmitted="alert:[Saved]">
     <div class="box" bgcolor="white" width="100%">
       <details class="accordion shade1" flexdirection="column" width="100%" open>
         <summary globalize-get iconopen="⊖" iconclosed="⊕" iconsize="24" bold>Translations</summary>
         <div class="box cards p1- grid xxs_gtc1 xs_gtc2 sm_gtc3 xl_gtc4 xxl_gtc5 xxxl_gtc6" width="unset"
-          data-iterate="word" padding="1rem" id="to">
-          <figure width="unset">
-            <small data-get="[*]">[iso]</small>
-            <input type="text" class="bs1 w100p p1 h3 br05"
-              data-set="iso:[*]"
-              data-get="[*]."
-              name="word.{iso}"
-              keyboard-key="Enter"
-              keyboard-action="submit:#edit:[#edit]"
-              keyboard-scope
-              autocomplete="off"
-              required>
-          </figure>
+          data-iterate="true" padding="1rem" id="to">
+          <form method="put" bindasset="endpoint2:api.words.endpoint" data-set="id:id;lang_code:lang_code" id="edit{lang_code}"
+            action="{endpoint2}&where=id.eq({id}),lang_code.eq({lang_code})" 
+            data-onsuccess="alert:[Saved]"
+            data-onerror="alert:[Error]"
+            disabled-onsubmitted="alert:[Saved];blur">
+            <figure width="unset">
+                <small data-get="lang_code">[iso]</small>
+                <input type="text" class="bs1 w100p p1 h3 br05"
+                  data-set="lang_code:lang_code"
+                  data-get="word"
+                  name="word"
+                  keyboard-key="Enter"
+                  keyboard-action="submit:#edit{lang_code}:[#edit{lang_code}]"
+                  keyboard-scope
+                  autocomplete="off"
+                  required>
+              </figure>
+            </form>
         </div>
       </details>
     </div>
-  </form>
 </section>
 <hr>
 <section>
@@ -51,17 +54,30 @@
     </div>
   </div>
   <div id="from" hide stop="*">
-    <figure>
-      <small bindappend="#iso:iso">{iso}</small>
-      <input type="text" class="phdark bs1 br05" height="3rem" width="100%" padding="1rem"
-        bindappend="#language:e;#iso:iso"
-        placeholder="Word in {e}"
-        name="word.{iso}"
-        keyboard-key="Enter"
-        keyboard-action="alert:[You pressed enter {iso}.]"
-        keyboard-scope
-        autocomplete="off"
-        required>
-    </figure>
+    <form
+      method="post" 
+      bindappend="#iso:iso"
+      id="editnew{iso}"
+      bindasset="endpoint3:api.words.endpoint"
+      action="{endpoint3}"
+      bindquery="i:i" value="{i}"
+      data-onerror="alert:[something went wrong]"
+      data-onsuccess="setattr:#to #editnew{iso}:[method][disabled];setattr:#to #editnew{iso}:[action][{endpoint3}&where=id.eq({i}),lang_code.eq({iso})]"
+    >
+      <figure>
+        <small bindappend="#iso:iso">{iso}</small>
+        <input type="text" class="phdark bs1 br05" height="3rem" width="100%" padding="1rem"
+          bindappend="#language:e;#iso:iso"
+          placeholder="Word in {e}"
+          name="word"
+          keyboard-key="Enter"
+          keyboard-action="alert:[You pressed enter {iso}.]"
+          keyboard-scope
+          autocomplete="off"
+          required>
+          <input type="hidden" name="meaning_id" bindquery="i:i" value="{i}">
+          <input type="hidden" name="lang_code" bindappend="#iso:iso" value="{iso}">
+      </figure>
+    </form>
   </div>
 </section>

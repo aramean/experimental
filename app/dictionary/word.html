@@ -12,9 +12,9 @@
     bindquery="i:i"
     bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
     bindglobal="l:globalize.code"
-    data-src="{endpoint}&where=id.eq({i})"
-    data-header="apikey:{apikey};Prefer:count=exact;Accept:application/json+single"
-    data-set="word.{l}:#translation;w:word.{l}"
+    data-src="{endpoint}&where=meaning_id.eq({i})"
+    data-header="apikey:{apikey}"
+    data-set="(lang_code%{l}).word:#translation;w:(lang_code%{l}).word"
     data-status="406;#status406"
     data-onerror="hide:#success"
     data-loader="#loader"
@@ -25,15 +25,15 @@
       <ol class="pl05">
         <li><a href="search.html?q=*" globalize-get>Dictionary</a></li>
         <li><a bindquery="j:i" href="word.html?i={j}" globalize-get>Word</a></li>
-        <li bindglobal="l:globalize.code" data-get="word.{l}"></li>
+        <li bindglobal="l:globalize.code" data-get="(lang_code%{l}).word"></li>
       </ol>
     </nav>
-    <div data-bind="test:bindthroughcore" data-iterate="word" test="{test}" data-filter="willbesomething" class="box cards list mt1 br0- flc- bcwhite-">
-      <h6 class="p05 pl1 black06 fs08" data-get="[*]" globalize-get></h6>
+    <div data-bind="test:bindthroughcore" data-iterate="true" test="{test}" data-filter="willbesomething" class="box cards list mt1 br0- flc- bcwhite-">
+      <h6 class="p05 pl1 black06 fs08" data-get="lang_code" globalize-get></h6>
       <figure class="p1 mb1">
         <div>
-          <p data-get="[*]."></p>
-          <small data-set="m:[*]" data-get="[].word_transliterated.{m}_lat"></small>
+          <p data-get="word" bold></p>
+          <small zoom=".9" data-get="transliteration.lat" insertafterbegin="[ " insertbeforeend=" ]"></small>
         </div>
         <a class="icon f0" hide>&#128264;</a>
       </figure>

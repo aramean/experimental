@@ -11,11 +11,11 @@
       </form>
       <div stop="data-src" bindglobal="l:globalize.code" bindfield="q:#query2"
         bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
-        data-src="{endpoint}&select=*&where=word->>{l}.ilike({q}*)&limit=30"
+        data-src="{endpoint}&column=id,meaning_id,word&where=word.ilike({q}*),lang_code.eq({l})&limit=30"
         data-header="apikey:{apikey};Prefer:count=exact" data-iterate="true" data-loader="false"
         class="box br05 bcwhite- black- pa w100 ail- zi2 autocomplete" data-onempty="#empty2" hide>
         <figure>
-          <a bindglobal="l:globalize.code" data-set="id:id" data-get="word.{l}" href="word.html?i={id}" class="p1"></a>
+          <a data-set="id:id" data-get="word" href="word.html?i={id}" class="p1"></a>
         </figure>
       </div>
       <div id="empty2" class="pa w100 bcwhite zi2" hide>

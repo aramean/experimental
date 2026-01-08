@@ -5,7 +5,7 @@
   data-src="{src}&column=*&where=word->>{l}.ilike(*{search}*)" data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader" data-onempty="#empty" data-iterate="true">
 
-  <form id="edit" method="put" bindasset="endpoint2:api.words.endpoint" data-set="id:id"
+  <form id="edit" method="put" bindasset="endpoint2:api.words.candidates" data-set="id:id"
     action="{endpoint2}&where=id.eq({id})" onsubmitted="alert:[Saved]">
     <div class="box" bgcolor="white" width="100%">
       <details class="accordion shade1" flexdirection="column" width="100%" open>
