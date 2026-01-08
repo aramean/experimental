@@ -14,9 +14,9 @@
 <body>
   <h1>Data</h1>
   <hr>
-  <h4>Get in parent</h4>
-  <div data-src="https://dummyjson.com/products/1" data-set="t:title">
-    {t}
+  <h4>Set in self parent</h4>
+  <div data-src="https://dummyjson.com/products/1" data-set="t:title" data-onfinish="settext:#test:[Finished: {t}]">
+    <div id="test"></div>
   </div>
 
   <h4>Set inside parent</h4>
