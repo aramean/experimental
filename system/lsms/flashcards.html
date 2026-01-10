@@ -1,0 +1,58 @@
+<script src="../../front/front.js"></script>
+<title>Flashcards</title>
+<template srcdoc="../index" src="../templates/main"></template>
+
+<section 
+  bindasset="endpoint:api.words.endpoint" 
+  data-src="{endpoint}&where=lang_code.eq(eng)&order=random()&limit=1"
+  data-header="Accept:application/json+single">
+  <h1 bindglobal="title:title" class="f1">{title}</h1>
+  <hr class="bcblack01 mt1">
+
+  <div class="box p2 shade1 br05 mb2" width="100%" flex flexdirection="column" alignitems="center">
+
+    <div class="box p1 mb1 br05 bcblack01" width="100%" flex justifycontent="center" alignitems="center">
+      <span class="fs3" data-get="word">{word}</span>
+    </div>
+
+    <div class="box p05 br05" width="100%" flex flexdirection="column"
+      data-set="word:word"
+      data-src="https://api.aleptra.com/humanology/?function=get_google_translate({word},sv)"
+      data-header="Accept:application/json+single">
+      <label class="fs08 mb05" color="#448AFF" bold>Google Translate</label>
+      <h3 data-get="output" data-set="o:output" test="{o}not">...</h3>
+    </div>
+
+    <div class="box p05" width="100%" flex flexdirection="column"
+      data-set="word:word" data-src="https://api.aleptra.com/humanology/?function=get_wiktionary({word})"
+      data-header="Accept:application/json+single">
+      <label class="fs08 mb05" color="#f29900" bold>Wiktionary</label>
+      <h3 data-get="wiktionary_translation">...</h3>
+    </div>
+
+    <div class="box p05 mb1 br05" width="100%" flex flexdirection="column"
+      data-set="word:word" data-src="https://api.aleptra.com/humanology/?function=get_mymemory({word})"
+      data-header="Accept:application/json+single">
+      <label class="fs08" color="#16a34a" bold>Mymemory</label>
+      <h3 data-get="translation">...</h3>
+    </div>
+    
+
+    <hr class="bcblack01 mt1">
+
+    <div if=""></div>
+    <form method="post" bindasset="endpoint2:api.words.endpoint" data-set="id:id"
+      action="{endpoint2}" data-onsuccess="alert:[Saved]" data-onerror="alert:[Error]">
+  <!--
+    <label class="fs09 mb05" bold>Update translation:</label>
+    <input type="text" class="bs1 w80p p1 h3 br05 mb1" data-get="swedish" name="swedish_translation"
+      placeholder="Type your translation..." autocomplete="off" required>
+  -->
+      <input type="" data-set="meaning_id" value="">
+      <div flex flexdirection="row" justifycontent="space-between" color="white" width="100%">
+        <button type="submit" bgcolor="green" padding="0 1rem">Save</button>
+        <button type="button" href="flashcards.html" bgcolor="red" padding="0 1rem">Skip</button>
+      </div>
+    </form>
+  </div>
+</section>
