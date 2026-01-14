@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script src="../../front.js" module="globalize;data" var="api" conf="debug:false;varsDir:assets/json/vars"
+    globalize-conf="folder:assets/json/locales">
+    </script>
+</head>
+
+<body>
+  <h1>If</h1>
+  <hr>
+  <h4>Set through another element ID and multi actions</h4>
+  <div data-src="https://dummyjson.com/products/20" data-set="var:id"
+    data-onfinish="if:[[{var}]:[20]];settext:#element2:[Product ID: {var}];insertbeforeend:#element2:[ & Another action {var}]">
+  </div>
+
+  <div id="element2">Waiting for Products...</div>
+
+  <h4>Set self directly with else (one condition)</h4>
+  <div if="([1]:[1]);settext:[True]?settext:[False]"></div>
+
+  <h4>Set self directly with else (two conditions)</h4>
+  <div if="([1]:[1]&[2]:[2]);settext:[True]?settext:[False]"></div>
+
+  <h4>Set self directly with else (two conditions)</h4>
+  <div if="([1]:[1]&[2]:[2]);settext:[True]?settext:[False]"></div>
+
+  <h4>Set self directly with else (three conditions)</h4>
+  <div if="([1]:[1]&[2]:[2]&[3]:[3]);settext:[True]"></div>
+
+  <h4>Set self directly with else (three conditions) but false</h4>
+  <div if="([1]:[1]&[2]:[2]&[3]:[2]);?settext:[False]"></div>
+
+</body>
+
+</html>

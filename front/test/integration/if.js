@@ -53,3 +53,90 @@ test('if - executes action when left value does not contain right value (!~)', f
   dom.rerun(testElement)
   assertEqual(testElement.innerText, expected)
 })
+
+test('if - executes true action when both conditions are met (&)', function () {
+  var expected = 'BOTH_TRUE'
+  var testElement = createElement('div')
+  testElement.setAttribute('if', '([1]:[1]&[A]:[A]);settext:[BOTH_TRUE]?settext:[FAIL]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
+test('if - executes false action when one condition in AND fails (&)', function () {
+  var expected = 'FAILED'
+  var testElement = createElement('div')
+  testElement.setAttribute('if', '([1]:[1]&[1]:[2]);settext:[SUCCESS]?settext:[FAILED]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
+test('if - executes true action when at least one condition is met (|)', function () {
+  var expected = 'OR_SUCCESS'
+  var testElement = createElement('div')
+  testElement.setAttribute('if', '([1]:[2]|[A]:[A]);settext:[OR_SUCCESS]?settext:[FAIL]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
+test('if - executes false action when all OR conditions fail (|)', function () {
+  var expected = 'ALL_FAILED'
+  var testElement = createElement('div')
+  testElement.setAttribute('if', '([1]:[2]|[3]:[4]);settext:[SUCCESS]?settext:[ALL_FAILED]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
+test('if - evaluates complex chains from left to right ([F & T | T])', function () {
+  var expected = 'TRUE'
+  var testElement = createElement('div')
+  // (1:2 is False AND 1:1 is True) -> False. (False OR 3:3 is True) -> True.
+  testElement.setAttribute('if', '([1]:[2]&[1]:[1]|[3]:[3]);settext:[TRUE]?settext:[FALSE]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
+test('if - evaluates complex chains from left to right ([T | T & F])', function () {
+  var expected = 'FALSE'
+  var testElement = createElement('div')
+  // (1:1 is True OR 2:2 is True) -> True. (True AND 3:4 is False) -> False.
+  testElement.setAttribute('if', '([1]:[1]|[2]:[2]&[3]:[4]);settext:[TRUE]?settext:[FALSE]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
+test('if - executes multiple actions in the true block', function () {
+  var testElement = createElement('div')
+  testElement.id = 'multiAction'
+  testElement.setAttribute('if', '([1]:[1]);settext:[DONE]&setattr:#multiAction:[data-check][passed]')
+  dom.rerun(testElement)
+
+  assertEqual(testElement.innerText, 'DONE')
+  assertEqual(testElement.getAttribute('data-check'), 'passed')
+})
+
+test('if - handles missing false action block gracefully', function () {
+  var testElement = createElement('div')
+  testElement.innerText = 'ORIGINAL'
+  // Condition is false, but no ?falseAction is provided
+  testElement.setAttribute('if', '([1]:[2]);settext:[NEW]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, 'ORIGINAL')
+})
+
+test('if - handles empty values within brackets', function () {
+  var expected = 'EMPTY_MATCH'
+  var testElement = createElement('div')
+  testElement.setAttribute('if', '([]:[]);settext:[EMPTY_MATCH]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
+test('if - only runs false action when condition is false', function () {
+  const testElement = createElement('div')
+  testElement.innerText = 'ORIGINAL'
+
+  testElement.setAttribute('if', '([1]:[2]);?settext:[FALSE]')
+  dom.rerun(testElement)
+
+  assertEqual(testElement.innerText, 'FALSE')
+})
