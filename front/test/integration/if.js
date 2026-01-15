@@ -46,6 +46,14 @@ test('if - executes action when left value contains right value (~)', function (
   assertEqual(testElement.innerText, expected)
 })
 
+test('if - executes action when left value contains right value (~)', function () {
+  var expected = 'CONTAINS'
+  var testElement = createElement('div')
+  testElement.setAttribute('if', '([http://localhost:5502/documentation/fundamentals/attributes.html]~[/fundamentals/attributes]);settext:[CONTAINS]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
 test('if - executes action when left value does not contain right value (!~)', function () {
   var expected = 'NOT_CONTAINS'
   var testElement = createElement('div')
@@ -68,6 +76,22 @@ test('if - executes false action when one condition in AND fails (&)', function 
   testElement.setAttribute('if', '([1]:[1]&[1]:[2]);settext:[SUCCESS]?settext:[FAILED]')
   dom.rerun(testElement)
   assertEqual(testElement.innerText, expected)
+})
+
+test('if - executes multiple actions in the true block with more than two actions', function () {
+  var testElement = createElement('div')
+  testElement.id = 'multiActionExtended'
+
+  // True conditions: [1]:[1] AND [A]:[A]
+  // True block actions: settext + two other actions (simulated as attributes)
+  testElement.setAttribute('if', '([1]:[1]&[A]:[A]);settext:[BOTH_TRUE]&setattr:#multiActionExtended:[action1][done]&setattr:#multiActionExtended:[action2][done]?settext:[FAIL]')
+
+  dom.rerun(testElement)
+
+  // Verify all true actions executed
+  assertEqual(testElement.innerText, 'BOTH_TRUE')
+  assertEqual(testElement.getAttribute('action1'), 'done')
+  assertEqual(testElement.getAttribute('action2'), 'done')
 })
 
 test('if - executes true action when at least one condition is met (|)', function () {
@@ -139,4 +163,53 @@ test('if - only runs false action when condition is false', function () {
   dom.rerun(testElement)
 
   assertEqual(testElement.innerText, 'FALSE')
+})
+
+test('if - get values from one input', function () {
+  var expected = 'True'
+  var testElement = createElement('div')
+
+  // Input element to reference
+  var inputElement = createElement('input')
+  inputElement.id = 'element1'
+  inputElement.type = 'text'
+  inputElement.value = '10'
+
+  testElement.setAttribute('if', '(#element1:[10]);settext:[True]?settext:[False]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+
+  var expected = 'False'
+  var testElement = createElement('div')
+
+  // Input element to reference
+  var inputElement = createElement('input')
+  inputElement.id = 'element1'
+  inputElement.type = 'text'
+  inputElement.value = '10'
+
+  testElement.setAttribute('if', '(#element1:[20]);settext:[True]?settext:[False]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
+})
+
+test('if - get values from two input', function () {
+  var expected = 'True'
+  var testElement = createElement('div')
+
+  // Input element to reference
+  var inputElement = createElement('input')
+  inputElement.id = 'element1'
+  inputElement.type = 'text'
+  inputElement.value = '10'
+
+  // Input element to reference
+  var inputElement = createElement('input')
+  inputElement.id = 'element2'
+  inputElement.type = 'text'
+  inputElement.value = '20'
+
+  testElement.setAttribute('if', '(#element1:[10]&#element2:[20]);settext:[True]?settext:[False]')
+  dom.rerun(testElement)
+  assertEqual(testElement.innerText, expected)
 })
