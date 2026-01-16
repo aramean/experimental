@@ -18,6 +18,7 @@
     <div class="box p05 br05" width="100%" flex flexdirection="column"
       data-set="word:word"
       data-src="https://api.aleptra.com/humanology/?function=get_google_translate({word},sv)"
+      data-onsuccess=""
       data-header="Accept:application/json+single">
       <label class="fs08 mb05" color="#448AFF" bold>Google Translate</label>
       <h3 id="test1" data-get="output" data-set="o:output" if="([{o}]:[]);settext:[-]" data-bind="{o}:#test.test">...</h3>
@@ -25,6 +26,7 @@
 
     <div class="box p05" width="100%" flex flexdirection="column"
       data-set="word:word" data-src="https://api.aleptra.com/humanology/?function=get_wiktionary({word})"
+      data-onsuccess=""
       data-header="Accept:application/json+single">
       <a class="fs08 mb05" color="#f29900" bold target="_blank">Wiktionary</a>
       <h3 id="test2" data-get="output" data-set="o:output" if="([{o}]:[]);settext:[-]">...</h3>
@@ -32,14 +34,14 @@
 
     <div class="box p05 mb1 br05" width="100%" flex flexdirection="column"
       data-set="word:word" data-src="https://api.aleptra.com/humanology/?function=get_mymemory({word})"
-      data-onfinish="alert:[test]"
+      data-onsuccess=""
       data-header="Accept:application/json+single">
       <label class="fs08" color="#16a34a" bold>Mymemory</label>
       <h3 id="test3" data-get="output" data-set="o:output" if="([{o}]:[]);settext:[-]">...</h3>
     </div>
 
-    <div bgcolor="blue" padding="1rem" if="([3]:[3]);alert:[loaded]">
-      <div if="([#test1]:[#test2]);settext:[Reliable]?settext:[Not reliable]"></div>
+    <div id="result" bgcolor="blue" padding="1rem" stop="*">
+      <div stop="if" if="([3]:[3]);settext:[what]"></div>
     </div>
 
     <hr class="bcblack01 mt1">
