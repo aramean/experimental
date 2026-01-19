@@ -2792,7 +2792,7 @@ var app = {
               attrValue = attributes[j].value,
               attrFullname = dom._actionMap[attrName] || attrName
 
-            if (exclude.indexOf(attrFullname) === -1) {
+            if (exclude.indexOf(attrName) === -1 && exclude.indexOf(attrFullname) === -1) {
               var name = attrFullname.split('-')
               element.originalAttribute = dom._actionMap[attrName] && attrName
 
