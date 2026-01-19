@@ -3,7 +3,7 @@
   var filterTest = app.querystrings.get('', 'test')
 
   var currentTest = '', currentGroup = ''
-  var total = 0, passed = 0, failed = 0, missing = 0
+  var total = 0, passed = 0, failed = 0, skipped = 0, missing = 0
 
   function getContainer() {
     return document.querySelector('main')
@@ -16,7 +16,7 @@
       s.id = 'summary'
       document.body.insertBefore(s, getContainer())
     }
-    s.textContent = 'Total: ' + total + ', Passed: ' + passed + ', Failed: ' + failed + ', Missing: ' + missing
+    s.textContent = 'Total: ' + total + ', Passed: ' + passed + ', Failed: ' + failed + ', Skipped: ' + skipped + ', Missing: ' + missing
   }
 
   function log(name, expected, actual, isPass, error) {
@@ -79,6 +79,31 @@
       log(currentTest, expected, actual, false, e)
       done()
     }
+  }
+
+  global.test.skip = function (name, fn, cb) {
+    if (filterTest && name.toLowerCase().indexOf(filterTest.toLowerCase()) === -1) return
+
+    total++
+    skipped++
+
+    var parts = name.split(' - '),
+      group = parts.length > 1 ? parts[0] : 'Ungrouped',
+      title = parts.length > 1 ? parts.slice(1).join(' - ') : parts[0]
+
+    if (group !== currentGroup) {
+      currentGroup = group
+      var h = document.createElement('h4')
+      h.textContent = group
+      getContainer().appendChild(h)
+    }
+
+    var d = document.createElement('div')
+    d.textContent = '⚠️ ' + title + ' (skipped)'
+    d.style.color = 'orange'
+    getContainer().appendChild(d)
+
+    updateSummary()
   }
 
   global.assertEqual = function (actual, expected) {
