@@ -1526,6 +1526,7 @@ var app = {
     })
 
     app.listeners.add(document, 'click', function (e) {
+      alert('test')
       var bodyClick = document.body.attributes.click
       var link, click
       if (bodyClick) {
