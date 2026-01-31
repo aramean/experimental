@@ -1656,6 +1656,19 @@ var app = {
   },
 
   /**
+   * @namespace wait
+   * @memberof app
+   */
+  wait: function (duration, callback) {
+    var start = performance.now()
+    function tick(now) {
+      if (now - start >= duration) return callback()
+      requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  },
+
+  /**
    * @namespace click
    * @memberof app
    * @desc Handles simulating click and double-click events on DOM elements.
