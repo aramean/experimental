@@ -7,7 +7,7 @@
   bindfield="search:#query"
   ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
   data-src="{src}&column=word,meaning_id,transliteration&where=word.ilike({search}*),lang_code.eq({l})"
-  data-onfinish="alert:[finished]"
+  d-data-onfinish="alert:[finished]"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-onempty="#empty"
   data-iterate="true">
