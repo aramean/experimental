@@ -37,7 +37,12 @@
     </article>
   </main>
   <aside></aside>
-  <footer></footer>
+  <footer>
+    <small flex justifycontent="center" width="100%" lineheight="2.5"
+      bindglobal="major:frontVersion.major;minor:frontVersion.minor;patch:frontVersion.patch;build:frontVersion.build;">
+      {major}.{minor}.{patch} ({build})
+    </small>
+  </footer>
 </body>
 
 </html>
