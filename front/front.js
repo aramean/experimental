@@ -201,6 +201,7 @@ var dom = {
       }
       value = prop ? 'visibility: hidden' : 'display: none'
       el.style.cssText += value + ' !important'
+      el.offsetHeight
     }
   },
 
@@ -237,6 +238,7 @@ var dom = {
     if (el) {
       el.style.display = el.initDisplay
       el.removeAttribute('hide')
+      el.offsetHeight
     }
   },
 
