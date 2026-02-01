@@ -70,6 +70,8 @@ var dom = {
     'grid': 'apply',
     'fixed': 'apply',
     'font': 'apply',
+    'fontsize': 'apply',
+    'letterspacing': 'apply',
     'flex': 'apply',
     'flexitem': 'apply',
     'flexdirection': 'apply',
@@ -352,6 +354,12 @@ var dom = {
         break
       case 'font':
         attr = 'fontFamily'
+        break
+      case 'fontsize':
+        attr = 'fontSize'
+        break
+      case 'letterspacing':
+        attr = 'letterSpacing'
         break
       case 'textshadow':
         attr = 'textShadow'
