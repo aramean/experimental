@@ -50,7 +50,7 @@
       data-src="{url}/current.json?key={key}&q={q:{city}}&aqi=no&lang={lang}"
       data-loader="#loader"
       data-onerror="#error"
-      data-interval="500"
+      data-wait="500"
       globalize-onsetload="rerun">
       <h5 data-get="location.name"></h5>
       <img class="m0a" data-get="current.condition.icon" height="72">
@@ -70,7 +70,7 @@
       data-iterate="forecast.forecastday"
       data-loader="#loader2"
       data-onerror="#error2"
-      data-interval="500"
+      data-wait="500"
       globalize-onsetload="rerun">
       <div class="df w15 aic">
         <p class="f3 tal" data-get="date" chronotize-get="W" globalize-get></p>
