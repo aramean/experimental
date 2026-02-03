@@ -1568,39 +1568,39 @@ var app = {
     })
 
     app.listeners.add(document, 'mouseover', function (e) {
-      var link = app.element.getTagLink(e.target) || e.target,
-        mouseover = link.attributes.mouseover,
-        onmouseoverif = link.attributes.onmouseoverif
+      var el = app.element.getClosestWithAttr(e.target, 'mouseover')
+      if (!el) return
+
+      // prevent retriggering while moving inside the same element
+      if (el.contains && el.contains(e.relatedTarget)) return
+
+      var mouseover = el.getAttribute('mouseover'),
+        onmouseoverif = el.getAttribute('onmouseoverif')
 
       if (onmouseoverif) {
-        var ret = app.call(onclickif.value, { element: link })[0]
+        var ret = app.call(onmouseoverif, { element: el })[0]
         if (!ret) return
       }
 
-      if (mouseover) {
-        var mouseovertargetfield = link.attributes.mouseovertargetfield,
-          target = mouseovertargetfield && mouseovertargetfield.value.split(':') || ''
-        app.call(mouseover.value, { srcElement: link, element: app.element.select(target[0]) })
-        //app.element.runOnEvent({ exec: { func: 'click', element: link } })*/
-      }
+      app.call(mouseover, { srcElement: e.target, element: el })
     })
 
-
     app.listeners.add(document, 'mouseout', function (e) {
-      var link = app.element.getTagLink(e.target) || e.target,
-        mouseout = link.attributes.mouseout,
-        onmouseoutif = link.attributes.onmouseoutif
+      var el = app.element.getClosestWithAttr(e.target, 'mouseout')
+      if (!el) return
+
+      // prevent retriggering while moving inside the same element
+      if (e.relatedTarget && el.contains(e.relatedTarget)) return
+
+      var mouseout = el.getAttribute('mouseout'),
+        onmouseoutif = el.getAttribute('onmouseoutif')
 
       if (onmouseoutif) {
-        var ret = app.call(onmouseoutif.value, { element: link })[0]
+        var ret = app.call(onmouseoutif, { element: el })[0]
         if (!ret) return
       }
 
-      if (mouseout) {
-        var mouseouttargetfield = link.attributes.mouseouttargetfield,
-          target = mouseouttargetfield && mouseouttargetfield.value.split(':') || ''
-        app.call(mouseout.value, { srcElement: link, element: app.element.select(target[0]) })
-      }
+      app.call(mouseout, { srcElement: e.target, element: el })
     })
 
     app.listeners.add(document, 'input', function (e) {
@@ -2100,6 +2100,17 @@ var app = {
       for (var current = element; current; current = current.parentNode) {
         var type = current.localName
         if (type === 'a' || type === 'button' || type === 'label') return current
+      }
+      return null
+    },
+
+    /**
+     * @function getClosestWithAttr
+     * @memberof app.element
+     */
+    getClosestWithAttr: function (element, attr) {
+      for (var current = element; current && current.nodeType === 1; current = current.parentNode) {
+        if (current.hasAttribute && current.hasAttribute(attr)) return current
       }
       return null
     },
