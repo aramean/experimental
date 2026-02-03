@@ -4,7 +4,8 @@
 
 <section 
   bindasset="endpoint:api.words.endpoint" 
-  data-src="{endpoint}&where=word.eq(memory)&limit=1"
+  d-data-src="{endpoint}&where=lang_code.eq(eng)&order=random()&limit=1"
+  data-src="{endpoint}&where=word.eq(memory1)&limit=1"
   data-header="Accept:application/json+single"
       >
   <h1 bindglobal="title:title" class="f1">{title}</h1>
@@ -24,13 +25,13 @@
       <h3 id="test1" data-get="output" data-set="o:output" if="([{o}]:[]);settext:[-]" data-bind="{o}:#test.test">.</h3>
     </div>
 
-    <div class="box p05" width="100%" flex flexdirection="column"
+    <!--<div class="box p05" width="100%" flex flexdirection="column"
       data-set="word:word"
       data-src="https://api.aleptra.com/humanology/?function=get_wiktionary({word})"
       data-header="Accept:application/json+single">
       <a class="fs08 mb05" color="#f29900" bold target="_blank">Wiktionary</a>
       <h3 id="test2" data-get="output" data-set="o:output" if="([{o}]:[]);settext:[-]">..</h3>
-    </div>
+    </div>-->
 
     <div class="box p05 mb1 br05" width="100%" flex flexdirection="column"
       data-set="word:word"
@@ -38,11 +39,11 @@
       data-header="Accept:application/json+single"
       data-onfinish="start:#result:[*]">
       <label class="fs08" color="#16a34a" bold>Mymemory</label>
-      <h3 id="test3" data-get="output" data-set="o:output" if="([{o}]:[]);settext:[-]">...</h3>
+      <h3 id="test3" data-get="output" data-set="o:output" if="([{o}]:[]);settext:[-]">.</h3>
     </div>  
 
-    <div id="result" bgcolor="blue" statevalue="0" padding="1rem" stop="*">
-      <div if="([1]:[1]);settext:[a]"></div>
+    <div id="result" statevalue="0" if="([#test1]:[#test3]);show:#result" padding="1rem" stop="*" hide>
+        <div id="correct">Kontrollera https://svenska.se/?activeTab=saol&q={}</div>
     </div>
 
     <hr class="bcblack01 mt1">
