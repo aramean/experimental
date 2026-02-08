@@ -2512,8 +2512,8 @@ var app = {
 
     validate: function (options) {
       if (options.ttl > 0) {
-        var cache = app.caches.get('local', options.keyType, options.storageKey)
-        var now = Date.now()
+        var cache = app.caches.get('local', options.keyType, options.storageKey),
+          now = Date.now()
 
         if (cache) {
           if (now < cache.expires && options.ttl === cache.ttl) {
@@ -2522,7 +2522,7 @@ var app = {
           }
 
           // Cache expired.
-          this.remove('local', options.keyType, options.storageKey)
+          this.remove('local', options.storageKey)
         }
       }
     },
