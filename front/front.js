@@ -67,6 +67,7 @@ var dom = {
     'minwidth': 'apply',
     'maxwidth': 'apply',
     'move': 'move',
+    'gap': 'apply',
     'grid': 'apply',
     'fixed': 'apply',
     'font': 'apply',
