@@ -28,7 +28,7 @@
   </div>
 
   <h4>3. Pattern: attr (Specific attribute on parent only)</h4>
-  <div stop="if" if="([1]:[1];settext:[NOT OK..])">
+  <div stop="if" if="([1]:[1]/settext:[NOT OK..])">
     <div settext="OK">NOT OK</div>
   </div>
 
@@ -38,7 +38,7 @@
   </div>
 
   <h4>5. Pattern: Mixed (Specific parent, specific child)</h4>
-  <div stop="if;*.bgcolor" if="([1]:[1]);settext:[NOT OK]">
+  <div stop="if;*.bgcolor" if="([1]:[1])/settext:[NOT OK]">
     <div settext="OK" bgcolor="red" bold>NOT OK</div>
   </div>
 
