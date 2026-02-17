@@ -1154,14 +1154,14 @@ var dom = {
   * @function if
   * @memberof dom
   * @param {Object} element
-  * @param {string} value - "([l]op[r]&[l]op[r]);trueAction?falseAction"
+  * @param {string} value - "([l]op[r]&[l]op[r])/trueAction?falseAction"
   */
   if: function (element, value) {
     var el = app.element.resolveCall(element, value),
-      parts = el.call.string.split(';')
+      parts = el.call.string.split(')/')
 
     if (parts.length < 2) return
-
+    parts[0] += ')'
     var conditionStr = parts[0].replace(/^\s*\(|\)\s*$/g, ''),
       actionStr = parts[1]
 
@@ -1536,8 +1536,8 @@ var app = {
     })
 
     app.listeners.add(document, 'click', function (e) {
-      var bodyClick = document.body.attributes.click
-      var link, click
+      var bodyClick = document.body.attributes.click,
+        link, click
       if (bodyClick) {
         link = document.body
         click = bodyClick
