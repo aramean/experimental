@@ -44,7 +44,7 @@
   </div>
   <header class="topbar h4_5 gap2- pr2 shade1">
     <button click="toggle" clicktargetfield="aside[0]" class="light pl1" screen-xs="show" screen-lg="hide"
-      bindglobal="title:title" if="([{title}]:[Stream]);hide"><i class="icon32">≡</i></button>
+      bindglobal="title:title" if="([{title}]:[Stream])/hide"><i class="icon32">≡</i></button>
     <figure class="mh30p pl2 sel">
       <a class="b0 fwb pr025" href="./" key="0">Stream</a>
     </figure>
@@ -56,7 +56,7 @@
         class="box br05 bcblack- white- border- pr w100" bgcolor="black" style="overflow-y: scroll;" height="90vh"
         minheight="90vh" show hide>
         <a height="unset" flex style="flex-direction: row" data-set="id:id;media_type:media_type"
-          if="([{media_type}]![]);bindvar:[t][{media_type}]" href="{t}.html?id={id}" padding=".5rem" relative>
+          if="([{media_type}]![])/bindvar:[t][{media_type}]" href="{t}.html?id={id}" padding=".5rem" relative>
           <img data-set="image:poster_path" src="https://image.tmdb.org/t/p/w220_and_h330_face/{image}" height="80"
             width="60">
           <span data-get="title || name" flex="1" style="align-items: start" paddingleft="1rem"></span>
