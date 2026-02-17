@@ -42,15 +42,18 @@
   <input id="element3" type="text" value="30">
 
   <h4>Set self directly with else (two conditions) but true and Test</h4>
-  <div if="
-  (#element4:[40]&#element5:[50]) /
-  settext:[True] & insertbeforeend:[ Test] ? settext:[False]"
-  ></div>
+  <div if="(#element4:[40]&#element5:[50])/settext:[True]&insertbeforeend:[ Test]?settext:[False]"></div>
   <input id="element4" type="text" value="40">
   <input id="element5" type="text" value="50">
 
-  <h4>Click if</h4>
-  <button click="if:([1]:[1])/alert:[OK] ? alert:[NOT OK]">Test</button>
+  <h4>Click if (equal)</h4>
+  <button click="if:([1]:[1])/alert:[OK]?alert:[NOT OK]">Test</button>
+
+  <h4>Click if (not equal)</h4>
+  <button click="if:([1]:[2])/alert:[NOT OK]?alert:[OK]">Test</button>
+
+  <h4>Click if (not equal) with action first</h4>
+  <button click="alert:[test];if:([1]:[2])/alert:[NOT OK]?alert:[OK]">Test</button>
 </body>
 
 </html>
