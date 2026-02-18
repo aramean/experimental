@@ -52,7 +52,7 @@
 
   <h4>Set through another element ID 2</h4>
   <div data-src="https://dummyjson.com/products/20" data-set="var:id"
-    data-onfinish="if:[[{var}]:[20]];settext:#element2:[Product ID: {var}]&settext:#element2:[Another action {var}]">
+    data-onfinish="if:([{var}]:[20])/settext:#element2:[if: Product ID {var}]">
   </div>
 
   <div id="element2">Waiting for Products...</div>

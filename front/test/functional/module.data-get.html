@@ -2,13 +2,9 @@
 <html lang="en">
 
 <head>
-  <script
-    src="../../front.js"
-    module="globalize;data"
-    var="api"
-    conf="debug:true;varsDir:assets/json/vars"
+  <script src="../../front.js" module="globalize;data" var="api" conf="debug:false;varsDir:assets/json/vars"
     globalize-conf="folder:assets/json/locales">
-  </script>
+    </script>
 </head>
 
 <body>
@@ -49,12 +45,33 @@
 
   <h4>Single</h4>
   <div data-src="https://dummyjson.com/products/1">
-    <a bindvar=":" data-get="test:id" href="{test}" >Link</a>
+    <a bindvar=":" data-get="test:id" href="{test}">Link</a>
   </div>
 
   <h4>Iterate</h4>
   <div data-src="https://dummyjson.com/products" data-iterate="products">
-    <a bindvar=":" data-get="test:id;test2:id" href="{test}/{test2}" >Link</a>
+    <a bindvar=":" data-get="test:id;test2:id" href="{test}/{test2}">Link</a>
+  </div>
+
+  <h4>Iterate and use keys + values</h4>
+  <div data-src="assets/json/word.json">
+    <div data-iterate="word">
+      <b data-get="[*]">Dialect</b> - <small data-get="[*].key1"></small> <small data-get="[*].key2"></small>
+    </div>
+  </div>
+
+  <h4>Iterate word2 (array)</h4>
+  <div data-src="assets/json/word.json">
+    <div data-iterate="word2">
+      <b data-get="[*]"></b> - <small data-get="[*].0"></small> / <small data-get="[*].1"></small>
+    </div>
+  </div>
+
+  <h4>Iterate word2 (array)</h4>
+  <div data-src="assets/json/word.json">
+    <div data-iterate="word2.see_also">
+      <div data-get="[*]">-</div>
+    </div>
   </div>
 
 </body>
