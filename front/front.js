@@ -1160,7 +1160,6 @@ var dom = {
     var el = app.element.resolveCall(element, value),
       parts = el.call.string.split(')/')
 
-    console.dir(element)
     if (parts.length < 2) return
     parts[0] += ')'
     var conditionStr = parts[0].replace(/^\s*\(|\)\s*$/g, ''),
