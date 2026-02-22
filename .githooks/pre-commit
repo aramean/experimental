@@ -1,42 +1,66 @@
 #!/bin/sh
 
-# Pre-commit Linter for JavaScript/TypeScript files using AWK (portable for macOS/Linux).
+# Pre-commit Linter for JS/TS files using AWK
 
-# Get staged JS/TS files
 files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|jsx|ts|tsx)$')
 found=0
 
-for file in $files; do
+for file in $files
+do
   # Show staged content and run AWK checks
   git show ":$file" | awk -v file="$file" '
-    BEGIN { found=0 }
-    # Store last 3 lines for context
-    { lines[NR%3] = $0; line_nums[NR%3] = NR }
+    BEGIN { 
+      found = 0
+      in_bt = 0
+    }
 
-    # Check for console.log / console.trace
-    /^[[:space:]]*console\.(log|trace)[[:space:]]*\(/ && !/^[[:space:]]*\/\// {
+    {
+      # Count non-escaped backticks to toggle state
+      # This handles multi-line template literals
+      t = $0
+      gsub(/\\`/, "", t)
+      bt_count = gsub(/`/, "", t)
+      
+      # Store context for console check
+      lines[NR%3] = $0
+      line_nums[NR%3] = NR
+    }
+
+    # 1. Check for console (only if NOT in backticks)
+    !in_bt && /^[[:space:]]*console\.(log|trace)[[:space:]]*\(/ && !/^[[:space:]]*\/\// {
       context = ""
       for (i = 1; i <= 3; i++) {
         idx = (NR - i) % 3
-        if (NR - i > 0) context = context lines[idx] "\n"
+        if (NR - i > 0) {
+          context = context lines[idx] "\n"
+        }
       }
       if (context !~ /log: function|@function log/) {
         print "❌ Commit aborted: disallowed console in " file ":" line_nums[NR%3] ": " $0
-        found=1
+        found = 1
       }
     }
 
-    # Check for trailing semicolons
-    /;[[:space:]]*$/ && !/^[[:space:]]*\/\// {
+    # 2. Check for trailing semicolons (only if NOT in backticks)
+    !in_bt && /;[[:space:]]*$/ && !/^[[:space:]]*\/\// {
       print "❌ Commit aborted: trailing semicolon in " file ":" NR ": " $0
-      found=1
+      found = 1
+    }
+
+    {
+      # If the number of backticks is odd, we toggled entry/exit of a literal
+      # We do this at the end so the current line is processed with the correct state
+      if (bt_count % 2 != 0) {
+        in_bt = !in_bt
+      }
     }
 
     END { exit found }
   '
 
   status=$?
-  if [ $status -ne 0 ]; then
+  if [ $status -ne 0 ]
+  then
     found=1
     git reset >/dev/null 2>&1
   fi
