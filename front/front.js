@@ -293,6 +293,9 @@ var dom = {
       case 'align':
         attr = 'textAlign'
         break
+      case 'valign':
+        attr = 'verticalAlign'
+        break
       case 'alignitems':
         attr = 'alignItems'
         break
