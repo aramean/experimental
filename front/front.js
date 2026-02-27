@@ -1495,9 +1495,9 @@ var app = {
    * @desc Handles disabling and enabling the visibility of the application.
    */
   disable: function (bool) {
-    var val = bool ? 'hidden' : 'initial',
-      isURI = document.location.href.indexOf('data:') !== 0 // Stops iframes.
-    if (isURI) document.documentElement.style.cssText = 'visibility:' + val
+    var val = bool ? 'hidden' : '',
+      isURI = document.location.href.indexOf('data:') !== 0
+    if (isURI) document.documentElement.style.visibility = val
   },
 
   /**
