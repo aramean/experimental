@@ -236,9 +236,10 @@ var dom = {
    * @function show
    * @memberof dom
    */
-  show: function (object) {
-    if (object.exec) object = object.exec.element
-    var el = object instanceof Object ? object : app.element.select(object) // Todo: Remove in future.
+  show: function (element, value) {
+    element = element instanceof Object ? element : app.element.select(element) // Todo: Remove in future.
+    var el = app.element.resolveCall(element, value)
+
     if (el) {
       el.style.display = el.initDisplay
       el.removeAttribute('hide')
