@@ -91,6 +91,7 @@ var dom = {
     'relative': 'apply',
     'resize': 'apply',
     'right': 'apply',
+    'table': 'apply',
     'textshadow': 'apply',
     'transform': 'apply',
     'top': 'apply',
@@ -331,6 +332,7 @@ var dom = {
         break
       case 'grid':
       case 'flex':
+      case 'table':
         value = attr
         attr = 'display'
         break
