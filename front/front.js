@@ -74,8 +74,10 @@ var dom = {
     'fontsize': 'apply',
     'letterspacing': 'apply',
     'flex': 'apply',
+    'flexgrow': 'apply',
     'flexitem': 'apply',
     'flexdirection': 'apply',
+    'float': 'apply',
     'justifycontent': 'apply',
     'height': 'apply',
     'inherit': 'apply',
@@ -329,6 +331,9 @@ var dom = {
       case 'bold':
         value = attr
         attr = 'fontWeight'
+        break
+      case 'flexgrow':
+        attr = 'flexGrow'
         break
       case 'grid':
       case 'flex':
