@@ -82,6 +82,7 @@ var dom = {
     'height': 'apply',
     'inherit': 'apply',
     'initial': 'apply',
+    'inlineblock': 'apply',
     'left': 'apply',
     'lineheight': 'apply',
     'padding': 'apply',
@@ -335,10 +336,15 @@ var dom = {
       case 'flexgrow':
         attr = 'flexGrow'
         break
+      case 'block':
       case 'grid':
       case 'flex':
       case 'table':
         value = attr
+        attr = 'display'
+        break
+      case 'inlineblock':
+        value = 'inline-block'
         attr = 'display'
         break
       case 'radius':
