@@ -87,6 +87,8 @@ var dom = {
     'left': 'apply',
     'lineheight': 'apply',
     'overflow': 'apply',
+    'overflowx': 'apply',
+    'overflowy': 'apply',
     'padding': 'apply',
     'paddingtop': 'apply',
     'paddingbottom': 'apply',
