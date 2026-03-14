@@ -65,6 +65,7 @@ var dom = {
     'marginright': 'apply',
     'minheight': 'apply',
     'minwidth': 'apply',
+    'maxheight': 'apply',
     'maxwidth': 'apply',
     'move': 'move',
     'gap': 'apply',
@@ -361,6 +362,9 @@ var dom = {
         break
       case 'lineheight':
         attr = 'lineHeight'
+        break
+      case 'maxheight':
+        attr = 'maxHeight'
         break
       case 'minheight':
         attr = 'minHeight'
