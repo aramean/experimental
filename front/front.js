@@ -86,6 +86,7 @@ var dom = {
     'inlineblock': 'apply',
     'left': 'apply',
     'lineheight': 'apply',
+    'overflow': 'apply',
     'padding': 'apply',
     'paddingtop': 'apply',
     'paddingbottom': 'apply',
