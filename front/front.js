@@ -83,6 +83,7 @@ var dom = {
     'height': 'apply',
     'inherit': 'apply',
     'initial': 'apply',
+    'block': 'apply',
     'inlineblock': 'apply',
     'left': 'apply',
     'lineheight': 'apply',
