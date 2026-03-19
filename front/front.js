@@ -46,6 +46,7 @@ var dom = {
     'mapmargin': 'map',
     'mapbindvar': 'map',
     'align': 'apply',
+    'alignitems': 'apply',
     'color': 'apply',
     'border': 'apply',
     'absolute': 'apply',
