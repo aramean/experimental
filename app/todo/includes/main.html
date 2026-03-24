@@ -1,5 +1,5 @@
 <form
-  bindvar=":"
+  bindvar="src"
   bindasset="apikey:api.api_key"
   method="post"
   action="{src}"
@@ -18,7 +18,7 @@
 <div
   id="list"
   class="box cards shade1 list br0- bcwhite-"
-  bindvar=":"
+  bindvar="src"
   bindasset="apikey:api.api_key"
   data-src="{src}?order=id.desc"
   data-header="apikey:{apikey}"
@@ -30,7 +30,7 @@
       type="checkbox"
       name="done"
       value="true"
-      bindvar=":"
+      bindvar="src"
       data-set="id:id"
       data-get="done"
       data-reqpatch="{src}?id=eq.{id}&limit=1&order=id"
@@ -45,7 +45,7 @@
       type="text"
       name="task"
       id="t{id}"
-      bindvar=":"
+      bindvar="src"
       data-set="id:id"
       data-get="task"
       data-reqpatch="{src}?id=eq.{id}&limit=1&order=id"
@@ -63,7 +63,7 @@
     >
     <small data-set="id:id" id="josef{id}" hide class="red" click="#t{id}">Error. <a click="rerun:#t{id}">Try again</a></small>
     <a
-      bindvar=":"
+      bindvar="src"
       data-set="id:id"
       data-reqdelete="{src}?id=eq.{id}"
       data-header="#list"

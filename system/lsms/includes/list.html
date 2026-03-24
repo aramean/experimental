@@ -2,7 +2,7 @@
 <div id="loader" class="loader"></div>
 <div
   class="box cards shade1 list br0- bcwhite-"
-  bindvar=":;l:l"
+  bindvar="src"
   bindasset="apikey:api.api_key"
   bindquery="q:q;c:category"
   bindglobal="l:globalize.code"
@@ -12,7 +12,7 @@
   data-loader="#loader"
   data-onempty="#empty"
   data-iterate="true">
-  <a bindvar=":" data-set="i:id" href="{field}.html?i={i}" class="p1">
+  <a bindvar="href" data-set="i:id" href="{field}.html?i={i}" class="p1">
     <figure class="pr">
       <p bindvar="field:isLocalNetwork" bindglobal="l:globalize.code" data-get="{field}.{l:eng}"></p>
     </figure>

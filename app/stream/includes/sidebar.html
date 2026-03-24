@@ -6,14 +6,14 @@
       <input
         id="query2"
         class="bs1 p1 h3 bcblack w100"
-        bindvar=":" type="text"
+        bindvar="link" type="text"
         placeholder="Search for {link} ..."
         autocomplete="off">
     </div>
     <details open>
       <summary globalize-get="genre">Genre</summary>
       <span
-        bindvar=":"
+        bindvar="endpoint3"
         bindglobal="language:language"
         bindasset="genre:api.themoviedb.genre.{endpoint3}"
         data-src="{genre}&language={language}"
