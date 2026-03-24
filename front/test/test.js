@@ -161,6 +161,16 @@
     return { get get() { return lastCall } }
   }
 
+  global.measure = function (fn) {
+    var startTime = performance.now()
+    fn()
+    return performance.now() - startTime
+  }
+
+  global.log = function () {
+    console.log.apply(console, arguments)
+  }
+
   function autoload() {
     var s = document.currentScript || (function () {
       var scripts = document.getElementsByTagName('script')
