@@ -8,10 +8,6 @@
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.stickyScroll.enabled": false,
-  "editor.tokenColorCustomizations": {
-    "comments": "",
-    "textMateRules": []
-  },
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
   "git.openDiffOnClick": false,
