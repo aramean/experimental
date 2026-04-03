@@ -1,14 +1,10 @@
 <script src="../../front/front.js"></script>
 <title>People</title>
-<style>.loader{display: inherit}</style>
 <template srcdoc="../index" src="../templates/people"></template>
 <h2 bindglobal="title:title" settext="{title}" globalize-get="{title}"></h2>
 <hr class="bcblack01">
-<div id="loader" class="loader"></div>
-<div
-  bindquery="page:page"
-  data-src="https://api.tvmaze.com/people?page={page:1}"
-  data-iterate="true"
+<div id="loader" class="loader" flex></div>
+<div bindquery="page:page" data-src="https://api.tvmaze.com/people?page={page:1}" data-iterate="true"
   data-loader="#loader">
   <a class="p025" data-get="id:id" href="person.html?id={id}">
     <figure class="pr">

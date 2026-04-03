@@ -1,18 +1,10 @@
 <script src="../../front/front.js"></script>
 <title>Person</title>
-<style>.loader{display: inherit}</style>
 <template srcdoc="../index"></template>
-<div id="error" class="red" hide>Person not found!</div>
-<div id="loader" class="loader"></div>
 <h2 bindglobal="title:title" settext="{title}" globalize-get="{title}"></h2>
 <hr class="bcblack01">
-<div
-  bindquery="id:id"
-  data-src="https://api.tvmaze.com/people/{id}"
-  data-loader="#loader"
-  data-set="name:name"
-  data-onfinish="doctitle:[{name}]"
-  data-onerror="show:#error">
+<div bindquery="id:id" data-src="https://api.tvmaze.com/people/{id}" data-loader="#loader" data-set="name:name"
+  data-onfinish="doctitle:[{name}]" data-onerror="show:#error">
   <span class="p025">
     <figure class="pr">
       <img width="132px" data-get="image.medium">
@@ -22,3 +14,5 @@
     </figure>
   </span>
 </div>
+<div id="loader" class="loader" flex></div>
+<div id="error" color="red" hide onshow="settext:[Person not found!]"></div>
