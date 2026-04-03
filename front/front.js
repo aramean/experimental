@@ -206,12 +206,8 @@ var dom = {
     if (object && object.exec) object = object.exec.element
     var el = object instanceof Object ? object : app.element.select(object) // Todo: Remove in future.
     if (el) {
-      if (!el.initDisplay) {
-        if (el.attributes.hide) {
-          el.initDisplay = 'unset'
-        } else {
-          el.initDisplay = el.style.display || getComputedStyle(el).display
-        }
+      if (typeof el.initDisplay === 'undefined') {
+        el.initDisplay = el.style.display || ''
       }
       value = prop ? 'visibility: hidden' : 'display: none'
       el.style.cssText += value + ' !important'
