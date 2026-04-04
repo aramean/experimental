@@ -1843,7 +1843,7 @@ var app = {
         for (var i = 0; i < attributePairs.length; i++) {
           var pair = attributePairs[i].split('='),
             name = pair[0],
-            value = pair[1].slice(1, -1)
+            value = pair[1] && pair[1].slice(1, -1)
           htmlAttr[name] = value
           el.setAttribute(name, value)
         }
@@ -1859,7 +1859,7 @@ var app = {
         for (var i = 0; i < attributePairs.length; i++) {
           var pair = attributePairs[i].split('='),
             name = pair[0],
-            value = pair[1].slice(1, -1)
+            value = pair[1] && pair[1].slice(1, -1)
           bodyAttr[name] = value
         }
 
