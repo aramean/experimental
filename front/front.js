@@ -3131,11 +3131,11 @@ var app = {
     loaded: 0,
     total: 0,
     elementSelectors: [
-      { name: 'header', class: '', content: '' },
-      { name: 'aside:nth-of-type(1)', class: '', content: '' },
-      { name: 'main', class: '', content: '' },
-      { name: 'aside:nth-of-type(2)', class: '', content: '' },
-      { name: 'footer', class: '', content: '' }
+      { name: 'header' },
+      { name: 'aside:nth-of-type(1)' },
+      { name: 'main', content: false },
+      { name: 'aside:nth-of-type(2)' },
+      { name: 'footer' }
     ],
 
     /**
@@ -3228,7 +3228,7 @@ var app = {
               }
             }
 
-            if (elSelector.name !== 'main') {
+            if (elSelector.content !== false) {
               dom.set(elSelector.name, parsedEl.nodeType === 1 ? content : srcDocEl.innerHTML)
               srcHasMarkup && app.attributes.run(elSelector.name + ' *') // Run attributes in children
             }
