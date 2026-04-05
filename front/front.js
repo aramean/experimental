@@ -3150,9 +3150,6 @@ var app = {
         srcDoc = app.srcTemplate.url.srcDoc,
         src = app.srcTemplate.url.src
 
-      dom.doctitle(false, currentPageTitle)
-      app.globals.refresh()
-
       if (!app.srcDocTemplate) app.srcDocTemplate = app.caches.get('window', 'template', srcDoc).data
 
       if (srcDoc) {
@@ -3179,10 +3176,6 @@ var app = {
           }
 
           dom.set('main', currentPageBodyContent)
-        }
-
-        for (var key in srcDocPageBodyAttr) {
-          app.element.select('body').setAttribute(key, srcDocPageBodyAttr[key])
         }
       }
 
@@ -3236,6 +3229,13 @@ var app = {
             srcHasMarkup && app.attributes.run(elSelector.name) // Run attributes in parent
           }
         }
+
+        for (var key in srcDocPageBodyAttr) {
+          app.element.select('body').setAttribute(key, srcDocPageBodyAttr[key])
+        }
+
+        dom.doctitle(false, currentPageTitle)
+        app.globals.refresh()
       }
     }
   },
