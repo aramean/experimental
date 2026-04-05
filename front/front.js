@@ -3229,14 +3229,14 @@ var app = {
             srcHasMarkup && app.attributes.run(elSelector.name) // Run attributes in parent
           }
         }
-
-        for (var key in srcDocPageBodyAttr) {
-          app.element.select('body').setAttribute(key, srcDocPageBodyAttr[key])
-        }
-
-        dom.doctitle(false, currentPageTitle)
-        app.globals.refresh()
       }
+
+      for (var key in srcDocPageBodyAttr) {
+        app.element.select('body').setAttribute(key, srcDocPageBodyAttr[key])
+      }
+
+      dom.doctitle(false, currentPageTitle)
+      app.globals.refresh()
     }
   },
 
