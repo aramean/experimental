@@ -11,14 +11,14 @@
       id="name"
       bindglobal="c:globalize.code"
       data-set="f:first_name.{c:eng};m:middle_name.{c:eng};l:last_name.{c:eng}"
-      onifdata-set="([{m}]![]);bindvar:#name:[space][ ]?bindvar:#name:[space][]"
+      onifdata-set="([{m}]![])/bindvar:#name:[space][ ]?bindvar:#name:[space][]"
       settext="{f} {m}{space}{l}"
     ></h1>
      <!--<p>
-       <span 
+       <span
         bindglobal="l:globalize.code"
         data-get="first_name.{l:eng}"
-      ></span>&nbsp;<span 
+      ></span>&nbsp;<span
         bindglobal="l:globalize.code"
         data-set="m:middle_name.{l:eng}"
         onifdata-set="([{m}]![]);settext:[{m}&nbsp;]"
