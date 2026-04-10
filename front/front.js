@@ -1130,10 +1130,9 @@ var dom = {
    * @param {*} value
    */
   split: function (object, value) {
-    var parts = value.split(';'),
+    var parts = value.split(':'),
       pattern = parts[0],
       index = parts[1]
-
     dom.set(object, object.innerHTML.split(pattern)[index])
   },
 
