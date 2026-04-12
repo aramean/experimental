@@ -16,9 +16,9 @@ test('app.parse.text - body attributes', function () {
   var body = '<body class="main" id="body1">'
   var result = app.parse.text(body)
 
-  assertIsObject(result.attrList).desc('attrList is object')
-  assertEqual(result.attrList.class, 'main').desc('class attribute')
-  assertEqual(result.attrList.id, 'body1').desc('id attribute')
+  assertIsObject(result.bodyAttr).desc('attrList is object')
+  assertEqual(result.bodyAttr.class, 'main').desc('class attribute')
+  assertEqual(result.bodyAttr.id, 'body1').desc('id attribute')
 })
 
 test('app.parse.text - doctype', function () {
