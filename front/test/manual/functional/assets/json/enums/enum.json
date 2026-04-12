@@ -4,6 +4,7 @@
     "lastname": "bg2 color2"
   },
   "run": {
-    "help": "append:"
+    "run1": "settext:#run1:[OK]",
+    "run2": "settext:#run2:[OK]"
   }
 }

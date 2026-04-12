@@ -948,9 +948,11 @@ var dom = {
    * @memberof dom
    */
   map: function (object, value) {
-    var object = typeof object === 'string' ? app.element.select(object) : object,
-      cache = app.caches.get('window', 'var', 'enum'),
-      func = object.originalAttribute || '',
+    var object = app.element.resolveCall(object, value),
+      value = object.call.value,
+      cache = app.caches.get('window', 'var', 'enum')
+
+    var func = object.originalAttribute || '',
       data = cache.data[func.replace('map', '')][value] || ''
 
     switch (func) {
@@ -988,7 +990,7 @@ var dom = {
         }
         break
       case 'maprun':
-        app.exec(data, { element: object })
+        app.exec(data.run, { element: object })
         break
     }
   },
@@ -2543,7 +2545,7 @@ var app = {
      */
     set: function (mechanism, type, key, response, format, ttl) {
       if (app.storageKey) key = app.storageKey + '_' + key
-      var data = response.responseText,
+      var data = response.responseText || response.data,
         status = response.status,
         headers = response.headers
 
