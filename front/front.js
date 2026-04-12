@@ -1134,7 +1134,6 @@ var dom = {
    */
   split: function (element, value) {
     element = app.element.resolveCall(element, value, 'bracketArray')
-    console.dir(element)
     value = element.call.value
     dom.set(element, element.innerHTML.split(value[0])[value[1]])
   },
