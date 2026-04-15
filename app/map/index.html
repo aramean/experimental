@@ -5,15 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="version" content="1.0.0">
-  <script src="../../front/front.js" 
-    plugin="map" 
-    map--conf="googleKey:AIzaSyAev1q4GNC-VlKYxWQXWfuPQ3pexINKOEY;googleTarget:body">
+  <script src="../../front/front.js"
+    plugin="map"
+    map--conf="googleKey:AIzaSyAev1q4GNC-VlKYxWQXWfuPQ3pexINKOEY;googleTarget:#body">
   </script>
   <link type="text/css" href="../../front/front.css" rel="stylesheet">
   <link rel="icon" href="data:,">
   <title>Map</title>
 </head>
 
-<body map--lat="57.7009289" map--lng="11.5635219"></body>
+<body id="body" bindvar="lat:57.7009289;lng:11.5635219" map--lat="{lat}" map--lng="{lng}"></body>
 
 </html>
