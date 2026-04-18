@@ -23,9 +23,9 @@
         <form class="zi3" id="form" method="get" action="search.html" target="_top">
           <input id="addLanguage" name="q" type="text" class="bs1 p1 h3 br05 w100 zi3" color="black" onreset="focus"
             globalize-get="input_search" globalize-target="placeholder" placeholder="Enter language name or ISO code"
-            autocomplete="off">
+            autocomplete="off" bindfield="q:#languages;q:#settings-empty">
         </form>
-        <div id="languages" maxheight="5rem" stop="data-src" bindglobal="l:globalize.code" bindfield="q:#addLanguage"
+        <div id="languages" maxheight="5rem" stop="data-src" bindglobal="l:globalize.code"
           bindasset="apikey:api.api_key;endpoint:api.languages.endpoint"
           data-src="{endpoint}&column=*&where=language->>{l}.ilike({q}*),isSign.eq(false)&limit=30"
           data-header="apikey:{apikey};Prefer:count=exact" data-iterate="true" data-loader="false"
@@ -36,8 +36,8 @@
               click="storage-localadd:![dictionaryLanguage]:[languages][{iso}][[name[{name}]][iso[{iso}]]];remove:#;hide:#languages;reset:#addLanguage"></a>
           </figure>
         </div>
-        <div id="empty2" class="pa w100 bcwhite zi2" hide>
-          <p class="m1" bindfield="q:#addLanguage">No results found for <b>{q}</b></p>
+        <div id="settings-empty" class="pa w100 bcwhite zi2" hide>
+          <p class="m1">No results found for <b>{q}</b></p>
         </div>
         <ul storage-bind="local:dictionaryLanguage" storage-iterate="languages" flex flexdirection="column"
           paddingtop="1rem" storage-onempty="#no-languages">

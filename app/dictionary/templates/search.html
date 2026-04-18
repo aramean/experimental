@@ -6,20 +6,20 @@
     <div class="ml0 pr f1">
       <form class="zi3" id="form" method="get" action="search.html" target="_top">
         <input id="query2" name="q" type="text" class="bs1 p1 h3 br05 dark white w100 zi3" globalize-get="input_search"
-          globalize-target="placeholder" autocomplete="off">
+          globalize-target="placeholder" autocomplete="off" bindfield="q:#dict-search;q:#dict-empty">
         <input type="submit" class="bos0 bc0 white p1 h5 w4 icon icon16 pa r0" value="&#128269;">
       </form>
-      <div stop="data-src" bindglobal="l:globalize.code" bindfield="q:#query2"
+      <div id="dict-search" stop="data-src" bindglobal="l:globalize.code"
         bindasset="apikey:api.api_key;endpoint:api.words.endpoint"
         data-src="{endpoint}&column=id,meaning_id,word&where=word.ilike({q}*),lang_code.eq({l})&limit=30"
         data-header="apikey:{apikey};Prefer:count=exact" data-iterate="true" data-loader="false"
-        class="box br05 bcwhite- black- pa w100 ail- zi2 autocomplete" data-onempty="#empty2" hide>
+        class="box br05 bcwhite- black- pa w100 ail- zi2 autocomplete" data-onempty="#dict-empty" hide>
         <figure>
           <a data-set="id:id" data-get="word" href="word.html?i={id}" class="p1"></a>
         </figure>
       </div>
-      <div id="empty2" class="pa w100 bcwhite zi2" hide>
-        <p class="m1" bindfield="q:#query2">No results found for <b>{q}</b></p>
+      <div id="dict-empty" class="pa w100 bcwhite zi2" hide>
+        <p class="m1">No results found for <b>{q}</b></p>
       </div>
     </div>
     <button click="toggle" clicktargetfield="aside[1]" class="md_du light pl1"><i class="icon32">≡</i></button>

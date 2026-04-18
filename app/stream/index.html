@@ -50,8 +50,8 @@
     </figure>
     <div class="pr f1">
       <input id="query" type="text" class="bs1 p1 h3 br05 dark white w100 md_dn" globalize-get="input_search"
-        globalize-target="placeholder" autocomplete="off">
-      <div stop="data-src" bindasset="s:api.themoviedb.search.keyword" bindfield="q:#query" data-src="{s}{q}"
+        globalize-target="placeholder" autocomplete="off" bindfield="q:#stream-search">
+      <div id="stream-search" stop="data-src" bindasset="s:api.themoviedb.search.keyword" data-src="{s}{q}"
         data-replace="results.media_type:tv;results.mediatype:show" data-iterate="results" data-loader="false"
         class="box br05 bcblack- white- border- pr w100" bgcolor="black" style="overflow-y: scroll;" height="90vh"
         minheight="90vh" show hide>

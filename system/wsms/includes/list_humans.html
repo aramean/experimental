@@ -1,11 +1,11 @@
 <div id="loader" class="loader"></div>
 <div
+  id="list-humans"
   class="box cards shade1 list br0- bcwhite-"
   bindvar="src;search:"
   bindasset="apikey:api.humans.api_key"
   bindquery="q:q;c:category"
   bindglobal="l:globalize.code"
-  bindfield="search:#query"
   ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
   data-src="{src}?select=id,first_name,middle_name,last_name&first_name->>{l}=ilike.*{search}*"
   data-header="apikey:{apikey};Prefer:count=exact"
