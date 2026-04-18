@@ -6,7 +6,7 @@
     src="../../../front.js"
     module="globalize;data;navigate;keyboard"
     var="api"
-    conf="varsDir:assets/json/vars;debug:true"
+    conf="varsDir:assets/json/vars;debug:false"
     globalize-conf="folder:assets/json/locales"
     navigate-conf="startpage:experimental">
   </script>
@@ -14,7 +14,7 @@
 
 <body>
   <h1>Bindfield</h1>
- 
+
   <h4>Input</h4>
   <input
     type="text"
@@ -27,7 +27,8 @@
     keyboard-scope
     bindfieldif="lastPressedKey:Enter"
     onsubmit="reset"
-    autocomplete="off">
+    autocomplete="off"
+    bindfield="josef:#icondiv1">
 
   <input
     type="text"
@@ -38,12 +39,13 @@
     keyboard-key="Enter"
     keyboard-action
     keyboard-scope
-    autocomplete="off">
+    autocomplete="off"
+    bindfield="josef2:#icondiv2">
 
   <div id="error" hide>ERROR1</div>
   <div
+    id="icondiv1"
     stop="data-src"
-    bindfield="josef:#josefinput"
     data-src="assets/json/icons-material-{josef}.json"
     data-iterate="icons"
     data-loader="false"
@@ -60,8 +62,8 @@
 
   <div id="error2" hide>ERROR2</div>
   <div
+    id="icondiv2"
     stop="data-src"
-    bindfield="josef2:#josefinput2"
     data-src="assets/json/icons-material-{josef2}.json"
     data-iterate="icons"
     data-onerror="#error2"
@@ -74,23 +76,18 @@
       <small data-get="html_entity"></small><br>
     </figure>
   </div>
-  
 
   <h4>Two-way data binding</h4>
-  <input type="text" id="content">
-  <div bindfield="content:#content">
-    {content:it's empty}
-  </div>
+  <input type="text" id="content" bindfield="content:#contentdiv">
+  <div id="contentdiv">{content:it's empty}</div>
   <br>
-  <input type="text" id="content2">
-  <div bindfield="content2:#content2">
-    {content2}
-  </div>
+  <input type="text" id="content2" bindfield="content2:#contentdiv2">
+  <div id="contentdiv2">{content2}</div>
 
   <h4>Two-way data binding in attribute</h4>
-  <input type="text" id="content3">
+  <input type="text" id="content3" bindfield="josef:#linkanchor">
   <div>
-    <a bindfield="josef:#content3" href="{josef:test}" target="_blank">Link</a>
+    <a id="linkanchor" href="{josef:test}" target="_blank">Link</a>
   </div>
 
   <h4>Select with div:</h4>
@@ -98,13 +95,14 @@
     data-src="https://restcountries.com/v3.1/all?fields=name,flags"
     data-iterate="true"
     id="unicountry"
+    bindfield="test:#universitydiv"
   >
     <option data-get="name.common"></option>
   </select>
 
   <div
+    id="universitydiv"
     stop="data-src"
-    bindfield="test:#unicountry"
     data-src="http://universities.hipolabs.com/search?country={test}"
     preloader="true"
     data-iterate="true"
@@ -119,13 +117,14 @@
     data-src="https://restcountries.com/v3.1/all?fields=name,flags"
     data-iterate="true"
     id="selectselect"
+    bindfield="test:#universityselect"
   >
     <option data-get="name.common"></option>
   </select>
 
   <select
+    id="universityselect"
     stop="data-src"
-    bindfield="test:#selectselect"
     data-src="http://universities.hipolabs.com/search?country={test}"
     data-iterate="true"
     preloader="true"
@@ -133,13 +132,13 @@
     <option data-get="name"></option>
   </select>
 
-
-<section>
-  <h4>Bindfield with reloadcontent false</h4>
-  <form flex flexdirection="row" bindfield="test:#command" onformsubmit="alert:[OK];reset">
-      <input type id="command" autocomplete="off" bindfieldreloadcontent="false">
-  </form>
-</section>
+  <section>
+    <h4>Bindfield with reloadcontent false</h4>
+    <form flex flexdirection="row" onformsubmit="alert:[OK];reset">
+      <input type="text" id="command" autocomplete="off" bindfieldreloadcontent="false" bindfield="test:#commandresult">
+    </form>
+    <div id="commandresult">{test}</div>
+  </section>
 
 </body>
 
