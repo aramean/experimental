@@ -537,9 +537,7 @@ var dom = {
               app.element.saveOriginalValues(target)
               var resolvedValue = app.element.resolveBindingValue(target, replaceVariableNew, object.value)
               app.variables.update.content(target, replaceVariableNew, resolvedValue)
-              if (resolvedValue) {
-                app.variables.update.attributes(target, replaceVariableNew, resolvedValue)
-              }
+              app.variables.update.attributes(target, replaceVariableNew, resolvedValue)
             }
 
             var listenerKey = '_bf_' + replaceVariableNew + '_' + replaceValue
