@@ -1421,18 +1421,26 @@ var dom = {
 
     originalNode.innerHTML = element.originalHtml
 
+    // Preserve iterate-skip elements
+    var skipNodes = originalNode.querySelectorAll('[iterate-skip]')
+    var frag = document.createDocumentFragment()
+    for (var s = 0; s < skipNodes.length; s++) {
+      frag.appendChild(skipNodes[s])
+    }
+
     for (var i = start; i <= stop; i++) {
       var innerHtml = originalNode.innerHTML,
         regex = new RegExp('\\{' + varName + '\\}', 'g')
 
-      // Format number with leading zeros if needed
-      var formatted = i.toString().padStart(padLength, '0')
+      var formatted = i.toString()
+      while (formatted.length < padLength) formatted = '0' + formatted
 
       innerHtml = innerHtml.replace(regex, formatted)
       content += innerHtml
     }
 
     element.innerHTML = content
+    if (frag.childNodes.length) element.insertBefore(frag, element.firstChild)
 
     var elements = app.element.find(element, '*')
     app.attributes.run(elements)
