@@ -86,6 +86,7 @@ var dom = {
     'inherit': 'apply',
     'initial': 'apply',
     'block': 'apply',
+    'inline': 'apply',
     'inlineblock': 'apply',
     'left': 'apply',
     'lineheight': 'apply',
@@ -344,6 +345,10 @@ var dom = {
       case 'flex':
       case 'table':
         value = attr
+        attr = 'display'
+        break
+      case 'inline':
+        value = 'inline'
         attr = 'display'
         break
       case 'inlineblock':
