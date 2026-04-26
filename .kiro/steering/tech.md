@@ -77,6 +77,15 @@ Apps configure the framework via a `<script>` tag in `<head>`:
 | `globalize-conf` | Localization configuration (folder path) |
 | `navigate-conf` | Navigation configuration (startpage paths) |
 
+## Attribute Naming Convention
+
+HTML attributes follow a prefix convention to distinguish between the two types of extensions:
+
+| Pattern | Extension Type | Example |
+|---------|---------------|---------|
+| `name-action` | Module (single hyphen) | `form-invalid`, `overlay-close`, `globalize-get` |
+| `name--action` | Plugin (double hyphen) | `share--url`, `seold--title` |
+
 ## Data Binding Syntax
 
 The framework uses custom attributes for data binding:
