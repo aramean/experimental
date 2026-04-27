@@ -401,6 +401,12 @@ var dom = {
       case 'zindex':
         attr = 'zIndex'
         break
+      case 'overflowx':
+        attr = 'overflowX'
+        break
+      case 'overflowy':
+        attr = 'overflowY'
+        break
       case 'zoom':
         element.style.lineHeight = 'normal'
         break
