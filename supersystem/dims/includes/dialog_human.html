@@ -21,11 +21,11 @@
       data-onsuccess="rerun:#list-humans;overlay-close:#dialoghuman" data-onerror="show:#formerror">
       <div class="group outline- gap2">
         <input name="first_name" type="text" padding="0.5rem" class="f1 phdark bw1 bos8 bocblack02" placeholder="First Name"
-          globalize-get="first_name" data-get="first_name" required>
+          globalize-get="first_name" data-get="first_name" trim required>
         <input name="middle_name" type="text" padding="0.5rem" class="f1 phdark bw1 bos8 bocblack02" placeholder="Middle Name"
-          globalize-get="middle_name" data-get="middle_name">
+          globalize-get="middle_name" trim data-get="middle_name">
         <input name="last_name" type="text" padding="0.5rem" class="f1 phdark bw1 bos8 bocblack02" placeholder="Last Name"
-          globalize-get="last_name" data-get="last_name" required>
+          globalize-get="last_name" data-get="last_name" trim required>
       </div>
       <i globalize="date_of_birth">Date of birth</i>
       <div class="gut2-">
@@ -54,7 +54,6 @@
       <div class="group">
         <select class="phdark bw1 bos8 bocblack02" id="residence_country" name="resident.country_code"
           data-src="https://api.aleptra.com/geography/?table=geography_country&order=country->>eng" data-iterate="true"
-          data-wait="1000"
           padding="0.5rem"
           required>
           <option data-get="country.eng" data-set="i:id" value="{i}"></option>
