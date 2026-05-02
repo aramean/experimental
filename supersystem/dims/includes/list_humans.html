@@ -1,0 +1,18 @@
+<div id="loader" class="loader"></div>
+<div id="list-humans" class="box cards shade1 list br0- bcwhite-" bindvar="src;search:"
+  bindasset="apikey:api.humans.api_key" bindquery="q:q;c:category" bindglobal="l:globalize.code"
+  ifbeforeend="{c};,data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
+  data-src="{src}&where=approved.eq(null),first_name.ilike(*{search}*)"
+  data-header="apikey:{apikey};Prefer:count=exact" data-loader="#loader" data-onempty="#empty" data-iterate="true">
+  <a bindvar="href" data-set="i:id" href="{href}.html?i={i}" padding="1rem">
+    <figure class="bcwhite bcblack001_h">
+      <img data-set="code:birth_country" setsrc="https://cdn.front.nu/dist/design/front/flags/famfamfam/{code}.gif" class="f0">
+      <p class="f2" paddingleft="0.5rem" style="padding-left: 0.5rem;">
+        <span bindglobal="l:globalize.code" data-get="first_name">Josef</span>&nbsp;<span
+          bindglobal="l:globalize.code" data-set="m:middle_name" onifdata-set="([]![])/settext:[&nbsp;]"></span><span
+          bindglobal="l:globalize.code" data-get="last_name">Gabrielsson</span>
+      </p>
+      <p class="f0 icon">&#128394;</p>
+    </figure>
+  </a>
+</div>

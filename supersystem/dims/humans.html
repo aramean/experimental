@@ -1,34 +1,20 @@
 <script src="../../front/front.js"></script>
-<title>Humans - DIMS</title>
+<title>Humans</title>
 <template srcdoc="../index" src="../templates/main"></template>
+<div include="includes/dialog_human.html"></div>
 <div class="df aic">
-  <h1 class="f1" globalize-get>Humans awaiting approval</h1>
+  <h1 class="f1">Humans</h1>
+  <button click="overlay-dialog:#dialoghuman" class="button round br50 w2r h2r fr bcblack white aic bs1"><i
+      id="updateDetails" class="icon16">&#8854;</i></button>
 </div>
 <hr class="bcblack01 mt1">
 <div class="df mb1 gap1-">
-  <input
-    id="query"
-    type="text"
-    value=""
-    class="bs1 f3 p1 h3 br05"
-    globalize-get="human"
-    globalize-target="placeholder"
-    autocomplete="off"
-    bindfield="search:#list-humans"
-  >
+  <input id="query" type="text" value="" class="bs1 f3 p1 h3 br05" globalize-get="human" globalize-target="placeholder"
+    autocomplete="off" bindfield="search:#list-humans">
+  <select id="sort" class="bs1 f0 p1 h3 br05 fs08" globalize-target="placeholder">
+    <option>Updated</option>
+  </select>
 </div>
-<div
-  bindasset="endpoint:api.humans.endpoint"
-  data-src="{endpoint}&where=approved.is(null)"
-  data-header="apikey:{apikey};Prefer:count=exact"
-  data-iterate="true"
-  class="box cards list">
-  <a href="human-review.html" data-set="id:id">
-    <figure class="p1 bcwhite shade1 mb05 br05">
-      <p class="f2 pl1" data-get="first_name"></p>
-      <p class="f2" data-get="middle_name"></p>
-      <p class="f2 pl05" data-get="last_name"></p>
-      <p class="tar dimgray fs08" data-get="birth_date_year"></p>
-    </figure>
-  </a>
+<div bindasset="endpoint:api.humans.endpoint" bindvar="src:{endpoint};href:human;field:human"
+  include="includes/list_humans.html">
 </div>
