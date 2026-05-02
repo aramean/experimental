@@ -1,0 +1,70 @@
+<dialog id="dialoghuman" stop="*" onoverlay-dialog="start:[*]" margin="auto" border="0" padding="2rem" radius="1rem" relative>
+  <header marginbottom="2rem"><h3 lineheight="0">Edit human</h3></header>
+  <hr color="snow" padding="0" margin="1rem 0">
+  <button
+    click="overlay-close:#dialoghuman"
+    bgcolor="black"
+    color="white"
+    height="2rem"
+    width="2rem"
+    lineheight="2"
+    aria-label="close"
+    absolute
+    right="10"
+    top="10"
+    radius="50%"
+  >×</button>
+  <input type="hidden" id="dialoghuman-id" overlay-bind="id" bindfield="id:#dialoghuman-data">
+  <div id="dialoghuman-data" bindasset="apikey:api.api_key;endpoint:api.humans.endpoint"
+    data-src="{endpoint}&select=*&where=id.eq({id})" data-header="apikey:{apikey};Accept:application/json+single">
+    <form class="gaph2" bindasset="action:api.humans.endpoint" method="put" action="{action}"
+      data-onsuccess="rerun:#list-humans;overlay-close:#dialoghuman" data-onerror="show:#formerror">
+      <div class="group outline- gap2">
+        <input name="first_name" type="text" padding="0.5rem" class="f1 phdark bw1 bos8 bocblack02" placeholder="First Name"
+          globalize-get="first_name" data-get="first_name" required>
+        <input name="middle_name" type="text" padding="0.5rem" class="f1 phdark bw1 bos8 bocblack02" placeholder="Middle Name"
+          globalize-get="middle_name" data-get="middle_name">
+        <input name="last_name" type="text" padding="0.5rem" class="f1 phdark bw1 bos8 bocblack02" placeholder="Last Name"
+          globalize-get="last_name" data-get="last_name" required>
+      </div>
+      <i globalize="date_of_birth">Date of birth</i>
+      <div class="gut2-">
+        <select class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[0]" iterate="1920;2025;i" required>
+          <option>{i}</option>
+        </select>
+        <select class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[1]" iterate="01;12;i" required>
+          <option>{i}</option>
+        </select>
+        <select class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[2]" iterate="01;31;i" required>
+          <option>{i}</option>
+        </select>
+      </div>
+
+      <i globalize="country_of_birth">Country of birth</i>
+      <div class="group">
+        <select class="phdark bw1 bos8 bocblack02" id="birth_country" name="birth.country"
+          data-src="https://api.aleptra.com/geography/?table=geography_country&order=country->>eng" data-iterate="true"
+          padding="0.5rem"
+          required>
+          <option data-get="country.eng" data-set="i:id" value="{i}"></option>
+        </select>
+      </div>
+
+      <i globalize="country_of_residence">Country of residence</i>
+      <div class="group">
+        <select class="phdark bw1 bos8 bocblack02" id="residence_country" name="resident.country_code"
+          data-src="https://api.aleptra.com/geography/?table=geography_country&order=country->>eng" data-iterate="true"
+          data-wait="1000"
+          padding="0.5rem"
+          required>
+          <option data-get="country.eng" data-set="i:id" value="{i}"></option>
+        </select>
+      </div>
+      <menu class="group mt1 gap1-">
+        <input class="button h3" type="submit" value="Save" globalize-get="Save">
+        <input class="button h3 fr bcgreen white" type="submit" value="Accept" globalize-get="Accept">
+        <input class="button h3 bcred white" type="submit" value="Decline" globalize-get="Decline">
+      </menu>
+    </form>
+  </div>
+</dialog>
