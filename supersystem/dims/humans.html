@@ -1,0 +1,34 @@
+<script src="../../front/front.js"></script>
+<title>Humans - DIMS</title>
+<template srcdoc="../index" src="../templates/main"></template>
+<div class="df aic">
+  <h1 class="f1" globalize-get>Humans awaiting approval</h1>
+</div>
+<hr class="bcblack01 mt1">
+<div class="df mb1 gap1-">
+  <input
+    id="query"
+    type="text"
+    value=""
+    class="bs1 f3 p1 h3 br05"
+    globalize-get="human"
+    globalize-target="placeholder"
+    autocomplete="off"
+    bindfield="search:#list-humans"
+  >
+</div>
+<div
+  bindasset="endpoint:api.humans.endpoint"
+  data-src="{endpoint}&where=approved.is(null)"
+  data-header="apikey:{apikey};Prefer:count=exact"
+  data-iterate="true"
+  class="box cards list">
+  <a href="human-review.html" data-set="id:id">
+    <figure class="p1 bcwhite shade1 mb05 br05">
+      <p class="f2 pl1" data-get="first_name"></p>
+      <p class="f2" data-get="middle_name"></p>
+      <p class="f2 pl05" data-get="last_name"></p>
+      <p class="tar dimgray fs08" data-get="birth_date_year"></p>
+    </figure>
+  </a>
+</div>

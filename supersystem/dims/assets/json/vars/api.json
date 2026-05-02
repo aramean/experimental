@@ -1,0 +1,30 @@
+{
+  "api_key": "",
+  "humans": {
+    "endpoint": "https://api.aleptra.com/humanology/?table=protected.human"
+  },
+  "animals": {
+    "endpoint": ""
+  },
+  "deities": {
+    "endpoint": ""
+  },
+  "spirits": {
+    "endpoint": ""
+  },
+  "monsters": {
+    "endpoint": ""
+  },
+  "microbes": {
+    "endpoint": ""
+  },
+  "plants": {
+    "endpoint": ""
+  },
+  "aliens": {
+    "endpoint": ""
+  },
+  "artificial": {
+    "endpoint": ""
+  }
+}

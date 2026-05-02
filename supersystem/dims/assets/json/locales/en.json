@@ -1,0 +1,37 @@
+{
+  "name": "English",
+  "code": "eng",
+  "locale": "en-US",
+  "direction": "ltr",
+  "translations": {
+    "app": {
+      "name": "Data Intake Management Supersystem",
+      "abbreviation": "DIMS"
+    },
+    "Change language": "Change language",
+    "Review": "Review",
+    "Pending Submissions": "Pending Submissions",
+    "Humans": "Humans",
+    "Animals": "Animals",
+    "Deities": "Deities",
+    "Spirits": "Spirits",
+    "Monsters": "Monsters",
+    "Microbes": "Microbes",
+    "Plants": "Plants",
+    "Aliens": "Aliens",
+    "Artificial Beings": "Artificial Beings",
+    "Humans awaiting approval": "Humans awaiting approval",
+    "Animals awaiting approval": "Animals awaiting approval",
+    "Deities awaiting approval": "Deities awaiting approval",
+    "Spirits awaiting approval": "Spirits awaiting approval",
+    "Monsters awaiting approval": "Monsters awaiting approval",
+    "Microbes awaiting approval": "Microbes awaiting approval",
+    "Plants awaiting approval": "Plants awaiting approval",
+    "Aliens awaiting approval": "Aliens awaiting approval",
+    "Artificial Beings awaiting approval": "Artificial Beings awaiting approval",
+    "Continue": "Continue",
+    "Accept": "Accept",
+    "Decline": "Decline",
+    "Save": "Save"
+  }
+}

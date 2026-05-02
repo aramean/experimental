@@ -1,0 +1,20 @@
+<script src="../../front/front.js"></script>
+<title>Animals - DIMS</title>
+<template srcdoc="../index" src="../templates/main"></template>
+<div class="df aic">
+  <h1 class="f1" globalize-get>Animals awaiting approval</h1>
+</div>
+<hr class="bcblack01 mt1">
+<div
+  bindasset="endpoint:api.animals.endpoint"
+  data-src="{endpoint}&where=approved.is(null)"
+  data-header="apikey:{apikey};Prefer:count=exact"
+  data-iterate="true"
+  class="box cards list">
+  <a href="animal-review.html" data-set="id:id">
+    <figure class="p1 bcwhite shade1 mb05 br05">
+      <p class="f2 pl1" data-get="name"></p>
+      <p class="tar dimgray fs08" data-get="species"></p>
+    </figure>
+  </a>
+</div>

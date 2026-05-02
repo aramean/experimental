@@ -1,10 +1,14 @@
 # System
-Being Sciences Management System.
-(Biological, Artificial and Supernatural)
+Existential Sciences Management System
+(Natural, Artificial, Supernatural and Speculative)
 
 # Subsystems
-* Anthropology
-* Sociology
-* Psychology
-* Biology
-* Demography
+* Anthropology (Humans)
+* Zoology (Animals)
+* Theology (Deities)
+* Pneumatology (Spirits)
+* Teratology (Monsters)
+* Microbiology (Microbes)
+* Botany (Plants)
+* Astrobiology (Aliens)
+* Cybernetics (Artificial Beings)

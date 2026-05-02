@@ -1,0 +1,37 @@
+{
+  "name": "Svenska",
+  "code": "swe",
+  "locale": "sv-SE",
+  "direction": "ltr",
+  "translations": {
+    "app": {
+      "name": "Dataintag Hanteringssupersystem",
+      "abbreviation": "DIMS"
+    },
+    "Change language": "Byt språk",
+    "Review": "Granska",
+    "Pending Submissions": "Väntande inlämningar",
+    "Humans": "Människor",
+    "Animals": "Djur",
+    "Deities": "Gudomar",
+    "Spirits": "Andar",
+    "Monsters": "Monster",
+    "Microbes": "Mikrober",
+    "Plants": "Växter",
+    "Aliens": "Utomjordingar",
+    "Artificial Beings": "Artificiella varelser",
+    "Humans awaiting approval": "Människor som väntar på godkännande",
+    "Animals awaiting approval": "Djur som väntar på godkännande",
+    "Deities awaiting approval": "Gudomar som väntar på godkännande",
+    "Spirits awaiting approval": "Andar som väntar på godkännande",
+    "Monsters awaiting approval": "Monster som väntar på godkännande",
+    "Microbes awaiting approval": "Mikrober som väntar på godkännande",
+    "Plants awaiting approval": "Växter som väntar på godkännande",
+    "Aliens awaiting approval": "Utomjordingar som väntar på godkännande",
+    "Artificial Beings awaiting approval": "Artificiella varelser som väntar på godkännande",
+    "Continue": "Fortsätt",
+    "Accept": "Godkänn",
+    "Decline": "Avslå",
+    "Save": "Spara"
+  }
+}
