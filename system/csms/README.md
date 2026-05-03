@@ -1,15 +1,8 @@
 # System
 Cosmic Sciences Management System
 
-Planets
-Moons
-Stars
-Comets
-Asteroids
-Galaxies
-
 # Subsystems
-* Astronomy
-* Astrophysics
-* Cosmology
-* Astrobiology
+* Astronomy (Stars, Planets, Moons, Comets, Asteroids)
+* Astrophysics (Stellar Phenomena, Radiation)
+* Planetology (Planetary Composition, Atmospheres)
+* Astrobiology (Extraterrestrial Life)
