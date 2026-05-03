@@ -15,8 +15,12 @@
     radius="50%"
   >×</button>
   <input type="hidden" id="dialoghuman-id" overlay-bind="id" bindfield="id:#dialoghuman-data">
-  <div id="dialoghuman-data" bindasset="apikey:api.api_key;endpoint:api.humans.endpoint"
-    data-src="{endpoint}&select=*&where=id.eq({id})" data-header="apikey:{apikey};Accept:application/json+single">
+  <div id="dialoghuman-data"
+    bindasset="apikey:api.api_key;endpoint:api.humans.endpoint"
+    data-src="{endpoint}&select=*&where=id.eq({id})"
+    data-header="Accept:application/json+single"
+    data-onfinish="selectoption:#birthdate:[1987]"
+  >
     <form class="gaph2" bindasset="action:api.humans.endpoint" method="put" action="{action}"
       data-onsuccess="rerun:#list-humans;overlay-close:#dialoghuman" data-onerror="show:#formerror">
       <div class="group outline- gap2">
@@ -29,7 +33,7 @@
       </div>
       <i globalize="date_of_birth">Date of birth</i>
       <div class="gut2-">
-        <select class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[0]" iterate="1920;2025;i" required>
+        <select id="birthdate" class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[0]" iterate="1920;2025;i" required>
           <option>{i}</option>
         </select>
         <select class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[1]" iterate="01;12;i" required>
