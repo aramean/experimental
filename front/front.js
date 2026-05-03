@@ -257,6 +257,16 @@ var dom = {
   },
 
   /**
+   * @function selectoption
+   * @memberof dom
+   * @desc Selects an option in a select element by value.
+   */
+  selectoption: function (object, value) {
+    var el = app.element.resolveCall(object, value)
+    el.value = el.call.value
+  },
+
+  /**
    * @function apply
    * @memberof dom
    * @param {*} element
