@@ -19,7 +19,8 @@
     bindasset="apikey:api.api_key;endpoint:api.humans.endpoint"
     data-src="{endpoint}&select=*&where=id.eq({id})"
     data-header="Accept:application/json+single"
-    data-onfinish="selectoption:#birthdate:[1987]"
+    data-get="byear:birth_date_year;bmonth:birth_date_month;bday:birth_date_day"
+    data-onfinish="setvalue:#birthyear:[{byear}];setvalue:#birthmonth:[{bmonth}];setvalue:#birthday:[{bday}]"
   >
     <form class="gaph2" bindasset="action:api.humans.endpoint" method="put" action="{action}"
       data-onsuccess="rerun:#list-humans;overlay-close:#dialoghuman" data-onerror="show:#formerror">
@@ -33,14 +34,14 @@
       </div>
       <i globalize="date_of_birth">Date of birth</i>
       <div class="gut2-">
-        <select id="birthdate" class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[0]" iterate="1920;2025;i" required>
-          <option>{i}</option>
+        <select id="birthyear" class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[0]" iterate="1920;2025;i" required>
+          <option value="{i}">{i}</option>
         </select>
-        <select class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[1]" iterate="01;12;i" required>
-          <option>{i}</option>
+        <select id="birthmonth" class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[1]" iterate="1;12;i" required>
+          <option value="{i}">{i}</option>
         </select>
-        <select class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[2]" iterate="01;31;i" required>
-          <option>{i}</option>
+        <select id="birthday" class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="birth.date[2]" iterate="1;31;i" required>
+          <option value="{i}">{i}</option>
         </select>
       </div>
 
