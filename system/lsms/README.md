@@ -1,5 +1,5 @@
 # System
-Language Sciences Management System
+Linguistic Sciences Management System
 
 # Subsystems
 * Linguistics (Grammar, Syntax, Morphology)

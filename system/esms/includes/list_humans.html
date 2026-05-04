@@ -7,12 +7,13 @@
   bindquery="q:q;c:category"
   bindglobal="l:globalize.code"
   ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
-  data-src="{src}&select=id,first_name,middle_name,last_name&where=first_name->>{l}.ilike(*{search}*)"
+  data-src="{src}&select=id,first_name,middle_name,last_name,sex&where=first_name->>{l}.ilike(*{search}*)"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader"
   data-onempty="#empty"
   data-iterate="true">
   <a bindvar="href" data-set="i:id" href="{href}.html?i={i}" class="p1">
+    <small class="gray f0" paddingright="0.5rem" data-set="s:sex" if="([{s}]:[male])/settext:[&#9794;]?settext:[&#9792;]"></small>
     <p>
        <span
         bindglobal="l:globalize.code"
@@ -26,7 +27,6 @@
         data-get="last_name.{l:eng}"
       ></span>
     </p>
-    <small class="gray"></small>
     <p class="f0 icon">&#128394;</p>
   </a>
 </div>
