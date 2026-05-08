@@ -26,5 +26,8 @@
   },
   "artificial": {
     "endpoint": ""
+  },
+  "software": {
+    "endpoint": "https://api.aleptra.com/humanology/?table=protected.software"
   }
 }

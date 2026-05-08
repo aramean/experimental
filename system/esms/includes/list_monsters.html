@@ -1,9 +1,9 @@
 <div id="loader" class="loader"></div>
 <div
-  id="list-animals"
+  id="list-monsters"
   class="box cards shade1 list br0- bcwhite-"
   bindvar="src;search:"
-  bindasset="apikey:api.animals.api_key"
+  bindasset="apikey:api.monsters.api_key"
   bindquery="q:q;c:category"
   bindglobal="l:globalize.code"
   ifbeforeend="{c};data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
@@ -13,12 +13,10 @@
   data-onempty="#empty"
   data-iterate="true">
   <a bindvar="href" data-set="i:id" href="{href}.html?i={i}" class="p1">
-    <small class="gray f0" paddingright="0.5rem" data-set="s:sex"
-      if="([{s}]:[male])/settext:[&#9794;];color:[blue]?settext:[&#9792;];color:[deeppink]"></small>
     <p>
-      <span bindglobal="l:globalize.code" data-get="name.{l}"></span>&nbsp;<span bindglobal="l:globalize.code" data-get="middle_name.{l:eng}"></span><span bindglobal="l:globalize.code" data-get="last_name.{l:eng}"></span>
+      <span bindglobal="l:globalize.code" data-get="name.{l:eng}"></span>
     </p>
-    <small class="gray" data-get="first_n.eng"></small>
+    <small class="gray" data-get=""></small>
     <p class="f0 icon">&#128394;</p>
   </a>
 </div>

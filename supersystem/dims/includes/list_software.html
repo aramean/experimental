@@ -1,0 +1,30 @@
+<div
+  id="list-software"
+  class="box cards shade1 list br0-"
+  bindvar="src;search:"
+  bindasset="apikey:api.api_key"
+  bindquery="q:q;c:category"
+  bindglobal="l:globalize.code"
+  ifbeforeend="{c};,data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
+  data-src="{src}&name.ilike(*{search}*)"
+  data-header="apikey:{apikey};Prefer:count=exact"
+  data-loader="#loader"
+  data-onempty="#empty"
+  data-iterate="true"
+>
+  <a
+    data-set="id:id"
+    overlay-bind="{id}"
+    click="overlay-dialog:#dialoghuman"
+    padding="1rem"
+    bgcolor="white"
+  >
+    <figure class="bcwhite bcblack001_h">
+      <p class="f2">
+        <span bindglobal="l:globalize.code" data-get="name">Josef</span>
+      </p>
+      <p class="f0 icon">&#128394;</p>
+    </figure>
+  </a>
+</div>
+<div id="loader" class="loader" flex></div>
