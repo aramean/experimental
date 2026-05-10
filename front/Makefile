@@ -7,7 +7,7 @@ JS_FILE := front.js
 MIN_FILE := front.min.js
 TAG := $(shell grep -o 'build:[[:space:]]*[0-9]*' $(JS_FILE) | awk -F':' '{ print $$2+1 }')
 
-release: precommit minify
+nightly: precommit minify
 	@sed -E 's/(build:[[:space:]]+)[0-9]+/\1$(TAG)/g' ${JS_FILE} > temp_file && mv temp_file ${JS_FILE}
 	@echo "Release: $(TAG) ..."
 	@cp front.js $(NIGHTLY)
@@ -15,6 +15,13 @@ release: precommit minify
 	@cp -fr plugins $(NIGHTLY)
 	@cp -fr modules $(NIGHTLY)
 	@cd $(NIGHTLY) && git add . && git commit -m "Build $(TAG)" && git push --force
+
+release: precommit minify
+	@if [ -z "$(VERSION)" ]; then echo "Usage: make release <version>"; exit 1; fi
+	@sed -E 's/(build:[[:space:]]+)[0-9]+/\1$(TAG)/g' ${JS_FILE} > temp_file && mv temp_file ${JS_FILE}
+	@echo "Release: $(VERSION) (Build $(TAG))"
+	@git add . && git commit -m "$(VERSION)" && git push
+	@git tag -a $(VERSION) -m "$(VERSION)" && git push origin $(VERSION)
 
 precommit:
 	@git add . && git commit --allow-empty-message -m ''
