@@ -24,10 +24,12 @@ minify:
 	@echo "Minifying ${JS_FILE}..."
 	@sed -E 's#//.*$$##' ${JS_FILE} \
 	| sed -E '/\/\*/,/\*\//d' \
-	| sed -E 's/[[:space:]]+/ /g' \
 	| sed -E 's/^[[:space:]]+//' \
 	| sed -E 's/[[:space:]]+$$//' \
+	| sed -E 's/[[:space:]]+/ /g' \
 	| sed -E '/^$$/d' \
+	| perl -0777 -pe 's/([{,;])\n\s*/$$1/g' \
+	| perl -0777 -pe 's/}\n\s*}/}}/g' \
 	> ${MIN_FILE}
 	@echo "Minified JS saved to ${MIN_FILE}"
 
