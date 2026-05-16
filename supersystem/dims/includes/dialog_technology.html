@@ -1,0 +1,67 @@
+<dialog id="dialogtechnology" stop="*" onoverlay-dialog="start:[*]" margin="auto" border="0" padding="2rem" radius="1rem" minwidth="800px" relative>
+  <header marginbottom="2rem"><h3 lineheight="0">Edit technology</h3></header>
+  <hr color="snow" padding="0" margin="1rem 0">
+  <button
+    click="overlay-close:#dialogtechnology"
+    bgcolor="black"
+    color="white"
+    height="2rem"
+    width="2rem"
+    lineheight="2"
+    aria-label="close"
+    absolute
+    right="10"
+    top="10"
+    radius="50%"
+  >×</button>
+  <input type="hidden" id="dialogtechnology-id" overlay-bind="id" bindfield="id:#dialogtechnology-data">
+  <div id="dialogtechnology-data"
+    bindasset="endpoint:api.technology.endpoint"
+    data-src="{endpoint}&select=*&where=id.eq({id})"
+    data-header="Accept:application/json+single"
+    data-set="wtype:work_type;nm:name.eng;desc:description.eng;yr:year_created;web:website;ver:version;stat:status"
+    data-onfinish="setvalue:#tech-name:[{nm}];setvalue:#tech-worktype:[{wtype}];setvalue:#tech-description:[{desc}];setvalue:#tech-year:[{yr}];setvalue:#tech-website:[{web}];setvalue:#tech-version:[{ver}];setvalue:#tech-status:[{stat}]"
+  >
+    <form class="gaph2" bindasset="action:api.technology.endpoint" method="put" action="{action}"
+      data-onsuccess="rerun:#list-technology;overlay-close:#dialogtechnology" data-onerror="show:#formerror">
+      <div class="group outline- gap2">
+        <select id="tech-worktype" class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="work_type" required>
+          <option value="software">Software</option>
+          <option value="hardware">Hardware</option>
+          <option value="protocol">Protocol</option>
+          <option value="standard">Standard</option>
+        </select>
+      </div>
+      <div class="group outline- gap2">
+        <input id="tech-name" name="name.eng" type="text" padding="0.5rem" class="f1 phdark bw1 bos8 bocblack02" placeholder="Name" required>
+      </div>
+      <div class="group outline- gap2">
+        <textarea id="tech-description" name="description.eng" padding="0.5rem" class="phdark bw1 bos8 bocblack02" placeholder="Description" rows="3"></textarea>
+      </div>
+      <div class="gut2-">
+        <input id="tech-year" name="year_created" type="number" padding="0.5rem" class="phdark bw1 bos8 bocblack02" placeholder="Year created" min="1800" max="2030">
+        <input id="tech-version" name="version" type="text" padding="0.5rem" class="phdark bw1 bos8 bocblack02" placeholder="Version">
+      </div>
+      <div class="group outline- gap2">
+        <input id="tech-website" name="website" type="url" padding="0.5rem" class="phdark bw1 bos8 bocblack02" placeholder="Website">
+      </div>
+      <div class="group outline- gap2">
+        <select id="tech-status" class="phdark bw1 bos8 bocblack02" padding="0.5rem" name="status">
+          <option value="active">Active</option>
+          <option value="deprecated">Deprecated</option>
+          <option value="discontinued">Discontinued</option>
+          <option value="beta">Beta</option>
+          <option value="alpha">Alpha</option>
+          <option value="archived">Archived</option>
+          <option value="maintained">Maintained</option>
+          <option value="unmaintained">Unmaintained</option>
+        </select>
+      </div>
+      <menu class="group mt1 gap1-">
+        <input class="button h3" type="submit" value="Save" globalize-get="Save">
+        <input class="button h3 fr bcgreen white" type="submit" value="Accept" globalize-get="Accept">
+        <input class="button h3 bcred white" type="submit" value="Decline" globalize-get="Decline">
+      </menu>
+    </form>
+  </div>
+</dialog>

@@ -1,9 +1,8 @@
 <script src="../../../front/front.js"></script>
-<title>Humans</title>
+<title>Technology</title>
 <template srcdoc="../../index" src="../../templates/main"></template>
-<div include="includes/dialog_human.html"></div>
 <div class="df aic">
-  <h1 class="f1">Technology</h1>
+  <h1 class="f1" bindglobal="title:title">{title}</h1>
 </div>
 <hr class="bcblack01 mt1">
 <div class="df mb1 gap1-">
@@ -16,3 +15,4 @@
 <div bindasset="endpoint:api.technology.endpoint" bindvar="src:{endpoint};href:software;field:software"
   include="includes/list_technology.html">
 </div>
+<div include="includes/dialog_technology.html"></div>

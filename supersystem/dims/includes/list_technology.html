@@ -6,7 +6,7 @@
   bindquery="q:q;c:category"
   bindglobal="l:globalize.code"
   ifbeforeend="{c};,data-src:&or=(id.eq.{c},taxonomy.eq.{c})"
-  data-src="{src}&name.ilike(*{search}*)"
+  data-src="{src}&name->>.eng.ilike(*{search}*)"
   data-header="apikey:{apikey};Prefer:count=exact"
   data-loader="#loader"
   data-onempty="#empty"
@@ -15,7 +15,7 @@
   <a
     data-set="id:id"
     overlay-bind="{id}"
-    click="overlay-dialog:#dialoghuman"
+    click="overlay-dialog:#dialogtechnology"
     padding="1rem"
     bgcolor="white"
   >
