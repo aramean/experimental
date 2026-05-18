@@ -1932,7 +1932,7 @@ var app = {
         }
       }
 
-      el.innerHTML = string.replace(/ src="/g, ' __src="')
+      el.innerHTML = string.replace(/<img([^>]*) src="/g, '<img$1 __src="')
       el.doctype = doctype ? doctype[0] : ''
 
       return el
