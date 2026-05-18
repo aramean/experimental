@@ -509,16 +509,6 @@ var dom = {
           break
         case 'bindglobal':
           replaceValue = app.element.getPropertyByPath(app.globals, replaceValue)
-          if (object._live === undefined) {
-            var obg = object.getAttribute('onbindglobalchange')
-            if (obg) {
-              var attr = obg.split(':')[1]
-              object._live = { attr: attr, template: object.getAttribute(attr), callPrefix: attr + ':' }
-              app.globals._live.push(object)
-            } else {
-              object._live = null
-            }
-          }
           break
         case 'bindasset':
           var keys = replaceValue.split('.'),
@@ -2373,6 +2363,23 @@ var app = {
 
           var call = hasAttr && el.getAttribute('onif' + func)
           if (call) dom.if(el, call)
+
+          // Register live binding for bindglobal
+          if (func === 'bindglobal' && !el._live) {
+            var bg = hasAttr && el.getAttribute('onbindglobalchange')
+            if (bg) {
+              var attr = bg.split(':')[1]
+              var original = el.originalAttributes
+              var template = ''
+              for (var k = 0; k < original.length; k++) {
+                if (original[k].name === attr) { template = original[k].originalValue || original[k].value; break }
+              }
+              el._live = { attr: attr, template: template, callPrefix: attr + ':' }
+              app.globals._live.push(el)
+            } else {
+              el._live = null
+            }
+          }
         }
       } else {
         var func = parsedCall.attribute,
@@ -2570,16 +2577,21 @@ var app = {
       this.href = location.href
       if (prev === this.href) return
       this.title = document.title
-      var alive = [], el, live
+      var alive = [], el, live, bindings, b, parts, resolved, attrValue
       for (var i = 0, len = this._live.length; i < len; i++) {
         el = this._live[i]
         if (!document.contains(el)) continue
         alive.push(el)
         live = el._live
-        el.setAttribute(live.attr, live.template)
-        el.lastRunAttribute = 'bindglobal'
-        dom.bind(el, el.getAttribute('bindglobal'))
-        app.call(live.callPrefix + el.getAttribute(live.attr), { srcElement: el })
+        attrValue = live.template
+        bindings = el.getAttribute('bindglobal').split(';')
+        for (b = 0; b < bindings.length; b++) {
+          parts = bindings[b].split(':')
+          resolved = app.element.getPropertyByPath(this, parts[1])
+          attrValue = attrValue.replace(new RegExp('\\{' + parts[0] + '(?::[^}]*)?\\}', 'g'), resolved || '')
+        }
+        el.setAttribute(live.attr, attrValue)
+        app.call(live.callPrefix + attrValue, { srcElement: el })
       }
       this._live = alive
     }
