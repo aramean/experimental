@@ -1932,7 +1932,7 @@ var app = {
         }
       }
 
-      el.innerHTML = string
+      el.innerHTML = string.replace(/ src="/g, ' __src="')
       el.doctype = doctype ? doctype[0] : ''
 
       return el
@@ -3292,10 +3292,10 @@ var app = {
             document.write(responsePageContent)
             document.close()
           } else {
-            dom.set('html', responsePageContent)
+            dom.set('html', this.resolveBase(responsePageContent))
           }
 
-          dom.set('body > main', currentPageBodyContent)
+          dom.set('body > main', this.resolveBase(currentPageBodyContent))
         }
       }
 
@@ -3361,6 +3361,10 @@ var app = {
 
       dom.doctitle(false, currentPageTitle)
       app.globals.refresh()
+    },
+
+    resolveBase: function (html) {
+      return html.replace(/ __src="/g, ' src="').replace(/ src="(?!https?:\/\/|\/\/|\/|data:|#|\{)([^"]+)"/g, ' src="' + (app.baseHref || '/') + '$1"')
     }
   },
 
