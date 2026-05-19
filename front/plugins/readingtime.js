@@ -5,7 +5,7 @@ app.plugin.readingtime = {
     this.plugin = options.name + '-'
     this.globalConfig = {
       wpm: 200,
-      lessThanMsg: 'Less than 1 min read',
+      lessThanMsg: '< 1 min read',
       minuteMsg: 'min read',
       minutesMsg: 'min to read'
     }
@@ -15,12 +15,12 @@ app.plugin.readingtime = {
     if (!el || !el.nodeType) return
 
     var activeConfig = app.config.get(this.plugin, this.globalConfig, el)
-    var targetSelector = el.getAttribute('readingtime--get')
+    var targetSelector = el.getAttribute('readingtime--set')
 
     if (!targetSelector) {
       var attrs = el.attributes
       for (var i = 0; i < attrs.length; i++) {
-        if (attrs[i].name.indexOf('readingtime--get:') === 0) {
+        if (attrs[i].name.indexOf('readingtime--set:') === 0) {
           targetSelector = attrs[i].name.substring(17)
           break
         }
