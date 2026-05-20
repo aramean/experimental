@@ -69,7 +69,6 @@ var dom = {
     'minwidth': 'apply',
     'maxheight': 'apply',
     'maxwidth': 'apply',
-    'move': 'move',
     'gap': 'apply',
     'grid': 'apply',
     'gridarea': 'apply',
@@ -194,10 +193,23 @@ var dom = {
    * @memberof dom
    */
   move: function (object, value) {
-    var from = object
-    var to = app.element.select(value)
+    var from = object,
+      to = app.element.select(value)
     if (from && to) {
       to.appendChild(from)
+    }
+  },
+
+  /**
+   * @function clone
+   * @memberof dom
+   */
+  clone: function (object, value) {
+    var from = object,
+      to = app.element.select(value)
+    if (from && to) {
+      var clone = to.cloneNode(true)
+      from.appendChild(clone)
     }
   },
 
