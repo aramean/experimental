@@ -7,6 +7,8 @@ JS_FILE := front.js
 MIN_FILE := front.min.js
 TAG := $(shell grep -o 'build:[[:space:]]*[0-9]*' $(JS_FILE) | awk -F':' '{ print $$2+1 }')
 
+default: nightly
+
 nightly: precommit minify
 	@sed -E 's/(build:[[:space:]]+)[0-9]+/\1$(TAG)/g' ${JS_FILE} > temp_file && mv temp_file ${JS_FILE}
 	@echo "Release: $(TAG) ..."
