@@ -6,27 +6,27 @@ NIGHTLY = ../../front/nightly/
 JS_FILE := front.js
 MIN_FILE := front.min.js
 TAG := $(shell grep -o 'build:[[:space:]]*[0-9]*' $(JS_FILE) | awk -F':' '{ print $$2+1 }')
+VERSION := $(shell grep 'frontVersion' $(JS_FILE) | grep -oE '[0-9]+' | head -3 | paste -sd '.' -)
 
-nightly: precommit minify
+default: precommit minify
 	@sed -E 's/(build:[[:space:]]+)[0-9]+/\1$(TAG)/g' ${JS_FILE} > temp_file && mv temp_file ${JS_FILE}
-	@echo "Release: $(TAG) ..."
+	@echo "Build: $(TAG)"
 	@cp front.js $(NIGHTLY)
 	@cp front.min.js $(NIGHTLY)
 	@cp -fr plugins $(NIGHTLY)
 	@cp -fr modules $(NIGHTLY)
 	@cd $(NIGHTLY) && git add . && git commit -m "Build $(TAG)" && git push --force
 
-release: precommit minify
-	@if [ -z "$(VERSION)" ]; then echo "Usage: make release <version>"; exit 1; fi
-	@sed -E 's/(build:[[:space:]]+)[0-9]+/\1$(TAG)/g' ${JS_FILE} > temp_file && mv temp_file ${JS_FILE}
-	@echo "Release: $(VERSION) (Build $(TAG))"
-	@git add . && git commit -m "$(VERSION)" && git push
-	@git tag -a $(VERSION) -m "$(VERSION)" && git push origin $(VERSION)
+release: default
+	@if git ls-remote --tags origin | grep -q "refs/tags/v$(VERSION)$$"; then echo "Error: Tag v$(VERSION) already exists in remote."; exit 1; fi
+	@echo "Release v$(VERSION) (Build $(TAG))?"
+	@read -p "Confirm [y/n]: " ans && [ "$$ans" = "y" ] || exit 1
+	@echo "Releasing..."
+	@git tag -a v$(VERSION) -m "v$(VERSION)" && git push origin v$(VERSION)
 
 precommit:
 	@git add . && git commit --allow-empty-message -m ''
 
-# Pure Bash minify step
 minify:
 	@echo "Minifying ${JS_FILE}..."
 	@sed -E 's#//.*$$##' ${JS_FILE} \
@@ -40,6 +40,5 @@ minify:
 	> ${MIN_FILE}
 	@echo "Minified JS saved to ${MIN_FILE}"
 
-# Default target to prevent errors for unknown make goals
 %:
 	@:
