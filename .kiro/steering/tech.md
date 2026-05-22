@@ -6,18 +6,18 @@ This project uses **Make** for build and Git operations. There is no JavaScript 
 
 ### Root Makefile Targets
 
-| Command | Description |
-|---------|-------------|
-| `make` | Pull latest, stage all changes, commit (empty message), push |
-| `make install-hooks` | Install pre-commit hook from `.githooks/pre-commit` |
+| Command              | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| `make`               | Pull latest, stage all changes, commit (empty message), push |
+| `make install-hooks` | Install pre-commit hook from `.githooks/pre-commit`          |
 
 ### Front Makefile Targets (in `front/` directory)
 
-| Command | Description |
-|---------|-------------|
-| `make release` | Minify JS, update build number, copy to nightly, commit, push |
-| `make precommit` | Stage and commit all changes |
-| `make minify` | Minify `front.js` to `front.min.js` |
+| Command          | Description                                                   |
+| ---------------- | ------------------------------------------------------------- |
+| `make release`   | Minify JS, update build number, copy to nightly, commit, push |
+| `make precommit` | Stage and commit all changes                                  |
+| `make minify`    | Minify `front.js` to `front.min.js`                           |
 
 ## Tech Stack
 
@@ -25,14 +25,14 @@ This project uses **Make** for build and Git operations. There is no JavaScript 
 
 A custom low-code framework providing:
 
-| Feature | Description |
-|---------|-------------|
-| `globalize` | Internationalization with JSON locale files |
-| `data` | Declarative data fetching with `bindasset` |
-| `navigate` | Client-side routing and navigation |
-| `keyboard` | Keyboard navigation support |
-| `chronotize` | Date/time handling |
-| `math` | Calculator math functions |
+| Feature      | Description                                 |
+| ------------ | ------------------------------------------- |
+| `globalize`  | Internationalization with JSON locale files |
+| `data`       | Declarative data fetching with `bindasset`  |
+| `navigate`   | Client-side routing and navigation          |
+| `keyboard`   | Keyboard navigation support                 |
+| `chronotize` | Date/time handling                          |
+| `math`       | Calculator math functions                   |
 
 ### CSS Framework: `front.css`
 
@@ -63,50 +63,55 @@ Apps configure the framework via a `<script>` tag in `<head>`:
   var="api;enum"
   conf="debug:false;varsDir:assets/json/vars;storageKey:calc"
   globalize-conf="folder:assets/json/locales"
-  navigate-conf="startpage:experimental/app/calc;startpageLocal:app/calc">
-</script>
+  navigate-conf="startpage:experimental/app/calc;startpageLocal:app/calc"
+></script>
 ```
 
 ### Configuration Parameters
 
-| Parameter | Description |
-|-----------|-------------|
-| `module` | Comma-separated framework modules to load |
-| `var` | Comma-separated variable files to load from `assets/json/vars/` |
-| `conf` | Framework configuration (debug, varsDir, storageKey, frontSrcLocal) |
-| `globalize-conf` | Localization configuration (folder path) |
-| `navigate-conf` | Navigation configuration (startpage paths) |
+| Parameter        | Description                                                         |
+| ---------------- | ------------------------------------------------------------------- |
+| `module`         | Comma-separated framework modules to load                           |
+| `var`            | Comma-separated variable files to load from `assets/json/vars/`     |
+| `conf`           | Framework configuration (debug, varsDir, storageKey, frontSrcLocal) |
+| `globalize-conf` | Localization configuration (folder path)                            |
+| `navigate-conf`  | Navigation configuration (startpage paths)                          |
 
 ## Attribute Naming Convention
 
 HTML attributes follow a prefix convention to distinguish between the two types of extensions:
 
-| Pattern | Extension Type | Example |
-|---------|---------------|---------|
-| `name-action` | Module (single hyphen) | `form-invalid`, `overlay-close`, `globalize-get` |
-| `name--action` | Plugin (double hyphen) | `share--url`, `seold--title` |
+| Pattern        | Extension Type         | Example                                          |
+| -------------- | ---------------------- | ------------------------------------------------ |
+| `name-action`  | Module (single hyphen) | `form-invalid`, `overlay-close`, `globalize-get` |
+| `name--action` | Plugin (double hyphen) | `share--url`, `seold--title`                     |
 
 ## Data Binding Syntax
 
 The framework uses custom attributes for data binding:
 
-| Attribute | Purpose |
-|-----------|---------|
-| `bindasset` | Bind asset data (API responses) to elements |
-| `bindvar` | Bind variable data to elements |
-| `globalize-get` | Localize text content |
+| Attribute          | Purpose                                       |
+| ------------------ | --------------------------------------------- |
+| `bindasset`        | Bind asset data (API responses) to elements   |
+| `bindvar`          | Bind variable data to elements                |
+| `globalize-get`    | Localize text content                         |
 | `globalize-target` | Localize attribute values (e.g., placeholder) |
-| `onvaluechange` | Trigger actions when input value changes |
-| `click` | Trigger actions on click |
-| `include` | Include HTML fragments |
+| `onvaluechange`    | Trigger actions when input value changes      |
+| `click`            | Trigger actions on click                      |
+| `include`          | Include HTML fragments                        |
 
 ## External Dependencies
 
-| Source | Description |
-|--------|-------------|
-| `https://cdn.front.nu/dist/front.css` | CSS framework |
-| `https://cdn.front.nu/dist/design/material/icons/material.woff` | Material Icons |
-| `../../front/front.js` | Local framework copy (for development) |
+| Source                                                          | Description                            |
+| --------------------------------------------------------------- | -------------------------------------- |
+| `https://cdn.front.nu/dist/front.css`                           | CSS framework                          |
+| `https://cdn.front.nu/dist/design/material/icons/material.woff` | Material Icons                         |
+| `../../front/front.js`                                          | Local framework copy (for development) |
+
+## Code Rules
+
+- Never use `MutationObserver`.
+- For intentional delays, use the shared `app.wait(duration, callback)` helper instead of creating separate `setTimeout` or `requestAnimationFrame` wrappers.
 
 ## Common Commands
 
