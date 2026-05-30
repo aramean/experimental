@@ -3386,6 +3386,17 @@ var app = {
             if (elSelector.content !== false) {
               dom.set(replaceElement, this.resolveBase(parsedEl.nodeType === 1 ? content : srcDocEl.innerHTML))
               srcHasMarkup && app.attributes.run(replaceElement + ' *') // Run attributes in children
+            } else {
+              var contentMode = parsedEl.getAttribute ? parsedEl.getAttribute('content') : null
+              if (contentMode && targetElement) {
+                var templateContent = this.resolveBase(content)
+                if (contentMode === 'prepend') {
+                  targetElement.insertAdjacentHTML('afterbegin', templateContent)
+                } else if (contentMode === 'append') {
+                  targetElement.insertAdjacentHTML('beforeend', templateContent)
+                }
+                srcHasMarkup && app.attributes.run(replaceElement + ' *')
+              }
             }
 
             srcHasMarkup && app.attributes.run(replaceElement) // Run attributes in parent
