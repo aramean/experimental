@@ -364,6 +364,18 @@ var dom = {
       case 'gridarea':
         attr = 'gridArea'
         break
+      case 'gridcolumns':
+        attr = 'gridTemplateColumns'
+        break
+      case 'gridrows':
+        attr = 'gridTemplateRows'
+        break
+      case 'gridcolumn':
+        attr = 'gridColumn'
+        break
+      case 'gridrow':
+        attr = 'gridRow'
+        break
       case 'inline':
         value = 'inline'
         attr = 'display'
